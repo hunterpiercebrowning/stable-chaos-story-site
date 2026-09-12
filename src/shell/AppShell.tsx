@@ -1,4 +1,6 @@
 import { motion, useReducedMotion } from 'motion/react';
+import { useEffect } from 'react';
+import { setContextGetter } from '../lib/track';
 import { useUi } from '../store/ui';
 import { useKeyboard } from '../store/keyboard';
 import { Attractor } from './Attractor';
@@ -13,7 +15,7 @@ import './shell.css';
 
 /** Three-column shell: nav | stage | supporting context, over the attractor. */
 export function AppShell() {
-  const { layerId } = useRoute();
+  const { layerId, nodeId } = useRoute();
   const leftOpen = useUi((s) => s.leftOpen);
   const rightOpen = useUi((s) => s.rightOpen);
   const presentation = useUi((s) => s.presentation);
@@ -21,6 +23,11 @@ export function AppShell() {
 
   // The global keyboard map (↑↓ ←→ Enter Esc / [ ] 1–4 P) lives in one place.
   useKeyboard();
+
+  // Heartbeats carry the current layer/node.
+  useEffect(() => {
+    setContextGetter(() => ({ layerId, nodeId }));
+  }, [layerId, nodeId]);
 
   // Presentation mode hides both panels outright; otherwise the closed nav is an icon rail.
   const leftWidth = presentation ? 0 : leftOpen ? 'var(--nav-w)' : 'var(--nav-w-collapsed)';

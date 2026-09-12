@@ -26,7 +26,6 @@ export interface UiState {
   setRightOpen: (open: boolean) => void;
   toggleRight: () => void;
   setPresentation: (on: boolean) => void;
-  togglePresentation: () => void;
   setSearchOpen: (open: boolean) => void;
   setVideoExpanded: (expanded: boolean) => void;
   reset: () => void;
@@ -36,7 +35,30 @@ export interface UiState {
   navGroups: Record<string, boolean>;
   setNavGroup: (layerId: string, open: boolean) => void;
   toggleNavGroup: (layerId: string) => void;
+
+  /* ── WS11 appends ── */
+  /**
+   * How the *next* route change was triggered. The control that navigates
+   * records it just before calling `navigate()`; `Stage` / `FocusFrame` read it
+   * through `navVia()` when they emit `layer_view` / `node_focus`, so each
+   * navigation is tracked exactly once with the right `via`.
+   */
+  navIntent: NavIntent | null;
+  setNavIntent: (via: NavVia, path: string) => void;
 }
+
+/** `via` values of the `layer_view` / `node_focus` events (build plan §6, plus `click` for card/rail clicks). */
+export type NavVia = 'arrow' | 'nav' | 'search' | 'url' | 'keyboard' | 'related' | 'click';
+
+export interface NavIntent {
+  via: NavVia;
+  /** The pathname the control navigated to. */
+  path: string;
+  at: number;
+}
+
+/** An intent older than this is stale (the route change it described already happened). */
+export const NAV_INTENT_TTL_MS = 2_000;
 
 const INITIAL = {
   emphasis: 'all' as Emphasis,
@@ -47,7 +69,27 @@ const INITIAL = {
   searchOpen: false,
   videoExpanded: false,
   navGroups: {} as Record<string, boolean>,
+  navIntent: null as NavIntent | null,
 };
+
+/**
+ * Pure: the `via` an intent explains for `path`, else `'url'` (typed address,
+ * reload, back/forward). A layer path also matches an intent that targets one
+ * of its nodes (`/sectors` ← `/sectors/biosecurity`), so a nav click straight
+ * to a node in another layer reports `nav` on both events.
+ */
+export function viaFor(intent: NavIntent | null, path: string, now = Date.now()): NavVia {
+  if (!intent || now - intent.at > NAV_INTENT_TTL_MS) return 'url';
+  if (intent.path === path) return intent.via;
+  // `/sectors` ← `/sectors/biosecurity`; the welcome path `/` has no nodes.
+  if (path === '/' || path.endsWith('/')) return 'url';
+  return intent.path.startsWith(`${path}/`) ? intent.via : 'url';
+}
+
+/** `viaFor` against the live store. */
+export function navVia(path: string): NavVia {
+  return viaFor(useUi.getState().navIntent, path);
+}
 
 export const useUi = create<UiState>()(
   persist(
@@ -68,7 +110,6 @@ export const useUi = create<UiState>()(
             ? { presentation, leftOpen: false, rightOpen: false }
             : { presentation, leftOpen: true, rightOpen: true },
         ),
-      togglePresentation: () => get().setPresentation(!get().presentation),
       setSearchOpen: (searchOpen) => set({ searchOpen }),
       setVideoExpanded: (videoExpanded) => set({ videoExpanded }),
       reset: () => set(INITIAL),
@@ -79,6 +120,9 @@ export const useUi = create<UiState>()(
         const groups = get().navGroups;
         set({ navGroups: { ...groups, [layerId]: !(groups[layerId] ?? true) } });
       },
+
+      /* ── WS11 appends ── */
+      setNavIntent: (via, path) => set({ navIntent: { via, path, at: Date.now() } }),
     }),
     {
       name: 'sc-ui',

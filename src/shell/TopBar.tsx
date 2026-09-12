@@ -15,6 +15,7 @@ export function TopBar() {
   const toggleRight = useUi((s) => s.toggleRight);
   const presentation = useUi((s) => s.presentation);
   const setPresentation = useUi((s) => s.setPresentation);
+  const setNavIntent = useUi((s) => s.setNavIntent);
 
   const setMode = (on: boolean) => {
     setPresentation(on);
@@ -25,7 +26,7 @@ export function TopBar() {
   if (presentation) {
     return (
       <header className="topbar topbar--presentation">
-        <Link to="/" className="topbar-logo" aria-label="Stable Chaos — welcome">
+        <Link to="/" className="topbar-logo" aria-label="Stable Chaos — welcome" onClick={() => setNavIntent('nav', '/')}>
           <img
             className="topbar-logo-img topbar-logo-img--mini"
             src="/assets/logos/SC--Logo--White--Horizontal.svg"
@@ -59,7 +60,7 @@ export function TopBar() {
       <nav className="topbar-crumbs" aria-label="Breadcrumb">
         {layer && layer.id !== 'welcome' ? (
           <>
-            <Link className="topbar-crumb" to={layer.path}>
+            <Link className="topbar-crumb" to={layer.path} onClick={() => setNavIntent('nav', layer.path)}>
               {layer.title}
             </Link>
             {node ? (

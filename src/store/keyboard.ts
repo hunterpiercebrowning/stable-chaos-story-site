@@ -179,8 +179,9 @@ export function useKeyboard(): void {
           e.preventDefault();
           e.stopPropagation();
           ui.setVideoExpanded(false);
+          // Stage emits `layer_view` with this intent.
+          ui.setNavIntent('keyboard', target.path);
           go(target.path);
-          track('layer_view', { layerId: target.id, via: 'keyboard' });
           return;
         }
         case 'sibling': {
@@ -188,8 +189,9 @@ export function useKeyboard(): void {
           if (!target) return;
           e.preventDefault();
           e.stopPropagation();
-          go(`/${target.layerId}/${target.id}`);
-          track('node_focus', { layerId: target.layerId, nodeId: target.id, via: 'keyboard' });
+          const path = `/${target.layerId}/${target.id}`;
+          ui.setNavIntent('keyboard', path);
+          go(path);
           return;
         }
         case 'enter': {
@@ -198,8 +200,9 @@ export function useKeyboard(): void {
           const first = getNodes(layer.id)[0];
           if (!first) return;
           e.preventDefault();
-          go(`/${first.layerId}/${first.id}`);
-          track('node_focus', { layerId: first.layerId, nodeId: first.id, via: 'keyboard' });
+          const path = `/${first.layerId}/${first.id}`;
+          ui.setNavIntent('keyboard', path);
+          go(path);
           return;
         }
         case 'search':

@@ -84,8 +84,9 @@ function SearchPanel() {
   const choose = (r: SearchResult) => {
     flushTrack();
     setOpen(false);
-    navigate(`/${r.layerId}/${r.id}`);
-    track('node_focus', { layerId: r.layerId, nodeId: r.id, via: 'search' });
+    const path = `/${r.layerId}/${r.id}`;
+    useUi.getState().setNavIntent('search', path);
+    navigate(path);
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router';
 import { getLayer, getNode, getPrimarySector, getRelated, groupByLayer } from '../data';
 import type { Node } from '../data/types';
 import { track } from '../lib/track';
+import { useUi } from '../store/ui';
 import './related-strip.css';
 
 export interface RelatedStripProps {
@@ -47,7 +48,9 @@ export function RelatedStrip({ node, limit = 6 }: RelatedStripProps) {
                         title={`${layer?.title ?? group.layerId} · ${ref.title}`}
                         onClick={() => {
                           track('related_click', { fromNodeId: node.id, toNodeId: ref.id });
-                          navigate(`/${ref.layerId}/${ref.id}`);
+                          const path = `/${ref.layerId}/${ref.id}`;
+                          useUi.getState().setNavIntent('related', path);
+                          navigate(path);
                         }}
                       >
                         {sector ? <span className="related-chip-dot" aria-hidden="true" /> : null}

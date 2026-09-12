@@ -5,6 +5,7 @@ import { VideoPlayer } from '../../components/VideoPlayer';
 import { getCopy, getNode } from '../../data';
 import type { Node, ServiceNode } from '../../data/types';
 import { track } from '../../lib/track';
+import { useUi } from '../../store/ui';
 import { GenericFocus } from '../GenericFocus';
 import type { FocusViewProps } from '../types';
 import { CompanyLogo } from './ServicesNode';
@@ -70,7 +71,9 @@ export function ServicesFocus({ node, onClose }: FocusViewProps) {
               className="services-focus-company"
               onClick={() => {
                 track('related_click', { fromNodeId: node.id, toNodeId: company.id });
-                navigate(`/${company.layerId}/${company.id}`);
+                const path = `/${company.layerId}/${company.id}`;
+                useUi.getState().setNavIntent('related', path);
+                navigate(path);
               }}
             >
               {isService(company) ? (

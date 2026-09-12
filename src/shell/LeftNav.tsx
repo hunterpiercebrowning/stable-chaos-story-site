@@ -127,9 +127,12 @@ function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
   const hasBody = nodes.length > 0 || layer.nodesFile !== null;
   const bodyId = `leftnav-body-${layer.id}`;
 
+  const setNavIntent = useUi((s) => s.setNavIntent);
+
   const go = (node: Node) => {
-    navigate(`/${node.layerId}/${node.id}`);
-    track('node_focus', { layerId: node.layerId, nodeId: node.id, via: 'nav' });
+    const path = `/${node.layerId}/${node.id}`;
+    setNavIntent('nav', path);
+    navigate(path);
   };
 
   const renderNode = (node: Node) => (
@@ -159,7 +162,7 @@ function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
           to={layer.path}
           end
           className="leftnav-layer-link"
-          onClick={() => track('layer_view', { layerId: layer.id, via: 'nav' })}
+          onClick={() => setNavIntent('nav', layer.path)}
         >
           <Icon name={LAYER_ICON[layer.id]} size={14} className="leftnav-layer-icon" />
           <span className="leftnav-layer-title">
@@ -230,6 +233,7 @@ function NavRail() {
   const { layerId } = useRoute();
   const setSearchOpen = useUi((s) => s.setSearchOpen);
   const setLeftOpen = useUi((s) => s.setLeftOpen);
+  const setNavIntent = useUi((s) => s.setNavIntent);
   const [tip, setTip] = useState<Tip | null>(null);
 
   const show = (label: string) => (e: SyntheticEvent<HTMLElement>) => {
@@ -266,7 +270,7 @@ function NavRail() {
             onMouseEnter={show(layer.title)}
             onFocus={show(layer.title)}
             onBlur={hide}
-            onClick={() => track('layer_view', { layerId: layer.id, via: 'nav' })}
+            onClick={() => setNavIntent('nav', layer.path)}
           >
             <Icon name={LAYER_ICON[layer.id]} size={17} />
           </NavLink>

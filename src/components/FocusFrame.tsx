@@ -4,6 +4,7 @@ import { nodeSectors } from '../data/normalize';
 import type { Node } from '../data/types';
 import { cn } from '../lib/cn';
 import { track } from '../lib/track';
+import { navVia } from '../store/ui';
 import { Icon } from './Icon';
 import { RelatedStrip } from './RelatedStrip';
 import './focus-frame.css';
@@ -23,7 +24,7 @@ export interface FocusFrameProps {
   className?: string;
   /** `null` opts out of the shared-element transition. */
   layoutId?: string | null;
-  /** What brought the user here; goes into `node_focus`. */
+  /** What brought the user here; goes into `node_focus`. Defaults to the recorded navigation intent. */
   via?: string;
 }
 
@@ -44,17 +45,19 @@ export function FocusFrame({
   onClose,
   className,
   layoutId,
-  via = 'url',
+  via,
 }: FocusFrameProps) {
   const reduced = useReducedMotion();
   const sectors = nodeSectors(node);
   const openedAt = useRef(Date.now());
 
+  // The single `node_focus` / `node_blur` source for every layer. `via` is the
+  // navigation intent recorded by whichever control brought us here.
   useEffect(() => {
     openedAt.current = Date.now();
-    track('node_focus', { layerId: node.layerId, nodeId: node.id, via });
     const id = node.id;
     const layerId = node.layerId;
+    track('node_focus', { layerId, nodeId: id, via: via ?? navVia(`/${layerId}/${id}`) });
     const start = openedAt.current;
     return () => {
       track('node_blur', { layerId, nodeId: id, dwellMs: Date.now() - start });

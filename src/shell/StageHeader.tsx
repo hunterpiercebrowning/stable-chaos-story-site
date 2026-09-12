@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import type { Layer } from '../data/types';
 import { Icon } from '../components/Icon';
-import { track } from '../lib/track';
+import { useUi } from '../store/ui';
 import { EmphasisControl } from './EmphasisControl';
 import './stage.css';
 
@@ -12,6 +12,7 @@ export interface StageHeaderProps {
 
 /** Up arrow to the layer above, the layer title, and the emphasis control. */
 export function StageHeader({ layer, prev }: StageHeaderProps) {
+  const setNavIntent = useUi((s) => s.setNavIntent);
   return (
     <header className="stage-header">
       <div className="stage-header-arrow">
@@ -19,7 +20,8 @@ export function StageHeader({ layer, prev }: StageHeaderProps) {
           <Link
             className="layer-arrow"
             to={prev.path}
-            onClick={() => track('layer_view', { layerId: prev.id, via: 'arrow' })}
+            // Stage emits `layer_view` with this intent.
+            onClick={() => setNavIntent('arrow', prev.path)}
           >
             <Icon name="arrow-up" size={16} />
             <span>Explore {prev.title}</span>

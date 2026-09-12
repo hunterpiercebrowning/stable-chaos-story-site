@@ -37,6 +37,8 @@ export interface VideoPlayerProps {
   className?: string;
   /** Called after the player expands (`true`) or collapses (`false`). */
   onExpandedChange?: (expanded: boolean) => void;
+  /** Open straight into the expanded frame on mount (the tray / welcome host). */
+  initialExpanded?: boolean;
 }
 
 const EASE = [0.22, 0.61, 0.36, 1] as const;
@@ -66,6 +68,7 @@ export function VideoPlayer({
   autoplay = true,
   className,
   onExpandedChange,
+  initialExpanded = false,
 }: VideoPlayerProps) {
   const reduced = useReducedMotion() ?? false;
   const instanceId = useId();
@@ -103,6 +106,14 @@ export function VideoPlayer({
   const close = useCallback(() => {
     setOpen(false);
     inlineRef.current?.focus({ preventScroll: true });
+  }, []);
+
+  // Hosts that skip the inline poster (tray video cards, the welcome ring)
+  // open the frame on mount. Records the same play intent the click would.
+  useEffect(() => {
+    if (initialExpanded) openPlayer();
+    // Mount-only by design.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Mirror local state into the store and notify the parent.

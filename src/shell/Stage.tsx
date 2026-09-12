@@ -7,7 +7,7 @@ import type { Node } from '../data/types';
 import { useLayerState } from '../layers/helpers';
 import { getLayerComponents } from '../layers/registry';
 import { track } from '../lib/track';
-import { useUi } from '../store/ui';
+import { navVia, useUi } from '../store/ui';
 import { LayerArrow } from './LayerArrows';
 import { StageHeader } from './StageHeader';
 import { useRoute } from './useRoute';
@@ -21,11 +21,15 @@ export function Stage() {
   const { layer, node, unknown } = useRoute();
   const navigate = useNavigate();
   const setVideoExpanded = useUi((s) => s.setVideoExpanded);
+  const setNavIntent = useUi((s) => s.setNavIntent);
 
+  // One `layer_view` per layer change; `via` comes from whichever control
+  // navigated (nav, arrow, keyboard, search, related …) and is `url` otherwise.
   const layerId = layer?.id;
+  const layerPath = layer?.path;
   useEffect(() => {
-    if (layerId) track('layer_view', { layerId, via: 'url' });
-  }, [layerId]);
+    if (layerId && layerPath) track('layer_view', { layerId, via: navVia(layerPath) });
+  }, [layerId, layerPath]);
 
   // Esc leaves the focus view.
   useEffect(() => {
@@ -46,8 +50,11 @@ export function Stage() {
   const prev = getPrevLayer(layer.id);
   const next = getNextLayer(layer.id);
 
+  // Card / rail clicks.
   const select = (target: Node) => {
-    navigate(`/${target.layerId}/${target.id}`);
+    const path = `/${target.layerId}/${target.id}`;
+    setNavIntent('click', path);
+    navigate(path);
   };
 
   const close = () => {
