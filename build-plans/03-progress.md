@@ -701,6 +701,103 @@ clean. Screenshots: `build-plans/screens/ws9-admin-links.png`, `ws9-admin-new-li
 - "Opens" and "sessions" are both shown even though they may be identical in v1.
 
 
-## WS10 — Video Player `[ ]`
+## WS10 — Video Player `[x]`
+
+**Built**
+
+- `src/lib/video.ts`: `resolveVideoSource(link)` → discriminated union `{kind:'none'} | {kind:'stream', uid}
+  | {kind:'r2', key} | {kind:'url', url, mime}`. 32-hex → Stream (lower-cased); any
+  `*.cloudflarestream.com` / `*.videodelivery.net` URL with a UID in the path → Stream; `r2:<key>` →
+  r2; `http(s)://…` → url with a mime from the path extension (`.mp4/.webm/.m3u8/.mov/.ogv`; unknown
+  extension → `mime: ''`, handed to `<video>` anyway); everything else → none. Also
+  `streamEmbedUrl()`, `getStreamCustomerCode()`, `requestStreamToken()` (501 → `unconfigured`, any
+  other failure → `unavailable`), `resolveStreamPlayback()` (signed token or unsigned-UID fallback),
+  `loadStreamSdk()` (injects `https://embed.cloudflarestream.com/embed/sdk.latest.js` once), and the
+  pure `progressPct()` / `crossedMilestones()` helpers. `fetchStreamToken()` kept for back-compat.
+  15 vitest cases in `src/lib/video.test.ts`.
+- `src/components/VideoPlayer.tsx` + `video-player.css`, replacing the WS0 placeholder. Inline: 16:9
+  poster (`getPoster` scene in sector color, or the `poster` prop), play glyph, label, and a
+  "placeholder" / "not yet available" note for none / r2. Play → the frame grows over the stage
+  content area via a motion `layoutId` shared between the inline button and an overlay that is
+  **portaled into `.stage-content`** (fallback `.stage`, else in place) so the focus frame's
+  `overflow: hidden` / `backdrop-filter` cannot clip it. The media box inside is always a centred 16:9
+  (`container-type: size` + `cqh`) and shares a second `layoutId`, so the poster scales uniformly
+  instead of stretching. The real player mounts once the layout animation completes (700 ms safety
+  fallback); reduced motion → no layoutId, instant swap. Close button, Esc, animate back.
+- Stream: `<iframe src="https://customer-<code>.cloudflarestream.com/<tokenOrUid>/iframe?autoplay=true">`
+  with `code` from `VITE_STREAM_CUSTOMER_CODE`; no code → `https://iframe.videodelivery.net/<uid>`.
+  The token comes from `GET /api/video/token?uid=`; 501 / network error → unsigned UID with a visible
+  pill "Signing unavailable — playing unsigned" (plus "Stream is not configured" on 501). Play /
+  pause / timeupdate / ended arrive through the on-demand Stream SDK (`window.Stream(iframe)`). Native:
+  `<video controls playsinline autoplay>` with `<source type=mime>`; decode failure shows "This video
+  could not be played".
+- Events via `track()`: `video_play` (each play, with pct), `video_pause` (not on end), `video_progress`
+  at 25/50/75 once each per playback session (several at once after a seek), `video_complete` once;
+  props `{ nodeId, source, pct }`. Closing mid-play emits a final `video_pause`. For none / r2 a single
+  `video_play` (pct 0) records the intent.
+- Keyboard while expanded: capture-phase `keydown`/`keyup` on `window` with `stopImmediatePropagation`
+  — Space toggles play/pause, Esc closes — so neither the Stage's Esc handler nor WS6's global map
+  fires (verified: Esc closes the video and the route stays on the node). Typing targets are ignored.
+  Collapsed, the player claims no keys. Focus moves into the frame on open and back to the inline
+  button on close.
+- The stage header and footer arrow dim to 0.3 while a video is up via
+  `.stage:has(.video-expanded) …` in `video-player.css` (Stage.tsx untouched).
+- `.env.example` (new) documents `VITE_STREAM_CUSTOMER_CODE`; copy to `.env.local` (git-ignored).
+
+**Final props** (all previous props unchanged; new ones optional)
+
+```ts
+interface VideoPlayerProps {
+  node: Node;
+  link?: string;                 // overrides node.videoLink (welcome intro)
+  label?: string;                // inline label, default 'Watch'
+  nodeId?: string;               // tracking id, default node.id
+  poster?: string;               // default getPoster(node)
+  autoplay?: boolean;            // default true, once the frame has settled
+  className?: string;
+  onExpandedChange?: (expanded: boolean) => void;
+}
+```
+
+Env: client `VITE_STREAM_CUSTOMER_CODE` (`.env.example`); server `STREAM_SIGNING_KEY_ID` /
+`STREAM_SIGNING_KEY_JWK` are WS8's (`.dev.vars.example`).
+
+**Decisions / deviations**
+
+1. Store contract unchanged: `videoExpanded` is mirrored from local state (set *before* `open` so the
+   opening render never sees a stale `false`); an external `setVideoExpanded(false)` (Stage close)
+   collapses the player, and unmount / node change clears the flag.
+2. Non-media `http(s)` links resolve to `url` with an empty mime rather than `none`, so a broken link is
+   visible ("could not be played") instead of silently showing a placeholder.
+3. R2 is a stub: inline poster + "not yet available" note; expanding shows the same message.
+4. No appends were needed to `tokens.css` or `Icon.tsx` (existing `play` / `close` icons and tokens
+   suffice).
+
+**Verified** (headless Chrome over CDP at 1440×900, temporary uncommitted `video_link` edits, reverted)
+
+Native mp4 (MDN sample): expands, autoplays, Space pauses/resumes, Esc closes without leaving the
+node route; events `video_play → video_progress ×2 → video_pause → video_play → video_pause`. Stream
+(Cloudflare's public docs sample UID `b236bde30eb07b9d01318940e5fc3eda`, customer code
+`m033z5x00ks6nunl` in `.env.local`): iframe URL built with the customer subdomain, SDK loaded on
+demand, plays, "Signing unavailable" pill shown because `/api/video/token` is not served here;
+`video_play` and `video_pause` (on close) arrive through the SDK. Welcome placeholder expands with
+"no source yet". Reduced motion: frame and player present 60 ms after click, gone 60 ms after Esc.
+Header dims to 0.3 while expanded. `typecheck`, `lint`, `test` (44) and `build` clean.
+
+Screenshots: `build-plans/screens/ws10-video-inline.png`, `ws10-video-expanded.png`,
+`ws10-video-stream.png`, `ws10-video-placeholder.png`.
+
+**Left for integration**
+
+- WS8: `GET /api/video/token?uid=` → `{ token }`, 501 when unconfigured (the client already handles
+  both). Signed playback needs `VITE_STREAM_CUSTOMER_CODE` set in the Pages build env.
+- Stage.tsx needs no change. WS11 may replace the `:has()` header-dim rule with a
+  `data-video-expanded` attribute on `.stage` if `:has()` support is a concern (Chrome 105+, Safari
+  15.4+, Firefox 121+).
+- `.env` (without `.local`) is not git-ignored; `.gitignore` is not WS10's — WS11 may want to add it.
+- HLS (`.m3u8`) via `<video>` plays natively only in Safari; Stream is the intended path for HLS.
+- The Stream player SDK is a third-party script loaded at play time; if a CSP is added later it needs
+  `script-src https://embed.cloudflarestream.com` and `frame-src https://*.cloudflarestream.com
+  https://iframe.videodelivery.net`.
 
 ## WS11 — Integration, QA, Deploy Docs `[ ]`

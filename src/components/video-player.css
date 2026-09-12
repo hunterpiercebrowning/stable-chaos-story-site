@@ -1,3 +1,5 @@
+/* ── inline state ─────────────────────────────────────── */
+
 .video-inline {
   position: relative;
   display: block;
@@ -10,12 +12,34 @@
   transition: border-color var(--dur) var(--ease), transform var(--dur-fast) var(--ease);
 }
 
+.video-inline[data-sector='synbio'] {
+  --accent: var(--sector-synbio);
+}
+.video-inline[data-sector='security'] {
+  --accent: var(--sector-security);
+}
+.video-inline[data-sector='systems'] {
+  --accent: var(--sector-systems);
+}
+
 .video-inline:hover {
-  border-color: color-mix(in srgb, var(--green-2) 50%, transparent);
+  border-color: color-mix(in srgb, var(--accent, var(--green-2)) 50%, transparent);
   transform: translateY(-1px);
 }
 
+.video-inline:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.video-poster-box {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
 .video-poster {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -43,6 +67,10 @@
   box-shadow: var(--glow-green);
 }
 
+.video-inline[data-kind='r2'] .video-play {
+  opacity: 0.45;
+}
+
 .video-meta {
   position: absolute;
   left: var(--s-3);
@@ -59,17 +87,44 @@
   color: var(--text-ghost);
 }
 
+/* ── expanded state ───────────────────────────────────── */
+
+/* Portaled into `.stage-content` (falls back to `.stage`), so it covers the
+   focus frame + rail, or the layer view, but not the stage header. */
 .video-expanded {
   position: absolute;
   inset: 0;
   z-index: 40;
-  display: grid;
-  place-items: center;
   overflow: hidden;
-  border-radius: var(--r-lg);
-  background: var(--scrim-strong);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
+  container-type: size;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--glass-border);
+  background: var(--dark);
+  box-shadow: var(--shadow-3);
+  outline: none;
+}
+
+.video-expanded[data-sector='synbio'] {
+  --accent: var(--sector-synbio);
+}
+.video-expanded[data-sector='security'] {
+  --accent: var(--sector-security);
+}
+.video-expanded[data-sector='systems'] {
+  --accent: var(--sector-systems);
+}
+
+/* Always 16:9 and centred, so the shared-layout animation from the inline
+   poster is a uniform scale (no stretching). `cqh` needs `container-type: size`
+   on the frame. */
+.video-media-box {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(100%, calc(100cqh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--dark-3);
 }
 
 .video-expanded-poster {
@@ -78,15 +133,43 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0.8;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+.video-expanded[data-kind='none'] .video-expanded-poster,
+.video-expanded[data-kind='r2'] .video-expanded-poster {
   opacity: 0.35;
 }
 
+/* Once a real player is mounted the poster is only a backdrop. */
+.video-expanded[data-ready='true'][data-kind='stream'] .video-expanded-poster,
+.video-expanded[data-ready='true'][data-kind='url'] .video-expanded-poster {
+  opacity: 0.25;
+}
+
+.video-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.video-media--native {
+  object-fit: contain;
+}
+
 .video-expanded-body {
-  position: relative;
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: var(--s-2);
+  text-align: center;
 }
 
 .video-expanded-note {
@@ -94,10 +177,42 @@
   font-size: var(--fs-sm);
 }
 
-.video-close {
+/* Chrome: title strip, close button, status pill. Only the button takes clicks. */
+.video-chrome {
   position: absolute;
-  top: var(--s-4);
-  right: var(--s-4);
+  inset: 0;
+  pointer-events: none;
+}
+
+.video-chrome-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-4) var(--s-6);
+  background: linear-gradient(180deg, var(--scrim) 0%, transparent 100%);
+  transition: opacity var(--dur) var(--ease);
+}
+
+.video-expanded.is-playing .video-chrome-top {
+  opacity: 0;
+}
+
+.video-expanded.is-playing:hover .video-chrome-top,
+.video-expanded.is-playing:has(:focus-visible) .video-chrome-top {
+  opacity: 1;
+}
+
+.video-chrome-title {
+  color: color-mix(in srgb, var(--accent, var(--text-faint)) 80%, var(--light));
+}
+
+.video-close {
+  pointer-events: auto;
   display: grid;
   place-items: center;
   width: 34px;
@@ -106,9 +221,50 @@
   border: 1px solid var(--glass-border);
   background: var(--glass);
   color: var(--text-muted);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
 
 .video-close:hover {
   color: var(--text);
   border-color: var(--glass-border-2);
+}
+
+.video-close:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.video-status {
+  position: absolute;
+  left: var(--s-4);
+  bottom: var(--s-4);
+  padding: 5px var(--s-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--scrim);
+  color: var(--text-faint);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* The stage header and footer arrow recede while a video is up. Done in CSS
+   so Stage.tsx stays untouched; WS11 may swap this for a data attribute. */
+.stage:has(.video-expanded) .stage-header,
+.stage:has(.video-expanded) .stage-footer {
+  opacity: 0.3;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-inline,
+  .video-inline:hover {
+    transform: none;
+  }
 }
