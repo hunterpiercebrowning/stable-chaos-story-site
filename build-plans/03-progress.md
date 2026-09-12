@@ -87,7 +87,45 @@ Screenshots: `build-plans/screens/ws0-welcome.png`, `ws0-layer-sectors.png`,
 
 ---
 
-## WS1 — Who We Are `[ ]`
+## WS1 — Who We Are `[~]`
+
+**Built** (`src/layers/who/**` only; registry untouched)
+
+- `WhoLayer`: founders row (two larger cards, centered, "Founders" eyebrow) above a presidents row
+  (four cards, "Presidents" eyebrow). Founders = `company` kebabs to `stable-chaos` or `role`
+  contains "founder"; everyone else is a president. Rows are centered vertically in the stage.
+- `WhoNode`: `NodeCard` with custom children — circular 1:1 headshot (124px founder / 88px
+  president, `object-position: center top`), name, job title, company as an uppercase label.
+  Hover lifts 4px with a `--green-2` glow on the card and a green ring + glow on the headshot.
+  `size="lg"` for founders, `"md"` for presidents; presidents also use a lighter glass tint and
+  smaller type so they read as subordinate. Missing `headshotFile` → `Placeholder variant="headshot"`.
+- `WhoFocus`: `FocusFrame` with media = large soft-rounded headshot (max 340px) over a radial
+  `--green-2` glow; eyebrow = company, title = name, subtitle = role, body = blurb (lorem when
+  empty via `getCopy`), bullets = resume items, extras = `VideoPlayer` labelled "Meet <first name>".
+  Related strip comes from `FocusFrame`/`getRelated` unchanged.
+- The `layoutId` default (`node-<id>`) is left intact on both card and frame, so the card still
+  grows into the focus frame. `dimmed`/`collapsed` are passed through untouched (always false here).
+- CSS: `.who-*` prefix, tokens only. Card overrides of `.node-card` base rules are written as
+  `.node-card.who-card…` so they win regardless of stylesheet order.
+
+**Decisions / notes**
+
+1. Row labels ("Founders", "Presidents") were added as ghost-level `sc-label`s — not in the brief,
+   but they make the hierarchy legible at a glance with no extra chrome. Easy to drop.
+2. The brief says related chips should include "Stable Chaos itself for founders". There is no
+   Stable Chaos node in any layer, so `getRelated` (WS0) instead links founders to every company
+   — the strip shows the four companies for Hunter/Ben and the single company for each president.
+   No data-layer change made; if a Stable Chaos node is ever added, `related.ts` will need an edge.
+3. `Placeholder` in the card is `bare` (no "placeholder" tag inside a 88px circle); the focus view
+   keeps the dev tag.
+4. Chrome extension was not connected; screenshots were taken with headless Chrome
+   (`--headless=new --window-size=1440,900 --screenshot`) against `vite --port 5181`.
+
+**Verified**: `typecheck`, `lint` (0 warnings), `test` (29), `build` clean. All six people render
+with real headshots; `/who/<id>` focuses each; Related strip resolves the company for presidents.
+Screenshots: `build-plans/screens/ws1-who-layer.png`, `ws1-who-focus.png`.
+
+**Shared-file appends**: none (no new tokens or icons needed).
 
 ## WS2 — What We Believe `[ ]`
 
