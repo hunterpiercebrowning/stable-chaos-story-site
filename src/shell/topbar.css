@@ -64,12 +64,74 @@ a.topbar-crumb:hover {
   flex: none;
 }
 
-/* Presentation mode strips the chrome back to the wordmark + exit chip. */
-.topbar[data-presentation='true'] .topbar-crumbs,
-.topbar[data-presentation='true'] .segmented--sm {
-  display: none;
+/* ── Presentation mode: a floating strip — tiny wordmark left, exit chip right. ── */
+.topbar--presentation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 var(--s-4);
+  border-bottom: none;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  pointer-events: none;
+  animation: sc-fade-in var(--dur) var(--ease) both;
 }
 
-.topbar[data-presentation='true'] .topbar-actions {
-  margin-left: auto;
+.topbar--presentation > * {
+  pointer-events: auto;
+}
+
+.topbar-logo-img--mini {
+  height: 14px;
+  opacity: 0.45;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.topbar--presentation .topbar-logo:hover .topbar-logo-img--mini {
+  opacity: 0.9;
+}
+
+.topbar-exit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 4px 10px 4px 5px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  opacity: 0.55;
+  transition: opacity var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+
+.topbar-exit:hover,
+.topbar-exit:focus-visible {
+  opacity: 1;
+  color: var(--text);
+  border-color: var(--glass-border-2);
+}
+
+.topbar-exit-key {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--r-pill);
+  background: var(--glass-2);
+  border: 1px solid var(--glass-border);
+  font-family: inherit;
+  font-size: 0.62rem;
+  color: var(--text);
 }

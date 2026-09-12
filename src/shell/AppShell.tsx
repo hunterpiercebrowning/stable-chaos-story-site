@@ -1,5 +1,4 @@
 import { motion, useReducedMotion } from 'motion/react';
-import { useCallback } from 'react';
 import { useUi } from '../store/ui';
 import { useKeyboard } from '../store/keyboard';
 import { Attractor } from './Attractor';
@@ -18,17 +17,14 @@ export function AppShell() {
   const leftOpen = useUi((s) => s.leftOpen);
   const rightOpen = useUi((s) => s.rightOpen);
   const presentation = useUi((s) => s.presentation);
-  const setSearchOpen = useUi((s) => s.setSearchOpen);
-  const setPresentation = useUi((s) => s.setPresentation);
   const reduced = useReducedMotion();
 
-  const onSearch = useCallback(() => setSearchOpen(true), [setSearchOpen]);
-  const onEscape = useCallback(() => {
-    const { searchOpen, presentation: on } = useUi.getState();
-    if (searchOpen) setSearchOpen(false);
-    else if (on) setPresentation(false);
-  }, [setSearchOpen, setPresentation]);
-  useKeyboard({ onSearch, onEscape });
+  // The global keyboard map (↑↓ ←→ Enter Esc / [ ] 1–4 P) lives in one place.
+  useKeyboard();
+
+  // Presentation mode hides both panels outright; otherwise the closed nav is an icon rail.
+  const leftWidth = presentation ? 0 : leftOpen ? 'var(--nav-w)' : 'var(--nav-w-collapsed)';
+  const rightWidth = presentation || !rightOpen ? 0 : 'var(--tray-w)';
 
   const transition = reduced
     ? { duration: 0 }
@@ -44,9 +40,9 @@ export function AppShell() {
         <div className="app-body">
           <motion.aside
             className="app-panel app-panel--left"
-            animate={{ width: leftOpen ? 'var(--nav-w)' : 0, opacity: leftOpen ? 1 : 0 }}
+            animate={{ width: leftWidth, opacity: presentation ? 0 : 1 }}
             transition={transition}
-            aria-hidden={!leftOpen}
+            aria-hidden={presentation}
             aria-expanded={leftOpen}
           >
             <LeftNav />
@@ -58,10 +54,10 @@ export function AppShell() {
 
           <motion.aside
             className="app-panel app-panel--right"
-            animate={{ width: rightOpen ? 'var(--tray-w)' : 0, opacity: rightOpen ? 1 : 0 }}
+            animate={{ width: rightWidth, opacity: rightWidth === 0 ? 0 : 1 }}
             transition={transition}
-            aria-hidden={!rightOpen}
-            aria-expanded={rightOpen}
+            aria-hidden={rightWidth === 0}
+            aria-expanded={rightOpen && !presentation}
           >
             <RightTray />
           </motion.aside>
