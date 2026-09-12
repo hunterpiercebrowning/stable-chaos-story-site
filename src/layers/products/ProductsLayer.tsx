@@ -1,8 +1,79 @@
-import { GenericLayer } from '../GenericLayer';
+import { SECTOR_IDS, SECTOR_LABEL, type Node, type ProductNode, type SectorId } from '../../data/types';
+import { cn } from '../../lib/cn';
+import { useUi } from '../../store/ui';
+import { useLayerState } from '../helpers';
+import type { LayerViewProps } from '../types';
+import { ProductsNode } from './ProductsNode';
 import './products.css';
 
+interface Band {
+  sector: SectorId;
+  nodes: ProductNode[];
+  active: number;
+  planned: number;
+}
+
+function buildBands(nodes: Node[]): Band[] {
+  return SECTOR_IDS.map((sector) => {
+    const mine = nodes.filter(
+      (n): n is ProductNode => n.layerId === 'products' && n.sector === sector,
+    );
+    return {
+      sector,
+      nodes: mine,
+      active: mine.filter((n) => n.stage === 'active').length,
+      planned: mine.filter((n) => n.stage === 'slated').length,
+    };
+  }).filter((b) => b.nodes.length > 0);
+}
+
 /**
- * Placeholder: re-exports the generic grid so the layer is navigable today.
- * WS5 — Products replaces the body of this file without touching the registry.
+ * Three sector bands — SynBio, Security, Systems — each with a coloured header
+ * rule and a grid of product cards. Emphasis dims the other bands (header and
+ * cards alike); nothing is ever hidden. Products has no density.
  */
-export const ProductsLayer = GenericLayer;
+export function ProductsLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
+  const { isDimmed } = useLayerState(layer);
+  const emphasis = useUi((s) => s.emphasis);
+  const bands = buildBands(nodes);
+
+  return (
+    <div className="products-layer sc-scroll">
+      {bands.map((band) => {
+        const bandDimmed = layer.hasEmphasis && emphasis !== 'all' && emphasis !== band.sector;
+        return (
+          <section
+            key={band.sector}
+            className={cn('products-band', bandDimmed && 'is-dimmed-band')}
+            data-sector={band.sector}
+            aria-label={`${SECTOR_LABEL[band.sector]} products`}
+          >
+            <header className={cn('products-band-head', bandDimmed && 'is-dimmed')}>
+              <span className="products-band-title">{SECTOR_LABEL[band.sector]}</span>
+              <span className="products-band-rule" aria-hidden="true" />
+              <span className="products-band-count">
+                {band.nodes.length} {band.nodes.length === 1 ? 'product' : 'products'}
+                <span className="products-band-count-sep">·</span>
+                {band.active} active
+                <span className="products-band-count-sep">·</span>
+                {band.planned} planned
+              </span>
+            </header>
+
+            <div className="products-grid">
+              {band.nodes.map((node) => (
+                <ProductsNode
+                  key={node.id}
+                  node={node}
+                  dimmed={isDimmed(node)}
+                  active={node.id === focusedId}
+                  onSelect={onSelect}
+                />
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}

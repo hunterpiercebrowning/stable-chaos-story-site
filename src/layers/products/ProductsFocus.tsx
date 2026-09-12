@@ -1,5 +1,101 @@
-import { GenericFocus } from '../GenericFocus';
+import { useState } from 'react';
+import { FocusFrame } from '../../components/FocusFrame';
+import { Icon } from '../../components/Icon';
+import { SectorTag } from '../../components/SectorTag';
+import { StageTag } from '../../components/StageTag';
+import { VideoPlayer } from '../../components/VideoPlayer';
+import { getCopy, placeholderGallery, placeholderImage } from '../../data';
+import { cn } from '../../lib/cn';
+import type { FocusViewProps } from '../types';
+import { ProductsGallery } from './ProductsGallery';
+import { ProductsLightbox } from './ProductsLightbox';
+import { CATEGORY_ICON } from './categoryIcon';
 import './products.css';
 
-/** Placeholder: the generic focus frame. WS5 — Products replaces the body of this file. */
-export const ProductsFocus = GenericFocus;
+/**
+ * Product focus: the environment photo (or a generated scene) fills the whole
+ * focus area; the text sits on a glass panel over it. Extras carry the video
+ * placeholder and the gallery strip; the gallery's lightbox takes over the
+ * same area the expanded video uses.
+ */
+export function ProductsFocus({ node, onClose }: FocusViewProps) {
+  // Keyed by node id so an open lightbox never carries across to a sibling.
+  const [lb, setLb] = useState<{ id: string; index: number } | null>(null);
+  const lightbox = lb && lb.id === node.id ? lb.index : null;
+  const setLightbox = (index: number | null) =>
+    setLb(index === null ? null : { id: node.id, index });
+
+  if (node.layerId !== 'products') return null;
+
+  const copy = getCopy(node);
+  const sector = node.sector;
+  const slated = node.stage === 'slated';
+
+  const hasScene = node.backgroundImage.length > 0;
+  const scene = hasScene
+    ? node.backgroundImage
+    : placeholderImage({ seed: `${node.id}:scene`, sector, variant: 'scene', width: 1600, height: 900 });
+
+  const hasGallery = node.gallery.length > 0;
+  const gallery = hasGallery ? node.gallery : placeholderGallery(node.id, sector, 0);
+
+  const eyebrow = (
+    <span className="products-focus-eyebrow">
+      <span className="products-focus-category">
+        <Icon name={CATEGORY_ICON[node.category]} size={15} />
+        {node.category}
+      </span>
+      <SectorTag sector={sector} />
+      <StageTag stage={node.stage} />
+    </span>
+  );
+
+  return (
+    <div
+      className={cn('products-focus', slated && 'products-focus--slated')}
+      data-sector={sector}
+      data-stage={node.stage}
+    >
+      <div className="products-focus-scene" aria-hidden="true">
+        <img className="products-focus-scene-img" src={scene} alt="" />
+        <span className="products-focus-scene-scrim" />
+        {hasScene ? null : <span className="sc-placeholder-tag">placeholder</span>}
+      </div>
+
+      <FocusFrame
+        node={node}
+        onClose={onClose}
+        className="products-focus-frame"
+        eyebrow={eyebrow}
+        subtitle={copy.tagline}
+        body={
+          <>
+            {slated ? (
+              <p className="products-focus-planned">
+                Planned — this product is slated and not yet in market. Details are directional.
+              </p>
+            ) : null}
+            <p>{copy.blurb}</p>
+          </>
+        }
+        bullets={copy.bullets}
+        extras={
+          <>
+            <VideoPlayer node={node} />
+            <ProductsGallery images={gallery} placeholder={!hasGallery} onOpen={setLightbox} />
+          </>
+        }
+      />
+
+      <ProductsLightbox
+        images={gallery}
+        index={lightbox}
+        title={node.title}
+        sector={sector}
+        placeholder={!hasGallery}
+        onChange={setLightbox}
+        onClose={() => setLightbox(null)}
+      />
+    </div>
+  );
+}
