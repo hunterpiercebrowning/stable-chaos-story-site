@@ -1,0 +1,291 @@
+[
+   {
+      "type": "primary",
+      "title": "Growth Curve Bio",
+      "website": "https://growthcurvebio.com/",
+      "logo_file": "assets/gcb-logo.svg",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "title": "Fountain City Partners",
+      "website": "https://fountaincitypartners.com/",
+      "logo_file": "",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "title": "Starling Intel",
+      "website": "https://starlingintel.com/domains",
+      "logo_file": "assets/starling-intel-icon.svg",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "title": "Triangulum Bio",
+      "website": "https://triangulumbio.com/",
+      "logo_file": "assets/fcp-icon.png",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+
+
+
+   {
+      "type": "secondary",
+      "title": "Biomolecule Rapid Prototyping",
+      "sector": "Synthetic Bio",
+      "company": "Growth Curve Bio",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Biomanufacturing Process Optimization",
+      "sector": "Synthetic Bio",
+      "company": "Growth Curve Bio",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Bioproduct Test & Evaluation Production",
+      "sector": "Synthetic Bio",
+      "company": "Growth Curve Bio",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Managed Commercial Manufacturing",
+      "sector": "Synthetic Bio",
+      "company": "Growth Curve Bio",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+
+
+
+   {
+      "type": "secondary",
+      "title": "Molecular Engineering",
+      "sector": "Synthetic Bio",
+      "company": "Triangulum Bio",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Genetic Engineering",
+      "sector": "Synthetic Bio",
+      "company": "Triangulum Bio",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Microbial Host Consulting",
+      "sector": "Synthetic Bio",
+      "company": "Triangulum Bio",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+
+
+
+   {
+      "type": "secondary",
+      "title": "Red Teaming",
+      "sector": "Security",
+      "company": "Starling Intel",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Investigations & ISR",
+      "sector": "Security",
+      "company": "Starling Intel",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Forensics & Collections",
+      "sector": "Security",
+      "company": "Starling Intel",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Privacy & Sanitization",
+      "sector": "Security",
+      "company": "Starling Intel",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Blue Team Defense & Response",
+      "sector": "Security",
+      "company": "Starling Intel",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Command & Control",
+      "sector": "Security",
+      "company": "Starling Intel",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Fractional Software Security",
+      "sector": "Security",
+      "company": "Starling Intel",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+
+
+
+   
+   {
+      "type": "secondary",
+      "title": "Leadership Strategy",
+      "sector": "Systems",
+      "company": "Fountain City Partners",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Accounting",
+      "sector": "Systems",
+      "company": "Fountain City Partners",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Finance",
+      "sector": "Systems",
+      "company": "Fountain City Partners",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Operations",
+      "sector": "Systems",
+      "company": "Fountain City Partners",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Custom Systems",
+      "sector": "Systems",
+      "company": "Fountain City Partners",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Custom Software",
+      "sector": "Systems",
+      "company": "Fountain City Partners",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "title": "Transactions",
+      "sector": "Systems",
+      "company": "Fountain City Partners",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   }
+
+]

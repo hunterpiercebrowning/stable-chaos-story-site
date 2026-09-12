@@ -1,0 +1,68 @@
+[
+   {
+      "type": "primary",
+      "name": "Hunter Browning",
+      "title": "Co-Founder",
+      "company": "Stable Chaos",
+      "headshot_file": "assets/hunter-head_shot_cropped.jpg",
+      "blurb": "Having built ventures across the energy production, machine learning, SaaS, digital forensics, and hardware sectors, Hunter is a seasoned entrepreneur and inventor who lives at the intersection between high speed and high complexity.",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "name": "Ben Schultz",
+      "title": "Co-Founder",
+      "company": "Stable Chaos",
+      "headshot_file": "assets/Ben_4.jpg",
+      "blurb": "Having founded and led organizations of all scales and in multiple industries, Ben is a proven entrepreneur and investor with an obsession for systematizing sustainable alignment, outcomes, and success.",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "name": "Jared Schnefke",
+      "title": "President",
+      "company": "Fountain City Partners",
+      "headshot_file": "assets/jared_headshot.webp",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "name": "Eric Sabo",
+      "title": "President",
+      "company": "Growth Curve Bio",
+      "headshot_file": "assets/eric_headshot.png",
+      "blurb": "With deep experience in the life sciences and precision fermentation, Eric saw the original need for Growth Curve. He leads the charge and ensures client programs succeed.",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "name": "Trace Williams",
+      "title": "President",
+      "company": "Starling Intel",
+      "headshot_file": "assets/trace_headshot_vest.jpeg",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "name": "Daniel Held",
+      "title": "President",
+      "company": "Triangulum Bio",
+      "headshot_file": "assets/dab_headshot_bad.jpeg",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   }
+]

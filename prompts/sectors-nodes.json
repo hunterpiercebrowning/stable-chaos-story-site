@@ -1,0 +1,219 @@
+[
+   {
+      "type": "primary",
+      "title": "Synthetic Bio",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "title": "Security",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "primary",
+      "title": "Systems",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+
+
+
+   
+   {
+      "type": "secondary",
+      "related_sectors": ["Synthetic Bio"],
+      "title": "Biomanufacturing",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Synthetic Bio"],
+      "title": "Strain Engineering",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Synthetic Bio"],
+      "title": "Biomimicry",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Synthetic Bio"],
+      "title": "Biophysics",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Synthetic Bio"],
+      "title": "Molecular Engineering",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Synthetic Bio", "Security"],
+      "title": "Biosecurity",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Synthetic Bio", "Systems"],
+      "title": "Cloud Lab",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+
+
+
+   {
+      "type": "secondary",
+      "related_sectors": ["Security", "Systems"],
+      "title": "Supply Chain & Logistics",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Security"],
+      "title": "Artificial Intelligence",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Security"],
+      "title": "Construction & Infrastructure",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Security"],
+      "title": "Cyber",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Security"],
+      "title": "Signals & Spctrum",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Security", "Systems"],
+      "title": "Personnel & Insider",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+
+   
+   {
+      "type": "secondary",
+      "related_sectors": ["Systems"],
+      "title": "People",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Systems"],
+      "title": "Processes",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Systems"],
+      "title": "Technology",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Systems"],
+      "title": "Finances",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   },
+   {
+      "type": "secondary",
+      "related_sectors": ["Systems"],
+      "title": "Operations",
+      "tagline": "",
+      "blurb": "",
+      "bullet_points": [],
+      "video_link": "",
+      "context_items": []
+   }
+
+]
