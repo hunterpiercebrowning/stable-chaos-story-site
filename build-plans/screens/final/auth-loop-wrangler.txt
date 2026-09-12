@@ -1,0 +1,198 @@
+# Auth loop — wrangler pages dev (workerd) + local D1
+# 2026-09-12T23:32:50Z · wrangler 4.131.1 · macOS 26.6.2 · node v22.17.0
+# npm run build && npm run db:migrate:local && npm run seed -- --label Hunter && npm run dev:api
+
+##### 1 no cookie: / -> gate
+302 http://127.0.0.1:8788/gate?r=none
+
+##### 2 no cookie: /api/session -> 401
+{"error":"no session","reason":"none"} [401]
+
+##### 3 no cookie: /api/track -> 401
+{"error":"no session","reason":"none"} [401]
+
+##### 4 no cookie: private chunk -> 302
+302 http://127.0.0.1:8788/gate?r=none
+
+##### 5 no cookie: public entry -> 200
+200 application/javascript
+
+##### 6 no cookie: fonts/logos/favicon public
+/favicon.svg 200
+/assets/logos/fcp-icon.png 200
+/assets/fonts/axiforma-300.woff2 200
+
+##### 7 no cookie: headshot gated
+/assets/headshots/Ben_4.jpg 302 http://127.0.0.1:8788/gate?r=none
+
+##### 8 unknown token -> invalid
+302 http://127.0.0.1:8788/gate?r=invalid
+
+##### 9 redeem token
+HTTP/1.1 302 Found
+Location: http://127.0.0.1:8788/
+Set-Cookie: sc_s=M2ExYTE0ODYtOWJkMS00ZmRiLTljMGYtZjI1ZGMyYzY4NDY2LmUyMzgwMzE5LTk3ZjctNDI5Mi1iZjBiLTQwN2M3Zjc4MDQ1ZC4xNzg5MjU1OTcwODI4.cUsLWwy1fOOg694qDhw-mUdPttJBV127YprOh4MTJfs; Path=/; Max-Age=2592000; HttpOnly; SameSite=Lax
+Set-Cookie: sc_v=ZTIzODAzMTktOTdmNy00MjkyLWJmMGItNDA3YzdmNzgwNDVkLjE3ODkyNTU5NzA4Mjg.mgrAOt5EuAvIIAv3GmV7yJwcJS1SM23sIDbH5e3rNyg; Path=/; Max-Age=2592000; HttpOnly; SameSite=Lax
+
+##### 10 with cookie: / 200 private,no-cache
+HTTP/1.1 200 OK
+Cache-Control: private, no-cache
+
+##### 11 with cookie: /api/session
+{"label":"Hunter","linkId":"3a1a1486-9bd1-4fdb-9c0f-f25dc2c68466","sessionId":"e2380319-97f7-4292-bf0b-407c7f78045d"} [200]
+
+##### 12 with cookie: private chunk 200 / headshot 200
+200
+200
+
+##### 13 session row in D1 (request.cf geo is populated under workerd)
+[
+ {
+  "id": "e2380319-97f7-4292-bf0b-407c7f78045d",
+  "link_id": "3a1a1486-9bd1-4fdb-9c0f-f25dc2c68466",
+  "country": "US",
+  "region": "Utah",
+  "city": "Lehi",
+  "device_class": "bot",
+  "ua": "curl/8.7.1",
+  "ip_hash_len": 43
+ }
+]
+
+##### 14 track: text/plain batch -> 204
+[204]
+
+##### 15 track: JSON object form -> 204
+[204]
+
+##### 16 track: 51 events -> 400
+{"error":"expected an array of at most 50 events"} [400]
+
+##### 17 events in D1 (bogus dropped, viewport applied)
+[
+ {
+  "type": "session_start",
+  "layer_id": null,
+  "node_id": null,
+  "props": "{\"deviceClass\":\"desktop\",\"viewport\":\"1440x900\",\"fingerprint\":\"abc\",\"tz\":\"America/Denver\",\"lang\":\"en\"}"
+ },
+ {
+  "type": "layer_view",
+  "layer_id": "who",
+  "node_id": null,
+  "props": "{\"via\":\"arrow\"}"
+ },
+ {
+  "type": "node_focus",
+  "layer_id": "who",
+  "node_id": "x",
+  "props": "{\"via\":\"click\"}"
+ },
+ {
+  "type": "heartbeat",
+  "layer_id": "who",
+  "node_id": null,
+  "props": "{}"
+ }
+]
+[
+ {
+  "viewport": "1440x900",
+  "fingerprint": "abc",
+  "device_class": "desktop"
+ }
+]
+
+##### 18 video token: 501 unset / 400 bad uid
+{"error":"Stream signing is not configured (STREAM_SIGNING_KEY_ID / STREAM_SIGNING_KEY_JWK)"} [501]
+{"error":"uid must be a 32-hex Cloudflare Stream UID"} [400]
+
+##### 19 admin: wrong password
+{"error":"wrong password"} [401]
+
+##### 20 admin: GET login before -> ok:false
+{"ok":false} [200]
+
+##### 21 admin: links without cookie -> 401
+{"error":"admin login required"} [401]
+
+##### 22 admin: login
+HTTP/1.1 200 OK
+Set-Cookie: sc_admin=YWRtaW4uMTc4OTI1NTk3Mzc5MA.XqMijA39mHvmB6u9PbG6m5L8e-5-0MHkIRk91-FHMrM; Path=/; Max-Age=43200; HttpOnly; SameSite=Lax
+{"ok":true}
+
+##### 23 admin: GET login -> ok:true
+{"ok":true} [200]
+
+##### 24 admin cookie opens private chunk but not /sectors
+chunk 200
+/sectors 302 http://127.0.0.1:8788/gate?r=none
+
+##### 25 admin: create link
+{"id":"8d24a841-2a0e-4bb5-bb03-01c468311372","token":"e2Ue90ArWLY6027xT5oePNstoC7dsWvk","url":"http://127.0.0.1:8788/i/e2Ue90ArWLY6027xT5oePNstoC7dsWvk","link":{"id":"8d24a841-2a0e-4bb5-bb03-01c468311372","token":"e2Ue90ArWLY6027xT5oePNstoC7dsWvk","url":"http://127.0.0.1:8788/i/e2Ue90ArWLY6027xT5oePNstoC7dsWvk","label":"Acme Ventures","notes":"loop","createdAt":1789255973834,"expiresAt":null,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":0,"opens":0,"lastSeenAt":null,"distinctIps":0,"distinctFingerprints":0,"distinctCountries":0,"forwardSuspect":false}}}
+[201]
+
+##### 26 admin: list (stats for seeded link)
+Acme Ventures active {"sessions":0,"opens":0,"lastSeenAt":null,"distinctIps":0,"distinctFingerprints":0,"distinctCountries":0,"forwardSuspect":false}
+Acme (renamed) active {"sessions":3,"opens":0,"lastSeenAt":1789255943304,"distinctIps":1,"distinctFingerprints":0,"distinctCountries":1,"forwardSuspect":false}
+Hunter active {"sessions":3,"opens":1,"lastSeenAt":1789255971921,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":1,"forwardSuspect":false}
+
+##### 27 admin: detail of seeded link
+sessions 3 [{"dc":"desktop","vp":"1440x900","country":"US","ev":4},{"dc":"bot","vp":null,"country":"US","ev":0},{"dc":"bot","vp":null,"country":"US","ev":0}]
+summary {"totalEvents":4,"topNodes":[{"nodeId":"x","layerId":"who","focusCount":1,"dwellMs":0}],"videos":[]}
+
+##### 28 admin: events page
+heartbeat {}
+node_focus {"via":"click"}
+nextCursor 3
+
+##### 29 admin: 404 detail
+404
+
+##### 30 new link: redeem
+302 http://127.0.0.1:8788/
+{"label":"Acme Ventures","linkId":"8d24a841-2a0e-4bb5-bb03-01c468311372","sessionId":"527d3700-8168-4441-8ee4-fdfe1d2d503f"} [200]
+
+##### 31 revoke
+revoked
+
+##### 32 revoked: HTML nav -> gate?r=revoked + cookies cleared; API with cleared jar -> 401; /i/token -> revoked
+HTTP/1.1 302 Found
+Location: http://127.0.0.1:8788/gate?r=revoked
+Set-Cookie: sc_s=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+Set-Cookie: sc_v=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+{"error":"no session","reason":"none"} [401]
+302 http://127.0.0.1:8788/gate?r=revoked
+
+##### 33 reactivate + rename
+active Acme (renamed)
+redeem again: 302 http://127.0.0.1:8788/
+/sectors 200
+
+##### 34 expire in the past
+expired
+/sectors 302 http://127.0.0.1:8788/gate?r=expired
+/i/token 302 http://127.0.0.1:8788/gate?r=expired
+
+##### 35 clear expiry -> active
+active
+
+##### 36 empty patch / revoke+reactivate -> 400
+400 400
+
+##### 37 tampered cookie -> invalid + cleared
+HTTP/1.1 302 Found
+Location: http://127.0.0.1:8788/gate?r=invalid
+Set-Cookie: sc_s=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+Set-Cookie: sc_v=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+
+##### 38 admin logout -> 401 after
+HTTP/1.1 200 OK
+Set-Cookie: sc_admin=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+{"ok":true}
+{"error":"admin login required"} [401]
+
+##### 39 60s sub-resource throttle: sc_v carried on asset requests
+(no Set-Cookie: verified within 60s, as expected)
+
+# done

@@ -914,3 +914,62 @@ rules updated. `build-plans/04-phase-3-handoff.md` written.
 - `via: 'click'` is not in the §6 catalogue (additive; the backend does not validate `via`).
 - Preview deployments share the production D1 unless `preview_database_id` is set to a second
   database.
+
+## Post-build — Deploy
+
+### 2026-09-12 — Phase A: real local runtime (macOS 26.6.2, wrangler 4.131.1, node 22.17)
+
+**Verified on workerd + local D1** (`build-plans/screens/final/auth-loop-wrangler.txt`,
+`welcome-wrangler-vite.png`)
+
+- `npx wrangler pages dev dist --port 8788` starts; `.dev.vars` secrets and the `DB` binding
+  (local, keyed by `preview_database_id`) are picked up; `npm run db:migrate:local` and
+  `npm run seed -- --label "Hunter"` apply `0001_init.sql` and insert a link.
+- The full WS11 auth loop, now against the real runtime: no cookie → `/gate?r=none` (API 401,
+  private chunk and headshot 302, public entry / fonts / logos / favicon 200) · unknown token →
+  `?r=invalid` · redeem → `302 /` with `sc_s` + `sc_v` (`HttpOnly; SameSite=Lax`, no `Secure` on
+  http) · `/` 200 `private, no-cache` · `/api/session` returns the label · `/api/track` via
+  `text/plain` and `{events}` JSON → 204, bogus type dropped, 51 events → 400, `session_start`
+  props update the session row (viewport, fingerprint, device_class) · video token 501 / 400 ·
+  admin wrong password 401 → login → `GET /api/admin/login {ok:true}` → the admin cookie opens
+  `/assets/private/*` but not `/sectors` · create → list stats → detail (sessions with event
+  counts, topNodes) → events page · 404 detail · new link redeem → revoke → next HTML navigation
+  `302 /gate?r=revoked` + both cookies cleared → API 401 → `/i/<token>` → `?r=revoked` →
+  reactivate + rename → back in → expire in the past → `?r=expired` on navigation and on the
+  token → clear expiry → active · empty patch / revoke+reactivate → 400 · tampered `sc_s` →
+  `?r=invalid` + cookies cleared · logout → 401 · sub-resource requests inside the 60 s window
+  set no new `sc_v`.
+- **No behavioural difference from the Node shim** in `functions/**`; nothing to fix there.
+  D1 prepared statements / `.bind()` / `.batch()`, `crypto.subtle` HMAC and the `Response`
+  header rewrites in `_middleware.ts` all behave identically on workerd.
+- **`request.cf` geo is populated under wrangler** (session rows show `US / Utah / Lehi` from a
+  curl on this machine), so the one thing WS11 listed as "only verifiable in production" is now
+  verified locally too. Only the *forwarding heuristic on distinct countries* still needs a real
+  multi-country visit.
+- `device_class` is `bot` for curl sessions (UA class), `desktop` once a browser's
+  `session_start` lands — as designed.
+
+**Fixed**
+
+- **Vite proxy bounced the browser off :5173.** `changeOrigin: true` rewrote `Host` to
+  `127.0.0.1:8788`, so `redirect()` (which builds an absolute `Location` from `request.url`) sent
+  the browser from `localhost:5173/i/<token>` to `127.0.0.1:8788/`, where the freshly-set cookie
+  does not exist → `/gate?r=none`. workerd honours the incoming `Host`, so `changeOrigin: false`
+  makes `request.url` the Vite origin and the redirect, the created-link `url` and the cookie
+  all line up. Verified in headless Chrome: `/i/<token>` on :5173 lands on the welcome state
+  with "Prepared for Hunter". (The Functions are unchanged; an absolute `Location` is correct
+  behind Cloudflare, where `Host` is the real hostname.)
+- Removed the Node API shim (`scripts/dev-api-node.mjs`, `scripts/_node-d1.mjs`,
+  `scripts/_ts-hooks.mjs`, `npm run dev:api:node`, `seed --node`) and its README sections
+  (`README.md` §1/§2/§4/§8, `functions/README.md`, `migrations/README.md`). One API path only:
+  `npm run dev:api`. `functions/_lib/http.ts` comment on `geo()` corrected.
+
+**Not run this session**
+
+- The in-browser event walk (layer/node events with `via`, heartbeats) — the Chrome extension
+  was not connected; the transcript's browse events were posted with curl. The WS11 headless
+  walk covered the client side and the transport is unchanged.
+
+**Still open** — Phase B (Cloudflare Pages project, D1 create, secrets, domain, README §4 on the
+live site), Phase C (Stream), Phase D (content). Known issues from WS11 unchanged.
+
