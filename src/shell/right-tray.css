@@ -1,3 +1,5 @@
+/* WS7 — Right tray ("Supporting Context"). Class prefix: .tray- */
+
 .tray {
   display: flex;
   flex-direction: column;
@@ -10,22 +12,41 @@
 
 .tray-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: var(--s-1);
   flex: none;
-  padding-bottom: var(--s-2);
+  padding-bottom: var(--s-3);
   border-bottom: 1px solid var(--glass-border);
 }
 
-.tray-count {
-  font-size: 0.62rem;
-  color: var(--text-ghost);
+.tray-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
 }
 
-.tray-empty {
+.tray-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.tray-subject {
   font-size: var(--fs-sm);
-  line-height: 1.55;
-  color: var(--text-ghost);
+  font-weight: 500;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tray-list {
@@ -33,103 +54,55 @@
   flex-direction: column;
   gap: var(--s-3);
   min-height: 0;
-  padding-right: var(--s-2);
+  padding: 2px var(--s-2) var(--s-4) 2px;
 }
 
-.context-card {
+/* Stagger the cards in as the focus changes. */
+.tray-card:nth-child(2) {
+  animation-delay: 60ms;
+}
+.tray-card:nth-child(3) {
+  animation-delay: 120ms;
+}
+.tray-card:nth-child(4) {
+  animation-delay: 180ms;
+}
+.tray-card:nth-child(n + 5) {
+  animation-delay: 240ms;
+}
+
+/* ── empty state ── */
+
+.tray-empty {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  align-items: flex-start;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
+  padding: var(--s-4);
   border-radius: var(--r-md);
-  border: 1px solid var(--glass-border);
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  border: 1px dashed var(--glass-border);
 }
 
-.context-card:hover {
-  transform: translateY(-1px);
-  border-color: var(--glass-border-2);
-}
-
-.context-card-thumb {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: var(--dark-3);
-}
-
-.context-card-thumb img,
-.context-card-ph {
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
-}
-
-.context-card-thumb img {
-  object-fit: cover;
-}
-
-.context-card-type {
-  position: absolute;
-  left: var(--s-2);
-  bottom: var(--s-2);
+.tray-empty-glyph {
   display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
-  border-radius: var(--r-pill);
-  background: var(--scrim);
-  font-size: 0.6rem;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.context-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-1);
-  padding: var(--s-3);
-}
-
-.context-card-meta {
-  display: flex;
-  gap: 5px;
-  font-size: 0.62rem;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
+  gap: var(--s-2);
+  margin-bottom: var(--s-1);
   color: var(--text-ghost);
 }
 
-.context-card-title {
-  font-size: var(--fs-base);
-  font-weight: 600;
-  line-height: 1.3;
+.tray-empty-glyph svg + svg {
+  margin-left: -2px;
 }
 
-.context-card-blurb {
+.tray-empty-title {
   font-size: var(--fs-sm);
-  line-height: 1.5;
+  font-weight: 500;
   color: var(--text-faint);
 }
 
-.context-card-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: var(--s-1);
-  font-size: var(--fs-xs);
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  color: var(--green-2);
-}
-
-.context-card-note {
-  margin-top: var(--s-1);
-  font-size: 0.6rem;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
+.tray-empty-body {
+  font-size: var(--fs-sm);
+  line-height: 1.55;
   color: var(--text-ghost);
 }

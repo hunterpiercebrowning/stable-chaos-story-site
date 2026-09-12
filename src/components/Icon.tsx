@@ -157,6 +157,14 @@ const PATHS: Record<string, ReactElement> = {
     </>
   ),
   spark: <path d="M12 3v5M12 16v5M3 12h5M16 12h5M6 6l3 3M18 18l-3-3M18 6l-3 3M6 18l3-3" />,
+
+  /* ── WS7 ── */
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </>
+  ),
 };
 
 export type IconName = keyof typeof PATHS;
