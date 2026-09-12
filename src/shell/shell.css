@@ -32,13 +32,26 @@
   border-left: 1px solid var(--glass-border);
 }
 
+/* A panel animated to zero width must not leave its 1px border behind. */
+.app-panel[aria-hidden='true'] {
+  border-color: transparent;
+}
+
 .app-stage {
   position: relative;
   min-width: 0;
   min-height: 0;
 }
 
-/* Presentation mode: panels closed, chrome minimal. */
+/* Presentation mode: panels closed, chrome minimal, the stage takes the full frame. */
 .app-shell[data-presentation='true'] .app-panel {
   border-color: transparent;
+}
+
+.app-shell[data-presentation='true'] .app-frame {
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.app-shell[data-presentation='true'] .app-stage {
+  padding-top: var(--s-3);
 }

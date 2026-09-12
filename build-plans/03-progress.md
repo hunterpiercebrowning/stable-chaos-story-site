@@ -288,7 +288,82 @@ scrolled to show the dimmed Security band), `ws5-products-focus.png` (Private Pe
 **Left for integration:** nothing required. When real `background_image`/`gallery` paths land,
 the "placeholder" tags disappear automatically (they key off the empty fields).
 
-## WS6 — Left Nav, Search, Keyboard, Presentation Mode `[ ]`
+## WS6 — Left Nav, Search, Keyboard, Presentation Mode `[x]`
+
+**Built**
+
+- `src/shell/LeftNav.tsx` + `leftnav.css`: collapsible group per layer (chevron toggle with
+  `aria-expanded`; open/closed remembered per group in `useUi().navGroups`; navigating into a
+  layer re-opens its group). Layer icon + title + count in each header; primary tier 600-weight,
+  secondary tier indented and hidden under Compressed with a "+N more" affordance that switches
+  density (and tracks `density_change`). Active layer and node highlighted, active node
+  auto-scrolled into view (`scrollIntoView` nearest, honours reduced motion). Collapsed nav is a
+  56px icon rail (`--nav-w-collapsed`): search, one icon per layer, expand button; tooltips are
+  portalled to `<body>` so the panel's overflow clip cannot swallow them; click navigates.
+- `src/shell/SearchOverlay.tsx` + `search-overlay.css`: `role="dialog"`, `aria-modal`, combobox/
+  listbox semantics, focus trapped (Tab wraps) and returned to the opener on close. Results from
+  `search(q, 24)` grouped in layer order, ↑↓ wrap, Enter opens, Esc closes, mouse hover moves the
+  cursor. Matches are wrapped in `<mark>`; body matches show a one-line snippet from the resolved
+  copy. `track('search', {q, resultCount})` debounced 400ms, flushed on select/close/unmount so
+  a settled query is never lost. Idle state lists the searchable layers; footer shows key hints.
+- `src/store/keyboard.ts`: `useKeyboard()` (no args) mounted once in `AppShell`, one capture-phase
+  `keydown` listener on `window`. Pure helpers `resolveKeyAction`, `nextSibling`,
+  `isTypingTarget`, `isInteractiveTarget` are unit tested (`src/store/keyboard.test.ts`, 6 tests).
+- Presentation mode: `AppShell` forces both panel widths to 0 while `presentation` is on (the
+  closed nav is otherwise the rail) and the frame drops the top-bar row; `TopBar` renders a
+  floating 40px strip with a 14px wordmark (left) and a `P · Exit` chip (right), both at 45–55%
+  opacity until hovered. `track('presentation_toggle', {on})` from the toggle button, the chip,
+  `P` and `Esc`.
+- Icons appended to the sprite: `chevron-left`, `chevron-up`, `home`, `people`, `lightbulb`,
+  `grid`, `briefcase`, `box`, `book`.
+
+**Final keyboard map**
+
+| Key | Action |
+|---|---|
+| `↑` / `↓` | Previous / next layer (clamped at Welcome and Background). Leaves any focused node. |
+| `←` / `→` | Previous / next sibling node while a node is focused; first node when none. Clamped, no wrap. |
+| `Enter` | Focus the first node on the layer. Left alone when a button/link has DOM focus (native Enter) or a node is already focused. |
+| `Esc` | Closes in priority: search → expanded video → focused node → presentation mode. |
+| `/` | Open search. |
+| `[` / `]` | Toggle left nav (full ↔ icon rail) / right tray. Ignored in presentation mode. |
+| `1` `2` `3` `4` | Emphasis All / SynBio / Security / Systems, only on layers with `hasEmphasis`. |
+| `P` | Toggle presentation mode. |
+| inside search | `↑`/`↓` move, `Enter` open, `Esc` close, `Tab` wraps inside the dialog. |
+
+Every binding except `Esc` is ignored while typing (`isTypingTarget`), while the search dialog is
+open, while a video is expanded, and with a Cmd/Ctrl/Alt modifier held.
+
+**Decisions / deviations**
+
+1. **Esc arbitration is centralised** in the capture-phase listener: when it handles an Esc it
+   calls `stopPropagation()`, so `Stage`'s own bubble-phase Esc handler never double-navigates and
+   Esc inside search no longer also closes the focused node (a WS0 bug). When `videoExpanded` is
+   true the hook deliberately does **not** act — `VideoPlayer` owns Esc/Space while expanded — but
+   it schedules a `setTimeout(0)` fallback that closes the video only if nothing else did.
+2. `useKeyboard` changed signature from `useKeyboard({onSearch, onEscape})` to `useKeyboard()`;
+   AppShell was its only caller.
+3. The stylesheet named `src/styles/shell.css` in the brief lives at `src/shell/shell.css` (WS0 put
+   every shell stylesheet next to its component); edits went there plus `leftnav.css`,
+   `search-overlay.css`, `topbar.css`. Also added `.app-panel[aria-hidden='true'] { border-color:
+   transparent }` so a panel animated to 0 width does not leave its 1px border behind.
+4. `useUi` appends (append-only, nothing renamed): `navGroups: Record<string, boolean>`,
+   `setNavGroup(layerId, open)`, `toggleNavGroup(layerId)`. Not added to `partialize` (would have
+   meant editing an existing line), so group state is per session.
+5. Tracking follows the WS0 pattern: keyboard, nav and search fire their own `layer_view` /
+   `node_focus` with `via: 'keyboard' | 'nav' | 'search'`, and `Stage`/`FocusFrame` still fire a
+   second `via: 'url'` event on the route change. **For WS11:** either have `Stage` pass a `via`
+   into `Focus`/`FocusFrame` (it already accepts one) and drop the URL-side events, or dedupe in
+   the transport. Not changed here because `Stage`/`FocusFrame` are outside WS6's ownership.
+6. `TopBar`'s presentation button now only *enters* the mode (it is not rendered while on); the
+   `togglePresentation` store action is unused but left in place.
+7. Verification ran in headless Chrome over CDP (the Chrome extension was not connected); the
+   scripted walk-through (`↓×3`, `→ → ←`, `Esc`, `Enter`, `2/4/1/3`, `/ bio ↓↓ Enter`, `Esc Esc`,
+   `[` rail + tooltip + click, `]`, group collapse/auto-reopen, "+N more", nav auto-scroll, `P`,
+   `Esc Esc`, chip, `↑` to Welcome) passed with zero console errors or warnings.
+
+Screenshots: `build-plans/screens/ws6-nav-expanded.png`, `ws6-nav-rail.png`, `ws6-search.png`,
+`ws6-presentation.png` (1440×900).
 
 ## WS7 — Right Tray, Related Strip, Welcome, Background `[ ]`
 

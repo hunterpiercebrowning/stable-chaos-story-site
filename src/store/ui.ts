@@ -30,6 +30,12 @@ export interface UiState {
   setSearchOpen: (open: boolean) => void;
   setVideoExpanded: (expanded: boolean) => void;
   reset: () => void;
+
+  /* ── WS6 appends ── */
+  /** Left-nav group open state per layer id. Absent = open. */
+  navGroups: Record<string, boolean>;
+  setNavGroup: (layerId: string, open: boolean) => void;
+  toggleNavGroup: (layerId: string) => void;
 }
 
 const INITIAL = {
@@ -40,6 +46,7 @@ const INITIAL = {
   presentation: false,
   searchOpen: false,
   videoExpanded: false,
+  navGroups: {} as Record<string, boolean>,
 };
 
 export const useUi = create<UiState>()(
@@ -65,6 +72,13 @@ export const useUi = create<UiState>()(
       setSearchOpen: (searchOpen) => set({ searchOpen }),
       setVideoExpanded: (videoExpanded) => set({ videoExpanded }),
       reset: () => set(INITIAL),
+
+      /* ── WS6 appends ── */
+      setNavGroup: (layerId, open) => set({ navGroups: { ...get().navGroups, [layerId]: open } }),
+      toggleNavGroup: (layerId) => {
+        const groups = get().navGroups;
+        set({ navGroups: { ...groups, [layerId]: !(groups[layerId] ?? true) } });
+      },
     }),
     {
       name: 'sc-ui',

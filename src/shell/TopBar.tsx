@@ -14,10 +14,40 @@ export function TopBar() {
   const toggleLeft = useUi((s) => s.toggleLeft);
   const toggleRight = useUi((s) => s.toggleRight);
   const presentation = useUi((s) => s.presentation);
-  const togglePresentation = useUi((s) => s.togglePresentation);
+  const setPresentation = useUi((s) => s.setPresentation);
+
+  const setMode = (on: boolean) => {
+    setPresentation(on);
+    track('presentation_toggle', { on });
+  };
+
+  // Presentation mode: chrome reduced to a tiny wordmark and the exit chip.
+  if (presentation) {
+    return (
+      <header className="topbar topbar--presentation">
+        <Link to="/" className="topbar-logo" aria-label="Stable Chaos — welcome">
+          <img
+            className="topbar-logo-img topbar-logo-img--mini"
+            src="/assets/logos/SC--Logo--White--Horizontal.svg"
+            alt="Stable Chaos"
+          />
+        </Link>
+        <button
+          type="button"
+          className="topbar-exit"
+          onClick={() => setMode(false)}
+          aria-label="Exit presentation mode"
+          title="Exit presentation ( P or Esc )"
+        >
+          <kbd className="topbar-exit-key">P</kbd>
+          <span>Exit</span>
+        </button>
+      </header>
+    );
+  }
 
   return (
-    <header className="topbar" data-presentation={presentation ? 'true' : undefined}>
+    <header className="topbar">
       <Link to="/" className="topbar-logo" aria-label="Stable Chaos — welcome">
         <img
           className="topbar-logo-img sc-logo-glow"
@@ -69,13 +99,10 @@ export function TopBar() {
         <button
           type="button"
           className="icon-button"
-          aria-pressed={presentation}
-          aria-label="Toggle presentation mode"
+          aria-pressed={false}
+          aria-label="Enter presentation mode"
           title="Presentation mode ( P )"
-          onClick={() => {
-            togglePresentation();
-            track('presentation_toggle', { on: !presentation });
-          }}
+          onClick={() => setMode(true)}
         >
           <Icon name="presentation" size={17} />
         </button>

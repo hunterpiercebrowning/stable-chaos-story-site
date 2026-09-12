@@ -157,6 +157,55 @@ const PATHS: Record<string, ReactElement> = {
     </>
   ),
   spark: <path d="M12 3v5M12 16v5M3 12h5M16 12h5M6 6l3 3M18 18l-3-3M18 6l-3 3M6 18l3-3" />,
+
+  /* ── WS6: nav rail + chrome ── */
+  'chevron-left': <path d="M15 6l-6 6 6 6" />,
+  'chevron-up': <path d="M6 15l6-6 6 6" />,
+  home: (
+    <>
+      <path d="M4 11l8-7 8 7" />
+      <path d="M6 10v10h5v-6h2v6h5V10" />
+    </>
+  ),
+  people: (
+    <>
+      <circle cx="9" cy="8" r="3.2" />
+      <path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" />
+      <path d="M15.5 4.8a3.2 3.2 0 0 1 0 6.4M17 14.6c2.2.5 3.5 2.4 3.5 5.4" />
+    </>
+  ),
+  lightbulb: (
+    <>
+      <path d="M9 18h6M10 21h4" />
+      <path d="M8.5 14.5a6 6 0 1 1 7 0c-.9.7-1.5 1.6-1.5 3.5h-4c0-1.9-.6-2.8-1.5-3.5z" />
+    </>
+  ),
+  grid: (
+    <>
+      <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
+      <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
+      <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
+      <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
+    </>
+  ),
+  briefcase: (
+    <>
+      <rect x="3" y="7.5" width="18" height="12.5" rx="2" />
+      <path d="M9 7.5V5.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 12.5h18" />
+    </>
+  ),
+  box: (
+    <>
+      <path d="M12 3l8.5 4.5v9L12 21l-8.5-4.5v-9z" />
+      <path d="M3.5 7.5L12 12l8.5-4.5M12 12v9" />
+    </>
+  ),
+  book: (
+    <>
+      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z" />
+      <path d="M4 18a2.5 2.5 0 0 1 2.5-2.5H20" />
+    </>
+  ),
 };
 
 export type IconName = keyof typeof PATHS;
