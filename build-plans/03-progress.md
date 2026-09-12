@@ -127,7 +127,53 @@ Screenshots: `build-plans/screens/ws1-who-layer.png`, `ws1-who-focus.png`.
 
 **Shared-file appends**: none (no new tokens or icons needed).
 
-## WS2 — What We Believe `[ ]`
+## WS2 — What We Believe `[~]`
+
+**Built** (`src/layers/beliefs/**` only)
+
+- `BeliefsLayer`: a three-column grid — Threats cluster (left, `--threat` peach) · gradient
+  divider · Advantages cluster (right, `--advantage` green-2). Each cluster has a faint header
+  (dot + "Threats" / "Advantages" + a ghost hint). Cards sit in `.beliefs-slot` wrappers with a
+  per-index `alignSelf` + `--ox`/`--oy` nudge (`LEFT_SLOTS`, mirrored for the right) so each side
+  reads as a loose cluster leaning toward the divider, not a grid. The offset lives on the wrapper
+  because `motion` writes inline transforms on the card for the grow-into-focus transition. Two
+  blurred radial fields (`::before`/`::after`) tint each half so the colors meet at the divider,
+  which carries a peach→light→green gradient and a small two-tone meeting dot.
+- `BeliefsNode`: `NodeCard size="sm"` with custom children — round icon badge, title, and a
+  `.tag.beliefs-pill` type pill, all reading `--accent`. Row layout so four cards stack in the
+  stage height. Falls back to `GenericNode` for a non-belief node (type narrowing).
+- `BeliefsFocus`: `FocusFrame` with `className="beliefs-focus--<type>"` (sets `--accent` so the
+  frame gradient, eyebrow and bullet marks take the type color), eyebrow = icon badge + "Threat" /
+  "Advantage" · "What We Believe", subtitle = tagline, body = blurb, bullets, extras =
+  `<VideoPlayer node />` (existing props only).
+- `beliefs.ts`: `beliefIcon(node)` honors the JSON `icon` field when it names a sprite entry,
+  else maps by id (trusted-access→key, consilience→consilience, first-principles→atom,
+  nth-specificity→crosshair, compute→chip, eroding-knowledge-moats→castle, china→globe), else by
+  type (`spark`/`node`). `isBelief` type guard, `BELIEF_LABEL`.
+
+**Shared files:** no appends needed — all seven icons already exist in `Icon.tsx` and
+`--threat`/`--advantage` already exist in `tokens.css`. `Icon.tsx`, `tokens.css`, registry,
+store, data layer and `VideoPlayer` are untouched.
+
+**Deviations / notes**
+
+1. `node-card.css` sets `.node-card[data-layer='beliefs'] { --accent: var(--advantage) }` for
+   every belief. My cards override it with `.node-card.beliefs-node.beliefs-node--threat`, but the
+   **focus rail** (`Stage.tsx` → bare `NodeCard size="xs"`) still glows green for threats because
+   `NodeCard` emits no type attribute. Suggested shared fix (WS11): have `NodeCard` add
+   `data-belief={node.beliefType}` and switch the node-card.css rule to
+   `[data-belief='threat'] { --accent: var(--threat) }`. Same for the left-nav active color (WS6).
+2. Icon brief said "castle with cracks"; the sprite's existing `castle` has no cracks. Kept it
+   rather than appending a near-duplicate.
+3. Clusters are top-aligned with a shared `padding-top: clamp(24px, 9vh, 88px)` so both headers
+   sit on one line; self-centering each cluster put the headers at different heights.
+
+**Verified** (headless Chrome over CDP, 1440×900, SwiftShader for the attractor): `/beliefs` and
+`/beliefs/eroding-knowledge-moats`, plus `/beliefs/trusted-access` scrolled to confirm the video
+slot renders under the bullets. Zero console errors from app code. `typecheck`, `lint`, `test`
+(29) and `build` clean. Screenshots: `build-plans/screens/ws2-beliefs-layer.png`,
+`ws2-beliefs-focus.png`.
+
 
 ## WS3 — Critical Sectors `[ ]`
 

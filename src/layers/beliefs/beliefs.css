@@ -1,2 +1,255 @@
 /* WS2 — What We Believe — layer styles.
-   Class prefix: .beliefs-  (e.g. .beliefs-card, .beliefs-node) */
+   Class prefix: .beliefs-  (e.g. .beliefs-node, .beliefs-cluster)
+
+   Two clusters face each other across a soft divider: threats on the left in
+   --threat (warm peach), advantages on the right in --advantage (green-2).
+   Every tinted surface reads its color from --cluster / --accent so the card,
+   pill and focus frame stay in step with tokens.css. */
+
+/* ── layer ── */
+.beliefs-layer {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--s-6);
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  padding: var(--s-2) var(--s-3) var(--s-5);
+}
+
+/* Soft field behind each side so the two colors visibly meet in the middle. */
+.beliefs-layer::before,
+.beliefs-layer::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 46%;
+  height: 78%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(40px);
+  z-index: 0;
+}
+.beliefs-layer::before {
+  left: 2%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--threat) 9%, transparent) 0%,
+    transparent 100%
+  );
+}
+.beliefs-layer::after {
+  right: 2%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--advantage) 9%, transparent) 0%,
+    transparent 100%
+  );
+}
+
+/* ── divider ── */
+.beliefs-divider {
+  position: relative;
+  align-self: stretch;
+  width: 1px;
+  margin: var(--s-6) 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--threat) 50%, transparent) 28%,
+    color-mix(in srgb, var(--light) 28%, transparent) 50%,
+    color-mix(in srgb, var(--advantage) 50%, transparent) 72%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+.beliefs-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--threat) 0%, var(--advantage) 100%);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--light) 22%, transparent);
+}
+
+/* ── clusters ── */
+.beliefs-cluster {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  min-width: 0;
+  min-height: 0;
+  /* Shared top offset so both cluster headers sit on the same line. */
+  padding-top: clamp(var(--s-5), 9vh, 88px);
+  z-index: 1;
+}
+
+.beliefs-cluster--threat {
+  --cluster: var(--threat);
+}
+.beliefs-cluster--advantage {
+  --cluster: var(--advantage);
+}
+
+.beliefs-cluster-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding: 0 var(--s-2);
+}
+.beliefs-cluster--threat .beliefs-cluster-head {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.beliefs-cluster-dot {
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cluster);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--cluster) 55%, transparent);
+}
+.beliefs-cluster--threat .beliefs-cluster-dot {
+  order: 3;
+}
+
+.beliefs-cluster-title {
+  font-size: var(--fs-sm);
+  color: color-mix(in srgb, var(--cluster) 72%, var(--text-faint));
+}
+
+.beliefs-cluster-hint {
+  font-size: var(--fs-xs);
+  color: var(--text-ghost);
+  letter-spacing: 0.02em;
+}
+
+.beliefs-cluster-nodes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-height: 0;
+  padding: 0 var(--s-2);
+}
+
+/* The organic offset lives on a wrapper: motion writes inline transforms on
+   the card itself for the grow-into-focus transition. */
+.beliefs-slot {
+  width: min(78%, 320px);
+  transform: translate(var(--ox, 0), var(--oy, 0));
+}
+
+.beliefs-slot .node-card {
+  width: 100%;
+}
+
+/* ── node card ── */
+.node-card.beliefs-node {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 0;
+  padding: var(--s-3) var(--s-4) var(--s-3) var(--s-3);
+}
+
+/* Higher specificity than node-card.css's `[data-layer='beliefs']`, which
+   assumes every belief is an advantage. */
+.node-card.beliefs-node.beliefs-node--threat {
+  --accent: var(--threat);
+}
+.node-card.beliefs-node.beliefs-node--advantage {
+  --accent: var(--advantage);
+}
+
+.node-card.beliefs-node.is-active {
+  box-shadow: var(--shadow-2), 0 0 28px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.beliefs-node-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+  transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.beliefs-node:hover .beliefs-node-icon,
+.beliefs-node.is-active .beliefs-node-icon {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.beliefs-node-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+.beliefs-node-title {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Type pill: same shape as the sector tag, tinted by the belief type. */
+.tag.beliefs-pill {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+/* ── focus ── */
+.focus-frame.beliefs-focus--threat {
+  --accent: var(--threat);
+}
+.focus-frame.beliefs-focus--advantage {
+  --accent: var(--advantage);
+}
+
+.beliefs-focus-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.beliefs-focus-eyebrow-icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
+}
+
+.beliefs-focus-eyebrow-type {
+  color: var(--accent);
+}
+
+.beliefs-focus-eyebrow-sep {
+  color: var(--text-ghost);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beliefs-node-icon {
+    transition: none;
+  }
+}
