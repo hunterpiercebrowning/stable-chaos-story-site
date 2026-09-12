@@ -90,6 +90,7 @@ export function NodeCard({
       data-tier={node.tier}
       data-sector={sectors[0]}
       data-sector-2={sectors[1]}
+      data-belief={node.layerId === 'beliefs' ? node.beliefType : undefined}
       aria-pressed={active}
       onClick={() => onSelect?.(node)}
       // Motion writes inline styles on layout-animated elements, which would win

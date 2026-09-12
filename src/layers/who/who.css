@@ -149,7 +149,7 @@
 }
 
 .who-focus .focus-grid--media {
-  grid-template-columns: minmax(240px, 34%) 1fr;
+  grid-template-columns: minmax(200px, 28%) 1fr;
 }
 
 .who-focus-media {

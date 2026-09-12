@@ -82,7 +82,14 @@ export function FocusFrame({
       ) : null}
 
       <div className={cn('focus-grid', media && 'focus-grid--media')}>
-        {media ? <div className="focus-media">{media}</div> : null}
+        {/* With a media column, the extras (video, buttons) sit under the media
+            so the text column keeps its height for the copy and related strip. */}
+        {media ? (
+          <div className="focus-media">
+            {media}
+            {extras ? <div className="focus-extras">{extras}</div> : null}
+          </div>
+        ) : null}
 
         <div className="focus-main sc-scroll">
           {eyebrow ? <div className="sc-label focus-eyebrow">{eyebrow}</div> : null}
@@ -101,7 +108,7 @@ export function FocusFrame({
             </ul>
           ) : null}
 
-          {extras ? <div className="focus-extras">{extras}</div> : null}
+          {extras && !media ? <div className="focus-extras">{extras}</div> : null}
 
           <RelatedStrip node={node} />
         </div>

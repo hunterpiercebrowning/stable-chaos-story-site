@@ -100,6 +100,7 @@ export function ServicesLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
         ref={containerRef}
         onTransitionEnd={() => measure()}
         style={gridStyle}
+        data-collapsed={offeringsCollapsed ? 'true' : undefined}
       >
         <ConnectorLayer
           connections={connections}

@@ -59,8 +59,12 @@
 .node-card[data-sector='systems'] {
   --accent: var(--sector-systems);
 }
-.node-card[data-layer='beliefs'] {
+.node-card[data-layer='beliefs'],
+.node-card[data-belief='advantage'] {
   --accent: var(--advantage);
+}
+.node-card[data-belief='threat'] {
+  --accent: var(--threat);
 }
 
 /* Dual-sector: border from the first sector, glow from the second. */

@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  padding: var(--s-6);
+  padding: var(--s-5) var(--s-6) var(--s-4);
   border-radius: var(--r-xl);
   background: linear-gradient(
       180deg,
@@ -53,23 +53,33 @@
 .focus-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--s-6);
+  gap: var(--s-5);
   min-height: 0;
   height: 100%;
 }
 
 .focus-grid--media {
-  grid-template-columns: minmax(220px, 30%) 1fr;
+  grid-template-columns: minmax(200px, 28%) 1fr;
 }
 
 .focus-media {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
   min-width: 0;
+  min-height: 0;
 }
 
+.focus-media .focus-extras {
+  margin: 0;
+}
+
+/* Sized so a 60-word blurb, five bullets, the video row and the related strip
+   fit at 1440×900 with both panels open; the column still scrolls past that. */
 .focus-main {
   display: flex;
   flex-direction: column;
-  gap: var(--s-3);
+  gap: var(--s-2);
   min-height: 0;
   padding-right: var(--s-3);
 }
@@ -79,26 +89,29 @@
 }
 
 .focus-title {
-  font-size: var(--fs-2xl);
+  font-size: clamp(1.6rem, 2.3vw, 2.2rem);
   font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
 }
 
 .focus-subtitle {
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   color: var(--text-muted);
 }
 
 .focus-body {
-  max-width: 68ch;
+  max-width: 66ch;
+  margin-top: var(--s-1);
   color: var(--text-muted);
-  font-size: var(--fs-md);
-  line-height: 1.66;
+  font-size: var(--fs-base);
+  line-height: 1.55;
 }
 
 .focus-bullets {
   display: grid;
-  gap: var(--s-2);
-  max-width: 72ch;
+  gap: 5px;
+  max-width: 70ch;
   margin-top: var(--s-2);
 }
 
@@ -107,7 +120,8 @@
   align-items: baseline;
   gap: var(--s-3);
   color: var(--text-muted);
-  line-height: 1.5;
+  font-size: var(--fs-base);
+  line-height: 1.4;
 }
 
 .focus-bullet-mark {
@@ -122,7 +136,63 @@
 .focus-extras {
   display: flex;
   flex-direction: column;
-  gap: var(--s-4);
-  max-width: 560px;
-  margin: var(--s-3) 0 var(--s-5);
+  gap: var(--s-3);
+  margin: var(--s-2) 0 var(--s-1);
+}
+
+/* The inline video affordance inside a focus view is a compact row — a
+   16:9 thumb beside its label — instead of a full-width 16:9 poster, which
+   alone took ~300px of the column. Expanding still grows from the thumb. */
+.focus-extras .video-inline {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: auto;
+  padding: var(--s-2);
+  border-radius: var(--r-md);
+}
+
+/* Thumb and play glyph share one grid cell; the label takes the next column. */
+.focus-extras .video-poster-box {
+  grid-area: 1 / 1;
+  position: relative;
+  inset: auto;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--r-sm);
+}
+
+.focus-extras .video-play {
+  grid-area: 1 / 1;
+  position: static;
+  place-self: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+}
+
+.focus-extras .video-meta {
+  grid-area: 1 / 2;
+  position: static;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+}
+
+.focus-extras .video-meta .sc-label {
+  color: var(--text);
+}
+
+/* In the narrow media column the row stacks: full-width thumb, label beneath. */
+.focus-media .focus-extras .video-inline {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: none;
+}
+
+.focus-media .focus-extras .video-meta {
+  grid-area: 2 / 1;
 }

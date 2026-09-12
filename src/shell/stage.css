@@ -48,8 +48,9 @@
   min-height: 0;
 }
 
+/* The frame takes every pixel the sibling rail leaves it. */
 .stage-focus {
-  flex: 0 1 78%;
+  flex: 1 1 auto;
   min-height: 0;
 }
 

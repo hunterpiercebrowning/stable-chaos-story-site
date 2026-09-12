@@ -17,6 +17,8 @@ export function ProductsGallery({ images, placeholder, onOpen }: ProductsGallery
       <div className="products-gallery-head">
         <span className="sc-label">Gallery</span>
         <span className="products-gallery-count">{images.length}</span>
+        {/* One dev label for the strip; the thumbs are too small to carry their own. */}
+        {placeholder ? <span className="products-gallery-note">placeholder</span> : null}
       </div>
       <div className="products-gallery-strip" role="list">
         {images.map((src, i) => (
@@ -33,7 +35,6 @@ export function ProductsGallery({ images, placeholder, onOpen }: ProductsGallery
             <span className="products-thumb-zoom" aria-hidden="true">
               <Icon name="expand" size={14} />
             </span>
-            {placeholder ? <span className="sc-placeholder-tag">placeholder</span> : null}
           </button>
         ))}
       </div>

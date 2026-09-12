@@ -158,7 +158,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  padding: var(--s-5);
+  padding: var(--s-4);
   overflow: hidden;
   border-radius: var(--r-xl);
   border: 1px solid var(--glass-border);
@@ -214,7 +214,8 @@
 .products-focus-frame.focus-frame {
   position: relative;
   z-index: 1;
-  width: min(100%, max(600px, 66%));
+  /* Wide enough for the copy at 1440 with both panels open; the scene shows to the right beyond that. */
+  width: min(100%, max(720px, 70%));
   background: linear-gradient(
       180deg,
       color-mix(in srgb, var(--accent, var(--green-2)) 9%, transparent) 0%,
@@ -290,8 +291,26 @@
 .products-gallery-strip {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(96px, 1fr);
+  grid-auto-columns: minmax(64px, 1fr);
   gap: var(--s-2);
+}
+
+/* Video row and gallery side by side under the bullets (wrap when narrow). */
+.products-focus-frame .focus-extras {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--s-4);
+}
+
+.products-focus-frame .focus-extras .video-inline {
+  flex: 0 1 250px;
+  grid-template-columns: 96px minmax(0, 1fr);
+}
+
+.products-focus-frame .products-gallery {
+  flex: 1 1 260px;
+  min-width: 0;
 }
 
 .products-thumb {
@@ -346,11 +365,13 @@
   opacity: 1;
 }
 
-.products-thumb .sc-placeholder-tag {
-  right: var(--s-1);
-  bottom: var(--s-1);
-  padding: 1px 4px;
-  font-size: 0.5rem;
+.products-gallery-note {
+  margin-left: var(--s-1);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-ghost);
 }
 
 /* ══════════════════════════════════════════════════════
