@@ -1,20 +1,24 @@
 /**
- * In-memory stand-in for the WS8 admin API, used when `VITE_ADMIN_MOCK=1`.
+ * In-memory stand-in for the admin API, used when `VITE_ADMIN_MOCK=1`.
  *
  * Fixtures: 3 links (one forward-suspect, one internal, one revoked), 8
  * sessions and ~200 events spanning every §6 event type. Mutations (create,
  * patch, login) persist for the lifetime of the page. Generation is seeded so
  * the data is identical on every load.
  *
+ * Responses use the **backend's wire shapes** (`functions/api/admin/**`), not
+ * the UI's view shapes, so `api.ts` runs the same normalization against the
+ * mock as against production.
+ *
  * Only ever imported dynamically from `api.ts` behind the MOCK constant.
  */
 import type {
   AdminEvent,
-  AdminLink,
   AdminSession,
-  EventsPage,
-  LinkDetail,
   RawResponse,
+  WireEvent,
+  WireLink,
+  WireLinkDetail,
 } from './api';
 
 export const MOCK_PASSWORD = 'admin';
@@ -61,7 +65,10 @@ const H = 3_600_000;
 const D = 24 * H;
 const ORIGIN = 'https://context.stablechaos.com';
 
-interface Row extends Omit<AdminLink, 'stats' | 'url'> {}
+interface Row extends Omit<WireLink, 'stats' | 'url' | 'status' | 'label' | 'notes'> {
+  label: string;
+  notes: string;
+}
 
 let nextLinkN = 4;
 let nextEventId = 1;
@@ -258,39 +265,49 @@ events.sort((a, b) => b.ts - a.ts || b.id - a.id);
 
 /* ── derived views ────────────────────────────────────── */
 
-function withStats(row: Row): AdminLink {
+function status(row: Row): 'active' | 'revoked' | 'expired' {
+  if (row.revokedAt) return 'revoked';
+  if (row.expiresAt && row.expiresAt <= Date.now()) return 'expired';
+  return 'active';
+}
+
+/** `LinkWithStats` as `functions/api/admin/links/index.ts` emits it. */
+function withStats(row: Row): WireLink {
   const ss = sessions.filter((s) => s.linkId === row.id);
-  const devices = new Set(ss.map((s) => s.fingerprint));
-  const locations = new Set(ss.map((s) => `${s.country}/${s.region}/${s.city}`));
+  const fingerprints = new Set(ss.map((s) => s.fingerprint));
+  const countries = new Set(ss.map((s) => s.country));
   const ips = new Set(ss.map((s) => s.ipHash));
   return {
     ...row,
     url: `${ORIGIN}/i/${row.token}`,
+    status: status(row),
     stats: {
       sessions: ss.length,
       opens: ss.length,
       lastSeenAt: ss.length ? Math.max(...ss.map((s) => s.lastSeenAt)) : null,
-      distinctDevices: devices.size,
-      distinctLocations: locations.size,
-      forwardSuspect: devices.size > 1 || locations.size > 1 || ips.size > 1,
+      distinctIps: ips.size,
+      distinctFingerprints: fingerprints.size,
+      distinctCountries: countries.size,
+      forwardSuspect: fingerprints.size > 1 || countries.size > 1,
     },
   };
 }
 
-function detail(row: Row): LinkDetail {
+/** `GET /api/admin/links/:id` → `{ link, sessions, summary: { totalEvents, topNodes, videos } }`. */
+function detail(row: Row): WireLinkDetail {
   const ss = sessions.filter((s) => s.linkId === row.id);
   const ids = new Set(ss.map((s) => s.id));
   const evs = events.filter((e) => ids.has(e.sessionId));
-  const top = new Map<string, { focusCount: number; dwellMs: number }>();
+  const top = new Map<string, { layerId: string | null; focusCount: number; dwellMs: number }>();
   const vids = new Map<string, { plays: number; maxPct: number }>();
   for (const e of evs) {
     if (e.type === 'node_focus' && e.nodeId) {
-      const t = top.get(e.nodeId) ?? { focusCount: 0, dwellMs: 0 };
+      const t = top.get(e.nodeId) ?? { layerId: e.layerId, focusCount: 0, dwellMs: 0 };
       t.focusCount++;
       top.set(e.nodeId, t);
     }
     if (e.type === 'node_blur' && e.nodeId) {
-      const t = top.get(e.nodeId) ?? { focusCount: 0, dwellMs: 0 };
+      const t = top.get(e.nodeId) ?? { layerId: e.layerId, focusCount: 0, dwellMs: 0 };
       t.dwellMs += Number(e.props.dwellMs ?? 0);
       top.set(e.nodeId, t);
     }
@@ -301,35 +318,45 @@ function detail(row: Row): LinkDetail {
       vids.set(e.nodeId, v);
     }
   }
-  const countries: Record<string, number> = {};
-  for (const s of ss) countries[s.country ?? '??'] = (countries[s.country ?? '??'] ?? 0) + 1;
   return {
     link: withStats(row),
-    sessions: ss
-      .map(({ ipHash: _ip, ...s }) => s)
-      .sort((a, b) => b.lastSeenAt - a.lastSeenAt),
-    topNodes: [...top.entries()]
-      .map(([nodeId, t]) => ({ nodeId, ...t }))
-      .sort((a, b) => b.dwellMs - a.dwellMs || b.focusCount - a.focusCount),
-    videos: [...vids.entries()]
-      .map(([nodeId, v]) => ({ nodeId, ...v }))
-      .sort((a, b) => b.maxPct - a.maxPct),
-    forwarding: {
-      distinctIpHashes: new Set(ss.map((s) => s.ipHash)).size,
-      distinctFingerprints: new Set(ss.map((s) => s.fingerprint)).size,
-      countries,
+    // The backend returns ipHash too; the UI never shows it.
+    sessions: ss.slice().sort((a, b) => b.startedAt - a.startedAt),
+    summary: {
+      totalEvents: evs.length,
+      topNodes: [...top.entries()]
+        .filter(([, t]) => t.focusCount > 0)
+        .map(([nodeId, t]) => ({ nodeId, ...t }))
+        .sort((a, b) => b.focusCount - a.focusCount || b.dwellMs - a.dwellMs),
+      videos: [...vids.entries()]
+        .map(([nodeId, v]) => ({ nodeId, ...v }))
+        .sort((a, b) => b.maxPct - a.maxPct || b.plays - a.plays),
     },
   };
 }
 
-function eventsPage(row: Row, cursor: string | null, limit: number): EventsPage {
+/** `GET …/events` rows carry the session nested, as the backend's LEFT JOIN does. */
+function toWireEvent(e: AdminEvent): WireEvent {
+  const { sessionId, ...rest } = e;
+  const s = sessions.find((x) => x.id === sessionId);
+  return {
+    ...rest,
+    session: {
+      id: sessionId,
+      deviceClass: s?.deviceClass ?? null,
+      country: s?.country ?? null,
+    },
+  };
+}
+
+function eventsPage(row: Row, cursor: string | null, limit: number): { events: WireEvent[]; nextCursor: string | null } {
   const ids = new Set(sessions.filter((s) => s.linkId === row.id).map((s) => s.id));
   const all = events.filter((e) => ids.has(e.sessionId));
   const start = cursor ? all.findIndex((e) => String(e.id) === cursor) + 1 : 0;
   const page = all.slice(start, start + limit);
   const last = page[page.length - 1];
   return {
-    events: page,
+    events: page.map(toWireEvent),
     nextCursor: last && start + limit < all.length ? String(last.id) : null,
   };
 }
@@ -370,6 +397,16 @@ function token(): string {
   return out;
 }
 
+/** Like the backend's `parseExpiresAt`: epoch ms, ISO string, or null/empty. */
+function parseExpires(v: unknown): number | null {
+  if (typeof v === 'number' && Number.isFinite(v)) return Math.floor(v);
+  if (typeof v === 'string' && v) {
+    const t = Date.parse(v);
+    if (Number.isFinite(t)) return t;
+  }
+  return null;
+}
+
 export async function mockRequest(
   method: string,
   path: string,
@@ -381,18 +418,20 @@ export async function mockRequest(
   const rest = parts.slice(2);
   const input = (body ?? {}) as Record<string, unknown>;
 
-  if (method === 'POST' && rest[0] === 'login') {
+  if (rest[0] === 'login') {
+    // GET → { ok } (is the cookie valid); POST { password } → { ok: true } + cookie.
+    if (method === 'GET') return ok({ ok: authed });
     if (input.password === MOCK_PASSWORD) {
       setAuthed(true);
       return ok({ ok: true });
     }
-    return err(401, 'Wrong password');
+    return err(401, 'wrong password');
   }
   if (method === 'POST' && rest[0] === 'logout') {
     setAuthed(false);
     return ok({ ok: true });
   }
-  if (!authed) return err(401, 'Not signed in');
+  if (!authed) return err(401, 'admin login required');
 
   if (rest[0] !== 'links') return err(404, 'Not found');
 
@@ -400,34 +439,57 @@ export async function mockRequest(
     if (method === 'GET') return ok({ links: links.map(withStats) });
     if (method === 'POST') {
       const label = String(input.label ?? '').trim();
-      if (!label) return err(400, 'Label is required');
       const row: Row = {
         id: `lnk_${(nextLinkN++).toString(16).padStart(6, '0')}`,
         token: token(),
         label,
         notes: String(input.notes ?? ''),
         createdAt: Date.now(),
-        expiresAt: typeof input.expiresAt === 'number' ? input.expiresAt : null,
+        expiresAt: parseExpires(input.expiresAt),
         revokedAt: null,
-        isInternal: Boolean(input.isInternal),
+        isInternal: input.isInternal === true,
       };
       links.unshift(row);
-      return { status: 201, body: { link: withStats(row) } };
+      // 201 { id, token, url, link } — `url` from the request origin in production.
+      return { status: 201, body: { id: row.id, token: row.token, url: `${ORIGIN}/i/${row.token}`, link: withStats(row) } };
     }
     return err(405, 'Method not allowed');
   }
 
   const row = links.find((l) => l.id === rest[1]);
-  if (!row) return err(404, 'Link not found');
+  if (!row) return err(404, 'link not found');
 
   if (rest.length === 2) {
     if (method === 'GET') return ok(detail(row));
     if (method === 'PATCH') {
-      if (typeof input.label === 'string') row.label = input.label.trim() || row.label;
-      if (typeof input.notes === 'string') row.notes = input.notes;
-      if ('expiresAt' in input) row.expiresAt = typeof input.expiresAt === 'number' ? input.expiresAt : null;
-      if (input.revoked === true) row.revokedAt = row.revokedAt ?? Date.now();
-      if (input.revoked === false) row.revokedAt = null;
+      // { revoke?: true, reactivate?: true, expiresAt?, label?, notes?, isInternal? }
+      if (input.revoke === true && input.reactivate === true) return err(400, 'revoke and reactivate are exclusive');
+      let touched = 0;
+      if (input.revoke === true) {
+        row.revokedAt = Date.now();
+        touched++;
+      }
+      if (input.reactivate === true) {
+        row.revokedAt = null;
+        touched++;
+      }
+      if (typeof input.label === 'string' || input.label === null) {
+        row.label = input.label ? input.label.trim() : '';
+        touched++;
+      }
+      if (typeof input.notes === 'string' || input.notes === null) {
+        row.notes = input.notes ?? '';
+        touched++;
+      }
+      if ('expiresAt' in input) {
+        row.expiresAt = parseExpires(input.expiresAt);
+        touched++;
+      }
+      if ('isInternal' in input) {
+        row.isInternal = input.isInternal === true;
+        touched++;
+      }
+      if (touched === 0) return err(400, 'nothing to update');
       return ok({ link: withStats(row) });
     }
     return err(405, 'Method not allowed');

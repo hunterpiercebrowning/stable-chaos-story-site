@@ -1,13 +1,24 @@
 /**
  * Typed client for the admin API (build plan §5.8).
  *
- * Every route WS8 exposes under `/api/admin/*` has one function here. The
- * response shapes below are the contract the UI is built against; WS8 /
- * integration must confirm them (see the WS9 note in build-plans/03-progress.md).
+ * Every route `functions/api/admin/**` exposes has one function here. The
+ * backend is the source of truth for the wire shapes (see the WS8 table in
+ * build-plans/03-progress.md); this module maps them onto the view shapes the
+ * UI was built against, so the pages never see the difference:
+ *
+ *   - `stats.distinctFingerprints` → `distinctDevices`, `distinctCountries` →
+ *     `distinctLocations` (`distinctIps` is kept as is)
+ *   - detail `{ link, sessions, summary: { totalEvents, topNodes, videos } }` →
+ *     `{ link, sessions, topNodes, videos, forwarding, totalEvents }` with
+ *     `forwarding` derived from `link.stats` + the session rows
+ *   - `PATCH { revoked: boolean }` → `{ revoke: true }` / `{ reactivate: true }`
+ *   - events carry `session: { id, … }`; the UI reads `sessionId`
+ *   - timestamps are epoch milliseconds (seconds tolerated by `toMs`)
  *
  * `VITE_ADMIN_MOCK=1` swaps the transport for the in-memory fixtures in
- * `./mock.ts`. The check is a build-time constant, so the mock module (and its
- * fixtures) never reaches a production bundle.
+ * `./mock.ts`, which speak the backend's wire shapes so the same mapping runs.
+ * The check is a build-time constant, so the mock module (and its fixtures)
+ * never reaches a production bundle.
  */
 
 /* ── shapes ───────────────────────────────────────────── */
@@ -17,15 +28,28 @@ export type LinkStatus = 'active' | 'revoked' | 'expired';
 export interface LinkStats {
   /** Rows in `sessions` for this link. */
   sessions: number;
-  /** Times `/i/<token>` was hit (may exceed sessions if a cookie is reused). */
+  /** `session_start` events (one per page load; may exceed sessions if a cookie is reused). */
   opens: number;
   lastSeenAt: number | null;
-  /** Distinct `fingerprint` values across sessions. */
+  /** Distinct `fingerprint` values across sessions (wire: `distinctFingerprints`). */
   distinctDevices: number;
-  /** Distinct country/region/city tuples across sessions. */
+  /** Distinct countries across sessions (wire: `distinctCountries`). */
   distinctLocations: number;
-  /** Server's forwarding heuristic: >1 device or >1 location or >1 ip_hash. */
+  /** Distinct hashed IPs across sessions. */
+  distinctIps: number;
+  /** Server's forwarding heuristic: >1 fingerprint or >1 country. */
   forwardSuspect: boolean;
+}
+
+/** `stats` exactly as `GET /api/admin/links` emits it. */
+export interface WireLinkStats {
+  sessions?: number;
+  opens?: number;
+  lastSeenAt?: number | null;
+  distinctIps?: number;
+  distinctFingerprints?: number;
+  distinctCountries?: number;
+  forwardSuspect?: boolean;
 }
 
 export interface AdminLink {
@@ -39,8 +63,17 @@ export interface AdminLink {
   isInternal: boolean;
   /** Absolute invitation URL, e.g. `https://context.stablechaos.com/i/<token>`. */
   url: string;
+  /** Server-derived at response time; `linkStatus()` recomputes it against the local clock. */
+  status?: LinkStatus;
   stats: LinkStats;
 }
+
+/** A link as the wire carries it (before `normalizeLink`). */
+export type WireLink = Omit<AdminLink, 'stats' | 'label' | 'notes'> & {
+  label: string | null;
+  notes: string | null;
+  stats?: WireLinkStats | LinkStats;
+};
 
 export interface AdminSession {
   id: string;
@@ -59,6 +92,7 @@ export interface AdminSession {
 
 export interface TopNode {
   nodeId: string;
+  layerId?: string | null;
   focusCount: number;
   /** Sum of `node_blur.dwellMs`. */
   dwellMs: number;
@@ -74,6 +108,7 @@ export interface VideoStat {
 export interface ForwardingFlags {
   distinctIpHashes: number;
   distinctFingerprints: number;
+  /** Sessions per country code (`??` when the edge sent no geo). */
   countries: Record<string, number>;
 }
 
@@ -83,6 +118,14 @@ export interface LinkDetail {
   topNodes: TopNode[];
   videos: VideoStat[];
   forwarding: ForwardingFlags;
+  totalEvents: number;
+}
+
+/** `GET /api/admin/links/:id` as the wire carries it. */
+export interface WireLinkDetail {
+  link: WireLink;
+  sessions?: AdminSession[];
+  summary?: { totalEvents?: number; topNodes?: TopNode[]; videos?: VideoStat[] };
 }
 
 export interface AdminEvent {
@@ -94,6 +137,13 @@ export interface AdminEvent {
   nodeId: string | null;
   props: Record<string, unknown>;
 }
+
+/** An event row as the wire carries it: the session comes nested. */
+export type WireEvent = Omit<AdminEvent, 'sessionId' | 'props'> & {
+  sessionId?: string;
+  session?: { id: string; deviceClass?: string | null; country?: string | null };
+  props?: Record<string, unknown> | string | null;
+};
 
 export interface EventsPage {
   /** Newest first. */
@@ -194,8 +244,20 @@ export function toMs(v: unknown): number | null {
   return n < 1e11 ? n * 1000 : n;
 }
 
-function normalizeLink(raw: AdminLink): AdminLink {
-  const stats = raw.stats ?? ({} as Partial<LinkStats>);
+function normalizeStats(raw: WireLinkStats | Partial<LinkStats> | undefined): LinkStats {
+  const s = (raw ?? {}) as WireLinkStats & Partial<LinkStats>;
+  return {
+    sessions: s.sessions ?? 0,
+    opens: s.opens ?? 0,
+    lastSeenAt: toMs(s.lastSeenAt),
+    distinctDevices: s.distinctFingerprints ?? s.distinctDevices ?? 0,
+    distinctLocations: s.distinctCountries ?? s.distinctLocations ?? 0,
+    distinctIps: s.distinctIps ?? 0,
+    forwardSuspect: Boolean(s.forwardSuspect),
+  };
+}
+
+export function normalizeLink(raw: WireLink): AdminLink {
   return {
     ...raw,
     notes: raw.notes ?? '',
@@ -205,13 +267,32 @@ function normalizeLink(raw: AdminLink): AdminLink {
     expiresAt: toMs(raw.expiresAt),
     revokedAt: toMs(raw.revokedAt),
     url: raw.url ?? `${location.origin}/i/${raw.token}`,
-    stats: {
-      sessions: stats.sessions ?? 0,
-      opens: stats.opens ?? 0,
-      lastSeenAt: toMs(stats.lastSeenAt),
-      distinctDevices: stats.distinctDevices ?? 0,
-      distinctLocations: stats.distinctLocations ?? 0,
-      forwardSuspect: Boolean(stats.forwardSuspect),
+    stats: normalizeStats(raw.stats),
+  };
+}
+
+/**
+ * Detail: the backend nests the aggregates under `summary` and has no
+ * `forwarding` object — derive it from the link's stats and the session rows.
+ */
+export function normalizeLinkDetail(raw: WireLinkDetail): LinkDetail {
+  const link = normalizeLink(raw.link);
+  const sessions = (raw.sessions ?? []).map(normalizeSession);
+  const countries: Record<string, number> = {};
+  for (const s of sessions) {
+    const key = s.country ?? '??';
+    countries[key] = (countries[key] ?? 0) + 1;
+  }
+  return {
+    link,
+    sessions,
+    topNodes: raw.summary?.topNodes ?? [],
+    videos: raw.summary?.videos ?? [],
+    totalEvents: raw.summary?.totalEvents ?? 0,
+    forwarding: {
+      distinctIpHashes: link.stats.distinctIps,
+      distinctFingerprints: link.stats.distinctDevices,
+      countries,
     },
   };
 }
@@ -228,7 +309,7 @@ function normalizeSession(raw: AdminSession): AdminSession {
   };
 }
 
-function normalizeEvent(raw: AdminEvent): AdminEvent {
+export function normalizeEvent(raw: WireEvent): AdminEvent {
   let props: Record<string, unknown> = {};
   const p = raw.props as unknown;
   if (typeof p === 'string') {
@@ -240,8 +321,10 @@ function normalizeEvent(raw: AdminEvent): AdminEvent {
   } else if (p && typeof p === 'object') {
     props = p as Record<string, unknown>;
   }
+  const { session: _session, ...rest } = raw;
   return {
-    ...raw,
+    ...rest,
+    sessionId: raw.sessionId ?? raw.session?.id ?? '',
     ts: toMs(raw.ts) ?? 0,
     layerId: raw.layerId ?? null,
     nodeId: raw.nodeId ?? null,
@@ -263,44 +346,74 @@ export async function login(password: string): Promise<void> {
   await request<unknown>('POST', '/api/admin/login', { password });
 }
 
+/** `GET /api/admin/login` → is the current `sc_admin` cookie valid? Never throws. */
+export async function checkLogin(): Promise<boolean> {
+  try {
+    const data = await request<{ ok?: boolean }>('GET', '/api/admin/login');
+    return Boolean(data && data.ok);
+  } catch {
+    return false;
+  }
+}
+
 export async function logout(): Promise<void> {
   await request<unknown>('POST', '/api/admin/logout');
 }
 
 export async function listLinks(): Promise<AdminLink[]> {
-  const data = await request<{ links: AdminLink[] } | AdminLink[]>('GET', '/api/admin/links');
+  const data = await request<{ links: WireLink[] } | WireLink[]>('GET', '/api/admin/links');
   const arr = Array.isArray(data) ? data : data.links;
   return arr.map(normalizeLink);
 }
 
+/** `POST /api/admin/links` → `201 { id, token, url, link }`. */
 export async function createLink(input: CreateLinkInput): Promise<AdminLink> {
-  const data = await request<{ link: AdminLink } | AdminLink>('POST', '/api/admin/links', {
+  const data = await request<{ id: string; token: string; url: string; link: WireLink | null }>(
+    'POST',
+    '/api/admin/links',
+    {
+      label: input.label,
+      notes: input.notes ?? '',
+      expiresAt: input.expiresAt ?? null,
+      isInternal: Boolean(input.isInternal),
+    },
+  );
+  if (data.link) return normalizeLink(data.link);
+  // The aggregate re-read failed server-side; build the row from what we do know.
+  return normalizeLink({
+    id: data.id,
+    token: data.token,
+    url: data.url,
     label: input.label,
     notes: input.notes ?? '',
+    createdAt: Date.now(),
     expiresAt: input.expiresAt ?? null,
+    revokedAt: null,
     isInternal: Boolean(input.isInternal),
   });
-  return normalizeLink('link' in data ? data.link : data);
+}
+
+/** Translate the UI's `{ revoked: boolean }` into the backend's `revoke` / `reactivate` flags. */
+export function toWirePatch(patch: PatchLinkInput): Record<string, unknown> {
+  const { revoked, ...rest } = patch;
+  const wire: Record<string, unknown> = { ...rest };
+  if (revoked === true) wire.revoke = true;
+  if (revoked === false) wire.reactivate = true;
+  return wire;
 }
 
 export async function patchLink(id: string, patch: PatchLinkInput): Promise<AdminLink> {
-  const data = await request<{ link: AdminLink } | AdminLink>(
+  const data = await request<{ link: WireLink }>(
     'PATCH',
     `/api/admin/links/${encodeURIComponent(id)}`,
-    patch,
+    toWirePatch(patch),
   );
-  return normalizeLink('link' in data ? data.link : data);
+  return normalizeLink(data.link);
 }
 
 export async function getLink(id: string): Promise<LinkDetail> {
-  const data = await request<LinkDetail>('GET', `/api/admin/links/${encodeURIComponent(id)}`);
-  return {
-    link: normalizeLink(data.link),
-    sessions: (data.sessions ?? []).map(normalizeSession),
-    topNodes: data.topNodes ?? [],
-    videos: data.videos ?? [],
-    forwarding: data.forwarding ?? { distinctIpHashes: 0, distinctFingerprints: 0, countries: {} },
-  };
+  const data = await request<WireLinkDetail>('GET', `/api/admin/links/${encodeURIComponent(id)}`);
+  return normalizeLinkDetail(data);
 }
 
 export async function getEvents(
@@ -311,7 +424,7 @@ export async function getEvents(
   const qs = new URLSearchParams();
   if (cursor) qs.set('cursor', cursor);
   qs.set('limit', String(limit));
-  const data = await request<EventsPage>(
+  const data = await request<{ events?: WireEvent[]; nextCursor?: string | null }>(
     'GET',
     `/api/admin/links/${encodeURIComponent(id)}/events?${qs.toString()}`,
   );

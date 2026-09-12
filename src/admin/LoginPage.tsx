@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
-import { AdminApiError, listLinks, login, MOCK } from './api';
+import { AdminApiError, checkLogin, login, MOCK } from './api';
 
 function safeNext(raw: string | null): string {
   return raw && raw.startsWith('/admin') ? raw : '/admin/links';
@@ -15,14 +15,12 @@ export function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  // Already signed in? Any authenticated call succeeding means the cookie is valid.
+  // Already signed in? `GET /api/admin/login` → { ok } says whether the cookie is valid.
   useEffect(() => {
     let alive = true;
-    listLinks()
-      .then(() => alive && navigate(next, { replace: true }))
-      .catch(() => {
-        /* not signed in — stay on the form */
-      });
+    void checkLogin().then((ok) => {
+      if (alive && ok) navigate(next, { replace: true });
+    });
     return () => {
       alive = false;
     };
