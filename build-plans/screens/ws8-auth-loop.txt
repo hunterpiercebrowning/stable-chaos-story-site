@@ -1,0 +1,259 @@
+# WS8 auth loop — 2026-09-12T17:29:23Z
+# Server: node --experimental-strip-types scripts/dev-api-node.mjs --port 8789 (real functions/**.ts, D1 shim over node:sqlite)
+# Reason: wrangler pages dev / workerd refuse to start on macOS 13.2 (< 13.5). See functions/README.md.
+
+==== 1. No cookie -> /gate?r=none (HTML), API -> 401 ====
+
+$ curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' http://127.0.0.1:8789/
+302 http://127.0.0.1:8789/gate?r=none
+
+$ curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' http://127.0.0.1:8789/sectors/synbio
+302 http://127.0.0.1:8789/gate?r=none
+
+$ curl -s -i http://127.0.0.1:8789/api/session | head -1
+HTTP/1.1 401 Unauthorized
+
+$ curl -s http://127.0.0.1:8789/api/session
+{"error":"no session","reason":"none"}
+==== 1b. Public paths bypass the gate ====
+
+$ curl -s -o /dev/null -w '%{http_code} %{content_type}\n' http://127.0.0.1:8789/gate
+200 text/html; charset=utf-8
+
+$ curl -s -o /dev/null -w '%{http_code} %{content_type}\n' http://127.0.0.1:8789/admin
+200 text/html; charset=utf-8
+
+$ curl -s -o /dev/null -w '%{http_code} %{content_type}\n' http://127.0.0.1:8789/favicon.svg
+200 image/svg+xml
+
+$ curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8789/assets/fonts/axiforma-400.woff2
+200
+
+$ curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8789/assets/index-BQkQPJHH.js
+200
+
+$ curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' http://127.0.0.1:8789/assets/logos/../headshots/anything.png
+302 http://127.0.0.1:8789/gate?r=none
+
+==== 2. Admin login (wrong, then right) ====
+
+$ curl -s -i -X POST http://127.0.0.1:8789/api/admin/login -H 'content-type: application/json' -d '{"password":"nope"}' | grep -E '^HTTP|^\{'
+HTTP/1.1 401 Unauthorized
+{"error":"wrong password"}
+
+$ curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8789/api/admin/links
+401
+
+$ curl -s -i -c admin.jar -X POST http://127.0.0.1:8789/api/admin/login -H 'content-type: application/json' -d '{"password":"dev-admin"}' | grep -E '^HTTP|set-cookie|^\{'
+HTTP/1.1 200 OK
+set-cookie: sc_admin=<…>; Path=/; Max-Age=43200; HttpOnly; SameSite=Lax
+{"ok":true}
+
+==== 3. Admin creates an investor link ====
+
+$ curl -b admin.jar -X POST http://127.0.0.1:8789/api/admin/links -d '{"label":"Acme Ventures","notes":"intro via Jane"}'
+{"id":"4f0fab2c-82f7-4c90-8252-5deda2b0ab5e","token":"3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ","url":"http://127.0.0.1:8789/i/3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ","link":{"id":"4f0fab2c-82f7-4c90-8252-5deda2b0ab5e","token":"3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ","url":"http://127.0.0.1:8789/i/3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ","label":"Acme Ventures","notes":"intro via Jane","createdAt":1789234163408,"expiresAt":null,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":0,"opens":0,"lastSeenAt":null,"distinctIps":0,"distinctFingerprints":0,"distinctCountries":0,"forwardSuspect":false}}}
+# token=3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ link=4f0fab2c-82f7-4c90-8252-5deda2b0ab5e
+
+==== 4. Investor opens /i/<token> -> 302 / with sc_s + sc_v; app HTML loads; /api/session returns the label ====
+
+$ curl -s -i -c inv.jar http://127.0.0.1:8789/i/3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ | grep -E '^HTTP|^location|set-cookie'
+HTTP/1.1 302 Found
+location: http://127.0.0.1:8789/
+set-cookie: sc_s=<…>; Path=/; Max-Age=2592000; HttpOnly; SameSite=Lax
+set-cookie: sc_v=<…>; Path=/; Max-Age=2592000; HttpOnly; SameSite=Lax
+
+$ curl -s -b inv.jar -i http://127.0.0.1:8789/ | grep -E '^HTTP|content-type|cache-control|<title>'
+HTTP/1.1 200 OK
+cache-control: private, no-cache
+content-type: text/html; charset=utf-8
+    <title>Stable Chaos</title>
+
+$ curl -s -b inv.jar http://127.0.0.1:8789/api/session
+{"label":"Acme Ventures","linkId":"4f0fab2c-82f7-4c90-8252-5deda2b0ab5e","sessionId":"aa1363b7-1f69-4b49-b611-635a7cb7e4cf"}
+$ curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8789/i/not-a-real-token
+302
+
+$ curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' http://127.0.0.1:8789/i/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+302 http://127.0.0.1:8789/gate?r=invalid
+
+==== 5. Events: text/plain body (sendBeacon shape), 204; invalid type dropped; >50 rejected ====
+
+$ curl -s -i -b inv.jar -X POST http://127.0.0.1:8789/api/track -H 'content-type: text/plain' --data-binary '[{"type":"session_start","ts":'1789234163000',"props":{"deviceClass":"desktop","viewport":"1440x900","fingerprint":"abc123","tz":"America/Denver","lang":"en-US","referrer":""}},{"type":"layer_view","ts":'1789234163000',"layerId":"sectors","props":{"layerId":"sectors","via":"url"}},{"type":"node_focus","ts":'1789234163000',"props":{"layerId":"sectors","nodeId":"biosecurity","via":"nav"}},{"type":"node_blur","ts":'1789234163000',"props":{"layerId":"sectors","nodeId":"biosecurity","dwellMs":42000}},{"type":"video_progress","ts":'1789234163000',"props":{"nodeId":"red-teaming","source":"stream","pct":75}},{"type":"bogus","ts":1}]' | head -1
+HTTP/1.1 204 No Content
+
+$ curl -s -i -b inv.jar -X POST http://127.0.0.1:8789/api/track -H 'content-type: application/json' -d '{"events":[{"type":"heartbeat","ts":'1789234163000',"layerId":"sectors","nodeId":"biosecurity"}]}' | head -1
+HTTP/1.1 204 No Content
+
+$ curl -b inv.jar -X POST http://127.0.0.1:8789/api/track -d '<51 heartbeat events>'
+{"error":"expected an array of at most 50 events"}
+
+$ curl -s -b inv.jar -X POST http://127.0.0.1:8789/api/track -d 'not json'
+{"error":"invalid JSON"}
+$ curl -s -o /dev/null -w '%{http_code}\n' -X POST http://127.0.0.1:8789/api/track -d '[]'
+401
+
+==== 6. Video token: 501 until STREAM_* secrets are set; 400 on a bad uid ====
+
+$ curl -s -b inv.jar 'http://127.0.0.1:8789/api/video/token?uid=0123456789abcdef0123456789abcdef'
+{"error":"Stream signing is not configured (STREAM_SIGNING_KEY_ID / STREAM_SIGNING_KEY_JWK)"}
+$ curl -s -b inv.jar 'http://127.0.0.1:8789/api/video/token?uid=nope'
+{"error":"uid must be a 32-hex Cloudflare Stream UID"}
+==== 7. Admin sees the link with aggregates, detail with sessions + summary, and the events page ====
+
+$ curl -s -b admin.jar http://127.0.0.1:8789/api/admin/links | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8"));console.log(JSON.stringify(d.links.map(l=>({label:l.label,status:l.status,isInternal:l.isInternal,stats:l.stats})),null,1))'
+[
+ {
+  "label": "Acme Ventures",
+  "status": "active",
+  "isInternal": false,
+  "stats": {
+   "sessions": 1,
+   "opens": 1,
+   "lastSeenAt": 1789234163543,
+   "distinctIps": 1,
+   "distinctFingerprints": 1,
+   "distinctCountries": 0,
+   "forwardSuspect": false
+  }
+ },
+ {
+  "label": "Hunter (seed)",
+  "status": "active",
+  "isInternal": true,
+  "stats": {
+   "sessions": 0,
+   "opens": 0,
+   "lastSeenAt": null,
+   "distinctIps": 0,
+   "distinctFingerprints": 0,
+   "distinctCountries": 0,
+   "forwardSuspect": false
+  }
+ }
+]
+
+$ curl -s -b admin.jar http://127.0.0.1:8789/api/admin/links/4f0fab2c-82f7-4c90-8252-5deda2b0ab5e | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8"));d.sessions=d.sessions.map(s=>({...s,ua:String(s.ua).slice(0,20)+"…",ipHash:String(s.ipHash).slice(0,8)+"…"}));console.log(JSON.stringify(d,null,1))'
+{
+ "link": {
+  "id": "4f0fab2c-82f7-4c90-8252-5deda2b0ab5e",
+  "token": "3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ",
+  "url": "http://127.0.0.1:8789/i/3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ",
+  "label": "Acme Ventures",
+  "notes": "intro via Jane",
+  "createdAt": 1789234163408,
+  "expiresAt": null,
+  "revokedAt": null,
+  "isInternal": false,
+  "status": "active",
+  "stats": {
+   "sessions": 1,
+   "opens": 1,
+   "lastSeenAt": 1789234163543,
+   "distinctIps": 1,
+   "distinctFingerprints": 1,
+   "distinctCountries": 0,
+   "forwardSuspect": false
+  }
+ },
+ "sessions": [
+  {
+   "id": "aa1363b7-1f69-4b49-b611-635a7cb7e4cf",
+   "linkId": "4f0fab2c-82f7-4c90-8252-5deda2b0ab5e",
+   "startedAt": 1789234163467,
+   "lastSeenAt": 1789234163543,
+   "ipHash": "_5SUxLpy…",
+   "country": null,
+   "region": null,
+   "city": null,
+   "ua": "curl/7.85.0…",
+   "deviceClass": "desktop",
+   "viewport": "1440x900",
+   "fingerprint": "abc123",
+   "eventCount": 6
+  }
+ ],
+ "summary": {
+  "totalEvents": 6,
+  "topNodes": [
+   {
+    "nodeId": "biosecurity",
+    "layerId": "sectors",
+    "focusCount": 1,
+    "dwellMs": 42000
+   }
+  ],
+  "videos": [
+   {
+    "nodeId": "red-teaming",
+    "plays": 0,
+    "maxPct": 75
+   }
+  ]
+ }
+}
+
+$ curl -s -b admin.jar 'http://127.0.0.1:8789/api/admin/links/4f0fab2c-82f7-4c90-8252-5deda2b0ab5e/events?limit=3'
+{"events":[{"id":6,"ts":1789234163000,"type":"heartbeat","layerId":"sectors","nodeId":"biosecurity","props":{},"session":{"id":"aa1363b7-1f69-4b49-b611-635a7cb7e4cf","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":5,"ts":1789234163000,"type":"video_progress","layerId":null,"nodeId":"red-teaming","props":{"nodeId":"red-teaming","source":"stream","pct":75},"session":{"id":"aa1363b7-1f69-4b49-b611-635a7cb7e4cf","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":4,"ts":1789234163000,"type":"node_blur","layerId":"sectors","nodeId":"biosecurity","props":{"layerId":"sectors","nodeId":"biosecurity","dwellMs":42000},"session":{"id":"aa1363b7-1f69-4b49-b611-635a7cb7e4cf","deviceClass":"desktop","country":null,"region":null,"city":null}}],"nextCursor":"4"}
+$ curl -s -b admin.jar 'http://127.0.0.1:8789/api/admin/links/4f0fab2c-82f7-4c90-8252-5deda2b0ab5e/events?limit=3&cursor=4' | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8"));console.log(d.events.map(e=>e.type).join(","), "next="+d.nextCursor)'
+node_focus,layer_view,session_start next=null
+
+$ curl -s -o /dev/null -w '%{http_code}\n' -b admin.jar http://127.0.0.1:8789/api/admin/links/does-not-exist
+404
+
+==== 8. Revoke -> the investor's next page load is bounced to /gate?r=revoked; sub-resource/API calls may ride the 60s sc_v throttle ====
+
+$ curl -s -b admin.jar -X PATCH http://127.0.0.1:8789/api/admin/links/4f0fab2c-82f7-4c90-8252-5deda2b0ab5e -H 'content-type: application/json' -d '{"revoke":true}' | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8"));console.log("status="+d.link.status, "revokedAt="+d.link.revokedAt)'
+status=revoked revokedAt=1789234163727
+# a browser navigation (Accept: text/html / Sec-Fetch-Dest: document) always re-checks D1:
+
+$ curl -s -b inv.jar -H 'Accept: text/html' -o /dev/null -w '%{http_code} %{redirect_url}\n' http://127.0.0.1:8789/
+302 http://127.0.0.1:8789/gate?r=revoked
+# a sub-resource/API call inside the 60s window rides the signed sc_v cookie (no D1 read):
+
+$ curl -s -b inv.jar -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8789/api/session
+200
+# without sc_v (or once it is older than 60s) the API call re-reads D1 too:
+
+$ curl -s -i -H 'Cookie: '"$(grep sc_s inv.jar | awk '{print $6"="$7}')" http://127.0.0.1:8789/api/session | grep -E '^HTTP|set-cookie|^\{'
+HTTP/1.1 401 Unauthorized
+set-cookie: sc_s=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+set-cookie: sc_v=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+{"error":"session revoked","reason":"revoked"}
+
+$ curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' http://127.0.0.1:8789/i/3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ
+302 http://127.0.0.1:8789/gate?r=revoked
+
+==== 9. Reactivate -> back in; then expire -> /gate?r=expired ====
+
+$ curl -s -b admin.jar -X PATCH http://127.0.0.1:8789/api/admin/links/4f0fab2c-82f7-4c90-8252-5deda2b0ab5e -H 'content-type: application/json' -d '{"reactivate":true,"label":"Acme Ventures (renamed)"}' | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8"));console.log("status="+d.link.status, "label="+d.link.label)'
+status=active label=Acme Ventures (renamed)
+
+$ curl -s -H 'Cookie: '"$(grep sc_s inv.jar | awk '{print $6"="$7}')" http://127.0.0.1:8789/api/session
+{"label":"Acme Ventures (renamed)","linkId":"4f0fab2c-82f7-4c90-8252-5deda2b0ab5e","sessionId":"aa1363b7-1f69-4b49-b611-635a7cb7e4cf"}
+$ curl -s -b admin.jar -X PATCH http://127.0.0.1:8789/api/admin/links/4f0fab2c-82f7-4c90-8252-5deda2b0ab5e -H 'content-type: application/json' -d '{"expiresAt":"2020-01-01T00:00:00Z"}' | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8"));console.log("status="+d.link.status, "expiresAt="+d.link.expiresAt)'
+status=expired expiresAt=1577836800000
+
+$ curl -s -H 'Cookie: '"$(grep sc_s inv.jar | awk '{print $6"="$7}')" -o /dev/null -w '%{http_code} %{redirect_url}\n' http://127.0.0.1:8789/
+302 http://127.0.0.1:8789/gate?r=expired
+
+$ curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' http://127.0.0.1:8789/i/3dJLc-YDt7jSocbFdHrmwj60HlocNrMZ
+302 http://127.0.0.1:8789/gate?r=expired
+
+$ curl -s -b admin.jar -X PATCH http://127.0.0.1:8789/api/admin/links/4f0fab2c-82f7-4c90-8252-5deda2b0ab5e -H 'content-type: application/json' -d '{"expiresAt":null}' | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8"));console.log("status="+d.link.status)'
+status=active
+
+==== 10. Tampered cookie -> /gate?r=invalid and cookies cleared; admin logout -> 401 ====
+
+$ curl -s -i -H 'Cookie: sc_s=AAAA.BBBB' http://127.0.0.1:8789/ | grep -E '^HTTP|^location|set-cookie'
+HTTP/1.1 302 Found
+location: http://127.0.0.1:8789/gate?r=invalid
+set-cookie: sc_s=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+set-cookie: sc_v=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+
+$ curl -s -b admin.jar -X POST http://127.0.0.1:8789/api/admin/logout
+{"ok":true}
+$ curl -s -i -X POST http://127.0.0.1:8789/api/admin/logout | grep set-cookie
+
+$ curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8789/api/admin/links
+401

@@ -1,6 +1,17 @@
 # Copy to `.dev.vars` for local `npm run dev:api`. Never commit `.dev.vars`.
+# Production values are set with `npx wrangler pages secret put <NAME>` (or the Pages dashboard).
+
+# HMAC key for the sc_s / sc_v / sc_admin cookies. Use 32+ random chars in production.
 SESSION_SECRET=dev-session-secret-change-me
+
+# Password for /admin (POST /api/admin/login).
 ADMIN_PASSWORD=dev-admin
-IP_HASH_SECRET=dev-ip-hash-secret
+
+# Optional: separate HMAC key for hashed visitor IPs. Falls back to SESSION_SECRET when empty.
+IP_HASH_SECRET=
+
+# Cloudflare Stream signed playback. Leave empty until videos exist; /api/video/token answers 501.
+# Create with: curl -X POST https://api.cloudflare.com/client/v4/accounts/<ACCOUNT>/stream/keys -H "Authorization: Bearer <TOKEN>"
+# and paste `result.id` and `result.jwk` (base64, pasted as-is) here.
 STREAM_SIGNING_KEY_ID=
 STREAM_SIGNING_KEY_JWK=

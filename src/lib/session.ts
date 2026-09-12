@@ -1,35 +1,39 @@
 /**
- * Current session (the tokenized link the viewer arrived on).
- *
- * WS7 stub: `GET /api/session` → `{ label?, linkId? }`, `null` on any error.
- * WS8 owns the real implementation and replaces this file at merge; the
- * signature must stay `getSession(): Promise<Session | null>`.
+ * The current investor session, as told by `GET /api/session`.
+ * Fetched once per page load and cached; `null` when there is no session or
+ * the request fails (the gate middleware would have redirected already, so
+ * `null` in practice means "dev without the API running").
  */
 
-export interface Session {
+export interface SessionInfo {
+  /** Optional per-link label for "Prepared for …". */
   label?: string;
   linkId?: string;
+  sessionId?: string;
 }
 
-let cached: Promise<Session | null> | undefined;
+let cached: Promise<SessionInfo | null> | null = null;
 
-export function getSession(): Promise<Session | null> {
-  cached ??= fetchSession();
+export function getSession(): Promise<SessionInfo | null> {
+  if (!cached) {
+    cached = load().catch(() => null);
+  }
   return cached;
 }
 
-async function fetchSession(): Promise<Session | null> {
-  try {
-    const res = await fetch('/api/session', { headers: { accept: 'application/json' } });
-    if (!res.ok) return null;
-    const data: unknown = await res.json();
-    if (!data || typeof data !== 'object') return null;
-    const { label, linkId } = data as { label?: unknown; linkId?: unknown };
-    return {
-      label: typeof label === 'string' && label.trim() ? label.trim() : undefined,
-      linkId: typeof linkId === 'string' ? linkId : undefined,
-    };
-  } catch {
-    return null;
-  }
+/** Test helper — forget the cached result. */
+export function resetSessionCache(): void {
+  cached = null;
+}
+
+async function load(): Promise<SessionInfo | null> {
+  if (typeof fetch !== 'function') return null;
+  const res = await fetch('/api/session', { credentials: 'same-origin', headers: { accept: 'application/json' } });
+  if (!res.ok) return null;
+  const data = (await res.json()) as { label?: unknown; linkId?: unknown; sessionId?: unknown };
+  const out: SessionInfo = {};
+  if (typeof data.label === 'string' && data.label) out.label = data.label;
+  if (typeof data.linkId === 'string') out.linkId = data.linkId;
+  if (typeof data.sessionId === 'string') out.sessionId = data.sessionId;
+  return out;
 }

@@ -1,21 +1,26 @@
 # Cloudflare Pages project for context.stablechaos.com
-# WS8 fills in the Functions; this skeleton keeps `npm run dev:api` working.
+#
+# Pages reads this file at build time (Git-connected deploys) and `wrangler pages dev` reads it
+# locally. Functions live in `functions/`, the D1 schema in `migrations/`.
 
 name = "stable-chaos-story-site"
-compatibility_date = "2026-01-01"
+compatibility_date = "2026-09-01"
 pages_build_output_dir = "dist"
 
-# D1 — create with:
+# D1 — create once with:
 #   npx wrangler d1 create stable-chaos-context
-# then paste the returned database_id below.
+# then paste the returned database_id below (and, optionally, a separate preview id).
 [[d1_databases]]
 binding = "DB"
 database_name = "stable-chaos-context"
 database_id = "PLACEHOLDER_DATABASE_ID"
+preview_database_id = "PLACEHOLDER_PREVIEW_DATABASE_ID"
+migrations_dir = "migrations"
 
-# Secrets (set with `npx wrangler pages secret put <NAME>`, never committed):
-#   SESSION_SECRET          HMAC key for the sc_s session cookie
+# Secrets (production: `npx wrangler pages secret put <NAME>` or the Pages dashboard; local: `.dev.vars`).
+#   SESSION_SECRET          HMAC key for the sc_s / sc_v / sc_admin cookies (32+ random chars)
 #   ADMIN_PASSWORD          /admin login
-#   IP_HASH_SECRET          HMAC key for hashed visitor IPs
-#   STREAM_SIGNING_KEY_ID   Cloudflare Stream signed playback
-#   STREAM_SIGNING_KEY_JWK  Cloudflare Stream signed playback
+#   IP_HASH_SECRET          optional separate HMAC key for hashed visitor IPs (defaults to SESSION_SECRET)
+#   STREAM_SIGNING_KEY_ID   Cloudflare Stream signing key id   (GET /api/video/token is 501 until both are set)
+#   STREAM_SIGNING_KEY_JWK  Cloudflare Stream signing key JWK (raw JSON or the base64 the API returns)
+# Never commit `.dev.vars`.
