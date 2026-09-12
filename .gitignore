@@ -30,3 +30,4 @@ dist-ssr
 
 # Test output
 coverage/
+.worktrees/
