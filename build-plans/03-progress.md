@@ -417,7 +417,89 @@ Screenshots: `build-plans/screens/ws6-nav-expanded.png`, `ws6-nav-rail.png`, `ws
 
 ## WS8 — Backend: Auth, Tracking, Video Token `[ ]`
 
-## WS9 — Admin UI `[ ]`
+## WS9 — Admin UI `[~]`
+
+**Built** (`src/admin/**`, branch `ws/9`)
+
+- `AdminApp.tsx` — nested routes under the existing lazy `/admin/*` mount (no `routes.tsx` change):
+  `/admin` login, `/admin/links`, `/admin/links/:id`, unknown → `/admin`. Shell = topbar (wordmark,
+  Admin › Links crumb, Sign out) + scrolling main. Renders without the investor gate and never
+  touches `/api/session`; any 401 from an admin call bounces to `/admin?next=<path>`.
+- `LoginPage` — password → `POST /api/admin/login`; 401 shows an inline error; a valid cookie skips
+  the form (it probes `GET /api/admin/links` on mount). Sign out → `POST /api/admin/logout`.
+- `LinksPage` — dense table: label (+ Internal tag), created, expires (date + "in 21d"), status
+  pill (Active/Revoked/Expired derived client-side from `revokedAt`/`expiresAt`), sessions, opens,
+  last seen, devices / locations with a ⚑ when `stats.forwardSuspect`. Every column header sorts;
+  default last-seen desc. Row click/Enter → detail. "New link" modal (label, notes, expiry preset
+  or date, internal flag) → `POST /api/admin/links` → shows the returned `url` with a copy button.
+- `LinkDetailPage` — header (label, status, tags, created/expires/revoked/last-seen, notes),
+  controls with inline confirm/edit panels: Revoke / Reactivate (`PATCH {revoked}`), Extend or set
+  expiry (`PATCH {expiresAt}`, presets count from the current expiry when still in the future),
+  Edit label/notes (`PATCH {label, notes}`). Copyable invitation URL. Forwarding strip (devices ·
+  locations · IPs · per-country counts). Sessions table (device class, viewport, short UA,
+  city/region/country, first/last seen, event count). Most viewed nodes (title + layer via
+  `getNode`, focus count, total dwell). Videos (node, plays, max %).
+- `Timeline` — `GET /api/admin/links/:id/events?cursor=&limit=60`, appended page by page and
+  regrouped by session (newest session first, newest event first inside). Heartbeats hidden by
+  default with a "Show heartbeats (n)" toggle. `format.ts#describeEvent` renders every §6 type:
+  "Focused Biosecurity · via nav", "Left Biosecurity · after 42s", "Played Red Teaming video · 80%",
+  "Searched 'antenna' · 3 results", "Emphasis → Security", "Opened context item: CSIS article",
+  "Related: Cloud Lab → Starling Intel", "Session started · desktop · 1440x900"; unknown types fall
+  back to `type key=value`. Ids resolve through `src/data` (`getNode`/`getLayer`), raw id if unknown.
+- `api.ts` — one typed function per §5.8 route plus `logout`; normalizes timestamps (accepts
+  seconds or ms), string-encoded `props`, and both `{links: [...]}` / bare-array list shapes.
+- `mock.ts` — seeded in-memory API: 3 links (Sequoia = forward-suspect with 4 devices/3
+  locations, Internal — Hunter, a16z = revoked + expired), 8 sessions, ~330 events across all §6
+  types; create/patch/login persist for the page's life (login also in `sessionStorage`).
+  Password `admin`. Only reached via a dynamic import behind a build-time constant.
+- 12 vitest tests (`src/admin/admin.test.ts`): event sentences, formatters, status derivation,
+  mock auth gating, pagination without gaps/dupes, create/patch/revoke.
+
+**Mock mode**
+
+`VITE_ADMIN_MOCK=1 npm run dev`, open `/admin`, password `admin`. The topbar shows a "Mock data"
+tag. Verified `npm run build` without the flag: `dist/assets/AdminApp-*.js` contains no fixture or
+`mockRequest` code (Vite inlines `import.meta.env.VITE_ADMIN_MOCK` and drops the branch).
+
+**API assumptions for WS8 / integration to confirm** (all in `src/admin/api.ts` comments)
+
+1. Shapes: `GET /api/admin/links` → `{links: AdminLink[]}` (bare array also accepted);
+   `POST` → 201 `{link}` incl. absolute `url`; `PATCH /:id` body `{label?, notes?, expiresAt?,
+   revoked?: boolean}` → `{link}`; `GET /:id` → `{link, sessions, topNodes, videos, forwarding}`;
+   `GET /:id/events?cursor=&limit=` → `{events, nextCursor|null}` newest first, cursor opaque.
+2. `AdminLink.stats = {sessions, opens, lastSeenAt, distinctDevices, distinctLocations,
+   forwardSuspect}` — the server computes `forwardSuspect` (>1 fingerprint / location / ip_hash).
+   `opens` = `/i/<token>` hits (equals `sessions` if every open creates a session).
+3. `sessions[]` rows carry `eventCount`; `topNodes = {nodeId, focusCount, dwellMs}` (dwell summed
+   from `node_blur`), `videos = {nodeId, plays, maxPct}`, `forwarding = {distinctIpHashes,
+   distinctFingerprints, countries: Record<string, number>}`.
+4. Field names are camelCase JSON (`createdAt`, `expiresAt`, `revokedAt`, `isInternal`,
+   `deviceClass`, `lastSeenAt`); epoch ms preferred, seconds tolerated. `props` may be a JSON
+   string or object.
+5. `POST /api/admin/logout` exists (not in §5.8; clears `sc_admin`). Errors are `{error: string}`
+   with a proper status; 401 anywhere = not signed in.
+6. `context_item_open` may include an optional `title` prop for a nicer timeline line; without it
+   the UI shows `itemType · hostname`.
+
+**Shared-file appends:** `src/components/Icon.tsx` — one `/* admin (WS9) */` block at the end of
+`PATHS` (`copy`, `check`, `plus`, `flag`, `logout`, `refresh`, `edit`, `clock`, `sort-asc`,
+`sort-desc`). No `tokens.css` changes (existing tokens sufficed). `routes.tsx` untouched.
+
+**Verified** (headless Chrome over CDP, 1440×900, mock mode): wrong password → error · login →
+`/admin/links` (3 rows, ⚑ on Sequoia) · New link → URL shown, row added · row click → detail with
+sessions/top nodes/videos/forwarding strip · timeline paginated 5 pages to "Beginning of history"
+(250 events, heartbeat toggle) · Revoke → confirm → Revoked → Reactivate → Active · Extend expiry
++90d · Edit label · sort by label · reload keeps session · Sign out → login · direct `/admin/links`
+while signed out → `/admin?next=…`. No console errors. `typecheck`, `lint`, `test` (41), `build`
+clean. Screenshots: `build-plans/screens/ws9-admin-links.png`, `ws9-admin-new-link.png`,
+`ws9-admin-detail.png`, `ws9-admin-timeline.png`.
+
+**Left for integration**
+
+- Run the flow against the real WS8 API and reconcile the shapes above; `api.ts` is the only file
+  to touch if names differ.
+- The `linkStatus` pill is derived client-side; if WS8 returns a `status` field it can be preferred.
+- "Opens" and "sessions" are both shown even though they may be identical in v1.
 
 ## WS10 — Video Player `[ ]`
 

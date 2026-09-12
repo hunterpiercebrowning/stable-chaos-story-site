@@ -206,6 +206,43 @@ const PATHS: Record<string, ReactElement> = {
       <path d="M4 18a2.5 2.5 0 0 1 2.5-2.5H20" />
     </>
   ),
+
+  /* ── admin (WS9) ── */
+  copy: (
+    <>
+      <rect x="9" y="9" width="11" height="11" rx="2" />
+      <path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5" />
+    </>
+  ),
+  check: <path d="M5 12.5l4.5 4.5L19 7" />,
+  plus: <path d="M12 5v14M5 12h14" />,
+  flag: <path d="M5 21V4M5 4h12l-2.5 4L17 12H5" />,
+  logout: (
+    <>
+      <path d="M10 4H6a1.5 1.5 0 0 0-1.5 1.5v13A1.5 1.5 0 0 0 6 20h4" />
+      <path d="M15 8l4 4-4 4M19 12H9" />
+    </>
+  ),
+  refresh: (
+    <>
+      <path d="M20 12a8 8 0 1 1-2.3-5.6" />
+      <path d="M20 4v5h-5" />
+    </>
+  ),
+  edit: (
+    <>
+      <path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17z" />
+      <path d="M13.5 8.5l3 3" />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </>
+  ),
+  'sort-desc': <path d="M12 5v14M7 14l5 5 5-5" />,
+  'sort-asc': <path d="M12 19V5M7 10l5-5 5 5" />,
 };
 
 export type IconName = keyof typeof PATHS;
