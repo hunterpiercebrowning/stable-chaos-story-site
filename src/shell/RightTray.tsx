@@ -1,99 +1,69 @@
-import { getContextItems, getPrimarySector } from '../data';
-import type { ContextItem, ContextItemType, Node } from '../data/types';
-import { Icon, type IconName } from '../components/Icon';
-import { Placeholder } from '../components/Placeholder';
-import { track } from '../lib/track';
+import { ContextCard } from '../components/ContextCard';
+import { Icon } from '../components/Icon';
+import { getContextItems } from '../data';
+import type { Layer } from '../data/types';
 import { useRoute } from './useRoute';
 import './right-tray.css';
 
-const TYPE_ICON: Record<ContextItemType, IconName> = {
-  article: 'article',
-  video: 'video',
-  link: 'link',
-  pdf: 'document',
-  image: 'image',
-  quote: 'quote',
+/** Layer-level hint shown while nothing is focused. */
+const HINT: Record<Layer['id'], string> = {
+  welcome: 'Focus a node anywhere in the story to see the articles, videos and links behind it.',
+  who: 'Select a person to see the press, talks and profiles behind them.',
+  beliefs: 'Select a belief to see the reporting and research behind it.',
+  sectors: 'Select a sector or domain to see the sources behind it.',
+  services: 'Select a company or offering to see the coverage behind it.',
+  products: 'Select a product to see the material behind it.',
+  background:
+    'This layer will hold the third-party sources behind the whole site. There is nothing to focus yet.',
 };
 
 /**
- * "Supporting Context" for the focused node. WS7 owns the per-type card
- * designs; this generic card keeps every type readable in the meantime.
+ * "Supporting Context": the focused node's context items, one `ContextCard`
+ * per item. With no focus it shows a hint for the current layer.
  */
 export function RightTray() {
   const { layer, node } = useRoute();
   const items = node ? getContextItems(node) : [];
+  const placeholder = Boolean(node && node.contextItems.length === 0);
 
   return (
     <div className="tray">
       <header className="tray-header">
-        <span className="sc-label">Supporting Context</span>
-        {node ? <span className="tray-count">{items.length}</span> : null}
+        <div className="tray-heading">
+          <span className="sc-label">Supporting Context</span>
+          {node ? (
+            <span className="tray-count" aria-label={`${items.length} items`}>
+              {items.length}
+            </span>
+          ) : null}
+        </div>
+        {node ? <div className="tray-subject">{node.title}</div> : null}
       </header>
 
       {node ? (
-        <div className="tray-list sc-scroll">
+        <div className="tray-list sc-scroll" key={node.id}>
           {items.map((item, i) => (
-            <ContextCard key={`${node.id}-${i}`} item={item} node={node} index={i} />
+            <ContextCard
+              key={`${node.id}-${i}`}
+              item={item}
+              node={node}
+              index={i}
+              placeholder={placeholder}
+              className="tray-card sc-fade-in"
+            />
           ))}
         </div>
       ) : (
-        <p className="tray-empty">
-          {layer && layer.id !== 'welcome'
-            ? `Focus a node in ${layer.title} to see its supporting material.`
-            : 'Focus a node to see the articles, videos and links behind it.'}
-        </p>
+        <div className="tray-empty">
+          <span className="tray-empty-glyph" aria-hidden="true">
+            <Icon name="article" size={18} />
+            <Icon name="video" size={18} />
+            <Icon name="link" size={18} />
+          </span>
+          <p className="tray-empty-title">Nothing focused</p>
+          <p className="tray-empty-body">{HINT[layer?.id ?? 'welcome']}</p>
+        </div>
       )}
     </div>
-  );
-}
-
-function ContextCard({ item, node, index }: { item: ContextItem; node: Node; index: number }) {
-  const sector = getPrimarySector(node);
-  const isPlaceholder = node.contextItems.length === 0;
-
-  return (
-    <article className="context-card" data-type={item.type}>
-      <div className="context-card-thumb">
-        {item.thumbnail ? (
-          <img src={item.thumbnail} alt="" />
-        ) : (
-          <Placeholder
-            seed={`${node.id}-ctx-${index}`}
-            variant="thumb"
-            sector={sector}
-            bare
-            className="context-card-ph"
-          />
-        )}
-        <span className="context-card-type">
-          <Icon name={TYPE_ICON[item.type]} size={13} />
-          {item.type}
-        </span>
-      </div>
-
-      <div className="context-card-body">
-        <div className="context-card-meta">
-          <span>{item.source}</span>
-          {item.date ? <span>· {item.date}</span> : null}
-        </div>
-        <h4 className="context-card-title">{item.title}</h4>
-        {item.blurb ? <p className="context-card-blurb">{item.blurb}</p> : null}
-        {item.url ? (
-          <a
-            className="context-card-link"
-            href={item.url}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() =>
-              track('context_item_open', { nodeId: node.id, itemType: item.type, url: item.url })
-            }
-          >
-            Open <Icon name="external-link" size={13} />
-          </a>
-        ) : isPlaceholder ? (
-          <span className="context-card-note">placeholder</span>
-        ) : null}
-      </div>
-    </article>
   );
 }

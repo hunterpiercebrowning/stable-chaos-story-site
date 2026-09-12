@@ -1,0 +1,392 @@
+/* WS7 — ContextCard. One supporting-context item; layout varies per `data-type`.
+   Class prefix: .ctx- */
+
+.ctx-card {
+  --accent: var(--green-2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  text-align: left;
+  color: var(--text);
+  border-radius: var(--r-md);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-1);
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease),
+    transform var(--dur-fast) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.ctx-card[data-sector='synbio'] {
+  --accent: var(--sector-synbio);
+}
+.ctx-card[data-sector='security'] {
+  --accent: var(--sector-security);
+}
+.ctx-card[data-sector='systems'] {
+  --accent: var(--sector-systems);
+}
+
+.ctx-card.is-interactive {
+  cursor: pointer;
+}
+
+.ctx-card.is-interactive:hover {
+  transform: translateY(-1px);
+  background: var(--glass-2);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--glass-border));
+  box-shadow: var(--shadow-2), 0 0 20px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.ctx-card.is-interactive:focus-visible {
+  border-radius: var(--r-md);
+}
+
+/* ── media ── */
+
+.ctx-thumb {
+  position: relative;
+  overflow: hidden;
+  background: var(--dark-3);
+}
+
+.ctx-thumb--wide {
+  aspect-ratio: 2.4 / 1;
+}
+
+.ctx-thumb--video {
+  aspect-ratio: 16 / 9;
+}
+
+.ctx-thumb--image {
+  aspect-ratio: 4 / 3;
+}
+
+.ctx-img,
+.ctx-ph,
+.ctx-ph .ph-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.ctx-thumb--wide .ctx-img,
+.ctx-thumb--wide .ctx-ph {
+  opacity: 0.85;
+}
+
+.ctx-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 45%, color-mix(in srgb, var(--dark) 70%, transparent) 100%);
+}
+
+.ctx-type {
+  position: absolute;
+  z-index: 1;
+  left: var(--s-2);
+  top: var(--s-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 6px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--scrim);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.ctx-play {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border-2);
+  background: var(--scrim);
+  color: var(--text);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.ctx-play svg {
+  transform: translateX(1px);
+}
+
+.ctx-card:hover .ctx-play {
+  transform: scale(1.06);
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.ctx-caption {
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-5) var(--s-3) var(--s-3);
+  background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--dark) 88%, transparent) 100%);
+}
+
+/* ── body ── */
+
+.ctx-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  padding: var(--s-3);
+}
+
+.ctx-body--tight {
+  padding-top: var(--s-2);
+  padding-bottom: var(--s-2);
+}
+
+.ctx-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.ctx-source {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--accent) 65%, var(--text-muted));
+}
+
+.ctx-date::before {
+  content: '·';
+  margin-right: 6px;
+  color: var(--text-ghost);
+}
+
+.ctx-source:empty + .ctx-date::before {
+  content: none;
+}
+
+.ctx-title {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  line-height: 1.32;
+  letter-spacing: -0.005em;
+  overflow-wrap: anywhere;
+}
+
+.ctx-blurb {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--text-faint);
+}
+
+.ctx-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin-top: var(--s-1);
+}
+
+.ctx-note {
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-ghost);
+}
+
+.ctx-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.ctx-card:hover .ctx-open {
+  color: var(--green-2);
+}
+
+/* ── row layouts (link, pdf) ── */
+
+.ctx-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-3);
+}
+
+.ctx-row .ctx-body {
+  flex: 1;
+  padding: 0;
+}
+
+.ctx-tile {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--glass-border));
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--accent) 22%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 6%, transparent) 100%
+  );
+  color: color-mix(in srgb, var(--accent) 80%, var(--light));
+}
+
+.ctx-tile--pdf {
+  gap: 1px;
+  grid-template-rows: auto auto;
+  align-content: center;
+}
+
+.ctx-tile--pdf svg {
+  width: 15px;
+  height: 15px;
+}
+
+.ctx-tile-label {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
+.ctx-ext {
+  flex: none;
+  margin-top: 2px;
+  color: var(--text-ghost);
+  transition: color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+
+.ctx-card:hover .ctx-ext {
+  color: var(--text-muted);
+  transform: translate(1px, -1px);
+}
+
+/* ── quote ── */
+
+.ctx-quote {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-4) var(--s-4) var(--s-3) var(--s-4);
+}
+
+.ctx-quote::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: var(--s-4);
+  bottom: var(--s-4);
+  width: 2px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+.ctx-quote-mark {
+  position: absolute;
+  right: var(--s-3);
+  top: -2px;
+  font-size: 3.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: color-mix(in srgb, var(--accent) 22%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+.ctx-quote-text {
+  position: relative;
+  padding-right: var(--s-5);
+  font-size: var(--fs-md);
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+  color: var(--text);
+}
+
+.ctx-quote .ctx-meta {
+  color: var(--text-faint);
+}
+
+/* ── ghost (Foundational Background preview) ── */
+
+.ctx-card.is-ghost {
+  border-style: dashed;
+  border-color: var(--glass-border);
+  background: color-mix(in srgb, var(--glass) 50%, transparent);
+  box-shadow: none;
+  opacity: 0.55;
+  filter: saturate(0.35);
+  pointer-events: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.ctx-card.is-ghost .ctx-img,
+.ctx-card.is-ghost .ctx-ph {
+  opacity: 0.4;
+}
+
+/* ── expanded-player host (portalled to <body>) ── */
+
+.ctx-video-host {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+/* Only the expanded dialog surface belongs on screen; the inline poster stays hidden. */
+.ctx-video-host > :not([role='dialog']) {
+  display: none;
+}
+
+.ctx-video-host > [role='dialog'] {
+  pointer-events: auto;
+  border-radius: 0;
+}

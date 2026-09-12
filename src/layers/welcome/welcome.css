@@ -1,35 +1,277 @@
+/* WS7 — Welcome (layer 0). The marketing hero carried over. Class prefix: .welcome- */
+
 .welcome {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--s-4);
   width: 100%;
   height: 100%;
   text-align: center;
 }
 
-.welcome-mark {
-  width: 116px;
-  height: auto;
-  opacity: 0.95;
+.welcome-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-4);
+  max-width: 720px;
+  padding: var(--s-6);
 }
 
+/* Soft dark pool behind the type so it reads over the attractor (marketing .hero-inner::before). */
+.welcome-hero::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: 150%;
+  height: 165%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--dark) 82%, transparent) 0%,
+    color-mix(in srgb, var(--dark) 50%, transparent) 30%,
+    color-mix(in srgb, var(--dark) 15%, transparent) 55%,
+    transparent 75%
+  );
+  pointer-events: none;
+}
+
+/* Staggered fade-up, as on the marketing hero. */
+.welcome-hero > * {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: welcome-rise 0.8s var(--ease) forwards;
+}
+
+.welcome-hero > :nth-child(1) {
+  animation-delay: 0.15s;
+}
+.welcome-hero > :nth-child(2) {
+  animation-delay: 0.35s;
+}
+.welcome-hero > :nth-child(3) {
+  animation-delay: 0.55s;
+}
+.welcome-hero > :nth-child(4) {
+  animation-delay: 0.7s;
+}
+
+/* Mounts once the session answers, so it keeps only a short delay of its own. */
+.welcome-hero > .welcome-prepared {
+  animation-delay: 0.2s;
+}
+.welcome-hero > :nth-child(5) {
+  animation-delay: 0.85s;
+}
+
+@keyframes welcome-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── mark ── */
+
+.welcome-mark-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--s-2);
+}
+
+.welcome-mark {
+  width: 108px;
+  height: auto;
+  opacity: 0.92;
+}
+
+/* ── wordmark: gradient text sweeping through the palette (marketing .logo-text) ── */
+
 .welcome-title {
-  font-size: var(--fs-3xl);
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: clamp(2.6rem, 5.4vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  background: linear-gradient(
+    90deg,
+    var(--orange) 0%,
+    var(--peach) 25%,
+    var(--light) 50%,
+    var(--green-2) 75%,
+    var(--orange) 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--light);
+}
+
+.welcome-hero > .welcome-title {
+  animation: welcome-rise 0.8s var(--ease) forwards, welcome-gradient 10s ease-in-out infinite;
+  animation-delay: 0.35s, 0s;
+}
+
+@keyframes welcome-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .welcome-tagline {
-  font-size: var(--fs-md);
-  font-weight: 500;
-  letter-spacing: var(--ls-label);
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  font-weight: 300;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
 
+/* ── personalization ── */
+
+.welcome-prepared {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-1);
+  padding: 6px var(--s-4) 6px var(--s-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.welcome-prepared-label {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.welcome-prepared-label::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  margin-left: var(--s-3);
+  background: var(--glass-border-2);
+  vertical-align: -2px;
+}
+
+.welcome-prepared-name {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── intro: pulsing ring ── */
+
 .welcome-intro {
-  width: min(420px, 60%);
-  margin-top: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  color: var(--text-muted);
+  transition: color var(--dur) var(--ease);
+}
+
+.welcome-intro:hover {
+  color: var(--text);
+}
+
+.welcome-intro:focus-visible {
+  border-radius: var(--r-lg);
+}
+
+.welcome-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+}
+
+.welcome-ring-core {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border-2);
+  background: var(--scrim);
+  color: var(--text);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-2);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.welcome-ring-core svg {
+  transform: translateX(2px);
+}
+
+.welcome-intro:hover .welcome-ring-core {
+  transform: scale(1.05);
+  border-color: color-mix(in srgb, var(--green-2) 70%, transparent);
+  box-shadow: var(--shadow-2), var(--glow-green);
+}
+
+.welcome-ring-pulse {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--green-2) 70%, transparent);
+  opacity: 0;
+  animation: welcome-pulse 3.2s var(--ease) infinite;
+}
+
+.welcome-ring-pulse--late {
+  animation-delay: 1.6s;
+  border-color: color-mix(in srgb, var(--peach) 60%, transparent);
+}
+
+@keyframes welcome-pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0.15;
+  }
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+
+.welcome-intro-label {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.welcome-intro-note {
+  margin-top: -6px;
+  font-size: 0.58rem;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-ghost);
 }
