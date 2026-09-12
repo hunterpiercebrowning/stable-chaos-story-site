@@ -1,2 +1,238 @@
 /* WS3 — Critical Sectors — layer styles.
-   Class prefix: .sectors-  (e.g. .sectors-card, .sectors-node) */
+   Class prefix: .sectors-  (e.g. .sectors-sector, .sectors-domain)
+
+   Layout: three sector bands across the top; beneath them a five-column
+   domain lattice whose 2nd and 4th columns straddle the sector boundaries so
+   dual-sector domains sit between their parents. Connectors are drawn by
+   ConnectorLayer inside .sectors-board (the useRects container). */
+
+.sectors-layer {
+  width: 100%;
+  height: 100%;
+  padding: var(--s-2) var(--s-2) var(--s-6);
+}
+
+.sectors-board {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Connectors live under the cards; hide (not remove) when Compressed so they
+   fade with the domains instead of popping. */
+.sectors-connectors {
+  z-index: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.connector-layer.sectors-connectors--hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur) var(--ease), visibility 0s linear var(--dur);
+}
+
+.sectors-row,
+.sectors-domains {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── sector bands ── */
+.sectors-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+
+.node-card.sectors-sector {
+  min-height: 78px;
+  padding: var(--s-4) var(--s-5);
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent) 18%, transparent) 0%,
+      color-mix(in srgb, var(--accent) 8%, transparent) 100%
+    ),
+    var(--glass);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--glass-border));
+}
+
+/* Compressed leaves only the three bands; give them more presence. NodeCard's
+   layoutId animates the size change, so no CSS transition on min-height here. */
+.sectors-layer[data-density='compressed'] .node-card.sectors-sector {
+  min-height: 124px;
+}
+
+/* The solid color rule along the top edge. */
+.node-card.sectors-sector::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  opacity: 0.9;
+}
+
+.node-card.sectors-sector:hover,
+.node-card.sectors-sector.is-active {
+  border-color: color-mix(in srgb, var(--accent) 70%, var(--glass-border));
+  box-shadow: var(--shadow-2), 0 0 28px color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.sectors-sector-title {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+/* ── domain lattice ── */
+.sectors-domains {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1fr)
+    minmax(0, 1.25fr);
+  gap: var(--s-3) var(--s-3);
+  align-items: stretch;
+  max-height: 4000px;
+  opacity: 1;
+  transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease);
+}
+
+/* Compressed: collapse the whole lattice. The cards themselves animate out via
+   NodeCard's `collapsed`; this removes the space they took. */
+.sectors-domains[data-collapsed='true'] {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sectors-cell {
+  display: flex;
+  min-width: 0;
+}
+
+.node-card.sectors-domain {
+  width: 100%;
+  min-height: 72px;
+  padding: var(--s-3) var(--s-3) var(--s-3);
+  gap: var(--s-2);
+  /* first sector → border tint; second sector → glow; both → gradient fill */
+  border-color: color-mix(in srgb, var(--sec-a, var(--accent)) 38%, var(--glass-border));
+}
+
+.node-card.sectors-domain:hover,
+.node-card.sectors-domain.is-active {
+  border-color: color-mix(in srgb, var(--sec-a, var(--accent)) 70%, var(--glass-border));
+}
+
+.sectors-domain-title {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.sectors-domain-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+  margin-top: auto;
+  padding-top: var(--s-1);
+}
+
+/* Sector → variable mapping (NodeCard sets data-sector / data-sector-2). */
+.sectors-domain[data-sector='synbio'] {
+  --sec-a: var(--sector-synbio);
+}
+.sectors-domain[data-sector='security'] {
+  --sec-a: var(--sector-security);
+}
+.sectors-domain[data-sector='systems'] {
+  --sec-a: var(--sector-systems);
+}
+.sectors-domain[data-sector-2='synbio'] {
+  --sec-b: var(--sector-synbio);
+}
+.sectors-domain[data-sector-2='security'] {
+  --sec-b: var(--sector-security);
+}
+.sectors-domain[data-sector-2='systems'] {
+  --sec-b: var(--sector-systems);
+}
+
+/* Dual-sector domain: border = first sector, glow = second, fill = 2-stop gradient. */
+.node-card.sectors-domain[data-sector-2] {
+  background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--sec-a) 18%, transparent) 0%,
+      color-mix(in srgb, var(--sec-b) 18%, transparent) 100%
+    ),
+    var(--glass);
+  border-color: color-mix(in srgb, var(--sec-a) 60%, var(--glass-border));
+  box-shadow: var(--shadow-1), 0 0 22px color-mix(in srgb, var(--sec-b) 34%, transparent);
+}
+
+.node-card.sectors-domain[data-sector-2]:hover,
+.node-card.sectors-domain[data-sector-2].is-active {
+  border-color: color-mix(in srgb, var(--sec-a) 85%, var(--glass-border));
+  box-shadow: var(--shadow-2), 0 0 30px color-mix(in srgb, var(--sec-b) 48%, transparent);
+}
+
+/* Dual cards: the hover wash blends both colors too. */
+.node-card.sectors-domain[data-sector-2]::after {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--sec-a) 14%, transparent) 0%,
+    color-mix(in srgb, var(--sec-b) 14%, transparent) 100%
+  );
+}
+
+/* ── emphasis ── */
+/* NodeCard drives opacity via motion; the class adds desaturation so dimmed
+   cards read as "not this sector" rather than merely faded. */
+.node-card.sectors-sector.is-dimmed,
+.node-card.sectors-domain.is-dimmed {
+  filter: saturate(var(--dim-saturate));
+}
+
+/* ── focus ── */
+.sectors-focus-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.sectors-focus-eyebrow .tag {
+  letter-spacing: 0.1em;
+}
+
+/* Dual-sector focus: a second-color wash from the opposite corner. */
+.focus-frame.sectors-focus--synbio {
+  --sec-b: var(--sector-synbio);
+}
+.focus-frame.sectors-focus--security {
+  --sec-b: var(--sector-security);
+}
+.focus-frame.sectors-focus--systems {
+  --sec-b: var(--sector-systems);
+}
+.focus-frame[class*='sectors-focus--'] {
+  background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent, var(--green-2)) 7%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      70% 60% at 100% 100%,
+      color-mix(in srgb, var(--sec-b) 9%, transparent) 0%,
+      transparent 70%
+    ),
+    var(--glass);
+}
