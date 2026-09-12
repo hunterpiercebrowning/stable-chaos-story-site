@@ -13,14 +13,15 @@ const PRIVATE_MODULE = /[\\/](content[\\/][^\\/]+\.json|src[\\/](data|layers|she
 const isPrivateChunk = (moduleIds: readonly string[]) =>
   moduleIds.some((id) => PRIVATE_MODULE.test(id) && !/[\\/]src[\\/]admin[\\/](api|AdminGuard|LoginPage|admin\.css)/.test(id))
 
-// Dev proxies /api and /i to `npm run dev:api` (wrangler pages dev on :8788) or `npm run dev:api:node`.
+// Dev proxies /api and /i to `npm run dev:api` (wrangler pages dev on :8788). `changeOrigin` stays off so the
+// Functions see `Host: localhost:5173` and build redirects / invitation URLs / cookies for the Vite origin.
 export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
     proxy: {
-      '/api': { target: 'http://127.0.0.1:8788', changeOrigin: true },
-      '/i': { target: 'http://127.0.0.1:8788', changeOrigin: true },
+      '/api': { target: 'http://127.0.0.1:8788', changeOrigin: false },
+      '/i': { target: 'http://127.0.0.1:8788', changeOrigin: false },
     },
   },
   build: {
