@@ -20,8 +20,7 @@ content handoff live in `build-plans/` (`03-progress.md`, `04-phase-3-handoff.md
 | I want to… | Do this |
 |---|---|
 | Run the UI locally | `npm install && npm run dev` (Vite on :5173; needs the API below for the gate/tracking) |
-| Run the API + gate locally (this Mac) | `npm run build && npm run seed -- --node --label "Hunter" && npm run dev:api:node` |
-| Run the API + gate with the real Workers runtime | `npm run build && npm run db:migrate:local && npm run seed -- --label "Hunter" && npm run dev:api` (needs macOS 13.5+ / Linux) |
+| Run the API + gate locally | `npm run build && npm run seed -- --label "Hunter" && npm run dev:api` (wrangler + local D1), then open the printed `/i/<token>` path on :5173 |
 | Sign in to the admin locally | open `/admin`, password = `ADMIN_PASSWORD` from `.dev.vars` (`dev-admin` in the example) |
 | Create an investor link in production | `/admin` → **New link** → copy the URL, or `npm run seed -- --remote --label "…"` |
 | Turn a link off / on / extend it | `/admin/links/<id>` → Revoke · Reactivate · Set/Extend expiry |
@@ -44,36 +43,32 @@ npm run dev            # http://localhost:5173
 
 The investor gate lives in the Pages Functions, so on the bare Vite server every route is open
 and `/api/*` calls fail quietly (tracking queues, "Prepared for" stays hidden). Vite proxies
-`/api` and `/i` to `:8788`, so run one of the API servers below alongside it and open the
-`/i/<token>` URL **through :5173** so the cookie lands on that origin.
+`/api` and `/i` to `:8788` **without rewriting `Host`**, so the Functions see the Vite origin: run
+the API server below alongside it and open the `/i/<token>` path **through :5173** — the redirect
+and the cookie then land on `localhost:5173` and the app hot-reloads with the gate active.
 
-### 2b. API + gate on this machine (Node fallback)
+### 2b. API + gate (wrangler + local D1)
 
-`wrangler pages dev` needs the Workers runtime (`workerd`), which refuses to start on macOS
-before 13.5. `scripts/dev-api-node.mjs` runs the **real** `functions/**.ts` through a
-Pages-style router with a D1 shim over `node:sqlite`, serving the built `dist/`:
-
-```bash
-npm run build                                  # Functions serve dist/, so build first
-npm run seed -- --node --label "Hunter"        # applies migrations, prints http://127.0.0.1:8788/i/<token>
-npm run dev:api:node                           # http://127.0.0.1:8788  (--port / --db to change)
-```
-
-Open the printed `/i/<token>` URL, then browse. Differences from production: no `request.cf`
-geo (country/region/city stay null), the client IP comes from the socket, cookies are set without
-`Secure` over plain http. Rebuild (`npm run build`) after UI changes; the server serves whatever is
-in `dist/`.
-
-### 2c. API + gate with wrangler (macOS 13.5+, Linux)
+`wrangler pages dev` runs the real Workers runtime (`workerd`; macOS 13.5+ or Linux) with a local
+D1 under `.wrangler/state/`, serving the built `dist/` plus `functions/`:
 
 ```bash
-npm run build
+npm run build                      # Functions serve dist/, so build first
 npm run db:migrate:local           # wrangler d1 migrations apply stable-chaos-context --local
-npm run seed -- --label "Hunter"   # local D1, prints the /i/<token> URL
+npm run seed -- --label "Hunter"   # inserts an internal link, prints http://127.0.0.1:8788/i/<token>
 npm run dev:api                    # wrangler pages dev dist --port 8788
 ```
 
-### 2d. Admin UI without a backend
+Open the printed `/i/<token>` path on `http://localhost:5173` (with `npm run dev` running) for
+hot reload, or on `:8788` directly to test the built bundle. `seed` re-applies migrations first
+(safe to repeat) and accepts `--origin http://localhost:5173` to print the Vite URL. Differences
+from production: cookies are set without `Secure` over plain http, and the client IP comes from
+the socket; `request.cf` geo **is** populated under wrangler (it resolves your public IP), so the
+admin session list shows a real city/country locally. Rebuild after UI changes when testing on
+`:8788`; the Functions serve whatever is in `dist/`. Inspect the local database with
+`npx wrangler d1 execute stable-chaos-context --local --command "SELECT …"`.
+
+### 2c. Admin UI without a backend
 
 `VITE_ADMIN_MOCK=1 npm run dev`, open `/admin`, password `admin`. Seeded fixtures (3 links, 8
 sessions, ~300 events) that speak the backend's wire shapes. The mock never reaches a production
@@ -83,14 +78,13 @@ bundle.
 
 ```
 npm run dev               Vite dev server (:5173, proxies /api and /i to :8788)
-npm run dev:api           wrangler pages dev dist --port 8788   (real Workers runtime)
-npm run dev:api:node      Node fallback for the same thing (see 2b)
+npm run dev:api           wrangler pages dev dist --port 8788   (real Workers runtime + local D1)
 npm run build             tsc -b && vite build → dist/
 npm run preview           serve dist/ without the Functions (everything open, no tracking)
 npm run typecheck | lint | test
 npm run db:migrate:local  apply migrations/ to the local D1
 npm run db:migrate:remote apply migrations/ to the production D1
-npm run seed -- [--node|--remote] [--label "…"] [--notes "…"] [--origin https://…]
+npm run seed -- [--remote] [--no-migrate] [--label "…"] [--notes "…"] [--origin https://…]
 ```
 
 ---
@@ -165,9 +159,8 @@ on `context.stablechaos.com` are already `https://context.stablechaos.com/i/<tok
 
 ## 4. Verify on first deploy
 
-The Workers runtime could not run on the build machine, so the gate and D1 paths were verified
-against the Node fallback (transcript: `build-plans/screens/final/auth-loop.txt`). Walk this once
-on the real deployment:
+The gate and D1 paths were verified locally on the real Workers runtime
+(`build-plans/screens/final/auth-loop-wrangler.txt`). Walk this once on the real deployment:
 
 1. `https://context.stablechaos.com/` → redirects to `/gate?r=none` ("Invitation required").
 2. `/admin` → sign in → **New link** → copy the URL. `GET /api/admin/login` should answer
@@ -176,7 +169,7 @@ on the real deployment:
    Walk the down arrows through all seven layers; focus a node in each; open the tray; press `/`
    and search.
 4. Back in `/admin/links/<id>`: the session row shows device, viewport and **a real city/country**
-   (this is the one thing the Node fallback could not exercise — `request.cf` geo). The timeline
+   (`request.cf` geo from a real edge location). The timeline
    shows `Session started`, `layer_view` / `node_focus` lines with `via`, and heartbeats every 30s.
 5. **Revoke** the link. In the investor window, click any layer or reload → `/gate?r=revoked`.
    Reactivate → open the `/i/<token>` URL again → back in. Set an expiry in the past →
@@ -346,7 +339,7 @@ src/pages/       the /gate page
 functions/       Cloudflare Pages Functions: gate middleware, /i/:token, /api/track, /api/session,
                  /api/video/token, /api/admin/* (see functions/README.md for the API contract)
 migrations/      D1 schema (see migrations/README.md)
-scripts/         seed-link.mjs, dev-api-node.mjs (+ D1 shim)
+scripts/         seed-link.mjs (create an invitation link in the local or remote D1)
 build-plans/     build plan, per-workstream progress notes, screenshots, Phase 3 handoff
 wrangler.toml    Pages project config: output dir, D1 binding, secret names
 ```

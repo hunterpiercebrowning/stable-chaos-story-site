@@ -27,10 +27,8 @@ npx wrangler d1 migrations list stable-chaos-context --remote
 ```
 
 Wrangler records applied files in its own `d1_migrations` table, so re-running is safe.
-
-On a machine where the Workers runtime cannot start (workerd needs macOS 13.5+), the Node fallback
-(`npm run dev:api:node`, `npm run seed -- --node`) applies this directory to a local sqlite file
-on start; `--remote` still works there because it talks to the Cloudflare API, not workerd.
+`npm run seed` applies pending migrations before inserting (skip with `--no-migrate`). The local
+database is a SQLite file under `.wrangler/state/v3/d1/`; delete that directory to start over.
 
 ## Seeding
 

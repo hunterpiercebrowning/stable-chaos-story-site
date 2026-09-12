@@ -7,7 +7,6 @@
  *   node scripts/seed-link.mjs --origin http://localhost:5173
  *   node scripts/seed-link.mjs --remote            # production D1 (asks wrangler for auth)
  *   node scripts/seed-link.mjs --no-migrate        # skip `d1 migrations apply`
- *   node scripts/seed-link.mjs --node              # the node:sqlite DB used by `npm run dev:api:node`
  *
  * Or: `npm run seed -- --label "Hunter"`.
  */
@@ -24,7 +23,6 @@ const opt = (name, fallback) => {
 };
 
 const remote = flag('remote');
-const nodeDb = flag('node');
 const target = remote ? '--remote' : '--local';
 const label = opt('label', 'Internal');
 const notes = opt('notes', 'Seeded by scripts/seed-link.mjs');
@@ -46,22 +44,12 @@ const now = Date.now();
 const esc = (s) => String(s).replace(/'/g, "''");
 const sql = `INSERT INTO links (id, token, label, notes, created_at, expires_at, revoked_at, is_internal) VALUES ('${id}', '${token}', '${esc(label)}', '${esc(notes)}', ${now}, NULL, NULL, 1);`;
 
-if (nodeDb) {
-  // Fallback for machines where workerd cannot run: write straight into the node:sqlite file.
-  const { applyMigrations, DEFAULT_DB_FILE, openD1 } = await import('./_node-d1.mjs');
-  const file = opt('db', DEFAULT_DB_FILE);
-  const db = openD1(file);
-  if (!flag('no-migrate')) applyMigrations(db);
-  await db.prepare(sql).run();
-  process.stderr.write(`Inserted link ${id} into ${file}\n`);
-} else {
-  if (!flag('no-migrate')) {
-    process.stderr.write(`Applying migrations (${target})…\n`);
-    wrangler(['d1', 'migrations', 'apply', DB_NAME, target]);
-  }
-  process.stderr.write(`Inserting link ${id} (${target})…\n`);
-  wrangler(['d1', 'execute', DB_NAME, target, '--command', sql]);
+if (!flag('no-migrate')) {
+  process.stderr.write(`Applying migrations (${target})…\n`);
+  wrangler(['d1', 'migrations', 'apply', DB_NAME, target]);
 }
+process.stderr.write(`Inserting link ${id} (${target})…\n`);
+wrangler(['d1', 'execute', DB_NAME, target, '--command', sql]);
 
 process.stdout.write(`${origin}/i/${token}\n`);
 process.stderr.write(`link id: ${id}\n`);

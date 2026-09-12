@@ -38,7 +38,7 @@ tsconfig.json                typed against @cloudflare/workers-types; part of `n
 
 Everything below expects `.dev.vars` (copy `.dev.vars.example`). Never commit it.
 
-**Preferred (wrangler + workerd; needs macOS 13.5+ or Linux/glibc 2.35+)**
+**wrangler + workerd (macOS 13.5+ or Linux/glibc 2.35+)**
 
 ```bash
 npm run build                       # Pages Functions serve the built dist/
@@ -48,22 +48,14 @@ npm run dev:api                     # wrangler pages dev dist --port 8788
 ```
 
 For hot-reloading UI work run `npm run dev` (Vite on :5173) alongside `dev:api`; Vite proxies
-`/api` and `/i` to :8788. Open the `/i/<token>` URL through :5173 so the cookie lands on that origin.
-Cookies are set without `Secure` over plain http so local browsers keep them.
+`/api` and `/i` to :8788 without rewriting `Host`, so `request.url` (and therefore every redirect,
+the created-link `url` and the cookie origin) is the Vite origin. Open the `/i/<token>` path
+through :5173. Cookies are set without `Secure` over plain http so local browsers keep them.
 
-**Fallback (Node only, for machines where workerd cannot start)**
-
-`scripts/dev-api-node.mjs` serves `dist/` and runs the real `functions/**.ts` through a
-Pages-Functions-style router with a D1 shim over `node:sqlite` (Node 22.13+).
-
-```bash
-npm run build
-npm run seed -- --node --label "Hunter"     # writes to .wrangler/state/node-d1/*.sqlite
-npm run dev:api:node                        # http://127.0.0.1:8788 (--port / --db to change)
-```
-
-Differences from production: no `request.cf` geo (country/region/city stay null), the client IP
-comes from the socket. The `/api/video/token` JWT signing is real once `STREAM_*` are set.
+Differences from production: the client IP comes from the socket (`cf-connecting-ip` is set by
+wrangler) and there is no edge cache. `request.cf` geo *is* populated under wrangler — it resolves
+the machine's public IP — so sessions get a real country/region/city locally. The
+`/api/video/token` JWT signing is real once `STREAM_*` are set.
 
 ## Secrets
 

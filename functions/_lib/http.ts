@@ -50,7 +50,7 @@ export function clientIp(request: Request): string {
   );
 }
 
-/** Geo from the `cf` object (present in production; mostly absent under wrangler dev). */
+/** Geo from the `cf` object (present in production and under `wrangler pages dev`, which resolves the public IP). */
 export function geo(request: Request): { country: string | null; region: string | null; city: string | null } {
   const cf = (request as Request & { cf?: IncomingRequestCfProperties }).cf;
   return {
