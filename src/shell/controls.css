@@ -1,0 +1,77 @@
+.segmented {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.segmented-option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+
+.segmented-option:hover {
+  color: var(--text-muted);
+}
+
+.segmented-option[aria-pressed='true'] {
+  color: var(--text);
+  background: var(--glass-2);
+  box-shadow: inset 0 0 0 1px var(--glass-border);
+}
+
+.segmented-option[data-sector='synbio'][aria-pressed='true'] {
+  color: var(--sector-synbio);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sector-synbio) 50%, transparent);
+}
+.segmented-option[data-sector='security'][aria-pressed='true'] {
+  color: var(--sector-security);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sector-security) 50%, transparent);
+}
+.segmented-option[data-sector='systems'][aria-pressed='true'] {
+  color: var(--sector-systems);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sector-systems) 50%, transparent);
+}
+
+.segmented--sm .segmented-option {
+  padding: 5px 10px;
+  font-size: 0.62rem;
+}
+
+/* Small square icon button used across the chrome. */
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  color: var(--text-faint);
+  transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+
+.icon-button:hover {
+  color: var(--text);
+  background: var(--glass);
+  border-color: var(--glass-border);
+}
+
+.icon-button[aria-pressed='true'] {
+  color: var(--green-2);
+}

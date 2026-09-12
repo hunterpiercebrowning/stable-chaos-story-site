@@ -1,0 +1,54 @@
+/* Shared motion primitives. Component-specific animation lives with its component. */
+
+.is-dimmed {
+  opacity: var(--dim-opacity);
+  filter: saturate(var(--dim-saturate));
+  transition: opacity var(--dur) var(--ease), filter var(--dur) var(--ease);
+}
+
+.is-collapsed {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.96);
+  pointer-events: none;
+}
+
+.sc-fade-in {
+  animation: sc-fade-in var(--dur) var(--ease) both;
+}
+
+@keyframes sc-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sc-logo-glow {
+  animation: sc-logo-glow 6s ease-in-out infinite alternate;
+}
+
+@keyframes sc-logo-glow {
+  0% {
+    filter: drop-shadow(0 0 8px rgba(126, 191, 138, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(224, 148, 90, 0.5));
+  }
+  100% {
+    filter: drop-shadow(0 0 12px rgba(155, 138, 191, 0.4));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

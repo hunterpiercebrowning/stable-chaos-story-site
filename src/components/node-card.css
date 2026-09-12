@@ -1,0 +1,156 @@
+.node-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  align-items: flex-start;
+  text-align: left;
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-1);
+  color: var(--text);
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease),
+    transform var(--dur-fast) var(--ease), box-shadow var(--dur) var(--ease),
+    opacity var(--dur) var(--ease), filter var(--dur) var(--ease);
+}
+
+.node-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    120% 80% at 50% 0%,
+    color-mix(in srgb, var(--accent, var(--green-2)) 16%, transparent) 0%,
+    transparent 70%
+  );
+  transition: opacity var(--dur) var(--ease);
+}
+
+.node-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent, var(--green-2)) 55%, var(--glass-border));
+  box-shadow: var(--shadow-2), 0 0 24px color-mix(in srgb, var(--accent, var(--green-2)) 18%, transparent);
+}
+
+.node-card:hover::after,
+.node-card.is-active::after {
+  opacity: 1;
+}
+
+.node-card.is-active {
+  border-color: color-mix(in srgb, var(--accent, var(--green-2)) 70%, transparent);
+  background: var(--glass-2);
+}
+
+/* Accent comes from the node's sector, or its belief type. */
+.node-card[data-sector='synbio'] {
+  --accent: var(--sector-synbio);
+}
+.node-card[data-sector='security'] {
+  --accent: var(--sector-security);
+}
+.node-card[data-sector='systems'] {
+  --accent: var(--sector-systems);
+}
+.node-card[data-layer='beliefs'] {
+  --accent: var(--advantage);
+}
+
+/* Dual-sector: border from the first sector, glow from the second. */
+.node-card[data-sector-2='synbio'] {
+  box-shadow: var(--shadow-1), 0 0 18px color-mix(in srgb, var(--sector-synbio) 22%, transparent);
+}
+.node-card[data-sector-2='security'] {
+  box-shadow: var(--shadow-1), 0 0 18px color-mix(in srgb, var(--sector-security) 22%, transparent);
+}
+.node-card[data-sector-2='systems'] {
+  box-shadow: var(--shadow-1), 0 0 18px color-mix(in srgb, var(--sector-systems) 22%, transparent);
+}
+
+.node-card-media {
+  display: block;
+  width: 100%;
+}
+
+.node-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.node-card-title {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.node-card-sub {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.node-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: auto;
+  padding-top: var(--s-2);
+}
+
+/* ── sizes ── */
+.node-card--xs {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  min-width: 120px;
+  max-width: 190px;
+}
+.node-card--xs .node-card-title {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 164px;
+}
+
+.node-card--sm {
+  padding: var(--s-3);
+  min-height: 76px;
+}
+.node-card--sm .node-card-title {
+  font-size: var(--fs-base);
+}
+
+.node-card--md {
+  min-height: 118px;
+}
+
+.node-card--lg {
+  min-height: 190px;
+  padding: var(--s-5);
+}
+.node-card--lg .node-card-title {
+  font-size: var(--fs-lg);
+}
+
+.node-card--wide {
+  min-height: 84px;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+.node-card--wide .node-card-title {
+  font-size: var(--fs-lg);
+}

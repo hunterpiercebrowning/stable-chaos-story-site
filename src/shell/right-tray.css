@@ -1,0 +1,135 @@
+.tray {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  width: var(--tray-w);
+  height: 100%;
+  padding: var(--s-4) var(--s-5) var(--s-4) var(--s-3);
+  overflow: hidden;
+}
+
+.tray-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.tray-count {
+  font-size: 0.62rem;
+  color: var(--text-ghost);
+}
+
+.tray-empty {
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-ghost);
+}
+
+.tray-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-height: 0;
+  padding-right: var(--s-2);
+}
+
+.context-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+
+.context-card:hover {
+  transform: translateY(-1px);
+  border-color: var(--glass-border-2);
+}
+
+.context-card-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--dark-3);
+}
+
+.context-card-thumb img,
+.context-card-ph {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.context-card-thumb img {
+  object-fit: cover;
+}
+
+.context-card-type {
+  position: absolute;
+  left: var(--s-2);
+  bottom: var(--s-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: var(--r-pill);
+  background: var(--scrim);
+  font-size: 0.6rem;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.context-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-3);
+}
+
+.context-card-meta {
+  display: flex;
+  gap: 5px;
+  font-size: 0.62rem;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-ghost);
+}
+
+.context-card-title {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.context-card-blurb {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--text-faint);
+}
+
+.context-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: var(--s-1);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--green-2);
+}
+
+.context-card-note {
+  margin-top: var(--s-1);
+  font-size: 0.6rem;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-ghost);
+}

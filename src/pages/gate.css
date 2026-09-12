@@ -1,0 +1,28 @@
+.gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  height: 100%;
+  padding: var(--s-7);
+  text-align: center;
+  background: var(--dark);
+}
+
+.gate-mark {
+  width: 72px;
+  height: auto;
+  margin-bottom: var(--s-2);
+  opacity: 0.9;
+}
+
+.gate-title {
+  font-size: var(--fs-xl);
+}
+
+.gate-body {
+  max-width: 52ch;
+  color: var(--text-faint);
+  line-height: 1.6;
+}

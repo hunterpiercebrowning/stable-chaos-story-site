@@ -1,0 +1,75 @@
+.topbar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  height: var(--topbar-h);
+  padding: 0 var(--s-5);
+  border-bottom: 1px solid var(--glass-border);
+  background: linear-gradient(to bottom, rgba(9, 9, 9, 0.72) 0%, rgba(9, 9, 9, 0.38) 100%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+.topbar-logo-img {
+  height: 22px;
+  width: auto;
+  opacity: 0.92;
+}
+
+.topbar-crumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-width: 0;
+  margin-right: auto;
+}
+
+.topbar-crumb {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+a.topbar-crumb:hover {
+  color: var(--green-2);
+}
+
+.topbar-crumb.is-current {
+  color: var(--text);
+}
+
+.topbar-crumb-sep {
+  color: var(--text-ghost);
+  flex: none;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: none;
+}
+
+/* Presentation mode strips the chrome back to the wordmark + exit chip. */
+.topbar[data-presentation='true'] .topbar-crumbs,
+.topbar[data-presentation='true'] .segmented--sm {
+  display: none;
+}
+
+.topbar[data-presentation='true'] .topbar-actions {
+  margin-left: auto;
+}

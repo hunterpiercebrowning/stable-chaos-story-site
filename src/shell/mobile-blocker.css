@@ -1,0 +1,31 @@
+.mobile-blocker {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  text-align: center;
+  background: var(--dark);
+}
+
+.mobile-blocker-logo {
+  width: 84px;
+  height: auto;
+  opacity: 0.9;
+}
+
+.mobile-blocker-title {
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.mobile-blocker-body {
+  max-width: 30ch;
+  color: var(--text-faint);
+  font-size: var(--fs-md);
+}

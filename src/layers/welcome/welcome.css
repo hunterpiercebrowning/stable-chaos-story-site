@@ -1,0 +1,35 @@
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-4);
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.welcome-mark {
+  width: 116px;
+  height: auto;
+  opacity: 0.95;
+}
+
+.welcome-title {
+  font-size: var(--fs-3xl);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.welcome-tagline {
+  font-size: var(--fs-md);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.welcome-intro {
+  width: min(420px, 60%);
+  margin-top: var(--s-4);
+}

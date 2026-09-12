@@ -1,0 +1,85 @@
+import { Link } from 'react-router';
+import { Icon } from '../components/Icon';
+import { useUi } from '../store/ui';
+import { track } from '../lib/track';
+import { DensityToggle } from './DensityToggle';
+import { useRoute } from './useRoute';
+import './topbar.css';
+
+/** Persistent chrome: wordmark → welcome, breadcrumb, density, panels, presentation. */
+export function TopBar() {
+  const { layer, node } = useRoute();
+  const leftOpen = useUi((s) => s.leftOpen);
+  const rightOpen = useUi((s) => s.rightOpen);
+  const toggleLeft = useUi((s) => s.toggleLeft);
+  const toggleRight = useUi((s) => s.toggleRight);
+  const presentation = useUi((s) => s.presentation);
+  const togglePresentation = useUi((s) => s.togglePresentation);
+
+  return (
+    <header className="topbar" data-presentation={presentation ? 'true' : undefined}>
+      <Link to="/" className="topbar-logo" aria-label="Stable Chaos — welcome">
+        <img
+          className="topbar-logo-img sc-logo-glow"
+          src="/assets/logos/SC--Logo--White--Horizontal.svg"
+          alt="Stable Chaos"
+        />
+      </Link>
+
+      <nav className="topbar-crumbs" aria-label="Breadcrumb">
+        {layer && layer.id !== 'welcome' ? (
+          <>
+            <Link className="topbar-crumb" to={layer.path}>
+              {layer.title}
+            </Link>
+            {node ? (
+              <>
+                <Icon name="chevron-right" size={13} className="topbar-crumb-sep" />
+                <span className="topbar-crumb is-current">{node.title}</span>
+              </>
+            ) : null}
+          </>
+        ) : (
+          <span className="topbar-crumb is-current">Welcome</span>
+        )}
+      </nav>
+
+      <div className="topbar-actions">
+        <DensityToggle />
+        <button
+          type="button"
+          className="icon-button"
+          aria-pressed={leftOpen}
+          aria-label="Toggle navigation panel"
+          title="Toggle navigation ( [ )"
+          onClick={toggleLeft}
+        >
+          <Icon name="panel-left" size={17} />
+        </button>
+        <button
+          type="button"
+          className="icon-button"
+          aria-pressed={rightOpen}
+          aria-label="Toggle supporting context panel"
+          title="Toggle supporting context ( ] )"
+          onClick={toggleRight}
+        >
+          <Icon name="panel-right" size={17} />
+        </button>
+        <button
+          type="button"
+          className="icon-button"
+          aria-pressed={presentation}
+          aria-label="Toggle presentation mode"
+          title="Presentation mode ( P )"
+          onClick={() => {
+            togglePresentation();
+            track('presentation_toggle', { on: !presentation });
+          }}
+        >
+          <Icon name="presentation" size={17} />
+        </button>
+      </div>
+    </header>
+  );
+}

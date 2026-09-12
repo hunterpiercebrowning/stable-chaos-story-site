@@ -1,0 +1,67 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.tag--md {
+  padding: 5px 12px;
+  font-size: var(--fs-sm);
+}
+
+.tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Sector colors are set from a data attribute so any surface can carry them. */
+[data-sector='synbio'] {
+  --tag-color: var(--sector-synbio);
+}
+[data-sector='security'] {
+  --tag-color: var(--sector-security);
+}
+[data-sector='systems'] {
+  --tag-color: var(--sector-systems);
+}
+
+.tag--sector {
+  color: var(--tag-color, var(--text-muted));
+  border-color: color-mix(in srgb, var(--tag-color, var(--light)) 42%, transparent);
+  background: color-mix(in srgb, var(--tag-color, var(--light)) 10%, transparent);
+}
+
+.tag--sector[data-sector-2='synbio'] .tag-dot {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--sector-synbio) 60%, transparent);
+}
+.tag--sector[data-sector-2='security'] .tag-dot {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--sector-security) 60%, transparent);
+}
+.tag--sector[data-sector-2='systems'] .tag-dot {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--sector-systems) 60%, transparent);
+}
+
+.tag--stage[data-stage='active'] {
+  color: var(--stage-active);
+  border-color: color-mix(in srgb, var(--stage-active) 50%, transparent);
+  background: color-mix(in srgb, var(--stage-active) 10%, transparent);
+}
+
+.tag--stage[data-stage='slated'] {
+  color: var(--stage-slated);
+  border-style: dashed;
+  border-color: var(--glass-border-2);
+  background: transparent;
+}

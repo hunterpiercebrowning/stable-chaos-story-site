@@ -1,0 +1,46 @@
+.attractor {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.attractor-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* EMF pulse, carried over from the marketing hero. */
+.attractor-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(90, 158, 111, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(224, 148, 90, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 80%, rgba(155, 138, 191, 0.05) 0%, transparent 60%);
+  animation: attractor-pulse 8s ease-in-out infinite alternate;
+  opacity: var(--attractor-k, 1);
+}
+
+/* Darkens the backdrop behind layer content; driven by the intensity prop. */
+.attractor-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--dark);
+  opacity: calc(0.82 - 0.82 * var(--attractor-k, 1));
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+@keyframes attractor-pulse {
+  0% {
+    opacity: calc(0.4 * var(--attractor-k, 1));
+  }
+  50% {
+    opacity: calc(0.8 * var(--attractor-k, 1));
+  }
+  100% {
+    opacity: calc(0.4 * var(--attractor-k, 1));
+  }
+}
