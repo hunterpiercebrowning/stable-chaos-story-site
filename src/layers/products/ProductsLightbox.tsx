@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { Icon } from '../../components/Icon';
 import type { SectorId } from '../../data/types';
 import { cn } from '../../lib/cn';
+import { useUi } from '../../store/ui';
 import './products.css';
 
 export interface ProductsLightboxProps {
@@ -40,6 +41,15 @@ export function ProductsLightbox({
     if (index === null || count === 0) return;
     onChange((index + delta + count) % count);
   };
+
+  // The global key map (mounted before this listener, also in the capture
+  // phase) must stand down while the lightbox owns ← → Esc.
+  const setModalOpen = useUi((s) => s.setModalOpen);
+  useEffect(() => {
+    if (!open) return;
+    setModalOpen(true);
+    return () => setModalOpen(false);
+  }, [open, setModalOpen]);
 
   useEffect(() => {
     if (!open) return;

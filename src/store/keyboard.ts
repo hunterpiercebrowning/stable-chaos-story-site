@@ -141,6 +141,9 @@ export function useKeyboard(): void {
       const go = navigateRef.current;
       const { layer, nodeId } = parseRoute(pathRef.current);
 
+      // A modal dialog (the gallery lightbox) owns every key, Esc included.
+      if (ui.modalOpen) return;
+
       if (action.type === 'escape') {
         if (ui.searchOpen) {
           e.stopPropagation();

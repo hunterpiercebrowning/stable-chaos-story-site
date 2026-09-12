@@ -45,6 +45,13 @@ export interface UiState {
    */
   navIntent: NavIntent | null;
   setNavIntent: (via: NavVia, path: string) => void;
+  /**
+   * A dialog that owns the keyboard is open (the products gallery lightbox).
+   * The global key map stays out of the way while it is set, the way it does
+   * for an expanded video.
+   */
+  modalOpen: boolean;
+  setModalOpen: (open: boolean) => void;
 }
 
 /** `via` values of the `layer_view` / `node_focus` events (build plan §6, plus `click` for card/rail clicks). */
@@ -70,6 +77,7 @@ const INITIAL = {
   videoExpanded: false,
   navGroups: {} as Record<string, boolean>,
   navIntent: null as NavIntent | null,
+  modalOpen: false,
 };
 
 /**
@@ -123,6 +131,7 @@ export const useUi = create<UiState>()(
 
       /* ── WS11 appends ── */
       setNavIntent: (via, path) => set({ navIntent: { via, path, at: Date.now() } }),
+      setModalOpen: (modalOpen) => set({ modalOpen }),
     }),
     {
       name: 'sc-ui',
