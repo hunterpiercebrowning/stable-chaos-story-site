@@ -31,3 +31,8 @@ dist-ssr
 # Test output
 coverage/
 .worktrees/
+
+# Client env (VITE_*): only the example is tracked
+.env
+.env.*
+!.env.example

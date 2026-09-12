@@ -1,6 +1,6 @@
-import { getCookie, isSecure, signVerify, verifyCookie, verifySession, verifyVerify } from './_lib/cookies';
+import { getCookie, isSecure, signVerify, verifyAdmin, verifyCookie, verifySession, verifyVerify } from './_lib/cookies';
 import { getLinkStatus } from './_lib/db';
-import { SESSION_COOKIE, VERIFY_COOKIE, VERIFY_INTERVAL_MS, type Fn } from './_lib/env';
+import { ADMIN_COOKIE, SESSION_COOKIE, VERIFY_COOKIE, VERIFY_INTERVAL_MS, type Fn } from './_lib/env';
 import { error, redirect, withHeaders } from './_lib/http';
 
 /**
@@ -12,9 +12,14 @@ import { error, redirect, withHeaders } from './_lib/http';
 type Reason = 'none' | 'invalid' | 'revoked' | 'expired';
 
 /**
- * Public paths. `/gate` and `/admin` are React routes inside the same bundle,
- * so the Vite build output (`/assets/*.js|css`) has to be public too — see the
- * WS8 handoff note for the trade-off and the WS11 follow-up.
+ * Public paths: the HTML routes an unauthenticated visitor may land on
+ * (`/gate`, `/admin`), the invitation endpoint, the admin API (it checks its
+ * own cookie), fonts, logos, the favicon, and the **public** Vite chunks
+ * (`/assets/<name>-<hash>.js|css|map`): the entry with the router, gate page
+ * and admin login form only. Everything carrying content — the investor
+ * shell, layers, content JSON, three.js and the admin pages — is emitted
+ * under `/assets/private/` (see vite.config.ts) and goes through the gate,
+ * where an admin cookie is also accepted (`isPrivateAsset`).
  */
 function isPublic(pathname: string): boolean {
   if (pathname === '/gate' || pathname === '/favicon.svg') return true;
@@ -22,8 +27,13 @@ function isPublic(pathname: string): boolean {
   if (pathname === '/admin' || pathname.startsWith('/admin/')) return true;
   if (pathname.startsWith('/api/admin/')) return true;
   if (pathname.startsWith('/assets/fonts/') || pathname.startsWith('/assets/logos/')) return true;
-  if (/^\/assets\/[^/]+\.(?:js|css|woff2?)$/.test(pathname)) return true;
+  if (/^\/assets\/[^/]+\.(?:js|css|map|woff2?)$/.test(pathname)) return true;
   return false;
+}
+
+/** The content-bearing chunks. Investors reach them with `sc_s`; the admin UI with `sc_admin`. */
+function isPrivateAsset(pathname: string): boolean {
+  return pathname.startsWith('/assets/private/');
 }
 
 /** A top-level document request (browser navigation), as opposed to a script/asset/XHR. */
@@ -66,6 +76,11 @@ export const onRequest: Fn = async (context) => {
   }
 
   if (!env.SESSION_SECRET) return error(500, 'SESSION_SECRET is not configured');
+
+  // The admin UI (no investor session) may load the private chunks it is built from.
+  if (isPrivateAsset(url.pathname) && (await verifyAdmin(env.SESSION_SECRET, getCookie(request, ADMIN_COOKIE)))) {
+    return withHeaders(await next(), { 'cache-control': 'private, no-cache' });
+  }
 
   const raw = getCookie(request, SESSION_COOKIE);
   if (!raw) return reject(request, 'none', secure);

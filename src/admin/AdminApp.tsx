@@ -3,11 +3,11 @@ import { Icon } from '../components/Icon';
 import { logout, MOCK } from './api';
 import { LinkDetailPage } from './LinkDetailPage';
 import { LinksPage } from './LinksPage';
-import { LoginPage } from './LoginPage';
 import './admin.css';
 
 /**
- * Self-contained admin area mounted lazily at `/admin/*` (see src/routes.tsx).
+ * The signed-in admin pages, mounted lazily at `/admin/*` behind `AdminGuard`
+ * (see src/routes.tsx; the login form at `/admin` lives in the entry chunk).
  * Renders without the investor gate; the server protects `/api/admin/*` with the
  * `sc_admin` cookie and every page bounces to the login on a 401.
  */
@@ -15,7 +15,7 @@ export default function AdminApp() {
   return (
     <div className="admin" data-mock={MOCK ? 'true' : undefined}>
       <Routes>
-        <Route index element={<LoginPage />} />
+        <Route index element={<Navigate to="/admin/links" replace />} />
         <Route element={<AdminShell />}>
           <Route path="links" element={<LinksPage />} />
           <Route path="links/:id" element={<LinkDetailPage />} />

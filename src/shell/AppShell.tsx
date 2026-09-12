@@ -1,9 +1,8 @@
 import { motion, useReducedMotion } from 'motion/react';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { setContextGetter } from '../lib/track';
 import { useUi } from '../store/ui';
 import { useKeyboard } from '../store/keyboard';
-import { Attractor } from './Attractor';
 import { LeftNav } from './LeftNav';
 import { MobileBlocker } from './MobileBlocker';
 import { RightTray } from './RightTray';
@@ -12,6 +11,9 @@ import { Stage } from './Stage';
 import { TopBar } from './TopBar';
 import { useRoute } from './useRoute';
 import './shell.css';
+
+// three.js is the one heavy dependency; it arrives in its own chunk after the shell has painted.
+const Attractor = lazy(() => import('./Attractor').then((m) => ({ default: m.Attractor })));
 
 /** Three-column shell: nav | stage | supporting context, over the attractor. */
 export function AppShell() {
@@ -39,7 +41,9 @@ export function AppShell() {
 
   return (
     <div className="app-shell" data-presentation={presentation ? 'true' : undefined}>
-      <Attractor intensity={layerId === 'welcome' ? 1 : 0.35} />
+      <Suspense fallback={null}>
+        <Attractor intensity={layerId === 'welcome' ? 1 : 0.35} />
+      </Suspense>
 
       <div className="app-frame">
         <TopBar />

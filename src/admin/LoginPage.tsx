@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { AdminApiError, checkLogin, login, MOCK } from './api';
+import './admin.css';
 
 function safeNext(raw: string | null): string {
   return raw && raw.startsWith('/admin') ? raw : '/admin/links';

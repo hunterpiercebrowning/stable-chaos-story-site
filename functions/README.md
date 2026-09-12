@@ -22,8 +22,12 @@ tsconfig.json                typed against @cloudflare/workers-types; part of `n
 ## Gate rules
 
 - Every request needs a valid `sc_s` cookie except: `/i/*`, `/gate`, `/admin*`, `/api/admin/*`,
-  `/favicon.svg`, `/assets/fonts/*`, `/assets/logos/*` and the Vite bundle (`/assets/*.js|css`).
-  The bundle has to be public because `/gate` and `/admin` are React routes inside it.
+  `/favicon.svg`, `/assets/fonts/*`, `/assets/logos/*` and the **public** Vite chunks
+  (`/assets/<name>-<hash>.js|css|map`) — the entry with the router, the gate page and the admin
+  login form, which carries no content.
+- The investor shell, the layers, the content JSON, three.js and the signed-in admin pages are
+  emitted under `/assets/private/` (see `vite.config.ts`). Those go through the gate like any page;
+  a valid `sc_admin` cookie is accepted there too, so the admin UI can load its own chunk.
 - Missing cookie → `302 /gate?r=none`; bad signature / stale → `?r=invalid` (cookies cleared);
   link revoked / expired → `?r=revoked` / `?r=expired`. API paths get `401 { error, reason }` instead.
 - The revoke/expiry D1 read happens on every HTML navigation (one per page load) and at most once
