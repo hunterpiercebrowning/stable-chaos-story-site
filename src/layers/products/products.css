@@ -1,2 +1,515 @@
 /* WS5 — Products — layer styles.
-   Class prefix: .products-  (e.g. .products-card, .products-node) */
+   Class prefix: .products-  (layer bands, product node, focus, gallery, lightbox) */
+
+/* ══════════════════════════════════════════════════════
+   Layer: three sector bands
+   ══════════════════════════════════════════════════════ */
+
+.products-layer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  width: 100%;
+  height: 100%;
+  padding: var(--s-2) var(--s-2) var(--s-6);
+}
+
+.products-band {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.products-band[data-sector='synbio'] {
+  --band: var(--sector-synbio);
+}
+.products-band[data-sector='security'] {
+  --band: var(--sector-security);
+}
+.products-band[data-sector='systems'] {
+  --band: var(--sector-systems);
+}
+
+/* Header: label · coloured rule · counts. Dims with emphasis; never hides. */
+.products-band-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: 0 var(--s-1);
+}
+
+.products-band-title {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--band);
+}
+
+.products-band-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--band) 85%, transparent) 0%,
+    color-mix(in srgb, var(--band) 30%, transparent) 60%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px color-mix(in srgb, var(--band) 25%, transparent);
+}
+
+.products-band-count {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.products-band-count-sep {
+  color: var(--text-ghost);
+}
+
+.products-grid {
+  display: grid;
+  gap: var(--s-3);
+  grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
+  align-content: start;
+}
+
+/* ══════════════════════════════════════════════════════
+   Product node
+   ══════════════════════════════════════════════════════ */
+
+.products-node {
+  min-height: 132px;
+  gap: var(--s-3);
+}
+
+.products-node .node-card-media {
+  width: auto;
+}
+
+/* Category icon top-left, in the sector colour. */
+.products-node-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--accent, var(--green-2)) 40%, transparent);
+  background: color-mix(in srgb, var(--accent, var(--green-2)) 12%, transparent);
+  color: var(--accent, var(--green-2));
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+
+.products-node .node-card-title {
+  font-size: var(--fs-base);
+}
+
+/* Slated / planned: dashed, muted, ghosted icon. */
+.products-node--slated {
+  border-style: dashed;
+  border-color: var(--glass-border-2);
+  background: color-mix(in srgb, var(--glass) 40%, transparent);
+  box-shadow: none;
+}
+
+.products-node--slated::after {
+  display: none;
+}
+
+.products-node--slated:hover {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--accent, var(--green-2)) 45%, var(--glass-border-2));
+  box-shadow: none;
+}
+
+.products-node--slated .node-card-title {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.products-node--slated .node-card-sub {
+  color: var(--text-ghost);
+}
+
+.products-node--slated .products-node-icon {
+  border-style: dashed;
+  border-color: var(--glass-border-2);
+  background: transparent;
+  color: var(--stage-slated);
+}
+
+.products-node--slated .tag--sector {
+  opacity: 0.66;
+}
+
+/* ══════════════════════════════════════════════════════
+   Focus: scene behind a glass panel
+   ══════════════════════════════════════════════════════ */
+
+.products-focus {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: var(--s-5);
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--glass-border);
+  background: var(--dark-3);
+  box-shadow: var(--shadow-3);
+}
+
+.products-focus[data-sector='synbio'] {
+  --accent: var(--sector-synbio);
+}
+.products-focus[data-sector='security'] {
+  --accent: var(--sector-security);
+}
+.products-focus[data-sector='systems'] {
+  --accent: var(--sector-systems);
+}
+
+.products-focus-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.products-focus-scene-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+}
+
+/* Darken the left where the panel sits; let the scene breathe on the right. */
+.products-focus-scene-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--dark) 72%, transparent) 0%,
+      color-mix(in srgb, var(--dark) 40%, transparent) 55%,
+      color-mix(in srgb, var(--dark) 18%, transparent) 100%
+    ),
+    linear-gradient(180deg, transparent 60%, color-mix(in srgb, var(--dark) 55%, transparent) 100%);
+}
+
+.products-focus-scene .sc-placeholder-tag {
+  right: var(--s-4);
+  top: var(--s-4);
+  bottom: auto;
+}
+
+/* The glass panel: left-aligned, leaves the scene visible on the right when
+   the stage is wide enough. */
+.products-focus-frame.focus-frame {
+  position: relative;
+  z-index: 1;
+  width: min(100%, max(600px, 66%));
+  background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent, var(--green-2)) 9%, transparent) 0%,
+      transparent 50%
+    ),
+    color-mix(in srgb, var(--dark) 58%, transparent);
+  border-color: var(--glass-border-2);
+  -webkit-backdrop-filter: blur(22px) saturate(1.1);
+  backdrop-filter: blur(22px) saturate(1.1);
+}
+
+.products-focus--slated .products-focus-frame.focus-frame {
+  border-style: dashed;
+}
+
+.products-focus-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.products-focus-category {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-right: var(--s-2);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--accent, var(--text-faint));
+}
+
+.products-focus--slated .focus-title {
+  color: var(--text-muted);
+}
+
+.products-focus-planned {
+  display: inline-block;
+  margin-bottom: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  border: 1px dashed var(--glass-border-2);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--stage-slated);
+}
+
+/* ══════════════════════════════════════════════════════
+   Gallery strip
+   ══════════════════════════════════════════════════════ */
+
+.products-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.products-gallery-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+}
+
+.products-gallery-count {
+  font-size: var(--fs-xs);
+  color: var(--text-ghost);
+}
+
+.products-gallery-strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(96px, 1fr);
+  gap: var(--s-2);
+}
+
+.products-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  border: 1px solid var(--glass-border);
+  background: var(--dark-3);
+  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.products-thumb:hover,
+.products-thumb:focus-visible {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent, var(--green-2)) 60%, transparent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent, var(--green-2)) 22%, transparent);
+}
+
+.products-thumb-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur) var(--ease);
+}
+
+.products-thumb:hover .products-thumb-img {
+  transform: scale(1.04);
+}
+
+.products-thumb-zoom {
+  position: absolute;
+  top: var(--s-2);
+  right: var(--s-2);
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border-2);
+  background: var(--scrim);
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.products-thumb:hover .products-thumb-zoom,
+.products-thumb:focus-visible .products-thumb-zoom {
+  opacity: 1;
+}
+
+.products-thumb .sc-placeholder-tag {
+  right: var(--s-1);
+  bottom: var(--s-1);
+  padding: 1px 4px;
+  font-size: 0.5rem;
+}
+
+/* ══════════════════════════════════════════════════════
+   Lightbox — covers the whole product focus area
+   ══════════════════════════════════════════════════════ */
+
+.products-lightbox {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  background: var(--scrim-strong);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  outline: none;
+}
+
+/* The modal itself takes focus on open; the ring belongs on its controls. */
+.products-lightbox:focus-visible {
+  box-shadow: none;
+}
+
+.products-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.22;
+  filter: blur(24px) saturate(1.2);
+  transform: scale(1.1);
+  pointer-events: none;
+}
+
+.products-lightbox-top {
+  position: absolute;
+  top: var(--s-4);
+  left: var(--s-5);
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+}
+
+.products-lightbox-title {
+  color: var(--text-muted);
+}
+
+.products-lightbox-counter {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.products-lightbox-close,
+.products-lightbox-arrow {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-muted);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease);
+}
+
+.products-lightbox-close:hover,
+.products-lightbox-arrow:hover {
+  color: var(--text);
+  border-color: var(--glass-border-2);
+  background: var(--glass-2);
+}
+
+.products-lightbox-close {
+  top: var(--s-4);
+  right: var(--s-4);
+  width: 34px;
+  height: 34px;
+}
+
+.products-lightbox-arrow {
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+}
+
+.products-lightbox-arrow--prev {
+  left: var(--s-4);
+}
+
+.products-lightbox-arrow--next {
+  right: var(--s-4);
+}
+
+.products-lightbox-figure {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(100% - 2 * (44px + var(--s-6)));
+  height: calc(100% - 2 * (var(--s-4) + 40px));
+  margin: 0;
+}
+
+/* Fills the figure; `contain` letterboxes real photos and drop-shadow follows
+   the visible image rather than the letterbox. */
+.products-lightbox-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.6));
+}
+
+.products-lightbox-figure .sc-placeholder-tag {
+  right: auto;
+  left: 50%;
+  bottom: var(--s-3);
+  transform: translateX(-50%);
+}
+
+.products-lightbox-dots {
+  position: absolute;
+  bottom: var(--s-4);
+  left: 50%;
+  display: flex;
+  gap: var(--s-2);
+  transform: translateX(-50%);
+}
+
+.products-lightbox-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border-2);
+  background: transparent;
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+.products-lightbox-dot.is-current {
+  background: var(--accent, var(--green-2));
+  border-color: var(--accent, var(--green-2));
+  transform: scale(1.2);
+}
+
+.products-lightbox[data-sector='synbio'] {
+  --accent: var(--sector-synbio);
+}
+.products-lightbox[data-sector='security'] {
+  --accent: var(--sector-security);
+}
+.products-lightbox[data-sector='systems'] {
+  --accent: var(--sector-systems);
+}

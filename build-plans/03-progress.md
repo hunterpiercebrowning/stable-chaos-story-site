@@ -179,7 +179,72 @@ slot renders under the bullets. Zero console errors from app code. `typecheck`, 
 
 ## WS4 — Services `[ ]`
 
-## WS5 — Products `[ ]`
+## WS5 — Products `[~]`
+
+**Built** (`src/layers/products/**` only; branch `ws/5`)
+
+- `ProductsLayer` — three sector bands in `SECTOR_IDS` order (SynBio 11 · Security 8 · Systems 4),
+  each with a header (sector label, coloured gradient rule, "N products · A active · P planned") and
+  an auto-fill grid of `ProductsNode`s. Emphasis comes from the shared `useLayerState` for the cards
+  and dims the band header with the same `.is-dimmed` class; nothing is ever hidden (verified:
+  SynBio emphasis dims 12 cards + 2 headers, 0 `display:none`). No density handling — Products
+  has none.
+- `ProductsNode` — `NodeCard` with the category icon (`bioproduct`/`hardware`/`software`, already
+  in the sprite) in the `media` slot as a sector-tinted badge, category as subtitle, and the base
+  card's `SectorTag` + `StageTag`. Slated cards get `.products-node--slated`: dashed border, no
+  glow, muted title, ghosted icon, "Planned" tag.
+- `ProductsFocus` — a `.products-focus` wrapper holds the environment scene (`backgroundImage`, or a
+  1600×900 `placeholderImage(variant: 'scene')` seeded by node id) with a left-heavy scrim, and the
+  shared `FocusFrame` as a darker glass panel on top (`width: min(100%, max(600px, 66%))`, so the
+  scene shows on the right once the stage is wide enough). Eyebrow = category icon + label +
+  `SectorTag` + `StageTag`; subtitle = tagline; body = blurb (slated products get a dashed
+  "Planned — not yet in market" note first); bullets; extras = `VideoPlayer` (existing props only)
+  + gallery strip.
+- `ProductsGallery` — 3–5 thumbs (`node.gallery`, else `placeholderGallery(id, sector, 0)` which
+  seeds 3–5), each a button that opens the lightbox; placeholder tag shown when generated.
+- `ProductsLightbox` — local to this layer. Absolute over the whole `.products-focus` (the same
+  region the expanded video covers), blurred backdrop of the current image, image `object-fit:
+  contain` filling the figure, prev/next buttons, counter, dot tabs, close. Keyboard: `←`/`→` wrap,
+  `Home`/`End`, `Esc` closes. Keys are captured on `window` in the capture phase with
+  `stopPropagation` + `preventDefault`, mirroring `VideoPlayer`, so the Stage's Esc handler and
+  WS6's map never see them (verified: Esc closes the lightbox and leaves the URL on
+  `/products/private-pear`; a second Esc leaves the focus). Focus moves into the dialog on open
+  and returns to the previously focused element on close. Lightbox state is keyed by node id so a
+  sibling jump from the rail never inherits an open lightbox.
+- `categoryIcon.ts` — the `ProductCategory → IconName` map, in its own module so the component
+  files export only components (oxlint fast-refresh rule).
+
+**Shared files:** none touched. No tokens or icons were needed — every colour is a token or a
+`color-mix` of one, and the three category icons already existed. Registry, shell, store, data
+layer and `VideoPlayer` untouched.
+
+**Deviations / notes**
+
+1. The brief's "lightbox reuses the expanded-video area": it covers the same region but does not
+   set `videoExpanded` — doing so would make `VideoPlayer` render its own overlay at the same time.
+   If WS10 wants a single "something is covering the stage" flag, a separate store field is the
+   clean route.
+2. The lightbox lives as a sibling of `FocusFrame` (not inside `extras`) because `.focus-frame`
+   is `overflow: hidden` and would clip it; that is why `ProductsFocus` owns the index state.
+3. Shared-code observation (not fixed, not mine): `FocusFrame`'s `.focus-extras` has
+   `max-width: 560px`, which also bounds the gallery strip; fine at 5 thumbs, but a wider strip
+   would need that cap lifted or the extras slot to accept a class.
+4. Chrome extension was not connected; screenshots were taken with headless Chrome over CDP
+   (`--headless=new`, 1440×900) with the persisted UI store at its defaults (Compressed density,
+   both panels open). The scratchpad is shared between parallel agents — a first `shot.mjs` was
+   overwritten by another workstream mid-run, so the WS5 script is `ws5-shot.mjs`.
+
+**Verified:** `typecheck`, `lint`, `test` (29) and `build` clean. Headless walk: bands
+`synbio:11 · security:8 · systems:4`, 11 slated cards; emphasis dims without hiding; active and
+slated focus render with the right tags; gallery 5 thumbs; lightbox 2/5 → `→` 3/5 → `←``←` 1/5,
+Esc closes, no console errors.
+
+Screenshots: `build-plans/screens/ws5-products-layer.png`, `ws5-products-emphasis.png` (SynBio,
+scrolled to show the dimmed Security band), `ws5-products-focus.png` (Private Pear),
+`ws5-products-lightbox.png`, plus `ws5-products-focus-slated.png` (Location Lock).
+
+**Left for integration:** nothing required. When real `background_image`/`gallery` paths land,
+the "placeholder" tags disappear automatically (they key off the empty fields).
 
 ## WS6 — Left Nav, Search, Keyboard, Presentation Mode `[ ]`
 
