@@ -93,7 +93,49 @@ Screenshots: `build-plans/screens/ws0-welcome.png`, `ws0-layer-sectors.png`,
 
 ## WS3 — Critical Sectors `[ ]`
 
-## WS4 — Services `[ ]`
+## WS4 — Services `[~]`
+
+**Built** (`src/layers/services/**` only; registry untouched)
+
+- `ServicesLayer` — four company cards across the top in the fixed order Growth Curve Bio,
+  Triangulum Bio, Starling Intel, Fountain City Partners (SynBio, SynBio, Security, Systems), with
+  offerings in a column under their company. `ConnectorLayer` draws a curve from each company to
+  each of its offerings in the company's sector colour, measured with `useRects`. Re-measure is
+  driven by the hook's ResizeObserver plus settle timers (0 / 360 / 700 ms) on density, emphasis,
+  panel and presentation changes and an `onTransitionEnd` on the canvas. The positioned canvas is a
+  child of the scroll container so scrolled rects and the SVG share one coordinate space.
+- `ServicesNode` — company: `NodeCard` (logo tile from `logoFile`, Triangulum →
+  `Placeholder variant="logo"`, name, `SectorTag`) plus a sibling `<a>` website chip (anchors may
+  not nest in the card's `<button>`), `target="_blank" rel="noopener noreferrer"`, tracking
+  `external_link {nodeId, url}`. Offering: compact `NodeCard` with its own `SectorTag`. A colour
+  rule along the top of each company card matches its connectors.
+- `ServicesFocus` — company: large logo tile (placeholder keeps its dev tag here), "Company" eyebrow
+  with sector tag, tagline, blurb, bullets, `Visit <host>` button + `VideoPlayer` in extras; the
+  `FocusFrame` related strip surfaces founders, the president, the sector and the offerings.
+  Offering: eyebrow is a button carrying the company's logo and name that navigates to the company
+  (tracked as `related_click`), then tagline, blurb, bullets, `VideoPlayer`.
+- `WebsiteLink.tsx` (new, in the services folder) shared by node and focus.
+
+**Emphasis / density** — `useLayerState` exactly as `GenericLayer`: non-matching companies and
+offerings dim via `NodeCard` (never hidden), the website chip dims with its card, connectors get
+`dimmed` when either end is dimmed. Compressed: offerings collapse via `NodeCard collapsed` inside a
+`max-height` section that is also `inert`; the connector SVG fades through the existing
+`className` prop (`.services-connectors.is-collapsed`).
+
+**Shared-file changes** — none. `tokens.css`, `ConnectorLayer`, `useRects`, `VideoPlayer`, store
+and data layer are untouched.
+
+**Decisions / notes**
+
+1. The small logo placeholder on the card is `bare` (the 44px tile cannot hold the dev tag); the
+   focus view shows the tag.
+2. Expanded at 1440×900 with both panels open scrolls slightly (Starling has seven offerings); the
+   layer is an `sc-scroll` container and the connectors stay aligned while scrolling.
+3. Verified with headless Chrome over CDP (extension not connected): connector start x/y equals the
+   company card centre/bottom before and after toggling the left panel.
+
+Screenshots: `build-plans/screens/ws4-services-layer.png`, `ws4-services-emphasis.png`,
+`ws4-services-compressed.png`, `ws4-services-focus-company.png`, `ws4-services-focus-offering.png`.
 
 ## WS5 — Products `[ ]`
 

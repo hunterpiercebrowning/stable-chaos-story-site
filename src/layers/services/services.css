@@ -1,2 +1,333 @@
 /* WS4 — Services — layer styles.
-   Class prefix: .services-  (e.g. .services-card, .services-node) */
+   Class prefix: .services-  (e.g. .services-company, .services-offering) */
+
+/* ── layer canvas ───────────────────────────────────── */
+
+.services-layer {
+  width: 100%;
+  height: 100%;
+  padding: var(--s-2) var(--s-2) var(--s-6);
+}
+
+/* Positioned separately from the scroll container so measured rects and the
+   connector overlay share one coordinate space even when the layer scrolls. */
+.services-canvas {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  min-height: 100%;
+}
+
+.services-connectors {
+  z-index: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.services-connectors.is-collapsed {
+  opacity: 0;
+}
+
+.services-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--services-cols, 4), minmax(0, 1fr));
+  gap: var(--s-4);
+  align-items: start;
+}
+
+/* Equal-height company cards so every connector leaves from the same baseline. */
+.services-grid--companies {
+  align-items: stretch;
+}
+
+/* ── offerings section (density) ───────────────────── */
+
+.services-offerings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  overflow: hidden;
+  max-height: 4000px;
+  opacity: 1;
+  transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease);
+}
+
+.services-offerings[data-collapsed='true'] {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.services-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+/* ── company node ───────────────────────────────────── */
+
+.services-company {
+  position: relative;
+  min-width: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.services-company[data-sector='synbio'] {
+  --accent: var(--sector-synbio);
+}
+.services-company[data-sector='security'] {
+  --accent: var(--sector-security);
+}
+.services-company[data-sector='systems'] {
+  --accent: var(--sector-systems);
+}
+
+.services-company-card {
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+  /* Room for the website chip along the bottom edge. */
+  padding-bottom: 40px;
+}
+
+/* A solid rule along the top in the company's colour, matching the connectors. */
+.services-company-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--s-4);
+  right: var(--s-4);
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent) 90%, transparent),
+    color-mix(in srgb, var(--accent) 25%, transparent)
+  );
+  opacity: 0.9;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.services-company-card .node-card-title {
+  font-size: var(--fs-md);
+  line-height: 1.22;
+}
+
+.services-logo-tile {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--accent) 12%, var(--glass));
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--glass-border));
+  overflow: hidden;
+}
+
+.services-logo {
+  display: block;
+  object-fit: contain;
+}
+
+.services-logo--card {
+  width: 28px;
+  height: 28px;
+}
+
+.ph.services-logo--card {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* The external link sits beside the card as a sibling — never inside the button. */
+.services-company-link {
+  position: absolute;
+  left: 7px;
+  bottom: 9px;
+  z-index: 2;
+  max-width: calc(100% - 12px);
+}
+
+.services-company.is-dimmed .services-company-link {
+  opacity: var(--dim-opacity);
+  filter: saturate(var(--dim-saturate));
+}
+
+/* ── offering node ──────────────────────────────────── */
+
+.services-offering {
+  min-width: 0;
+}
+
+.services-offering-card {
+  width: 100%;
+  min-height: 0;
+  gap: var(--s-1);
+  padding: var(--s-3) var(--s-3) 10px;
+}
+
+.services-offering-card .node-card-title {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.services-offering-card .node-card-tags {
+  padding-top: var(--s-1);
+}
+
+.services-offering-card .tag {
+  padding: 2px 7px;
+  font-size: 0.6rem;
+}
+
+/* ── external link ──────────────────────────────────── */
+
+.services-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-faint);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease), opacity var(--dur) var(--ease),
+    filter var(--dur) var(--ease);
+}
+
+.services-link--chip {
+  padding: 3px 6px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.services-link--chip:hover {
+  color: var(--text);
+  border-color: var(--glass-border);
+  background: var(--glass);
+}
+
+.services-link--button {
+  align-self: flex-start;
+  gap: var(--s-2);
+  padding: 9px var(--s-4);
+  border-radius: var(--r-pill);
+  border: 1px solid color-mix(in srgb, var(--accent, var(--green-2)) 55%, transparent);
+  background: color-mix(in srgb, var(--accent, var(--green-2)) 12%, transparent);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+.services-link--button:hover {
+  border-color: var(--accent, var(--green-2));
+  background: color-mix(in srgb, var(--accent, var(--green-2)) 22%, transparent);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--accent, var(--green-2)) 22%, transparent);
+}
+
+.services-link-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+/* ── focus ──────────────────────────────────────────── */
+
+.services-focus-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.services-focus-eyebrow .tag {
+  letter-spacing: 0.1em;
+}
+
+.services-focus-logo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 320px;
+  padding: 12%;
+  border-radius: var(--r-lg);
+  background: radial-gradient(
+      70% 70% at 50% 40%,
+      color-mix(in srgb, var(--accent, var(--green-2)) 22%, transparent) 0%,
+      transparent 72%
+    ),
+    var(--glass);
+  border: 1px solid color-mix(in srgb, var(--accent, var(--green-2)) 30%, var(--glass-border));
+  box-shadow: var(--shadow-2), 0 0 48px color-mix(in srgb, var(--accent, var(--green-2)) 14%, transparent);
+  overflow: hidden;
+}
+
+.services-focus-logo[data-sector='synbio'] {
+  --accent: var(--sector-synbio);
+}
+.services-focus-logo[data-sector='security'] {
+  --accent: var(--sector-security);
+}
+.services-focus-logo[data-sector='systems'] {
+  --accent: var(--sector-systems);
+}
+
+.services-logo--focus {
+  width: 100%;
+  height: 100%;
+  max-width: 200px;
+  max-height: 200px;
+}
+
+.ph.services-logo--focus {
+  position: absolute;
+  inset: 0;
+  max-width: none;
+  max-height: none;
+  border-radius: inherit;
+  background: transparent;
+}
+
+/* Company eyebrow on an offering: jumps to the parent company. */
+.services-focus-company {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 2px 8px 2px 2px;
+  margin-left: -2px;
+  border-radius: var(--r-pill);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.services-focus-company:hover {
+  color: var(--text);
+  background: var(--glass);
+}
+
+.services-focus-company-logo {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--accent, var(--green-2)) 14%, var(--glass));
+  border: 1px solid color-mix(in srgb, var(--accent, var(--green-2)) 35%, var(--glass-border));
+  overflow: hidden;
+}
+
+.services-focus-company-logo .services-logo--card {
+  width: 14px;
+  height: 14px;
+}
