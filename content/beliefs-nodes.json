@@ -1,0 +1,79 @@
+[
+  {
+    "id": "trusted-access",
+    "type": "advantage",
+    "title": "Trusted Access",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "consilience",
+    "type": "advantage",
+    "title": "Consilience",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "first-principles",
+    "type": "advantage",
+    "title": "First Principles",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "nth-specificity",
+    "type": "advantage",
+    "title": "Nth° Specificity",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "compute",
+    "type": "threat",
+    "title": "Compute",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "eroding-knowledge-moats",
+    "type": "threat",
+    "title": "Eroding Knowledge Moats",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "china",
+    "type": "threat",
+    "title": "China",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  }
+]

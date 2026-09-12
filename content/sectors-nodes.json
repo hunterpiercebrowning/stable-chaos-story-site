@@ -1,0 +1,273 @@
+[
+  {
+    "id": "synbio",
+    "type": "primary",
+    "title": "Synthetic Bio",
+    "sector": "synbio",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "security",
+    "type": "primary",
+    "title": "Security",
+    "sector": "security",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "systems",
+    "type": "primary",
+    "title": "Systems",
+    "sector": "systems",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "biomanufacturing",
+    "type": "secondary",
+    "title": "Biomanufacturing",
+    "related_sectors": [
+      "synbio"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "strain-engineering",
+    "type": "secondary",
+    "title": "Strain Engineering",
+    "related_sectors": [
+      "synbio"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "biomimicry",
+    "type": "secondary",
+    "title": "Biomimicry",
+    "related_sectors": [
+      "synbio"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "biophysics",
+    "type": "secondary",
+    "title": "Biophysics",
+    "related_sectors": [
+      "synbio"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "molecular-engineering",
+    "type": "secondary",
+    "title": "Molecular Engineering",
+    "related_sectors": [
+      "synbio"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "biosecurity",
+    "type": "secondary",
+    "title": "Biosecurity",
+    "related_sectors": [
+      "synbio",
+      "security"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "cloud-lab",
+    "type": "secondary",
+    "title": "Cloud Lab",
+    "related_sectors": [
+      "synbio",
+      "systems"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "supply-chain-and-logistics",
+    "type": "secondary",
+    "title": "Supply Chain & Logistics",
+    "related_sectors": [
+      "security",
+      "systems"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "artificial-intelligence",
+    "type": "secondary",
+    "title": "Artificial Intelligence",
+    "related_sectors": [
+      "security"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "construction-and-infrastructure",
+    "type": "secondary",
+    "title": "Construction & Infrastructure",
+    "related_sectors": [
+      "security"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "cyber",
+    "type": "secondary",
+    "title": "Cyber",
+    "related_sectors": [
+      "security"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "signals-and-spectrum",
+    "type": "secondary",
+    "title": "Signals & Spectrum",
+    "related_sectors": [
+      "security"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "personnel-and-insider",
+    "type": "secondary",
+    "title": "Personnel & Insider",
+    "related_sectors": [
+      "security",
+      "systems"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "people",
+    "type": "secondary",
+    "title": "People",
+    "related_sectors": [
+      "systems"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "processes",
+    "type": "secondary",
+    "title": "Processes",
+    "related_sectors": [
+      "systems"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "technology",
+    "type": "secondary",
+    "title": "Technology",
+    "related_sectors": [
+      "systems"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "finances",
+    "type": "secondary",
+    "title": "Finances",
+    "related_sectors": [
+      "systems"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "operations",
+    "type": "secondary",
+    "title": "Operations",
+    "related_sectors": [
+      "systems"
+    ],
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  }
+]

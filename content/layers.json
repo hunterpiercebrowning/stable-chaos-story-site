@@ -1,0 +1,63 @@
+[
+  {
+    "id": "welcome",
+    "order": 0,
+    "title": "Stable Chaos",
+    "shortTitle": "Welcome",
+    "path": "/",
+    "nodesFile": null
+  },
+  {
+    "id": "who",
+    "order": 1,
+    "title": "Who We Are",
+    "shortTitle": "Who",
+    "path": "/who",
+    "nodesFile": "who-nodes.json"
+  },
+  {
+    "id": "beliefs",
+    "order": 2,
+    "title": "What We Believe",
+    "shortTitle": "Beliefs",
+    "path": "/beliefs",
+    "nodesFile": "beliefs-nodes.json"
+  },
+  {
+    "id": "sectors",
+    "order": 3,
+    "title": "Critical Sectors",
+    "shortTitle": "Sectors",
+    "path": "/sectors",
+    "nodesFile": "sectors-nodes.json",
+    "hasEmphasis": true,
+    "hasDensity": true
+  },
+  {
+    "id": "services",
+    "order": 4,
+    "title": "Services",
+    "shortTitle": "Services",
+    "path": "/services",
+    "nodesFile": "service-nodes.json",
+    "hasEmphasis": true,
+    "hasDensity": true
+  },
+  {
+    "id": "products",
+    "order": 5,
+    "title": "Products",
+    "shortTitle": "Products",
+    "path": "/products",
+    "nodesFile": "product-nodes.json",
+    "hasEmphasis": true
+  },
+  {
+    "id": "background",
+    "order": 6,
+    "title": "Foundational Background",
+    "shortTitle": "Background",
+    "path": "/background",
+    "nodesFile": "background-nodes.json"
+  }
+]
