@@ -175,7 +175,55 @@ slot renders under the bullets. Zero console errors from app code. `typecheck`, 
 `ws2-beliefs-focus.png`.
 
 
-## WS3 — Critical Sectors `[ ]`
+## WS3 — Critical Sectors `[~]`
+
+**Built** (`src/layers/sectors/**` only; registry untouched)
+
+- `SectorsLayer`: three Sector bands across the top (3-col grid) and a five-column domain lattice
+  beneath: `[synbio] [synbio+security] [security] [security+systems] [systems]`, where the 2nd and
+  4th columns are narrower "gutters" that straddle the sector boundaries so dual-sector domains sit
+  between their parents. Biosecurity → left gutter; Supply Chain & Logistics and Personnel & Insider
+  → right gutter. Cloud Lab (synbio+systems) has no adjacent boundary, so it takes the left gutter
+  under Biosecurity and its Systems connector arcs across. Placement is computed
+  (`laneOf` → column, stacking index → row), not hand-coded per node.
+- `ConnectorLayer` draws one curve per (domain, related sector) in that sector's color — 22 curves —
+  inside `.sectors-board` (the `useRects` container). Re-measure: ResizeObserver covers resize and
+  the panel-width animation; a layer effect additionally re-measures at 0/200/420/720 ms after any
+  emphasis, density or panel change. Verified: closing the tray re-measured the board 788→1107 px
+  and the paths moved.
+- Emphasis: sectors and domains dim via `useLayerState` (never hidden); a curve is `dimmed` (→ .12)
+  when either endpoint is dimmed. Security emphasis dims 13 cards and 15 of 22 curves (Biosecurity,
+  Supply Chain and Personnel keep their Security curve, lose the other).
+- Density: Compressed collapses the lattice (`max-height`/opacity, NodeCard `collapsed` on every
+  domain) and the connector SVG fades to opacity 0 + `visibility: hidden` — paths stay mounted so
+  the lines fade with the cards instead of popping. The three bands grow to 124 px so the stage
+  isn't empty (motion's `layoutId` animates the size change).
+- `SectorsNode`: Sector = `NodeCard size="wide"` with a low-alpha sector-color gradient fill, a 3 px
+  solid rule along the top edge and the title alone. Domain = compact card, title + one `SectorTag`
+  per sector (wrapping; the split pill clipped in the 130 px gutters at 1440 with both panels open).
+  Dual styling in `sectors.css`: border from the first sector, glow from the second, 135° two-stop
+  gradient of both; hover wash blends both.
+- `SectorsFocus`: eyebrow "Sector"/"Domain" + sector tag(s), title, tagline, blurb, bullets,
+  `VideoPlayer` in `extras` (existing props). Dual domains get a second-color radial wash on the
+  frame (`.sectors-focus--<second>`). Related strip is FocusFrame's.
+
+**Shared files:** none changed. No edits to `ConnectorLayer`, `useRects`, `tokens.css`, store,
+data or VideoPlayer. `SectorsNode` accepts an extra optional `ref` prop on top of `NodeViewProps`.
+
+**Verification:** `typecheck`, `lint`, `test` (29) and `build` clean. Chrome extension was not
+connected, so screenshots came from headless Chrome over CDP (script in the session scratchpad) at
+1440×900, 0 console errors. Note for anyone screenshotting headless: the attractor's software-WebGL
+init stalls the first `requestAnimationFrame` by ~300 ms, and `useRects` measures on rAF, so the
+curves land one frame after the cards — wait for `.sectors-connectors path` before capturing.
+Real browsers show 9–11 ms.
+
+Screenshots: `build-plans/screens/ws3-sectors-layer.png` (All, Expanded), `ws3-sectors-emphasis.png`
+(Security), `ws3-sectors-compressed.png`, `ws3-sectors-focus.png` (`/sectors/biosecurity`).
+
+**Left for integration:** the lattice is one row taller than the stage at 1440×900 with both
+panels open (Molecular Engineering / Operations sit at the fold; the layer scrolls). Closing either
+panel or presentation mode fits it. If WS11 wants it to fit with both panels open, drop
+`.sectors-domain` `min-height` to 64 px or tighten the lattice gap.
 
 ## WS4 — Services `[~]`
 
