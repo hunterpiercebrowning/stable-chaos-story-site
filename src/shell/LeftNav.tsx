@@ -45,8 +45,10 @@ export function LeftNav() {
                 className="leftnav-layer"
                 onClick={() => track('layer_view', { layerId: layer.id, via: 'nav' })}
               >
-                <span className="leftnav-layer-title">{layer.title}</span>
-                <span className="leftnav-count">{nodes.length || '—'}</span>
+                <span className="leftnav-layer-title">
+                  {layer.nodesFile ? layer.title : layer.shortTitle}
+                </span>
+                {layer.nodesFile ? <span className="leftnav-count">{nodes.length}</span> : null}
               </NavLink>
 
               {primary.length > 0 ? (

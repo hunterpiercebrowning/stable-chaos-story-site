@@ -9,6 +9,9 @@ import './node-card.css';
 
 export type NodeCardSize = 'xs' | 'sm' | 'md' | 'lg' | 'wide';
 
+/** Mirrors --dim-opacity in tokens.css. */
+const DIM_OPACITY = 0.22;
+
 export interface NodeCardProps {
   node: Node;
   size?: NodeCardSize;
@@ -89,6 +92,13 @@ export function NodeCard({
       data-sector-2={sectors[1]}
       aria-pressed={active}
       onClick={() => onSelect?.(node)}
+      // Motion writes inline styles on layout-animated elements, which would win
+      // over the .is-dimmed / .is-collapsed classes — so drive both here and keep
+      // the classes as styling hooks for the layers.
+      animate={{
+        opacity: collapsed ? 0 : dimmed ? DIM_OPACITY : 1,
+        scale: collapsed ? 0.96 : 1,
+      }}
       transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
     >
       {children ?? (

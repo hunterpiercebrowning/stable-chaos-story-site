@@ -164,7 +164,7 @@ conflicts (expected only in `ui.ts`, `types.ts`, `tokens.css` appends).
 
 ---
 
-## 4. WS0 — Foundation `[ ]`
+## 4. WS0 — Foundation `[x]`
 
 **Goal:** a running site where every layer and node is reachable with generic rendering, all shell
 chrome present, all shared primitives in place, so Phase 1 agents only fill in their slots.

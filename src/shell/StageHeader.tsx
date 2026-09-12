@@ -28,7 +28,8 @@ export function StageHeader({ layer, prev }: StageHeaderProps) {
       </div>
 
       <div className="stage-header-main">
-        <h1 className="stage-title">{layer.title}</h1>
+        {/* The welcome state carries its own wordmark. */}
+        {layer.id === 'welcome' ? null : <h1 className="stage-title">{layer.title}</h1>}
         {layer.hasEmphasis ? <EmphasisControl /> : null}
       </div>
     </header>

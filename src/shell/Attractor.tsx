@@ -56,7 +56,15 @@ export function Attractor({ intensity = 1 }: AttractorProps) {
     const reduced =
       typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    // No WebGL (disabled, blocked, or a software-render failure) must never take
+    // the app down — the page simply keeps its dark ground.
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    } catch (err) {
+      console.warn('[attractor] WebGL unavailable, backdrop disabled', err);
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x090909, 1);
