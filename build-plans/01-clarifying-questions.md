@@ -28,16 +28,16 @@ Cloudflare. The question is what "password protected" + "unique links" means tog
 
 **Default:** (b). Unique tokenized links + a single shared passphrase you can rotate. Also a generic
 `/enter` page for anyone arriving without a token (passphrase only, tracked as "anonymous").
-> Answer:
+> Answer: Lets go with A. Since we can revoke the token still, there is no reason to passphrase gate it, especially if we are tracking devices and locations on the viewing. 
 
 ### A2. Do you have a Cloudflare account with Workers/Pages already, and are you OK with a $5/mo Workers Paid plan if free limits get tight?
 **Default:** Assume free tier is enough; design so upgrading is a toggle, not a rewrite.
-> Answer:
+> Answer: Yes to both. Free should be enough. 
 
 ### A3. What domain/subdomain will this live on?
 (e.g. `pitch.stablechaos.com`, `story.stablechaos.com`). Affects cookie scoping and Stream/R2 CORS.
 **Default:** Build domain-agnostic; you set it in the Cloudflare dashboard.
-> Answer:
+> Answer: context.stablechaos.com
 
 ### A4. [BLOCKING] Video hosting — which?
 - **(a) Cloudflare Stream.** Private videos with signed playback tokens, adaptive bitrate, built-in
@@ -48,12 +48,12 @@ Cloudflare. The question is what "password protected" + "unique links" means tog
 
 **Default:** (a) Cloudflare Stream, with an abstraction so `video_link` can be a Stream UID, an
 R2 key, or a plain URL and the player component just works.
-> Answer:
+> Answer: Go with default A
 
 ### A5. Roughly how many videos, how long, and do they exist yet?
 Helps me size the player UX (thumbnail grid vs. single hero) and the hosting estimate.
 **Default:** Assume ~40–60 clips of 1–3 min each, none ready yet; I'll placeholder every slot.
-> Answer:
+> Answer: Lets go with your default. The clips will be short explainers on most nodes. 
 
 ### A6. What tracking events matter?
 Proposed event set: `link_opened`, `passphrase_ok/fail`, `layer_view`, `node_focus`,
@@ -62,7 +62,7 @@ Proposed event set: `link_opened`, `passphrase_ok/fail`, `layer_view`, `node_foc
 timestamp, IP-derived country/city (Cloudflare gives `cf.country` / `cf.city` for free),
 user-agent → device class, screen size, and a browser fingerprint-lite hash for "same link, new device."
 **Default:** All of the above. Raw IP stored hashed, not plaintext.
-> Answer:
+> Answer: Go with default 
 
 ### A7. How do you want to *view* the analytics and *create* links?
 - **(a) Admin page inside the site** (`/admin`, protected by an admin secret) — create links,
@@ -71,12 +71,12 @@ user-agent → device class, screen size, and a browser fingerprint-lite hash fo
 
 **Default:** (a), kept deliberately simple in v1 (tables + a timeline, no charts). It's its own
 workstream so it doesn't slow the main site.
-> Answer:
+> Answer: Go with default 
 
 ### A8. Should a link carry the investor's name for on-screen personalization?
 e.g. welcome screen reads "Prepared for Founders Fund". Nice touch; also a soft anti-forwarding signal.
 **Default:** Yes, optional `label` per link; shown subtly on the welcome state only.
-> Answer:
+> Answer: Yes
 
 ---
 
@@ -96,25 +96,25 @@ Tailwind), Three.js only for the background attractor. Deploys to Cloudflare Pag
 Alternatives if you object: Svelte (smaller, equally good for this), or vanilla + a tiny router
 (slowest to build well).
 **Default:** Vite + React + TS + motion.
-> Answer:
+> Answer: Yes, go with default
 
 ### B2. Carry over the Halvorsen attractor background?
 **Default:** Yes — full intensity on the welcome state, dimmed/blurred behind layers, paused when
 tab is hidden and under `prefers-reduced-motion`. It's the most recognizable brand element.
-> Answer:
+> Answer: Yes
 
 ### B3. Can I `git init` this repo locally (no remote, no push)?
 Your marketing template says not to. For a multi-agent build, commits are how I checkpoint each
 workstream and roll back a bad one.
 **Default:** Yes, init locally only; you create the GitHub remote and Cloudflare Pages project.
-> Answer:
+> Answer: I went ahead and turned this repo into a full git repo and added a remote. You can use git in this repo however you need. 
 
 ### B4. Browser / device targets
 **Default:** Modern Chrome/Safari/Edge/Firefox, desktop-first (this is a presenter tool), with a
 usable mobile layout (nav and tray become overlays, node grids stack, connector lines hidden).
 Investors *will* open links on phones, so it can't be broken there — but it won't be a mobile
 showpiece in v1.
-> Answer:
+> Answer: Lets focus on desktop and for mobile lets just add a message that tells them to view it on a laptop or desktop.
 
 ---
 
@@ -128,17 +128,17 @@ from Products) or is it the aggregate of every node's tray items?
 3rd-party sources that nodes link into), and the right tray as **"Supporting Context"** (the subset
 relevant to what's focused). In v1 the down-arrow from Products shows "Explore Foundational
 Background" leading to a tasteful "coming soon" state, so the chain feels complete.
-> Answer:
+> Answer: This was slightly confusing because I renamed layer 6 to "Foundational Background". I think for now we plan on it as a navigable layer that is down from 5 and is separate from the supporting context right panel for each node. I just don't have content for layer 6 yet node wise. 
 
 ### C2. Is the Welcome state "layer 0" — i.e. up-arrow from Who We Are returns to it?
 **Default:** Yes. Logo click also returns to it.
-> Answer:
+> Answer: Yes
 
 ### C3. Should every layer and node have a URL?
 e.g. `/sectors`, `/sectors/biosecurity`, `/services/starling-intel/red-teaming`. Lets you share a
 specific node, lets the browser back button work, and makes analytics per-node trivial.
 **Default:** Yes. Emphasis/density are *not* in the URL (they're presenter controls).
-> Answer:
+> Answer: Go with default
 
 ### C4. Cross-layer relationships in the focus view?
 The data implies a lot of them: President → company; service company → sector; offering → sector;
@@ -147,7 +147,7 @@ chips that jump across layers (e.g. focused on Eric Sabo → chip for Growth Cur
 Synthetic Bio)?
 **Default:** Yes. A small "Related" strip beneath the focus content, grouped by layer. This is what
 makes the site feel like a graph rather than five slideshows.
-> Answer:
+> Answer: Go with default
 
 ### C5. Which layers does Compressed / Expanded affect?
 Only Sectors (domains) and Services (offerings) have `secondary` nodes.
@@ -157,19 +157,19 @@ Only Sectors (domains) and Services (offerings) have `secondary` nodes.
 
 **Default:** Compressed hides secondaries in Sectors + Services only. Who, Beliefs, Products
 unaffected. (Easy to change per-layer later.)
-> Answer:
+> Answer: Go with default
 
 ### C6. Presenter conveniences in v1?
 - Keyboard: ↑/↓ change layer, ←/→ move between sibling nodes, Enter focus, Esc back, `/` search,
   `[` `]` toggle side panels, `1–4` emphasis.
 - A "presentation mode" that collapses both side panels and hides chrome.
 **Default:** Yes to keyboard nav; presentation mode = both panels collapsed + a small "P" toggle.
-> Answer:
+> Answer: Go with default
 
 ### C7. Search scope
 Brief says by name. Including blurbs/bullets is cheap.
 **Default:** Search titles first (ranked), then blurb/bullets; results grouped by layer.
-> Answer:
+> Answer: Go with default
 
 ### C8. Layer-level content
 When you're on a layer with nothing focused, should the center show a layer intro (title, one
@@ -178,7 +178,7 @@ context items?
 **Default:** Yes — I'll add a `layers.json` with `title`, `subtitle`, `blurb`, `video_link`,
 `context_items` per layer, lorem-filled. This also drives the up/down arrow labels and the left nav
 headings.
-> Answer:
+> Answer: No I think the layer title should be at the top of the page some where and the center of the site content when nothing is selected should just be all the nodes / cards laid out in a way that easy to see.
 
 ---
 
@@ -187,14 +187,14 @@ headings.
 ### D1. Where should the JSON live?
 **Default:** Move to `/content/*.json` at repo root (imported at build time, so a typo fails the
 build instead of the site). You edit there. `prompts/` stays as the original brief.
-> Answer:
+> Answer: Go with default
 
 ### D2. May I add fields to the JSON schema (documented in `content/SCHEMA.md`)?
 Planned additions: `id` (slug, stable across renames), `sector` on primary service nodes,
 `icon` on beliefs + product categories, `gallery: []` + `background_image` on products,
 `counters: []` on beliefs (see D6), `order` where the layout needs it.
 **Default:** Yes; I'll generate `id` from the title and you can override it.
-> Answer:
+> Answer: Go with default
 
 ### D3. Data cleanups — confirm or correct
 - `service-nodes.json`: **Triangulum Bio** has `logo_file: "assets/fcp-icon.png"` and **Fountain
@@ -205,25 +205,25 @@ Planned additions: `id` (slug, stable across renames), `sector` on primary servi
 - Possible typos, left verbatim unless you say otherwise: "First Principals" (Principles?),
   "Signals & Spctrum" (Spectrum), `"slatted"` (slated?). **Default:** I'll accept both `slatted`
   and `slated` in the loader; text typos stay as-is since JSON is your source of truth.
-> Answer:
+> Answer: Yes, clean up all of those. Thank you for catching. 
 
 ### D4. Sector colors — confirm mapping
 **Default:** SynBio = green `#5A9E6F`, Security = orange `#E0945A`, Systems = lavender `#9B8ABF`.
 Beliefs: Threats = peach/red-shifted, Advantages = green-2. Product stage: `active` = full color +
 solid border; `slatted` = dashed border, muted, "Planned" tag.
-> Answer:
+> Answer: Great on that. 
 
 ### D5. Product category icons
 Categories present: Bioproduct, Hardware, Software.
 **Default:** One line-icon each in the marketing site's stroke style (DNA/flask, chip, code brackets).
-> Answer:
+> Answer: Go with default
 
 ### D6. Beliefs: any threat ↔ advantage relationships to draw?
 e.g. "Trusted Access" counters "Eroding Knowledge Moats". Would let me draw connector lines
 between the left (threats) and right (advantages) clusters.
 **Default:** No lines in v1; support an optional `counters: ["<threat title>"]` field on
 advantages so you can add them later and lines appear automatically.
-> Answer:
+> Answer: No need to draw relationships
 
 ### D7. Right-tray `context_items` shape — confirm now so your second pass drops straight in
 ```json
@@ -238,18 +238,18 @@ advantages so you can add them later and lines appear automatically.
 }
 ```
 **Default:** This shape. Tray renders a type-specific card; v1 shows 3 lorem placeholders per node.
-> Answer:
+> Answer: Go with default
 
 ### D8. Placeholder media
 For empty `video_link`, headshots, logos, galleries, backgrounds: generated SVG/gradient placeholders
 in brand colors with a subtle "placeholder" label, or use a stock-style image service?
 **Default:** Generated brand-colored placeholders (no external image calls; keeps the site private
 and fully offline-buildable).
-> Answer:
+> Answer: Go with default
 
 ### D9. Company intro video on the welcome state
 Exists yet? **Default:** Placeholder slot; "play" affordance is a small pulsing ring below the tagline.
-> Answer:
+> Answer: Doesn't exist yet. Just use a default placeholder like you've suggested. 
 
 ---
 
@@ -267,7 +267,7 @@ I plan to ship all of this in the first build:
 7. Cloudflare Pages deployment config and a README for creating links and uploading videos.
 
 Anything you want pulled out of v1 or added?
-> Answer:
+> Answer: No, ship it all that sounds great. 
 
 ---
 
