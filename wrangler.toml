@@ -1,0 +1,21 @@
+# Cloudflare Pages project for context.stablechaos.com
+# WS8 fills in the Functions; this skeleton keeps `npm run dev:api` working.
+
+name = "stable-chaos-story-site"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "dist"
+
+# D1 — create with:
+#   npx wrangler d1 create stable-chaos-context
+# then paste the returned database_id below.
+[[d1_databases]]
+binding = "DB"
+database_name = "stable-chaos-context"
+database_id = "PLACEHOLDER_DATABASE_ID"
+
+# Secrets (set with `npx wrangler pages secret put <NAME>`, never committed):
+#   SESSION_SECRET          HMAC key for the sc_s session cookie
+#   ADMIN_PASSWORD          /admin login
+#   IP_HASH_SECRET          HMAC key for hashed visitor IPs
+#   STREAM_SIGNING_KEY_ID   Cloudflare Stream signed playback
+#   STREAM_SIGNING_KEY_JWK  Cloudflare Stream signed playback

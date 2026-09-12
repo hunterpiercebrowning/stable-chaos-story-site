@@ -1,0 +1,6 @@
+# Copy to `.dev.vars` for local `npm run dev:api`. Never commit `.dev.vars`.
+SESSION_SECRET=dev-session-secret-change-me
+ADMIN_PASSWORD=dev-admin
+IP_HASH_SECRET=dev-ip-hash-secret
+STREAM_SIGNING_KEY_ID=
+STREAM_SIGNING_KEY_JWK=
