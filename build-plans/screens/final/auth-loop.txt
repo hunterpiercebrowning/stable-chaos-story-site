@@ -1,0 +1,302 @@
+# WS11 auth loop — 2026-09-12T18:26:37.040Z
+# Server: npm run dev:api:node on :8788 (real functions/**.ts through the Pages-style router, D1 shim over node:sqlite)
+# Reason: wrangler pages dev / workerd cannot start on macOS 13.2 (< 13.5). Re-run under wrangler on first deploy — see README "Verify on first deploy".
+# Browser steps use headless Chrome over CDP so the real client transport (sendBeacon batches, heartbeats) produces the events.
+
+==== 1. No cookie → /gate?r=none; API → 401; public vs private assets ====
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/
+302 http://127.0.0.1:8788/gate?r=none
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/sectors/biosecurity
+302 http://127.0.0.1:8788/gate?r=none
+
+$ curl http://127.0.0.1:8788/api/session
+{"error":"no session","reason":"none"}
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/gate
+200
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/admin
+200
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/favicon.svg
+200
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/assets/fonts/axiforma-400.woff2
+200
+# public entry chunk (router + gate + admin login form only):
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/assets/index-BFgwUoVw.js
+200
+# private chunks (content JSON, layers, admin pages, three.js) are gated:
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/assets/private/AppShell-AfYGZVNf.js
+302 http://127.0.0.1:8788/gate?r=none
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/assets/private/AdminApp-D5m7Va0-.js
+302 http://127.0.0.1:8788/gate?r=none
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/assets/headshots/anything.png
+302 http://127.0.0.1:8788/gate?r=none
+
+==== 2. Admin login (wrong, then right); admin cookie unlocks the private admin chunk but not the investor app ====
+
+$ curl -i -X POST http://127.0.0.1:8788/api/admin/login -d '{"password":"nope"}'
+HTTP/1.1 401 Unauthorized
+cache-control: no-store
+content-type: application/json; charset=utf-8
+Date: Sat, 12 Sep 2026 18:26:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"error":"wrong password"}
+
+$ curl -i -c admin.jar -X POST http://127.0.0.1:8788/api/admin/login -d '{"password":"dev-admin"}'
+HTTP/1.1 200 OK
+cache-control: no-store
+content-type: application/json; charset=utf-8
+set-cookie: sc_admin=<…>; Path=/; Max-Age=43200; HttpOnly; SameSite=Lax
+Date: Sat, 12 Sep 2026 18:26:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"ok":true}
+
+$ curl -b admin.jar http://127.0.0.1:8788/api/admin/login
+{"ok":true}
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' -b admin.jar http://127.0.0.1:8788/assets/private/AdminApp-D5m7Va0-.js
+200
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' -b admin.jar http://127.0.0.1:8788/assets/private/AppShell-AfYGZVNf.js
+200
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' -b admin.jar http://127.0.0.1:8788/sectors
+302 http://127.0.0.1:8788/gate?r=none
+
+==== 3. Admin creates an investor link ====
+
+$ curl -b admin.jar -X POST http://127.0.0.1:8788/api/admin/links -d '{"label":"Acme Ventures","notes":"intro via Jane"}'
+{"id":"bbc09b41-2d22-4117-9762-6fc83d45136e","token":"U6jLR63fUNswT0-rtXJOOfach8eCvJ80","url":"http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80","link":{"id":"bbc09b41-2d22-4117-9762-6fc83d45136e","token":"U6jLR63fUNswT0-rtXJOOfach8eCvJ80","url":"http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80","label":"Acme Ventures","notes":"intro via Jane","createdAt":1789237597170,"expiresAt":null,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":0,"opens":0,"lastSeenAt":null,"distinctIps":0,"distinctFingerprints":0,"distinctCountries":0,"forwardSuspect":false}}}
+# token=U6jLR63fUNswT0-rtXJOOfach8eCvJ80 link=bbc09b41-2d22-4117-9762-6fc83d45136e
+
+==== 4. Investor opens /i/<token> → 302 / with sc_s + sc_v; HTML is private/no-cache; /api/session returns the label ====
+
+$ curl -i -c inv.jar http://127.0.0.1:8788/i/<token>
+HTTP/1.1 302 Found
+cache-control: no-store
+location: http://127.0.0.1:8788/
+set-cookie: sc_s=<…>; Path=/; Max-Age=2592000; HttpOnly; SameSite=Lax
+set-cookie: sc_v=<…>; Path=/; Max-Age=2592000; HttpOnly; SameSite=Lax
+Date: Sat, 12 Sep 2026 18:26:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+$ curl -b inv.jar -i http://127.0.0.1:8788/ | head
+HTTP/1.1 200 OK
+cache-control: private, no-cache
+content-length: 565
+content-type: text/html; charset=utf-8
+Date: Sat, 12 Sep 2026 18:26:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="color-scheme" content="dark" />
+    <title>Stable Chaos</title>
+    <script type="module" crossorigin src="/assets/index-BFgwUoVw.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BzjzYNjm.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+
+$ curl -b inv.jar http://127.0.0.1:8788/api/session
+{"label":"Acme Ventures","linkId":"bbc09b41-2d22-4117-9762-6fc83d45136e","sessionId":"f0181446-cfda-4dd8-90e3-389d880f89a6"}
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' -b inv.jar http://127.0.0.1:8788/assets/private/AppShell-AfYGZVNf.js
+200
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/i/not-a-real-token
+302 http://127.0.0.1:8788/gate?r=invalid
+
+==== 5. Browser browse: headless Chrome follows the link, walks the story; the client batches events to /api/track ====
+browser: /i/<token> → / (welcome, "Prepared for" = null)
+browser: walked arrow → nav → keyboard → search → related → emphasis → presentation; now at /sectors
+browser cookies on http://127.0.0.1:8788: sc_s, sc_v
+
+==== 6. Admin sees the link with aggregates, the session, and the events the browser sent (newest first) ====
+
+$ curl -b admin.jar http://127.0.0.1:8788/api/admin/links  (this link only)
+{"links":[{"id":"bbc09b41-2d22-4117-9762-6fc83d45136e","token":"U6jLR63fUNswT0-rtXJOOfach8eCvJ80","url":"http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80","label":"Acme Ventures","notes":"intro via Jane","createdAt":1789237597170,"expiresAt":null,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":2,"opens":1,"lastSeenAt":1789237612124,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":0,"forwardSuspect":false}},{"id":"b40418d2-9de9-4132-b8b1-b0ab52c7f144","token":"yUV93BDesaqNSVFDL8OLX-LtjajAhKHm","url":"http://127.0.0.1:8788/i/yUV93BDesaqNSVFDL8OLX-LtjajAhKHm","label":"Acme Ventures (UI test)","notes":"Created through the admin UI during WS11 verification","createdAt":1789237558910,"expiresAt":1791829558909,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":0,"opens":0,"lastSeenAt":null,"distinctIps":0,"distinctFingerprints":0,"distinctCountries":0,"forwardSuspect":false}},{"id":"6faa5dab-197b-4c18-910e-18efdd3d736b","token":"1I_doeNlNiE8XHuHd84_D5GYDvFJsYaA","url":"http://127.0.0.1:8788/i/1I_doeNlNiE8XHuHd84_D5GYDvFJsYaA","label":"Acme Ventures (renamed)","notes":"intro via Jane","createdAt":1789237536495,"expiresAt":null,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":4,"opens":2,"lastSeenAt":1789237557639,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":0,"forwardSuspect":false}},{"id":"27db7d5d-b3dd-45b0-b74e-8cde36f939e0","token":"w8_YSsUwmQnbs9BVNvBbJp5EjsZJRHaF","url":"http://127.0.0.1:8788/i/w8_YSsUwmQnbs9BVNvBbJp5EjsZJRHaF","label":"Acme Ventures (renamed)","notes":"intro via Jane","createdAt":1789237402507,"expiresAt":null,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":4,"opens":2,"lastSeenAt":1789237424754,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":0,"forwardSuspect":false}},{"id":"a00c62c8-e84b-4b53-a0c6-363aa4edbf3e","token":"aVNsy5kNC9MA72wSiUOPCvkYpBqniV37","url":"http://127.0.0.1:8788/i/aVNsy5kNC9MA72wSiUOPCvkYpBqniV37","label":"Acme Ventures (UI test)","notes":"Created through the admin UI during WS11 verification","createdAt":1789237270479,"expiresAt":1791829270478,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":0,"opens":0,"lastSeenAt":null,"distinctIps":0,"distinctFingerprints":0,"distinctCountries":0,"forwardSuspect":false}},{"id":"b5fd7ea9-9b5b-4f66-a615-bf95f3babb9f","token":"FZuopRK5yPhPTX3umTWfHMypdpoQN6sb","url":"http://127.0.0.1:8788/i/FZuopRK5yPhPTX3umTWfHMypdpoQN6sb","label":"Acme Ventures (UI test)","notes":"Created through the admin UI during WS11 verification","createdAt":1789237233167,"expiresAt":1791829233165,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":0,"opens":0,"lastSeenAt":null,"distinctIps":0,"distinctFingerprints":0,"distinctCountries":0,"forwardSuspect":false}},{"id":"bd762d97-e130-4ba0-9ad1-dc9f19fa6103","token":"iSsHzjWYFTEdgZeRcpHM0kSKcuyDvpQI","url":"http://127.0.0.1:8788/i/iSsHzjWYFTEdgZeRcpHM0kSKcuyDvpQI","label":"Hunter (edited in UI)","notes":"Seeded by scripts/seed-link.mjs","createdAt":1789235657801,"expiresAt":1791829568938,"revokedAt":null,"isInternal":true,"status":"active","stats":{"sessions":15,"opens":163,"lastSeenAt":1789237536112,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":0,"forwardSuspect":false}}]}
+{
+ "id": "bbc09b41-2d22-4117-9762-6fc83d45136e",
+ "token": "U6jLR63fUNswT0-rtXJOOfach8eCvJ80",
+ "url": "http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80",
+ "label": "Acme Ventures",
+ "notes": "intro via Jane",
+ "createdAt": 1789237597170,
+ "expiresAt": null,
+ "revokedAt": null,
+ "isInternal": false,
+ "status": "active",
+ "stats": {
+  "sessions": 2,
+  "opens": 1,
+  "lastSeenAt": 1789237612124,
+  "distinctIps": 1,
+  "distinctFingerprints": 1,
+  "distinctCountries": 0,
+  "forwardSuspect": false
+ }
+}
+
+$ curl -b admin.jar http://127.0.0.1:8788/api/admin/links/<id>  (summary + sessions, ua/ipHash shortened)
+{"link":{"id":"bbc09b41-2d22-4117-9762-6fc83d45136e","token":"U6jLR63fUNswT0-rtXJOOfach8eCvJ80","url":"http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80","label":"Acme Ventures","notes":"intro via Jane","createdAt":1789237597170,"expiresAt":null,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":2,"opens":1,"lastSeenAt":1789237612124,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":0,"forwardSuspect":false}},"sessions":[{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","linkId":"bbc09b41-2d22-4117-9762-6fc83d45136e","startedAt":1789237599122,"lastSeenAt":1789237612124,"ipHash":"_5SUxLpyXj_14TPWPXj1LTW1F_XGvFcMQ3oUSSebIdY","country":null,"region":null,"city":null,"ua":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36","deviceClass":"desktop","viewport":"1440x900","fingerprint":"256cd53398a09e8915c0fb9d61de2b1e","eventCount":15},{"id":"f0181446-cfda-4dd8-90e3-389d880f89a6","linkId":"bbc09b41-2d22-4117-9762-6fc83d45136e","startedAt":1789237597177,"lastSeenAt":1789237597177,"ipHash":"_5SUxLpyXj_14TPWPXj1LTW1F_XGvFcMQ3oUSSebIdY","country":null,"region":null,"city":null,"ua":"curl/7.85.0","deviceClass":"bot","viewport":null,"fingerprint":null,"eventCount":0}],"summary":{"totalEvents":15,"topNodes":[{"nodeId":"cloud-lab","layerId":"sectors","focusCount":1,"dwellMs":2012},{"nodeId":"conformal-tactical-antennas","layerId":"products","focusCount":1,"dwellMs":851},{"nodeId":"security","layerId":"sectors","focusCount":1,"dwellMs":0}],"videos":[]}}
+{
+ "sessions": [
+  {
+   "id": "8db3d374-6229-4a92-a8db-c0ada85c13da",
+   "linkId": "bbc09b41-2d22-4117-9762-6fc83d45136e",
+   "startedAt": 1789237599122,
+   "lastSeenAt": 1789237612124,
+   "ipHash": "_5SUxLpy…",
+   "country": null,
+   "region": null,
+   "city": null,
+   "ua": "Mozilla/5.0 (Macintosh; …",
+   "deviceClass": "desktop",
+   "viewport": "1440x900",
+   "fingerprint": "256cd53398a09e8915c0fb9d61de2b1e",
+   "eventCount": 15
+  },
+  {
+   "id": "f0181446-cfda-4dd8-90e3-389d880f89a6",
+   "linkId": "bbc09b41-2d22-4117-9762-6fc83d45136e",
+   "startedAt": 1789237597177,
+   "lastSeenAt": 1789237597177,
+   "ipHash": "_5SUxLpy…",
+   "country": null,
+   "region": null,
+   "city": null,
+   "ua": "curl/7.85.0…",
+   "deviceClass": "bot",
+   "viewport": null,
+   "fingerprint": null,
+   "eventCount": 0
+  }
+ ],
+ "summary": {
+  "totalEvents": 15,
+  "topNodes": [
+   {
+    "nodeId": "cloud-lab",
+    "layerId": "sectors",
+    "focusCount": 1,
+    "dwellMs": 2012
+   },
+   {
+    "nodeId": "conformal-tactical-antennas",
+    "layerId": "products",
+    "focusCount": 1,
+    "dwellMs": 851
+   },
+   {
+    "nodeId": "security",
+    "layerId": "sectors",
+    "focusCount": 1,
+    "dwellMs": 0
+   }
+  ],
+  "videos": []
+ }
+}
+
+$ curl -b admin.jar http://127.0.0.1:8788/api/admin/links/<id>/events?limit=100  (type · layer/node · via)
+{"events":[{"id":548,"ts":1789237609876,"type":"presentation_toggle","layerId":null,"nodeId":null,"props":{"on":true},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":547,"ts":1789237609573,"type":"emphasis_change","layerId":null,"nodeId":null,"props":{"value":"security"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":546,"ts":1789237608676,"type":"layer_view","layerId":"sectors","nodeId":null,"props":{"layerId":"sectors","via":"related"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":545,"ts":1789237608675,"type":"node_focus","layerId":"sectors","nodeId":"security","props":{"layerId":"sectors","nodeId":"security","via":"related"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":544,"ts":1789237608675,"type":"node_blur","layerId":"products","nodeId":"conformal-tactical-antennas","props":{"layerId":"products","nodeId":"conformal-tactical-antennas","dwellMs":851},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":543,"ts":1789237608668,"type":"related_click","layerId":null,"nodeId":null,"props":{"fromNodeId":"conformal-tactical-antennas","toNodeId":"security"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":542,"ts":1789237607825,"type":"layer_view","layerId":"products","nodeId":null,"props":{"layerId":"products","via":"search"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":541,"ts":1789237607824,"type":"node_focus","layerId":"products","nodeId":"conformal-tactical-antennas","props":{"layerId":"products","nodeId":"conformal-tactical-antennas","via":"search"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":540,"ts":1789237607824,"type":"node_blur","layerId":"sectors","nodeId":"cloud-lab","props":{"layerId":"sectors","nodeId":"cloud-lab","dwellMs":2012},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":539,"ts":1789237607257,"type":"search","layerId":null,"nodeId":null,"props":{"q":"antenna","resultCount":1},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":538,"ts":1789237605812,"type":"node_focus","layerId":"sectors","nodeId":"cloud-lab","props":{"layerId":"sectors","nodeId":"cloud-lab","via":"keyboard"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":537,"ts":1789237604838,"type":"layer_view","layerId":"sectors","nodeId":null,"props":{"layerId":"sectors","via":"nav"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":536,"ts":1789237603930,"type":"layer_view","layerId":"who","nodeId":null,"props":{"layerId":"who","via":"arrow"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":535,"ts":1789237602870,"type":"layer_view","layerId":"welcome","nodeId":null,"props":{"layerId":"welcome","via":"url"},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}},{"id":534,"ts":1789237599165,"type":"session_start","layerId":null,"nodeId":null,"props":{"deviceClass":"desktop","viewport":"1440x900","fingerprint":"256cd53398a09e8915c0fb9d61de2b1e","tz":"America/Denver","lang":"en-US","referrer":""},"session":{"id":"8db3d374-6229-4a92-a8db-c0ada85c13da","deviceClass":"desktop","country":null,"region":null,"city":null}}],"nextCursor":null}
+  session_start       -         -                            
+  layer_view          welcome   -                            url
+  layer_view          who       -                            arrow
+  layer_view          sectors   -                            nav
+  node_focus          sectors   cloud-lab                    keyboard
+  search              -         -                            antenna
+  node_blur           sectors   cloud-lab                    
+  node_focus          products  conformal-tactical-antennas  search
+  layer_view          products  -                            search
+  related_click       -         -                            
+  node_blur           products  conformal-tactical-antennas  
+  node_focus          sectors   security                     related
+  layer_view          sectors   -                            related
+  emphasis_change     -         -                            security
+  presentation_toggle -         -                            on=true
+# duplicate layer_view/node_focus within 300ms: 0
+# heartbeat with context: []
+# nextCursor=null
+
+==== 7. Revoke → the investor's next navigation lands on /gate?r=revoked (D1 re-read on every HTML navigation) ====
+
+$ curl -b admin.jar -X PATCH http://127.0.0.1:8788/api/admin/links/<id> -d '{"revoke":true}'
+{"link":{"id":"bbc09b41-2d22-4117-9762-6fc83d45136e","token":"U6jLR63fUNswT0-rtXJOOfach8eCvJ80","url":"http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80","label":"Acme Ventures","notes":"intro via Jane","createdAt":1789237597170,"expiresAt":null,"revokedAt":1789237613668,"isInternal":false,"status":"revoked","stats":{"sessions":2,"opens":1,"lastSeenAt":1789237612124,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":0,"forwardSuspect":false}}}
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' -b inv.jar -H Accept: text/html http://127.0.0.1:8788/
+302 http://127.0.0.1:8788/gate?r=revoked
+browser: navigate to /beliefs → /gate?r=revoked · title "This link has been turned off"
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80
+302 http://127.0.0.1:8788/gate?r=revoked
+
+$ curl -b inv.jar http://127.0.0.1:8788/api/session  (API inside the 60s sc_v window may still answer; the next HTML navigation never does)
+{"label":"Acme Ventures","linkId":"bbc09b41-2d22-4117-9762-6fc83d45136e","sessionId":"f0181446-cfda-4dd8-90e3-389d880f89a6"}
+
+==== 8. Reactivate → the same link works again (new /i/ visit); then expire → /gate?r=expired; clear expiry → active ====
+
+$ curl -b admin.jar -X PATCH http://127.0.0.1:8788/api/admin/links/<id> -d '{"reactivate":true,"label":"Acme Ventures (renamed)"}'
+{"link":{"id":"bbc09b41-2d22-4117-9762-6fc83d45136e","token":"U6jLR63fUNswT0-rtXJOOfach8eCvJ80","url":"http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80","label":"Acme Ventures (renamed)","notes":"intro via Jane","createdAt":1789237597170,"expiresAt":null,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":2,"opens":1,"lastSeenAt":1789237612124,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":0,"forwardSuspect":false}}}
+browser: /i/<token> again → / · Prepared for = Acme Ventures (renamed)
+
+$ curl -b admin.jar -X PATCH http://127.0.0.1:8788/api/admin/links/<id> -d '{"expiresAt":"2020-01-01T00:00:00Z"}'
+{"link":{"id":"bbc09b41-2d22-4117-9762-6fc83d45136e","token":"U6jLR63fUNswT0-rtXJOOfach8eCvJ80","url":"http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80","label":"Acme Ventures (renamed)","notes":"intro via Jane","createdAt":1789237597170,"expiresAt":1577836800000,"revokedAt":null,"isInternal":false,"status":"expired","stats":{"sessions":3,"opens":2,"lastSeenAt":1789237615382,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":0,"forwardSuspect":false}}}
+browser: navigate to /who → /gate?r=expired · title "This link has expired"
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80
+302 http://127.0.0.1:8788/gate?r=expired
+
+$ curl -b admin.jar -X PATCH http://127.0.0.1:8788/api/admin/links/<id> -d '{"expiresAt":null}'
+{"link":{"id":"bbc09b41-2d22-4117-9762-6fc83d45136e","token":"U6jLR63fUNswT0-rtXJOOfach8eCvJ80","url":"http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80","label":"Acme Ventures (renamed)","notes":"intro via Jane","createdAt":1789237597170,"expiresAt":null,"revokedAt":null,"isInternal":false,"status":"active","stats":{"sessions":3,"opens":2,"lastSeenAt":1789237615382,"distinctIps":1,"distinctFingerprints":1,"distinctCountries":0,"forwardSuspect":false}}}
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' http://127.0.0.1:8788/i/U6jLR63fUNswT0-rtXJOOfach8eCvJ80
+302 http://127.0.0.1:8788/
+
+==== 9. Tampered cookie → /gate?r=invalid (cookies cleared); admin logout → 401 ====
+
+$ curl -i -H 'Cookie: sc_s=<…>
+HTTP/1.1 302 Found
+cache-control: no-store
+location: http://127.0.0.1:8788/gate?r=invalid
+set-cookie: sc_s=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+set-cookie: sc_v=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax
+Date: Sat, 12 Sep 2026 18:26:59 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+# the admin cookie is stateless (signed, 12h); logout clears it in the browser — the jar must accept the clearing Set-Cookie (-c):
+
+$ curl -b admin.jar -c admin.jar -X POST http://127.0.0.1:8788/api/admin/logout
+{"ok":true}
+
+$ curl -o /dev/null -w '%{http_code} %{redirect_url}' -b admin.jar http://127.0.0.1:8788/api/admin/links
+401
+
+==== Result ====
+revoke → /gate?r=revoked · reactivate → / · expire → /gate?r=expired

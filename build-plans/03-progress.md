@@ -87,7 +87,7 @@ Screenshots: `build-plans/screens/ws0-welcome.png`, `ws0-layer-sectors.png`,
 
 ---
 
-## WS1 — Who We Are `[~]`
+## WS1 — Who We Are `[x]`
 
 **Built** (`src/layers/who/**` only; registry untouched)
 
@@ -127,7 +127,7 @@ Screenshots: `build-plans/screens/ws1-who-layer.png`, `ws1-who-focus.png`.
 
 **Shared-file appends**: none (no new tokens or icons needed).
 
-## WS2 — What We Believe `[~]`
+## WS2 — What We Believe `[x]`
 
 **Built** (`src/layers/beliefs/**` only)
 
@@ -175,7 +175,7 @@ slot renders under the bullets. Zero console errors from app code. `typecheck`, 
 `ws2-beliefs-focus.png`.
 
 
-## WS3 — Critical Sectors `[~]`
+## WS3 — Critical Sectors `[x]`
 
 **Built** (`src/layers/sectors/**` only; registry untouched)
 
@@ -225,7 +225,7 @@ panels open (Molecular Engineering / Operations sit at the fold; the layer scrol
 panel or presentation mode fits it. If WS11 wants it to fit with both panels open, drop
 `.sectors-domain` `min-height` to 64 px or tighten the lattice gap.
 
-## WS4 — Services `[~]`
+## WS4 — Services `[x]`
 
 **Built** (`src/layers/services/**` only; registry untouched)
 
@@ -269,7 +269,7 @@ and data layer are untouched.
 Screenshots: `build-plans/screens/ws4-services-layer.png`, `ws4-services-emphasis.png`,
 `ws4-services-compressed.png`, `ws4-services-focus-company.png`, `ws4-services-focus-offering.png`.
 
-## WS5 — Products `[~]`
+## WS5 — Products `[x]`
 
 **Built** (`src/layers/products/**` only; branch `ws/5`)
 
@@ -413,7 +413,7 @@ open, while a video is expanded, and with a Cmd/Ctrl/Alt modifier held.
 Screenshots: `build-plans/screens/ws6-nav-expanded.png`, `ws6-nav-rail.png`, `ws6-search.png`,
 `ws6-presentation.png` (1440×900).
 
-## WS7 — Right Tray, Related Strip, Welcome, Background `[~]`
+## WS7 — Right Tray, Related Strip, Welcome, Background `[x]`
 
 **Built**
 
@@ -485,7 +485,7 @@ Screenshots: `build-plans/screens/ws7-welcome.png`, `ws7-tray.png`, `ws7-related
   its domain from `url` and falls back to `source`.
 
 
-## WS8 — Backend: Auth, Tracking, Video Token `[~]`
+## WS8 — Backend: Auth, Tracking, Video Token `[x]`
 
 **Built**
 
@@ -616,7 +616,7 @@ expiry → active · tampered cookie → `?r=invalid` · logout → 401. `typech
   (`npx wrangler d1 create`, paste ids into `wrangler.toml`, `db:migrate:remote`, four secrets).
 
 
-## WS9 — Admin UI `[~]`
+## WS9 — Admin UI `[x]`
 
 **Built** (`src/admin/**`, branch `ws/9`)
 
@@ -800,4 +800,117 @@ Screenshots: `build-plans/screens/ws10-video-inline.png`, `ws10-video-expanded.p
   `script-src https://embed.cloudflarestream.com` and `frame-src https://*.cloudflarestream.com
   https://iframe.videodelivery.net`.
 
-## WS11 — Integration, QA, Deploy Docs `[ ]`
+## WS11 — Integration, QA, Deploy Docs `[x]`
+
+Ran on `main` after all ten Phase 1 branches were merged. Five `[WS11]` commits, each with
+`typecheck`, `lint`, `test` and `build` clean. Environment: workerd cannot start on this Mac
+(macOS 13.2), so every end-to-end check ran against `npm run dev:api:node` (the real
+`functions/**.ts` over the `node:sqlite` D1 shim) with headless Chrome driven over CDP; the
+Chrome extension was not connected.
+
+**Fixed (numbers are the orchestrator's integration list)**
+
+- **A1–A5 admin ↔ backend contract** — `src/admin/api.ts` now maps the backend's wire shapes onto
+  the view shapes the pages use: `distinctFingerprints → distinctDevices`,
+  `distinctCountries → distinctLocations`, `distinctIps` kept (forwarding strip); detail
+  `{link, sessions, summary}` → `{link, sessions, topNodes, videos, forwarding, totalEvents}` with
+  `forwarding` derived from `link.stats` + the sessions' countries; `PATCH {revoked}` →
+  `{revoke: true}` / `{reactivate: true}`; create reads `201 {id, token, url, link}`; events' nested
+  `session.id` → `sessionId`; the login page probes `GET /api/admin/login → {ok}`. `mock.ts` now
+  emits the backend shapes so mock mode and the tests exercise the same normalization (4 new tests).
+  Every admin flow was then driven through the UI against the Node API at both sizes: guard
+  redirect, wrong password, login, list, New link (URL shown, row added), detail with real sessions
+  and a 60-event timeline, Revoke → Reactivate → Set/Extend expiry → Edit label, Sign out, guard
+  after sign-out. Zero console errors.
+- **B6** `AppShell` calls `setContextGetter(() => ({layerId, nodeId}))`.
+- **B7** Navigation intent: the control that navigates records `{via, path}` in the store
+  (`setNavIntent`); `Stage` (`layer_view`) and `FocusFrame` (`node_focus`) read it via
+  `navVia(path)` (exact/prefix path match, 2 s TTL) and fall back to `url`. The per-control
+  `layer_view`/`node_focus` calls and the duplicate `via: 'url'` events are gone; `click` was added
+  to the `via` vocabulary for card/rail clicks. The auth-loop transcript shows one event per
+  navigation with `arrow · nav · keyboard · search · related`, 0 duplicates.
+- **B8** `VideoHost` no longer fires `video_play`; `VideoPlayer` gained `initialExpanded`. This
+  also fixed a post-merge regression: the WS7 host only set the store flag, but the WS10 player
+  opens from its own button, so the welcome ring and tray video cards were inert after the merge.
+- **C9** `AppShell` and `Attractor` (three.js) are lazy; `vite.config.ts` emits every chunk that
+  bundles content JSON / `src/data` / `src/layers` / `src/shell` / the admin pages / three under
+  `assets/private/`; the entry (268 kB, react + router + gate + admin login form) has zero content
+  strings. The admin login form moved into the entry; `/admin/*` sits behind `AdminGuard`
+  (`GET /api/admin/login`) so the private admin chunk is only requested when signed in.
+  `_middleware.ts`: public = `/gate`, `/admin*`, `/i/*`, `/api/admin/*`, favicon, fonts, logos
+  and top-level `/assets/<name>-<hash>.js|css|map`; `/assets/private/*` goes through the gate with
+  `sc_admin` also accepted. `chunkSizeWarningLimit: 600` — the only chunk over 500 kB is three.js
+  alone (507 kB / 128 kB gzip), lazy behind the shell.
+- **C10** `.gitignore`: `.env`, `.env.*`, `!.env.example`.
+- **D11** `FocusFrame`: full stage height minus the rail (was 78 %), tighter paddings/gaps, body and
+  bullets at `--fs-base`, title clamp, and the inline video affordance inside a focus view is a
+  compact thumb + label row instead of a 300 px poster; with a media column (who, company) the
+  extras sit under the media. Products: frame min-width 720 px, video row and gallery side by side,
+  one gallery-level "placeholder" label (per-thumb tags clipped at 64 px). Measured at 1440×900 with
+  both panels open: 57-word/4-bullet and 45-word/6-bullet views fit with the related strip visible;
+  the 6-bullet 68-word lorem views overflow ≤ 43 px and scroll; the company focus with its
+  four-group related strip overflows 170 px and scrolls. At 1920×1080 every focus view fits (0 px).
+- **D12** `NodeCard` emits `data-belief`; `[data-belief='threat'] { --accent: var(--threat) }` —
+  rail threat cards read `#e8b89a`.
+- **D13** Services Compressed centres the company row (`data-collapsed` on the canvas).
+- **D14** Sectors: domain `min-height` 64 px, lattice/board gaps and padding tightened — fits
+  exactly at 1440×900 Expanded with both panels open (685/685).
+- **D15** `togglePresentation` removed from the store.
+- **D16** Welcome, `/gate` variants, `/background`, focus views and `/admin` checked in
+  presentation mode and with both panels collapsed at both sizes — no breakage.
+- **Found during the walk:** WS5's lightbox and WS6's key map both listen on `window` in the
+  capture phase and the map was registered first, so `→` inside the lightbox jumped to the sibling
+  node and `Esc` left the focus. Fixed with a `modalOpen` store flag (set by `ProductsLightbox`)
+  that makes the key map return early, like it does for an expanded video.
+
+**Verified** (`build-plans/screens/final/`, 1440×900 and 1920×1080 unless noted)
+
+Welcome (+ "Prepared for") · every layer view (Sectors/Services in both densities) · one focus per
+layer plus an offering and a slated product · emphasis on/off (Security dims 15 product cards, All
+dims 0) · both panels collapsed (sectors, welcome, background, company focus) · presentation mode
+(services, welcome, background, focus) · search "bio" (20 results, Enter opens) · the full
+keyboard walk (`↓↓→→← Esc Enter ↓↓ 3 1 [ ] P Esc ↑↑↑↑`, transcript in the run log — every key
+landed where the map says) · gallery lightbox (2/5 → `→` 3/5 → Esc stays on the node) · welcome
+intro and a tray video card open the expanded host · native mp4 via a temporary uncommitted
+`video_link` (expands, autoplays, Space pauses/resumes, Esc closes; events
+`play → 25 → 50 → pause@68 → play@70 → 75 → complete@100` landed in D1) · `/gate?r=none|revoked|
+expired|invalid` · admin login/links/new-link/detail/revoked/edited/timeline · mobile blocker at
+390×844 · reduced motion (`rafPerSec 0`, static frame) · attractor pauses on hidden
+(`rAF/s 21 → 0 → 16`) · frame time on a layer view under SwiftShader software GL: median 50 ms,
+p90 83 ms (WS3 measured 9–11 ms in a real browser; the software renderer is the bottleneck here).
+Zero console errors or warnings in every run.
+
+`auth-loop.txt`: no cookie → gate/401, public vs private chunks (302 without a session, 200 with
+`sc_s` or `sc_admin`, admin cookie does not open `/sectors`), admin login, create → `/i/<token>`
+→ cookies → `/api/session` label → a real headless browse whose batched events appear in the admin
+API with the right `via` and no duplicates → revoke → the browser's next navigation is
+`/gate?r=revoked` (screenshot) → reactivate → back in → expire → `/gate?r=expired` → clear expiry
+→ active → tampered cookie → `?r=invalid` + cookies cleared → logout → 401.
+
+**Docs:** `README.md` rewritten as the deploy + operations guide (local dev both ways, Pages setup,
+D1, secrets incl. `VITE_STREAM_CUSTOMER_CODE` as a build var, custom domain, first-deploy
+checklist, links, events, keyboard map, content, context items, Stream). `functions/README.md` gate
+rules updated. `build-plans/04-phase-3-handoff.md` written.
+
+**Not verified locally (verify on first deploy — README §4)**
+
+- The real Workers runtime, `wrangler pages dev`, `wrangler d1 migrations apply` and the Pages D1
+  binding: the Functions ran through the Node router + sqlite shim only.
+- `request.cf` geo (country/region/city) — always null locally; the forwarding heuristic on
+  countries is therefore untested with real data.
+- Cloudflare Stream signed playback (`/api/video/token` returns 501 until the secrets exist; the
+  unsigned fallback and native mp4 were exercised).
+- Real-GPU attractor frame times.
+
+**Remaining known issues**
+
+- Focus views with six long lorem bullets or the company focus (large related strip) scroll at
+  1440×900 with both panels open (by design; real copy will be shorter, and 1920 fits everything).
+- `opens` counts every page load's `session_start`, so a presenter reloading inflates it (WS9
+  already notes "opens" ≈ "sessions").
+- The admin cookie is stateless (signed, 12 h): Sign out clears it in the browser but a copied
+  cookie stays valid until it expires — acceptable for a single-admin tool; rotate
+  `SESSION_SECRET` to invalidate everything.
+- `via: 'click'` is not in the §6 catalogue (additive; the backend does not validate `via`).
+- Preview deployments share the production D1 unless `preview_database_id` is set to a second
+  database.
