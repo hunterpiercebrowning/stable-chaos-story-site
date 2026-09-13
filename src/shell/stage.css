@@ -86,6 +86,46 @@
   transform: translateY(2px);
 }
 
+/* "Keep going" cue on the next-layer arrow: the label breathes, the arrow drifts down and back. */
+.stage-footer .layer-arrow span {
+  animation: layer-arrow-breathe 3.2s var(--ease) infinite;
+}
+
+.stage-footer .layer-arrow svg {
+  animation: layer-arrow-bounce 2.4s var(--ease) infinite;
+}
+
+.stage-footer .layer-arrow:hover span,
+.stage-footer .layer-arrow:hover svg,
+.stage-footer .layer-arrow:focus-visible span,
+.stage-footer .layer-arrow:focus-visible svg {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes layer-arrow-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes layer-arrow-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(4px);
+  }
+  60% {
+    transform: translateY(3px);
+  }
+}
+
 .stage-header .layer-arrow:hover {
   transform: translateY(-2px);
 }
