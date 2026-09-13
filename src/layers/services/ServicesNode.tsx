@@ -40,10 +40,10 @@ export function CompanyLogo({ node, size }: { node: ServiceNode; size: 'card' | 
  * Services nodes. A company (primary) is the card plus a sibling external link
  * — anchors may not nest inside the card's `<button>` — and an offering
  * (secondary) is a compact card carrying its own sector tag. Under Compressed
- * the four company cards stand alone, so they carry the tagline, the offering
+ * the company cards stand alone, so they carry the tagline, the offering
  * count and a sector motif backdrop (revealed by services.css).
  */
-export function ServicesNode({ node, dimmed, collapsed, active, onSelect, ref }: ServicesNodeProps) {
+export function ServicesNode({ node, collapsed, active, onSelect, ref }: ServicesNodeProps) {
   if (!isService(node)) return null;
 
   if (node.tier === 'primary') {
@@ -53,14 +53,13 @@ export function ServicesNode({ node, dimmed, collapsed, active, onSelect, ref }:
     return (
       <div
         ref={ref}
-        className={cn('services-company', dimmed && 'is-dimmed', active && 'is-active')}
+        className={cn('services-company', active && 'is-active')}
         data-sector={node.sector}
       >
         <NodeCard
           node={node}
           size="md"
           className="services-company-card"
-          dimmed={dimmed}
           active={active}
           onSelect={onSelect}
         >
@@ -98,14 +97,13 @@ export function ServicesNode({ node, dimmed, collapsed, active, onSelect, ref }:
   return (
     <div
       ref={ref}
-      className={cn('services-offering', dimmed && 'is-dimmed', collapsed && 'is-collapsed')}
+      className={cn('services-offering', collapsed && 'is-collapsed')}
       data-sector={node.sector}
     >
       <NodeCard
         node={node}
         size="sm"
         className="services-offering-card"
-        dimmed={dimmed}
         collapsed={collapsed}
         active={active}
         onSelect={onSelect}

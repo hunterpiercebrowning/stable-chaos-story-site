@@ -30,7 +30,7 @@
   --band: var(--sector-systems);
 }
 
-/* Header: label · coloured rule · counts. Dims with emphasis; never hides. */
+/* Header: label · coloured rule · counts. */
 .products-band-head {
   display: flex;
   align-items: center;

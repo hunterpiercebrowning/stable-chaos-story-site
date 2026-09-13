@@ -91,10 +91,6 @@
   --tray-w: 320px;
   --tray-w-collapsed: 0px;
   --topbar-h: 56px;
-
-  /* ── states ── */
-  --dim-opacity: 0.22;
-  --dim-saturate: 0.3;
 }
 
 /* ── Axiforma ── */

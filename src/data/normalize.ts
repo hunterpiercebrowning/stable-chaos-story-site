@@ -117,7 +117,6 @@ export function normalizeLayers(raw: unknown[]): Layer[] {
         shortTitle: str(o.shortTitle) || str(o.title),
         path: str(o.path) || `/${str(o.id)}`,
         nodesFile: typeof o.nodesFile === 'string' ? o.nodesFile : null,
-        hasEmphasis: o.hasEmphasis === true,
         hasDensity: o.hasDensity === true,
       } satisfies Layer;
     })

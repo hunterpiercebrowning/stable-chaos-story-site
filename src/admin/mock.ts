@@ -230,9 +230,7 @@ function simulate(s: SessionRow, seed: SessionSeed) {
     } else if (roll < 0.7) {
       const q = pick(QUERIES);
       push(s, t, 'search', layer, node, { q, resultCount: between(0, 7) });
-    } else if (roll < 0.82) {
-      push(s, t, 'emphasis_change', layer, node, { value: pick(['all', 'synbio', 'security', 'systems']) });
-    } else if (roll < 0.9) {
+    } else if (roll < 0.86) {
       push(s, t, 'density_change', layer, node, { value: pick(['compressed', 'expanded']) });
     } else {
       push(s, t, 'presentation_toggle', layer, node, { on: rand() < 0.5 });

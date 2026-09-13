@@ -15,8 +15,8 @@ const ROWS: { group: WhoGroup; label: string }[] = [
 
 /**
  * Who We Are: a founders row (two larger cards) above rows of portfolio
- * leaders and experts, every row centred. This layer has neither emphasis nor
- * density, so the cards never dim or collapse.
+ * leaders and experts, every row centred. This layer has no density, so the
+ * cards never collapse.
  */
 export function WhoLayer({ nodes, focusedId, onSelect }: LayerViewProps) {
   const people = nodes.filter(isWho);

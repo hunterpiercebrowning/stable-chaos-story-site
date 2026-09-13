@@ -11,11 +11,9 @@ import './beliefs.css';
  * (disruption → peach, advantage → green-2). Row layout so a cluster of them
  * stacks compactly.
  */
-export function BeliefsNode({ node, dimmed, collapsed, active, onSelect }: NodeViewProps) {
+export function BeliefsNode({ node, collapsed, active, onSelect }: NodeViewProps) {
   if (!isBelief(node)) {
-    return (
-      <GenericNode node={node} dimmed={dimmed} collapsed={collapsed} active={active} onSelect={onSelect} />
-    );
+    return <GenericNode node={node} collapsed={collapsed} active={active} onSelect={onSelect} />;
   }
 
   const type = node.beliefType;
@@ -25,7 +23,6 @@ export function BeliefsNode({ node, dimmed, collapsed, active, onSelect }: NodeV
       node={node}
       size="sm"
       className={cn('beliefs-node', `beliefs-node--${type}`)}
-      dimmed={dimmed}
       collapsed={collapsed}
       active={active}
       onSelect={onSelect}

@@ -283,11 +283,6 @@
   max-width: calc(100% - 12px);
 }
 
-.services-company.is-dimmed .services-company-link {
-  opacity: var(--dim-opacity);
-  filter: saturate(var(--dim-saturate));
-}
-
 /* ── offering node ──────────────────────────────────── */
 
 .services-offering {

@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { getLayer, getNextLayer, getNode, getNodes, getPrevLayer, SECTOR_IDS } from '../data';
-import type { Emphasis, Layer, Node } from '../data/types';
+import { getLayer, getNextLayer, getNode, getNodes, getPrevLayer } from '../data';
+import type { Layer, Node } from '../data/types';
 import { track } from '../lib/track';
 import { useUi } from './ui';
 
@@ -14,7 +14,6 @@ import { useUi } from './ui';
  *   Esc          close, in priority: search → expanded video → focused node → presentation
  *   /            open search
  *   [  ]         toggle the left / right panel
- *   1 2 3 4      emphasis All / SynBio / Security / Systems (layers with emphasis only)
  *   P            toggle presentation mode
  *
  * Everything is ignored while the user is typing, while the search dialog is
@@ -50,15 +49,7 @@ export type KeyAction =
   | { type: 'escape' }
   | { type: 'search' }
   | { type: 'panel'; side: 'left' | 'right' }
-  | { type: 'emphasis'; value: Emphasis }
   | { type: 'presentation' };
-
-const EMPHASIS_BY_DIGIT: Record<string, Emphasis> = {
-  '1': 'all',
-  '2': SECTOR_IDS[0],
-  '3': SECTOR_IDS[1],
-  '4': SECTOR_IDS[2],
-};
 
 export interface KeyEventLike {
   key: string;
@@ -91,10 +82,8 @@ export function resolveKeyAction(e: KeyEventLike): KeyAction | null {
     case 'p':
     case 'P':
       return { type: 'presentation' };
-    default: {
-      const emphasis = EMPHASIS_BY_DIGIT[e.key];
-      return emphasis ? { type: 'emphasis', value: emphasis } : null;
-    }
+    default:
+      return null;
   }
 }
 
@@ -217,12 +206,6 @@ export function useKeyboard(): void {
           e.preventDefault();
           if (action.side === 'left') ui.toggleLeft();
           else ui.toggleRight();
-          return;
-        case 'emphasis':
-          if (!layer.hasEmphasis || ui.emphasis === action.value) return;
-          e.preventDefault();
-          ui.setEmphasis(action.value);
-          track('emphasis_change', { value: action.value });
           return;
         case 'presentation': {
           e.preventDefault();

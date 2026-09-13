@@ -9,7 +9,6 @@ export interface Connection {
   to: string;
   /** Sector color for the curve; falls back to a neutral stroke. */
   sector?: SectorId;
-  dimmed?: boolean;
 }
 
 export interface ConnectorLayerProps {
@@ -51,7 +50,6 @@ export function ConnectorLayer({ connections, rects, className }: ConnectorLayer
           className="connector"
           d={p.d}
           data-sector={p.sector}
-          data-dimmed={p.dimmed ? 'true' : undefined}
         />
       ))}
     </svg>

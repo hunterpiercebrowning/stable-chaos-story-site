@@ -51,11 +51,11 @@ function buildColumns(nodes: Node[]): { columns: Column[]; orphans: ServiceNode[
 
 /**
  * Services: the company cards across the top, their offerings in columns
- * beneath, joined by connectors in the company's sector colour. Emphasis dims
- * by sector (never hides); Compressed density folds the offerings away.
+ * beneath, joined by connectors in the company's sector colour. Compressed
+ * density folds the offerings away.
  */
 export function ServicesLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
-  const { isDimmed, isCollapsed } = useLayerState(layer);
+  const { isCollapsed } = useLayerState(layer);
   const { columns, orphans } = useMemo(() => buildColumns(nodes), [nodes]);
   const { containerRef, register, rects, measure } = useRects();
 
@@ -64,9 +64,8 @@ export function ServicesLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
     columns.every((c) => c.offerings.every(isCollapsed));
 
   // The container's ResizeObserver catches most layout changes; these settle
-  // the measurement after the panel / density / emphasis animations finish.
+  // the measurement after the panel / density animations finish.
   const density = useUi((s) => s.density);
-  const emphasis = useUi((s) => s.emphasis);
   const leftOpen = useUi((s) => s.leftOpen);
   const rightOpen = useUi((s) => s.rightOpen);
   const presentation = useUi((s) => s.presentation);
@@ -78,7 +77,7 @@ export function ServicesLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
       window.clearTimeout(t1);
       window.clearTimeout(t2);
     };
-  }, [measure, density, emphasis, leftOpen, rightOpen, presentation]);
+  }, [measure, density, leftOpen, rightOpen, presentation]);
 
   const connections: Connection[] = columns.flatMap(({ company, offerings }) =>
     offerings.map((offering) => ({
@@ -86,7 +85,6 @@ export function ServicesLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
       from: company.id,
       to: offering.id,
       sector: company.sector,
-      dimmed: isDimmed(company) || isDimmed(offering),
     })),
   );
 
@@ -113,7 +111,6 @@ export function ServicesLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
               key={company.id}
               ref={register(company.id)}
               node={company}
-              dimmed={isDimmed(company)}
               active={company.id === focusedId}
               onSelect={onSelect}
             />
@@ -133,7 +130,6 @@ export function ServicesLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
                     key={offering.id}
                     ref={register(offering.id)}
                     node={offering}
-                    dimmed={isDimmed(offering)}
                     collapsed={isCollapsed(offering)}
                     active={offering.id === focusedId}
                     onSelect={onSelect}
@@ -149,7 +145,6 @@ export function ServicesLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
                 <ServicesNode
                   key={offering.id}
                   node={offering}
-                  dimmed={isDimmed(offering)}
                   collapsed={isCollapsed(offering)}
                   active={offering.id === focusedId}
                   onSelect={onSelect}

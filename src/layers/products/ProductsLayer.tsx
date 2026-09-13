@@ -1,7 +1,4 @@
 import { SECTOR_IDS, SECTOR_LABEL, type Node, type ProductNode, type SectorId } from '../../data/types';
-import { cn } from '../../lib/cn';
-import { useUi } from '../../store/ui';
-import { useLayerState } from '../helpers';
 import type { LayerViewProps } from '../types';
 import { ProductsNode } from './ProductsNode';
 import './products.css';
@@ -29,26 +26,22 @@ function buildBands(nodes: Node[]): Band[] {
 
 /**
  * Three sector bands — SynBio, Security, Systems — each with a coloured header
- * rule and a grid of product cards. Emphasis dims the other bands (header and
- * cards alike); nothing is ever hidden. Products has no density.
+ * rule and a grid of product cards. Products has no density.
  */
-export function ProductsLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
-  const { isDimmed } = useLayerState(layer);
-  const emphasis = useUi((s) => s.emphasis);
+export function ProductsLayer({ nodes, focusedId, onSelect }: LayerViewProps) {
   const bands = buildBands(nodes);
 
   return (
     <div className="products-layer">
       {bands.map((band) => {
-        const bandDimmed = layer.hasEmphasis && emphasis !== 'all' && emphasis !== band.sector;
         return (
           <section
             key={band.sector}
-            className={cn('products-band', bandDimmed && 'is-dimmed-band')}
+            className="products-band"
             data-sector={band.sector}
             aria-label={`${SECTOR_LABEL[band.sector]} products`}
           >
-            <header className={cn('products-band-head', bandDimmed && 'is-dimmed')}>
+            <header className="products-band-head">
               <span className="products-band-title">{SECTOR_LABEL[band.sector]}</span>
               <span className="products-band-rule" aria-hidden="true" />
               <span className="products-band-count">
@@ -65,7 +58,6 @@ export function ProductsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
                 <ProductsNode
                   key={node.id}
                   node={node}
-                  dimmed={isDimmed(node)}
                   active={node.id === focusedId}
                   onSelect={onSelect}
                 />

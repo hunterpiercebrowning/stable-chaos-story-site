@@ -224,7 +224,7 @@ Every visitor action is one row in D1 (`events`), batched by the client every 5s
 on tab hide. Types: `session_start` (device, viewport, fingerprint, tz, lang, referrer),
 `heartbeat` (every 30s, with the current layer/node), `layer_view` and `node_focus` (each with
 `via` = `arrow` · `nav` · `search` · `keyboard` · `related` · `click` · `url`), `node_blur`
-(dwell ms), `emphasis_change`, `density_change`, `search`, `related_click`, `context_item_open`,
+(dwell ms), `density_change`, `search`, `related_click`, `context_item_open`,
 `external_link`, `video_play` / `video_pause` / `video_progress` (25/50/75) / `video_complete`,
 `presentation_toggle`. Nothing is tracked on `/gate` or `/admin`.
 
@@ -238,11 +238,10 @@ on tab hide. Types: `session_start` (device, viewport, fingerprint, tz, lang, re
 | `Esc` | close, in order: search → expanded video → gallery lightbox → focused node → presentation mode |
 | `/` | search (↑↓ move, Enter open) |
 | `[` / `]` | toggle the left index (full ↔ icon rail) / the right tray |
-| `1` `2` `3` `4` | emphasis All / SynBio / Security / Systems (Sectors, Services, Products) |
 | `P` | presentation mode (panels away, minimal chrome; `P` or `Esc` exits) |
 | `Space` (video open) | play / pause |
 
-Emphasis and density (Compressed / Expanded, top bar) are not in the URL; density and the panel
+Density (Compressed / Expanded, top bar) is not in the URL; density and the panel
 state persist in the browser.
 
 ---
@@ -328,7 +327,7 @@ content/         the JSON Hunter edits — every word and image path on the site
 public/assets/   fonts, logos, headshots, icons (served as-is; headshots/icons are gated)
 src/data/        the only module that reads content/. getLayers/getNodes/getNode/getRelated/search,
                  getCopy/getContextItems/getPoster (lorem + placeholder fallbacks)
-src/store/       Zustand UI state (emphasis, density, panels, presentation, search, video, nav intent)
+src/store/       Zustand UI state (density, panels, presentation, search, video, nav intent)
                  + the global keyboard map
 src/lib/         track (event batching + heartbeats), video (source resolution, Stream token), session, measure
 src/shell/       AppShell, TopBar, LeftNav, RightTray, Stage, Attractor, SearchOverlay, MobileBlocker
@@ -349,8 +348,7 @@ wrangler.toml    Pages project config: output dir, D1 binding, secret names
 - The URL owns `layerId` and the focused node; Zustand owns everything else.
 - Components import data only from `src/data` and fire events only through `track()`.
 - Colors, spacing, radii and motion come from `src/styles/tokens.css`; no hardcoded hex elsewhere.
-- Emphasis dims non-matching nodes (never hides). Compressed density collapses secondary nodes on
-  Sectors and Services.
+- Compressed density collapses secondary nodes on Sectors and Services.
 - Desktop only: below 1024px the site shows the full-screen "please view on a laptop or desktop".
 - `vite.config.ts` decides which chunks are private (content, `src/data`, `src/layers`,
   `src/shell`, `src/admin` pages, three.js). Keep new content-bearing modules under those paths.

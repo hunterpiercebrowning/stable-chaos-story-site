@@ -4,11 +4,9 @@ import { Navigate, useNavigate } from 'react-router';
 import { NodeCard } from '../components/NodeCard';
 import { getNextLayer, getNodes, getPrevLayer } from '../data';
 import type { Node } from '../data/types';
-import { useLayerState } from '../layers/helpers';
 import { getLayerComponents } from '../layers/registry';
 import { track } from '../lib/track';
 import { navVia, useUi } from '../store/ui';
-import { EmphasisControl } from './EmphasisControl';
 import { LayerArrow } from './LayerArrows';
 import { useRoute } from './useRoute';
 import './stage.css';
@@ -67,10 +65,9 @@ export function Stage() {
     <div className="stage" data-layer={layer.id} data-focused={node ? 'true' : undefined}>
       <div className="stage-scroll sc-scroll">
         {/* The welcome state carries its own wordmark, so it has no head at all. */}
-        {layer.id === 'welcome' && !layer.hasEmphasis ? null : (
+        {layer.id === 'welcome' ? null : (
           <div className="stage-head">
-            {layer.id === 'welcome' ? null : <h1 className="stage-title">{layer.title}</h1>}
-            {layer.hasEmphasis ? <EmphasisControl /> : null}
+            <h1 className="stage-title">{layer.title}</h1>
           </div>
         )}
 
@@ -120,8 +117,6 @@ interface FocusRailProps {
 
 /** Compact siblings along the bottom of a focus view, for jumping sideways. */
 function FocusRail({ nodes, focusedId, onSelect }: FocusRailProps) {
-  const { layer } = useRoute();
-  const { isDimmed } = useLayerState(layer!);
   if (nodes.length < 2) return null;
 
   return (
@@ -133,7 +128,6 @@ function FocusRail({ nodes, focusedId, onSelect }: FocusRailProps) {
           size="xs"
           // The focused card owns the shared layoutId; rail copies opt out.
           layoutId={null}
-          dimmed={isDimmed(n)}
           active={n.id === focusedId}
           onSelect={onSelect}
         />

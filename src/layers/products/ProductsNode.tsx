@@ -10,7 +10,7 @@ import './products.css';
  * sector and stage tags the base card already renders. Active products are
  * solid; slated ones are dashed, muted and tagged "Slated".
  */
-export function ProductsNode({ node, dimmed, collapsed, active, onSelect }: NodeViewProps) {
+export function ProductsNode({ node, collapsed, active, onSelect }: NodeViewProps) {
   if (node.layerId !== 'products') return null;
   const slated = node.stage === 'slated';
 
@@ -18,7 +18,6 @@ export function ProductsNode({ node, dimmed, collapsed, active, onSelect }: Node
     <NodeCard
       node={node}
       size="md"
-      dimmed={dimmed}
       collapsed={collapsed}
       active={active}
       onSelect={onSelect}

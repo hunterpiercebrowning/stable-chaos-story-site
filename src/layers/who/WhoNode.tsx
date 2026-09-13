@@ -17,7 +17,6 @@ export interface WhoNodeProps extends NodeViewProps {
  */
 export function WhoNode({
   node,
-  dimmed,
   collapsed,
   active,
   onSelect,
@@ -29,7 +28,6 @@ export function WhoNode({
     <NodeCard
       node={node}
       size={variant === 'founder' ? 'lg' : 'md'}
-      dimmed={dimmed}
       collapsed={collapsed}
       active={active}
       onSelect={onSelect}

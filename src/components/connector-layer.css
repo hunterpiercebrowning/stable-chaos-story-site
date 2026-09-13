@@ -27,6 +27,3 @@
   stroke: color-mix(in srgb, var(--sector-systems) 70%, transparent);
 }
 
-.connector[data-dimmed='true'] {
-  opacity: 0.12;
-}

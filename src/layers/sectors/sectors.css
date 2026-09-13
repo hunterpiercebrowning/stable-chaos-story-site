@@ -329,14 +329,6 @@
   );
 }
 
-/* ── emphasis ── */
-/* NodeCard drives opacity via motion; the class adds desaturation so dimmed
-   cards read as "not this sector" rather than merely faded. */
-.node-card.sectors-sector.is-dimmed,
-.node-card.sectors-domain.is-dimmed {
-  filter: saturate(var(--dim-saturate));
-}
-
 /* ── focus ── */
 .sectors-focus-eyebrow {
   display: inline-flex;

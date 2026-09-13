@@ -9,14 +9,9 @@ import './node-card.css';
 
 export type NodeCardSize = 'xs' | 'sm' | 'md' | 'lg' | 'wide';
 
-/** Mirrors --dim-opacity in tokens.css. */
-const DIM_OPACITY = 0.22;
-
 export interface NodeCardProps {
   node: Node;
   size?: NodeCardSize;
-  /** Emphasis miss — dim, never hide. */
-  dimmed?: boolean;
   /** Density collapse — animates out, still in the DOM. */
   collapsed?: boolean;
   active?: boolean;
@@ -52,12 +47,11 @@ function defaultSubtitle(node: Node): string | null {
 
 /**
  * The base node surface every layer builds on: glass card, size variants,
- * dim/collapse states and the `layoutId` that grows into the focus frame.
+ * collapse state and the `layoutId` that grows into the focus frame.
  */
 export function NodeCard({
   node,
   size = 'md',
-  dimmed = false,
   collapsed = false,
   active = false,
   layoutId,
@@ -81,7 +75,6 @@ export function NodeCard({
       className={cn(
         'node-card',
         `node-card--${size}`,
-        dimmed && 'is-dimmed',
         collapsed && 'is-collapsed',
         active && 'is-active',
         className,
@@ -94,10 +87,10 @@ export function NodeCard({
       aria-pressed={active}
       onClick={() => onSelect?.(node)}
       // Motion writes inline styles on layout-animated elements, which would win
-      // over the .is-dimmed / .is-collapsed classes — so drive both here and keep
-      // the classes as styling hooks for the layers.
+      // over the .is-collapsed class — so drive it here and keep the class as a
+      // styling hook for the layers.
       animate={{
-        opacity: collapsed ? 0 : dimmed ? DIM_OPACITY : 1,
+        opacity: collapsed ? 0 : 1,
         scale: collapsed ? 0.96 : 1,
       }}
       transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}

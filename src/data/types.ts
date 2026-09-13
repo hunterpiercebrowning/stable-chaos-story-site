@@ -29,7 +29,6 @@ export interface Layer {
   shortTitle: string;
   path: string;
   nodesFile: string | null;
-  hasEmphasis: boolean;
   hasDensity: boolean;
 }
 
@@ -140,5 +139,4 @@ export interface SearchResult extends NodeRef {
   match: 'title' | 'body';
 }
 
-export type Emphasis = 'all' | SectorId;
 export type Density = 'compressed' | 'expanded';

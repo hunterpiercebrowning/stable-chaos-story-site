@@ -30,7 +30,6 @@
     "shortTitle": "Sectors",
     "path": "/sectors",
     "nodesFile": "sectors-nodes.json",
-    "hasEmphasis": true,
     "hasDensity": true
   },
   {
@@ -40,7 +39,6 @@
     "shortTitle": "Services",
     "path": "/services",
     "nodesFile": "service-nodes.json",
-    "hasEmphasis": true,
     "hasDensity": true
   },
   {
@@ -49,8 +47,7 @@
     "title": "Products",
     "shortTitle": "Products",
     "path": "/products",
-    "nodesFile": "product-nodes.json",
-    "hasEmphasis": true
+    "nodesFile": "product-nodes.json"
   },
   {
     "id": "background",

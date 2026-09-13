@@ -22,7 +22,7 @@ Rules that apply to **every** node file:
 
 There are exactly three sectors. Everywhere a sector is referenced, use the **id**.
 
-| id | label (tags, emphasis control) | display title | color token |
+| id | label (tags) | display title | color token |
 |---|---|---|---|
 | `synbio` | SynBio | Synthetic Bio | `--sector-synbio` `#5A9E6F` |
 | `security` | Security | Security | `--sector-security` `#E0945A` |
@@ -35,7 +35,7 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 
 ```json
 { "id": "sectors", "order": 3, "title": "Critical Sectors", "shortTitle": "Sectors",
-  "path": "/sectors", "nodesFile": "sectors-nodes.json", "hasEmphasis": true, "hasDensity": true }
+  "path": "/sectors", "nodesFile": "sectors-nodes.json", "hasDensity": true }
 ```
 
 | field | notes |
@@ -46,7 +46,6 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | `shortTitle` | left nav / breadcrumb / related-strip grouping |
 | `path` | route |
 | `nodesFile` | file in this folder, or `null` (welcome) |
-| `hasEmphasis` | show the All/SynBio/Security/Systems segmented control; non-matching nodes dim |
 | `hasDensity` | Compressed collapses this layer's `secondary` nodes |
 
 ## `who-nodes.json`

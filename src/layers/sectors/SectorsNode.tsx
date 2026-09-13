@@ -19,7 +19,7 @@ export interface SectorsNodeProps extends NodeViewProps {
  * as a border tint; dual-sector domains take the border from the first sector,
  * the glow from the second and a two-stop gradient of both (see sectors.css).
  */
-export function SectorsNode({ node, dimmed, collapsed, active, onSelect, ref }: SectorsNodeProps) {
+export function SectorsNode({ node, collapsed, active, onSelect, ref }: SectorsNodeProps) {
   const sectors = nodeSectors(node);
   const isSector = node.tier === 'primary';
 
@@ -33,7 +33,6 @@ export function SectorsNode({ node, dimmed, collapsed, active, onSelect, ref }: 
         node={node}
         size="wide"
         className="sectors-sector"
-        dimmed={dimmed}
         collapsed={collapsed}
         active={active}
         onSelect={onSelect}
@@ -66,7 +65,6 @@ export function SectorsNode({ node, dimmed, collapsed, active, onSelect, ref }: 
       node={node}
       size="sm"
       className="sectors-domain"
-      dimmed={dimmed}
       collapsed={collapsed}
       active={active}
       onSelect={onSelect}

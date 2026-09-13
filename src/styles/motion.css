@@ -1,11 +1,5 @@
 /* Shared motion primitives. Component-specific animation lives with its component. */
 
-.is-dimmed {
-  opacity: var(--dim-opacity);
-  filter: saturate(var(--dim-saturate));
-  transition: opacity var(--dur) var(--ease), filter var(--dur) var(--ease);
-}
-
 .is-collapsed {
   opacity: 0;
   transform: translateY(-6px) scale(0.96);

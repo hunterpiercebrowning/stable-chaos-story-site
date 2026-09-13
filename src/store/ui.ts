@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Density, Emphasis } from '../data/types';
+import type { Density } from '../data/types';
 
 /**
  * Everything that is *not* in the URL. `layerId` and `focusedNodeId` come from
@@ -10,7 +10,6 @@ import type { Density, Emphasis } from '../data/types';
  * setup survives a reload; transient flags (search, video, presentation) do not.
  */
 export interface UiState {
-  emphasis: Emphasis;
   density: Density;
   leftOpen: boolean;
   rightOpen: boolean;
@@ -18,7 +17,6 @@ export interface UiState {
   searchOpen: boolean;
   videoExpanded: boolean;
 
-  setEmphasis: (emphasis: Emphasis) => void;
   setDensity: (density: Density) => void;
   toggleDensity: () => void;
   setLeftOpen: (open: boolean) => void;
@@ -31,10 +29,13 @@ export interface UiState {
   reset: () => void;
 
   /* ── WS6 appends ── */
-  /** Left-nav group open state per layer id. Absent = open. */
+  /**
+   * Left-nav groups opened or closed by hand, per layer id. Absent = open only
+   * for the current layer. Cleared whenever the current layer changes.
+   */
   navGroups: Record<string, boolean>;
   setNavGroup: (layerId: string, open: boolean) => void;
-  toggleNavGroup: (layerId: string) => void;
+  resetNavGroups: () => void;
 
   /* ── WS11 appends ── */
   /**
@@ -68,7 +69,6 @@ export interface NavIntent {
 export const NAV_INTENT_TTL_MS = 2_000;
 
 const INITIAL = {
-  emphasis: 'all' as Emphasis,
   density: 'compressed' as Density,
   leftOpen: true,
   rightOpen: true,
@@ -104,7 +104,6 @@ export const useUi = create<UiState>()(
     (set, get) => ({
       ...INITIAL,
 
-      setEmphasis: (emphasis) => set({ emphasis }),
       setDensity: (density) => set({ density }),
       toggleDensity: () =>
         set({ density: get().density === 'compressed' ? 'expanded' : 'compressed' }),
@@ -124,10 +123,7 @@ export const useUi = create<UiState>()(
 
       /* ── WS6 appends ── */
       setNavGroup: (layerId, open) => set({ navGroups: { ...get().navGroups, [layerId]: open } }),
-      toggleNavGroup: (layerId) => {
-        const groups = get().navGroups;
-        set({ navGroups: { ...groups, [layerId]: !(groups[layerId] ?? true) } });
-      },
+      resetNavGroups: () => set({ navGroups: {} }),
 
       /* ── WS11 appends ── */
       setNavIntent: (via, path) => set({ navIntent: { via, path, at: Date.now() } }),

@@ -24,7 +24,8 @@ const LAYER_ICON: Record<LayerId, IconName> = {
 /**
  * Site index. Open: a search entry plus a collapsible group per layer with the
  * primary tier bold and each primary's secondaries nested under it (hidden under
- * Compressed density with a "+N more" affordance). Closed: an icon rail, one
+ * Compressed density with a "+N more" affordance). Only the current layer's group
+ * is open; the rest collapse when the layer changes. Closed: an icon rail, one
  * icon per layer, with tooltips.
  */
 export function LeftNav() {
@@ -40,25 +41,26 @@ function NavFull() {
   const setSearchOpen = useUi((s) => s.setSearchOpen);
   const density = useUi((s) => s.density);
   const navGroups = useUi((s) => s.navGroups);
-  const setNavGroup = useUi((s) => s.setNavGroup);
+  const resetNavGroups = useUi((s) => s.resetNavGroups);
   const reduced = useReducedMotion();
   const listRef = useRef<HTMLElement>(null);
 
-  // Navigating into a layer always reveals its group.
-  const activeClosed = navGroups[layerId] === false;
+  // A new layer opens its own group and collapses the rest, dropping any hand
+  // toggles; within a layer, opening or closing a group by hand sticks.
+  const prevLayerId = useRef(layerId);
+  const layerChanged = prevLayerId.current !== layerId;
   useEffect(() => {
-    if (activeClosed) setNavGroup(layerId, true);
-    // Only when the layer changes — closing the current layer's group by hand must stick.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layerId]);
+    prevLayerId.current = layerId;
+    resetNavGroups();
+  }, [layerId, resetNavGroups]);
 
   // Keep the active node (or layer) in view.
   useEffect(() => {
     const root = listRef.current;
     if (!root) return;
     const selector = nodeId ? `[data-node-id="${nodeId}"]` : `[data-layer-id="${layerId}"]`;
-    // Wait for a group that is opening to finish growing before measuring.
-    const delay = activeClosed ? 360 : 30;
+    // Wait for the groups to finish opening and collapsing before measuring.
+    const delay = layerChanged ? 360 : 30;
     const id = window.setTimeout(() => {
       root
         .querySelector<HTMLElement>(selector)
@@ -89,7 +91,7 @@ function NavFull() {
             key={layer.id}
             layer={layer}
             active={layer.id === layerId}
-            open={navGroups[layer.id] ?? true}
+            open={navGroups[layer.id] ?? layer.id === layerId}
             nodeId={nodeId}
             compressed={layer.hasDensity && density === 'compressed'}
           />
@@ -109,7 +111,7 @@ interface NavGroupProps {
 
 function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
   const navigate = useNavigate();
-  const toggleNavGroup = useUi((s) => s.toggleNavGroup);
+  const setNavGroup = useUi((s) => s.setNavGroup);
   const setDensity = useUi((s) => s.setDensity);
   const nodes = getNodes(layer.id);
   const { branches, orphans } = getNavTree(layer.id);
@@ -178,7 +180,7 @@ function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
             aria-expanded={open}
             aria-controls={bodyId}
             aria-label={`${open ? 'Collapse' : 'Expand'} ${layer.title}`}
-            onClick={() => toggleNavGroup(layer.id)}
+            onClick={() => setNavGroup(layer.id, !open)}
           >
             {nodes.length > 0 ? <span className="leftnav-count">{nodes.length}</span> : null}
             <Icon name="chevron-down" size={13} className="leftnav-chevron" />

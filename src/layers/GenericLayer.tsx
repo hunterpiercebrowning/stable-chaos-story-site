@@ -8,7 +8,7 @@ import './generic.css';
  * Phase 1 replaces this per layer; until then every layer is fully navigable.
  */
 export function GenericLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
-  const { isDimmed, isCollapsed } = useLayerState(layer);
+  const { isCollapsed } = useLayerState(layer);
   const primary = nodes.filter((n) => n.tier === 'primary');
   const secondary = nodes.filter((n) => n.tier === 'secondary');
   const secondaryCollapsed = secondary.length > 0 && secondary.every(isCollapsed);
@@ -32,7 +32,6 @@ export function GenericLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
           <GenericNode
             key={node.id}
             node={node}
-            dimmed={isDimmed(node)}
             active={node.id === focusedId}
             onSelect={onSelect}
           />
@@ -46,7 +45,6 @@ export function GenericLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
               <GenericNode
                 key={node.id}
                 node={node}
-                dimmed={isDimmed(node)}
                 collapsed={isCollapsed(node)}
                 active={node.id === focusedId}
                 onSelect={onSelect}
@@ -60,12 +58,11 @@ export function GenericLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
 }
 
 /** Default node rendering — the base card with no layer-specific chrome. */
-export function GenericNode({ node, dimmed, collapsed, active, onSelect }: NodeViewProps) {
+export function GenericNode({ node, collapsed, active, onSelect }: NodeViewProps) {
   return (
     <NodeCard
       node={node}
       size={node.tier === 'primary' ? 'md' : 'sm'}
-      dimmed={dimmed}
       collapsed={collapsed}
       active={active}
       onSelect={onSelect}

@@ -11,7 +11,6 @@ export interface LayerViewProps {
 
 export interface NodeViewProps {
   node: Node;
-  dimmed?: boolean;
   collapsed?: boolean;
   active?: boolean;
   onSelect: (node: Node) => void;

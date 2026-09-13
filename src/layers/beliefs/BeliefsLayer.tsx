@@ -1,7 +1,6 @@
 import { Fragment, type CSSProperties } from 'react';
 import type { BeliefNode, BeliefType } from '../../data/types';
 import { cn } from '../../lib/cn';
-import { useLayerState } from '../helpers';
 import type { LayerViewProps } from '../types';
 import { BeliefsNode } from './BeliefsNode';
 import { isBelief } from './beliefs';
@@ -41,7 +40,6 @@ const CLUSTERS: { type: BeliefType; title: string; hint: string; slots: Slot[] }
  * disruptions on the left in the warm peach, advantages on the right in green-2.
  */
 export function BeliefsLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
-  const { isDimmed } = useLayerState(layer);
   const beliefs = nodes.filter(isBelief);
 
   return (
@@ -73,7 +71,6 @@ export function BeliefsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
                     <div key={node.id} className="beliefs-slot" style={style}>
                       <BeliefsNode
                         node={node}
-                        dimmed={isDimmed(node)}
                         active={node.id === focusedId}
                         onSelect={onSelect}
                       />

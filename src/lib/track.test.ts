@@ -14,7 +14,7 @@ describe('track transport', () => {
       return true;
     });
     track('node_focus', { layerId: 'who', nodeId: 'starling', via: 'nav' });
-    track('emphasis_change', { value: 'security' });
+    track('density_change', { value: 'expanded' });
     expect(pending()).toHaveLength(2);
     flush();
     expect(pending()).toHaveLength(0);

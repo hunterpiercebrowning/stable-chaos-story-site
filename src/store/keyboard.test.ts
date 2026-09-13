@@ -13,16 +13,13 @@ describe('resolveKeyAction', () => {
     expect(resolveKeyAction({ key: '/' })).toEqual({ type: 'search' });
     expect(resolveKeyAction({ key: '[' })).toEqual({ type: 'panel', side: 'left' });
     expect(resolveKeyAction({ key: ']' })).toEqual({ type: 'panel', side: 'right' });
-    expect(resolveKeyAction({ key: '1' })).toEqual({ type: 'emphasis', value: 'all' });
-    expect(resolveKeyAction({ key: '2' })).toEqual({ type: 'emphasis', value: 'synbio' });
-    expect(resolveKeyAction({ key: '3' })).toEqual({ type: 'emphasis', value: 'security' });
-    expect(resolveKeyAction({ key: '4' })).toEqual({ type: 'emphasis', value: 'systems' });
     expect(resolveKeyAction({ key: 'p' })).toEqual({ type: 'presentation' });
     expect(resolveKeyAction({ key: 'P' })).toEqual({ type: 'presentation' });
   });
 
   it('leaves unbound keys and modifier chords alone (Esc excepted)', () => {
     expect(resolveKeyAction({ key: ' ' })).toBeNull();
+    expect(resolveKeyAction({ key: '1' })).toBeNull();
     expect(resolveKeyAction({ key: '5' })).toBeNull();
     expect(resolveKeyAction({ key: 'ArrowDown', metaKey: true })).toBeNull();
     expect(resolveKeyAction({ key: 'p', ctrlKey: true })).toBeNull();

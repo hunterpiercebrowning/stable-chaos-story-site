@@ -59,10 +59,9 @@ function placeDomains(domains: Node[]): Placed[] {
 const REMEASURE_AT = [0, 200, 420, 720];
 
 export function SectorsLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
-  const { isDimmed, isCollapsed } = useLayerState(layer);
+  const { isCollapsed } = useLayerState(layer);
   const { containerRef, register, rects, measure } = useRects();
 
-  const emphasis = useUi((s) => s.emphasis);
   const density = useUi((s) => s.density);
   const leftOpen = useUi((s) => s.leftOpen);
   const rightOpen = useUi((s) => s.rightOpen);
@@ -87,17 +86,16 @@ export function SectorsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
   const domainsCollapsed = domains.length > 0 && domains.every((d) => isCollapsed(d.node));
 
   // ResizeObserver covers resize and the panel width animation (the board's
-  // size changes). Density and emphasis changes can move cards without
-  // resizing the board, so re-measure explicitly across the animation window.
+  // size changes). Density changes can move cards without resizing the board,
+  // so re-measure explicitly across the animation window.
   useEffect(() => {
     const timers = REMEASURE_AT.map((ms) => window.setTimeout(measure, ms));
     return () => timers.forEach((t) => window.clearTimeout(t));
-  }, [measure, emphasis, density, leftOpen, rightOpen]);
+  }, [measure, density, leftOpen, rightOpen]);
 
-  // One curve per (domain, related sector), in that sector's color. A curve
-  // fades when either end is dimmed by emphasis. Under Compressed the paths
-  // stay mounted and the whole SVG fades out with the cards (see sectors.css),
-  // so collapsing does not pop the lines away a frame early.
+  // One curve per (domain, related sector), in that sector's color. Under
+  // Compressed the paths stay mounted and the whole SVG fades out with the cards
+  // (see sectors.css), so collapsing does not pop the lines away a frame early.
   const connections: Connection[] = [];
   {
     for (const { node } of domains) {
@@ -109,7 +107,6 @@ export function SectorsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
           from: sectorNode.id,
           to: node.id,
           sector,
-          dimmed: isDimmed(node) || isDimmed(sectorNode),
         });
       }
     }
@@ -130,7 +127,6 @@ export function SectorsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
               key={node.id}
               ref={register(node.id)}
               node={node}
-              dimmed={isDimmed(node)}
               active={node.id === focusedId}
               onSelect={onSelect}
             />
@@ -154,7 +150,6 @@ export function SectorsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
               <SectorsNode
                 ref={register(node.id)}
                 node={node}
-                dimmed={isDimmed(node)}
                 collapsed={isCollapsed(node)}
                 active={node.id === focusedId}
                 onSelect={onSelect}
