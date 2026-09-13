@@ -21,6 +21,20 @@
   gap: var(--s-5);
   max-width: 1240px;
   margin: 0 auto;
+  transition: gap var(--dur-slow) var(--ease);
+}
+
+/* Compressed: the pyramid always fits, so centre it vertically in the stage. The
+   collapsed lattice still sits below at zero height, so drop the board gap too. */
+.sectors-layer[data-density='compressed'] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sectors-layer[data-density='compressed'] .sectors-board {
+  width: 100%;
+  gap: 0;
 }
 
 /* Connectors live under the cards; hide (not remove) when Compressed so they
