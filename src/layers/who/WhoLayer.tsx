@@ -24,7 +24,7 @@ export function WhoLayer({ nodes, focusedId, onSelect }: LayerViewProps) {
   const presidents = people.filter((n) => !isFounder(n));
 
   return (
-    <div className="who-layer sc-scroll">
+    <div className="who-layer">
       {founders.length > 0 ? (
         <section className="who-row who-row--founders" aria-label="Founders">
           <div className="sc-label who-row-label">Founders</div>

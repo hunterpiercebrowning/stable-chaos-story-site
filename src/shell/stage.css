@@ -1,32 +1,34 @@
+/* The stage is a fixed frame around one scroll region. The layer title scrolls
+   away under the top bar with everything else, so nothing is ever clipped by a
+   fixed header; the two layer-paging pills float over the region's corners. */
 .stage {
-  /* Height of a stacked .layer-arrow, so the header slot and footer spacer hold it without jumping. */
-  --layer-arrow-h: 42px;
+  /* Room the scroll region keeps clear at the bottom so the last row can
+     scroll out from under the Next pill. */
+  --stage-next-h: 52px;
   position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100%;
   min-width: 0;
-  padding: var(--s-4) var(--s-5) var(--s-3);
 }
 
-.stage-header {
+/* The layer view fills the visible height when short (so layers can centre
+   themselves) and grows with its content when tall. */
+.stage-scroll {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--s-2);
-  padding-bottom: var(--s-3);
+  height: 100%;
+  padding: var(--s-4) var(--s-5) var(--stage-next-h);
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
-.stage-header-arrow {
-  min-height: var(--layer-arrow-h);
-}
-
-.stage-header-main {
+.stage-head {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--s-5);
+  flex: none;
   flex-wrap: wrap;
+  padding-bottom: var(--s-4);
 }
 
 .stage-title {
@@ -35,107 +37,36 @@
   letter-spacing: -0.01em;
 }
 
+/* `position: relative` is load-bearing: the expanded video portals in here. */
 .stage-content {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
   min-height: 0;
 }
 
-.stage-layer,
+.stage-layer {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  min-height: 0;
+}
+
+/* The focus view keeps to the visible height (its main pane scrolls on its
+   own) down to a floor, below which the stage scrolls instead. */
 .stage-focus-wrap {
-  position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
   gap: var(--s-3);
-  min-height: 0;
+  flex: 1 1 auto;
+  min-height: 440px;
 }
 
 /* The frame takes every pixel the sibling rail leaves it. */
 .stage-focus {
   flex: 1 1 auto;
   min-height: 0;
-}
-
-.stage-footer {
-  display: flex;
-  justify-content: center;
-  padding-top: var(--s-3);
-}
-
-/* Icon stacked on the label: centred above it going up, below it going down. */
-.layer-arrow {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: 4px var(--s-4);
-  border-radius: var(--r-pill);
-  border: 1px solid transparent;
-  font-size: var(--fs-xs);
-  font-weight: 500;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  color: var(--text-faint);
-  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
-    background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
-}
-
-.layer-arrow:hover {
-  color: var(--text);
-  border-color: var(--glass-border);
-  background: var(--glass);
-}
-
-.stage-footer .layer-arrow:hover {
-  transform: translateY(2px);
-}
-
-/* "Keep going" cue on the next-layer arrow: the label breathes, the arrow drifts down and back. */
-.stage-footer .layer-arrow span {
-  animation: layer-arrow-breathe 3.2s var(--ease) infinite;
-}
-
-.stage-footer .layer-arrow svg {
-  animation: layer-arrow-bounce 2.4s var(--ease) infinite;
-}
-
-.stage-footer .layer-arrow:hover span,
-.stage-footer .layer-arrow:hover svg,
-.stage-footer .layer-arrow:focus-visible span,
-.stage-footer .layer-arrow:focus-visible svg {
-  animation: none;
-  opacity: 1;
-}
-
-@keyframes layer-arrow-breathe {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes layer-arrow-bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(4px);
-  }
-  60% {
-    transform: translateY(3px);
-  }
-}
-
-.stage-header .layer-arrow:hover {
-  transform: translateY(-2px);
-}
-
-.layer-arrow-spacer {
-  height: var(--layer-arrow-h);
 }
 
 .focus-rail {
@@ -149,4 +80,73 @@
 
 .focus-rail::-webkit-scrollbar {
   height: 6px;
+}
+
+/* ── Floating layer paging ────────────────────────────── */
+
+.stage-back,
+.stage-next {
+  position: absolute;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
+    opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+
+.stage-back:hover,
+.stage-back:focus-visible,
+.stage-next:hover,
+.stage-next:focus-visible {
+  color: var(--text);
+  border-color: var(--glass-border-2);
+}
+
+/* Quiet "Back" in the top-left corner. */
+.stage-back {
+  top: var(--s-3);
+  left: var(--s-4);
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  font-size: 0.62rem;
+  opacity: 0.7;
+}
+
+.stage-back:hover,
+.stage-back:focus-visible {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+/* "Next · <layer>" centred along the bottom edge. */
+.stage-next {
+  bottom: var(--s-3);
+  left: 50%;
+  transform: translateX(-50%);
+  gap: var(--s-2);
+  padding: 7px 14px;
+}
+
+.stage-next:hover,
+.stage-next:focus-visible {
+  transform: translateX(-50%) translateY(2px);
+}
+
+.stage-next-kicker {
+  color: var(--text-ghost);
+}
+
+.stage-next-title {
+  color: var(--text);
 }

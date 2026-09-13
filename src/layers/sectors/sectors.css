@@ -8,12 +8,12 @@
 
 .sectors-layer {
   width: 100%;
-  height: 100%;
+  flex: 1 0 auto;
   padding: var(--s-2) var(--s-2) var(--s-3);
 }
 
 /* Gaps sized so the Expanded lattice fits the stage at 1440×900 with both
-   panels open; it still scrolls on anything shorter. */
+   panels open; the stage scrolls on anything shorter. */
 .sectors-board {
   position: relative;
   display: flex;

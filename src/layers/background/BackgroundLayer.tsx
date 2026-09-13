@@ -88,7 +88,7 @@ export function BackgroundLayer(props: LayerViewProps) {
   if (props.nodes.length > 0) return <GenericLayer {...props} />;
 
   return (
-    <div className="background sc-scroll">
+    <div className="background">
       <div className="background-intro">
         <span className="background-eyebrow">
           <Icon name="clock" size={13} />

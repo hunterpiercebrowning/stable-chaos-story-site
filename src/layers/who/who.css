@@ -9,7 +9,7 @@
   justify-content: center;
   gap: var(--s-6);
   width: 100%;
-  height: 100%;
+  flex: 1 0 auto;
   padding: var(--s-2) var(--s-2) var(--s-6);
 }
 

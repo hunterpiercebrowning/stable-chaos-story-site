@@ -8,7 +8,7 @@ import './products.css';
 /**
  * A product card: category icon top-left, title, category label, then the
  * sector and stage tags the base card already renders. Active products are
- * solid; slated ones are dashed, muted and tagged "Planned".
+ * solid; slated ones are dashed, muted and tagged "Slated".
  */
 export function ProductsNode({ node, dimmed, collapsed, active, onSelect }: NodeViewProps) {
   if (node.layerId !== 'products') return null;

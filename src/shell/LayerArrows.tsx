@@ -9,20 +9,35 @@ export interface LayerArrowProps {
   direction: 'up' | 'down';
 }
 
-/** "Explore <layer title>" affordance at the top / bottom of the stage. */
+/**
+ * Layer paging that floats over the stage's scroll region: a quiet "Back" pill
+ * in the top-left corner for the layer above, and a "Next · <title>" pill
+ * centred along the bottom edge for the layer below. Content scrolls under both.
+ */
 export function LayerArrow({ layer, direction }: LayerArrowProps) {
   const setNavIntent = useUi((s) => s.setNavIntent);
-  if (!layer) return <div className="layer-arrow-spacer" />;
+  if (!layer) return null;
+  const up = direction === 'up';
   return (
     <Link
-      className="layer-arrow"
+      className={up ? 'stage-back' : 'stage-next'}
       to={layer.path}
+      aria-label={`${up ? 'Back to' : 'Next:'} ${layer.title}`}
+      title={up ? `Back to ${layer.title}` : undefined}
       // Stage emits `layer_view` with this intent.
       onClick={() => setNavIntent('arrow', layer.path)}
     >
-      {direction === 'up' ? <Icon name="arrow-up" size={16} /> : null}
-      <span>Explore {layer.title}</span>
-      {direction === 'down' ? <Icon name="arrow-down" size={16} /> : null}
+      {up ? (
+        <>
+          <Icon name="arrow-up" size={13} />
+          <span>Back</span>
+        </>
+      ) : (
+        <>
+          <span className="stage-next-kicker">Next</span>
+          <span className="stage-next-title">{layer.title}</span>
+        </>
+      )}
     </Link>
   );
 }

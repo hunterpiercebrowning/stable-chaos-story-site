@@ -13,8 +13,7 @@
   grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
   align-items: start;
   column-gap: var(--s-6);
-  flex: 1;
-  min-height: 0;
+  flex: 1 0 auto;
   width: 100%;
   padding: var(--s-2) var(--s-3) var(--s-5);
 }

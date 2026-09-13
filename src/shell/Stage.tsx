@@ -8,14 +8,15 @@ import { useLayerState } from '../layers/helpers';
 import { getLayerComponents } from '../layers/registry';
 import { track } from '../lib/track';
 import { navVia, useUi } from '../store/ui';
+import { EmphasisControl } from './EmphasisControl';
 import { LayerArrow } from './LayerArrows';
-import { StageHeader } from './StageHeader';
 import { useRoute } from './useRoute';
 import './stage.css';
 
 /**
- * The centre column: layer header, the layer's own view, and — when the URL
- * names a node — the focus frame over a rail of sibling cards.
+ * The centre column, one scroll region: the layer title, then the layer's own
+ * view or — when the URL names a node — the focus frame over a rail of sibling
+ * cards. Layer paging floats over the scroll region: Back top-left, Next bottom.
  */
 export function Stage() {
   const { layer, node, unknown } = useRoute();
@@ -64,42 +65,49 @@ export function Stage() {
 
   return (
     <div className="stage" data-layer={layer.id} data-focused={node ? 'true' : undefined}>
-      <StageHeader layer={layer} prev={prev} />
+      <div className="stage-scroll sc-scroll">
+        {/* The welcome state carries its own wordmark, so it has no head at all. */}
+        {layer.id === 'welcome' && !layer.hasEmphasis ? null : (
+          <div className="stage-head">
+            {layer.id === 'welcome' ? null : <h1 className="stage-title">{layer.title}</h1>}
+            {layer.hasEmphasis ? <EmphasisControl /> : null}
+          </div>
+        )}
 
-      <div className="stage-content">
-        <AnimatePresence mode="wait" initial={false}>
-          {node ? (
-            <motion.div
-              key="focus"
-              className="stage-focus-wrap"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="stage-focus">
-                <Focus node={node} onClose={close} />
-              </div>
-              <FocusRail nodes={nodes} focusedId={node.id} onSelect={select} />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="layer"
-              className="stage-layer"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Layer layer={layer} nodes={nodes} onSelect={select} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="stage-content">
+          <AnimatePresence mode="wait" initial={false}>
+            {node ? (
+              <motion.div
+                key="focus"
+                className="stage-focus-wrap"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="stage-focus">
+                  <Focus node={node} onClose={close} />
+                </div>
+                <FocusRail nodes={nodes} focusedId={node.id} onSelect={select} />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="layer"
+                className="stage-layer"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Layer layer={layer} nodes={nodes} onSelect={select} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
 
-      <footer className="stage-footer">
-        <LayerArrow layer={next} direction="down" />
-      </footer>
+      <LayerArrow layer={prev} direction="up" />
+      <LayerArrow layer={next} direction="down" />
     </div>
   );
 }

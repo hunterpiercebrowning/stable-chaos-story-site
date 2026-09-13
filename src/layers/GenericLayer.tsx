@@ -26,7 +26,7 @@ export function GenericLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
   }
 
   return (
-    <div className="generic-layer sc-scroll">
+    <div className="generic-layer">
       <div className="generic-grid" data-tier="primary">
         {primary.map((node) => (
           <GenericNode

@@ -10,7 +10,7 @@ interface Band {
   sector: SectorId;
   nodes: ProductNode[];
   active: number;
-  planned: number;
+  slated: number;
 }
 
 function buildBands(nodes: Node[]): Band[] {
@@ -22,7 +22,7 @@ function buildBands(nodes: Node[]): Band[] {
       sector,
       nodes: mine,
       active: mine.filter((n) => n.stage === 'active').length,
-      planned: mine.filter((n) => n.stage === 'slated').length,
+      slated: mine.filter((n) => n.stage === 'slated').length,
     };
   }).filter((b) => b.nodes.length > 0);
 }
@@ -38,7 +38,7 @@ export function ProductsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
   const bands = buildBands(nodes);
 
   return (
-    <div className="products-layer sc-scroll">
+    <div className="products-layer">
       {bands.map((band) => {
         const bandDimmed = layer.hasEmphasis && emphasis !== 'all' && emphasis !== band.sector;
         return (
@@ -56,7 +56,7 @@ export function ProductsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
                 <span className="products-band-count-sep">·</span>
                 {band.active} active
                 <span className="products-band-count-sep">·</span>
-                {band.planned} planned
+                {band.slated} slated
               </span>
             </header>
 

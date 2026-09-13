@@ -38,7 +38,6 @@ function NavFull() {
   const layers = getLayers();
   const { layerId, nodeId } = useRoute();
   const setSearchOpen = useUi((s) => s.setSearchOpen);
-  const setLeftOpen = useUi((s) => s.setLeftOpen);
   const density = useUi((s) => s.density);
   const navGroups = useUi((s) => s.navGroups);
   const setNavGroup = useUi((s) => s.setNavGroup);
@@ -81,15 +80,6 @@ function NavFull() {
           <Icon name="search" size={15} />
           <span>Search</span>
           <kbd className="leftnav-kbd">/</kbd>
-        </button>
-        <button
-          type="button"
-          className="icon-button leftnav-collapse"
-          onClick={() => setLeftOpen(false)}
-          aria-label="Collapse navigation"
-          title="Collapse navigation ( [ )"
-        >
-          <Icon name="chevron-left" size={16} />
         </button>
       </div>
 

@@ -94,7 +94,7 @@ export function ServicesLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
   const gridStyle = { '--services-cols': columns.length } as CSSProperties;
 
   return (
-    <div className="services-layer sc-scroll">
+    <div className="services-layer">
       <div
         className="services-canvas"
         ref={containerRef}

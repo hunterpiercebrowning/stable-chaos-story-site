@@ -7,11 +7,11 @@ export interface StageTagProps {
   className?: string;
 }
 
-/** Active = solid; slated = dashed + muted + "Planned". */
+/** Active = solid; slated = dashed + muted + "Slated". */
 export function StageTag({ stage, className }: StageTagProps) {
   return (
     <span className={cn('tag', 'tag--stage', className)} data-stage={stage}>
-      {stage === 'active' ? 'Active' : 'Planned'}
+      {stage === 'active' ? 'Active' : 'Slated'}
     </span>
   );
 }

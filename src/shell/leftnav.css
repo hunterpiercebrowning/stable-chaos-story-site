@@ -47,12 +47,6 @@
   color: var(--text-ghost);
 }
 
-.leftnav-collapse {
-  flex: none;
-  width: 30px;
-  height: 30px;
-}
-
 .leftnav-groups {
   display: flex;
   flex-direction: column;

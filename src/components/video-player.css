@@ -253,10 +253,11 @@
   backdrop-filter: blur(8px);
 }
 
-/* The stage header and footer arrow recede while a video is up. Done in CSS
-   so Stage.tsx stays untouched; WS11 may swap this for a data attribute. */
-.stage:has(.video-expanded) .stage-header,
-.stage:has(.video-expanded) .stage-footer {
+/* The stage head and the floating layer paging recede while a video is up. Done
+   in CSS so Stage.tsx stays untouched; WS11 may swap this for a data attribute. */
+.stage:has(.video-expanded) .stage-head,
+.stage:has(.video-expanded) .stage-back,
+.stage:has(.video-expanded) .stage-next {
   opacity: 0.3;
   pointer-events: none;
   transition: opacity var(--dur) var(--ease);

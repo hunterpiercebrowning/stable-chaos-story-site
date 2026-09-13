@@ -5,7 +5,9 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  flex: 1 0 auto;
+  /* The hero glow is wider than the stage; clip it here rather than let the stage scroll. */
+  overflow: hidden;
   text-align: center;
 }
 

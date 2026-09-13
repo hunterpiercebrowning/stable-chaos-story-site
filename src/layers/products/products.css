@@ -10,7 +10,7 @@
   flex-direction: column;
   gap: var(--s-6);
   width: 100%;
-  height: 100%;
+  flex: 1 0 auto;
   padding: var(--s-2) var(--s-2) var(--s-6);
 }
 
@@ -112,7 +112,7 @@
   font-size: var(--fs-base);
 }
 
-/* Slated / planned: dashed, muted, ghosted icon. */
+/* Slated: dashed, muted, ghosted icon. */
 .products-node--slated {
   border-style: dashed;
   border-color: var(--glass-border-2);
@@ -256,7 +256,7 @@
   color: var(--text-muted);
 }
 
-.products-focus-planned {
+.products-focus-slated {
   display: inline-block;
   margin-bottom: var(--s-3);
   padding: var(--s-2) var(--s-3);

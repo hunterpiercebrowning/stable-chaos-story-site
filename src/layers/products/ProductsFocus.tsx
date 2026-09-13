@@ -71,8 +71,8 @@ export function ProductsFocus({ node, onClose }: FocusViewProps) {
         body={
           <>
             {slated ? (
-              <p className="products-focus-planned">
-                Planned — this product is slated and not yet in market. Details are directional.
+              <p className="products-focus-slated">
+                Slated — this product is not yet in market. Details are directional.
               </p>
             ) : null}
             <p>{copy.blurb}</p>

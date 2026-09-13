@@ -112,7 +112,7 @@ Sectors domain node: `molecular-engineering-triangulum-bio`, `operations-fountai
 | `type` | `"primary"` | one tier only |
 | `title` | string | |
 | `sector` | SectorId | drives the band and color |
-| `stage` | `"active"` \| `"slated"` | active = solid; slated = dashed, muted, "Planned" tag. The loader also accepts the legacy spelling `"slatted"`. |
+| `stage` | `"active"` \| `"slated"` | active = solid; slated = dashed, muted, "Slated" tag. The loader also accepts the legacy spelling `"slatted"`. |
 | `category` | `"Bioproduct"` \| `"Hardware"` \| `"Software"` | picks the node icon |
 | `background_image` | string | environment photo behind the focus frame; empty → generated gradient scene |
 | `gallery` | string[] | 3–5 image paths; empty → generated placeholders |

@@ -116,7 +116,7 @@ export function SectorsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPro
   }
 
   return (
-    <div className="sectors-layer sc-scroll" data-density={density}>
+    <div className="sectors-layer" data-density={density}>
       <div className="sectors-board" ref={containerRef}>
         <ConnectorLayer
           connections={connections}
