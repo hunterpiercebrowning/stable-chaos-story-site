@@ -16,6 +16,7 @@ import {
   type SectorNode,
   type ServiceNode,
   type Tier,
+  type WhoGroup,
   type WhoNode,
 } from './types';
 
@@ -123,12 +124,23 @@ export function normalizeLayers(raw: unknown[]): Layer[] {
     .sort((a, b) => a.order - b.order);
 }
 
+/**
+ * A person's row from `type`. Anything else (including the legacy `"primary"`)
+ * falls back to founder for Stable Chaos people, leader for everyone else.
+ */
+function whoGroupOf(o: Record<string, unknown>): WhoGroup {
+  const type = str(o.type).toLowerCase();
+  if (type === 'founder' || type === 'leader' || type === 'expert') return type;
+  return kebab(str(o.company)) === 'stable-chaos' ? 'founder' : 'leader';
+}
+
 export function normalizeWho(raw: unknown[]): WhoNode[] {
   return raw.map((r, i) => {
     const o = (r ?? {}) as Record<string, unknown>;
     return {
       ...baseFields(o, i, str(o.name)),
       layerId: 'who',
+      group: whoGroupOf(o),
       role: str(o.title),
       company: str(o.company),
       headshotFile: str(o.headshot_file),

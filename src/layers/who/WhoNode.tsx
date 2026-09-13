@@ -1,14 +1,13 @@
 import { NodeCard } from '../../components/NodeCard';
 import { Placeholder } from '../../components/Placeholder';
 import { cn } from '../../lib/cn';
+import type { WhoGroup } from '../../data/types';
 import type { NodeViewProps } from '../types';
 import './who.css';
 
-export type WhoNodeVariant = 'founder' | 'president';
-
 export interface WhoNodeProps extends NodeViewProps {
-  /** Founders render larger; presidents are visually subordinate. */
-  variant?: WhoNodeVariant;
+  /** Founders render larger; leaders and experts share the compact card. */
+  variant?: WhoGroup;
 }
 
 /**
@@ -22,7 +21,7 @@ export function WhoNode({
   collapsed,
   active,
   onSelect,
-  variant = 'president',
+  variant = 'leader',
 }: WhoNodeProps) {
   if (node.layerId !== 'who') return null;
 
@@ -34,7 +33,7 @@ export function WhoNode({
       collapsed={collapsed}
       active={active}
       onSelect={onSelect}
-      className={cn('who-card', `who-card--${variant}`)}
+      className={cn('who-card', `who-card--${variant}`, variant !== 'founder' && 'who-card--compact')}
     >
       <span className="who-card-headshot">
         {node.headshotFile ? (

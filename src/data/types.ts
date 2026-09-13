@@ -62,8 +62,12 @@ export interface NodeBase {
   contextItems: ContextItem[];
 }
 
+/** Which row of Who We Are a person sits in. */
+export type WhoGroup = 'founder' | 'leader' | 'expert';
+
 export interface WhoNode extends NodeBase {
   layerId: 'who';
+  group: WhoGroup;
   /** Job title — `title` holds the person's name. */
   role: string;
   company: string;

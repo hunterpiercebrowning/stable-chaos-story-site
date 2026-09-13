@@ -54,9 +54,9 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | field | type | notes |
 |---|---|---|
 | `id` | string | kebab of `name` |
-| `type` | `"primary"` | founders and presidents are all primary |
+| `type` | `"founder"` \| `"leader"` \| `"expert"` | the Who We Are row; anything else → founder for Stable Chaos, else leader |
 | `name` | string | |
-| `title` | string | e.g. Co-Founder, President |
+| `title` | string | job title, e.g. Co-Founder, Head of Intelligence |
 | `company` | string | display name of the company |
 | `headshot_file` | string | `/assets/headshots/…`; empty → generated headshot placeholder |
 | `blurb` | string | bio paragraph |
@@ -102,7 +102,7 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | `tagline`, `blurb`, `bullet_points`, `video_link`, `context_items` | | |
 
 Two offering ids are suffixed with their company because the bare kebab is already taken by a
-Sectors domain node: `molecular-engineering-triangulum-bio`, `operations-fountain-city-partners`.
+Sectors domain node: `molecular-engineering-growth-curve-bio`, `operations-fountain-city-partners`.
 
 ## `product-nodes.json`
 

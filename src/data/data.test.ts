@@ -138,10 +138,10 @@ describe('content', () => {
   });
 
   it('loads every node file', () => {
-    expect(getNodes('who')).toHaveLength(6);
+    expect(getNodes('who')).toHaveLength(8);
     expect(getNodes('beliefs')).toHaveLength(7);
     expect(getNodes('sectors')).toHaveLength(21);
-    expect(getNodes('services')).toHaveLength(25);
+    expect(getNodes('services')).toHaveLength(24);
     expect(getNodes('products')).toHaveLength(23);
     expect(getNodes('background')).toHaveLength(0);
   });
@@ -209,10 +209,16 @@ describe('related', () => {
     expect(getRelated('growth-curve-bio').map((r) => r.id)).toContain('eric-sabo');
   });
 
+  it('reads each person\'s Who We Are row from type', () => {
+    expect(getNode('hunter-browning')).toMatchObject({ group: 'founder' });
+    expect(getNode('trace-williams')).toMatchObject({ group: 'leader' });
+    expect(getNode('greg-lapin')).toMatchObject({ group: 'expert' });
+  });
+
   it('links founders to every portfolio company', () => {
     const refs = getRelated('hunter-browning').map((r) => r.id);
     expect(refs).toEqual(
-      expect.arrayContaining(['growth-curve-bio', 'starling-intel', 'triangulum-bio', 'fountain-city-partners']),
+      expect.arrayContaining(['growth-curve-bio', 'starling-intel', 'fountain-city-partners']),
     );
   });
 

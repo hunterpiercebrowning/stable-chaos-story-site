@@ -10,13 +10,12 @@ import { ServicesNode } from './ServicesNode';
 import './services.css';
 
 /**
- * Company order across the top: SynBio, SynBio, Security, Systems — a single
- * colour sweep left to right. Companies not listed here (none today) follow
+ * Company order across the top: SynBio, Security, Systems — a single colour
+ * sweep left to right. Companies not listed here (none today) follow
  * in content order.
  */
 const COMPANY_ORDER = [
   'growth-curve-bio',
-  'triangulum-bio',
   'starling-intel',
   'fountain-city-partners',
 ];
@@ -51,7 +50,7 @@ function buildColumns(nodes: Node[]): { columns: Column[]; orphans: ServiceNode[
 }
 
 /**
- * Services: four company cards across the top, their offerings in columns
+ * Services: the company cards across the top, their offerings in columns
  * beneath, joined by connectors in the company's sector colour. Emphasis dims
  * by sector (never hides); Compressed density folds the offerings away.
  */

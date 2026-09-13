@@ -22,7 +22,7 @@
   transition: gap var(--dur-slow) var(--ease);
 }
 
-/* Compressed: only the four company cards remain — centre them in the stage. */
+/* Compressed: only the company cards remain — centre them in the stage. */
 .services-canvas[data-collapsed='true'] {
   justify-content: center;
   gap: 0;
@@ -189,11 +189,10 @@
     padding var(--dur-slow) var(--ease);
 }
 
-/* Compressed: the four cards stand alone — a centred 2 × 2 grid of heroes. */
+/* Compressed: the company cards stand alone — a centred row of heroes. */
 .services-canvas[data-collapsed='true'] .services-grid--companies {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
-  max-width: 760px;
+  max-width: 1080px;
   margin: 0 auto;
 }
 

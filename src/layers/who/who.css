@@ -32,13 +32,23 @@
   justify-content: center;
 }
 
-.who-grid--founders {
+.who-grid--founder {
   grid-template-columns: repeat(2, minmax(220px, 300px));
   gap: var(--s-5);
 }
 
-.who-grid--presidents {
-  grid-template-columns: repeat(4, minmax(150px, 210px));
+/* Leaders and experts: fixed-width cards that wrap and stay centred at any count. */
+.who-grid--leader,
+.who-grid--expert {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.who-grid--leader > .who-card,
+.who-grid--expert > .who-card {
+  flex: 1 1 150px;
+  max-width: 210px;
 }
 
 /* ── card ──────────────────────────────────────────── */
@@ -54,7 +64,7 @@
   padding: var(--s-5) var(--s-5) var(--s-5);
 }
 
-.node-card.who-card--president {
+.node-card.who-card--compact {
   padding: var(--s-4) var(--s-3);
   min-height: 0;
   background: color-mix(in srgb, var(--glass) 80%, transparent);
@@ -80,7 +90,7 @@
     transform var(--dur) var(--ease);
 }
 
-.who-card--president .who-card-headshot {
+.who-card--compact .who-card-headshot {
   width: 88px;
 }
 
@@ -119,7 +129,7 @@
   letter-spacing: -0.01em;
 }
 
-.who-card--president .who-card-name {
+.who-card--compact .who-card-name {
   font-size: var(--fs-md);
 }
 
@@ -128,7 +138,7 @@
   color: var(--text-muted);
 }
 
-.who-card--president .who-card-role {
+.who-card--compact .who-card-role {
   font-size: var(--fs-xs);
 }
 
@@ -137,7 +147,7 @@
   color: color-mix(in srgb, var(--green-2) 70%, var(--text-faint));
 }
 
-.who-card--president .who-card-company {
+.who-card--compact .who-card-company {
   font-size: 0.6rem;
   color: var(--text-faint);
 }

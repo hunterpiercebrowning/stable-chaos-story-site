@@ -18,7 +18,7 @@ function isService(node: Node): node is ServiceNode {
   return node.layerId === 'services';
 }
 
-/** Company logo from the normalized `logoFile`; Triangulum has none and gets a placeholder. */
+/** Company logo from the normalized `logoFile`; a company without one gets a placeholder. */
 export function CompanyLogo({ node, size }: { node: ServiceNode; size: 'card' | 'focus' }) {
   if (node.logoFile) {
     return <img className={`services-logo services-logo--${size}`} src={node.logoFile} alt="" />;
