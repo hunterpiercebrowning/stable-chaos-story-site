@@ -70,7 +70,7 @@ export interface WhoNode extends NodeBase {
   headshotFile: string;
 }
 
-export type BeliefType = 'threat' | 'advantage';
+export type BeliefType = 'disruption' | 'advantage';
 
 export interface BeliefNode extends NodeBase {
   layerId: 'beliefs';

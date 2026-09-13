@@ -44,7 +44,7 @@ export function WhoLayer({ nodes, focusedId, onSelect }: LayerViewProps) {
 
       {presidents.length > 0 ? (
         <section className="who-row who-row--presidents" aria-label="Presidents">
-          <div className="sc-label who-row-label">Presidents</div>
+          <div className="sc-label who-row-label">Leaders</div>
           <div className="who-grid who-grid--presidents">
             {presidents.map((node) => (
               <WhoNode

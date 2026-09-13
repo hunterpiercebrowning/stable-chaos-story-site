@@ -63,8 +63,8 @@
 .node-card[data-belief='advantage'] {
   --accent: var(--advantage);
 }
-.node-card[data-belief='threat'] {
-  --accent: var(--threat);
+.node-card[data-belief='disruption'] {
+  --accent: var(--disruption);
 }
 
 /* Dual-sector: border from the first sector, glow from the second. */

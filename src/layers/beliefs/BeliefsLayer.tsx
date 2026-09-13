@@ -32,13 +32,13 @@ const RIGHT_SLOTS: Slot[] = LEFT_SLOTS.map((s) => ({
 }));
 
 const CLUSTERS: { type: BeliefType; title: string; hint: string; slots: Slot[] }[] = [
-  { type: 'threat', title: 'Threats', hint: 'What we are up against', slots: LEFT_SLOTS },
+  { type: 'disruption', title: 'Disruptions', hint: 'What we are up against', slots: LEFT_SLOTS },
   { type: 'advantage', title: 'Advantages', hint: 'What we build on', slots: RIGHT_SLOTS },
 ];
 
 /**
  * What We Believe: two clusters facing each other across a soft divider —
- * threats on the left in the warm peach, advantages on the right in green-2.
+ * disruptions on the left in the warm peach, advantages on the right in green-2.
  */
 export function BeliefsLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
   const { isDimmed } = useLayerState(layer);

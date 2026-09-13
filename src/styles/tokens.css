@@ -20,8 +20,8 @@
   --sector-systems:  var(--lavender);
 
   /* ── beliefs ── */
-  --threat:    var(--peach);
-  --advantage: var(--green-2);
+  --disruption: var(--peach);
+  --advantage:  var(--green-2);
 
   /* ── product stage ── */
   --stage-active: var(--green-2);

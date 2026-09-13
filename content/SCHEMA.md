@@ -69,7 +69,7 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | field | type | notes |
 |---|---|---|
 | `id` | string | |
-| `type` | `"threat"` \| `"advantage"` | drives cluster side and color |
+| `type` | `"disruption"` \| `"advantage"` | drives cluster side and color |
 | `title` | string | |
 | `icon` | string | `Icon` sprite name; empty → the layer picks a default per belief |
 | `tagline`, `blurb` | string | |

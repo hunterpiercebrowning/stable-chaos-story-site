@@ -8,7 +8,7 @@ import './beliefs.css';
 
 /**
  * A belief card: icon badge, title and type pill, tinted by its type
- * (threat → peach, advantage → green-2). Row layout so a cluster of them
+ * (disruption → peach, advantage → green-2). Row layout so a cluster of them
  * stacks compactly.
  */
 export function BeliefsNode({ node, dimmed, collapsed, active, onSelect }: NodeViewProps) {

@@ -45,7 +45,7 @@
   },
   {
     "id": "compute",
-    "type": "threat",
+    "type": "disruption",
     "title": "Compute",
     "icon": "",
     "tagline": "",
@@ -56,7 +56,7 @@
   },
   {
     "id": "eroding-knowledge-moats",
-    "type": "threat",
+    "type": "disruption",
     "title": "Eroding Knowledge Moats",
     "icon": "",
     "tagline": "",
@@ -67,8 +67,19 @@
   },
   {
     "id": "china",
-    "type": "threat",
+    "type": "disruption",
     "title": "China",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "ai-reliance",
+    "type": "disruption",
+    "title": "AI Reliance",
     "icon": "",
     "tagline": "",
     "blurb": "",

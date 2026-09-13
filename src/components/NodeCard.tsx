@@ -44,7 +44,7 @@ function defaultSubtitle(node: Node): string | null {
     case 'sectors':
       return node.tier === 'primary' ? 'Sector' : 'Domain';
     case 'beliefs':
-      return node.beliefType === 'threat' ? 'Threat' : 'Advantage';
+      return node.beliefType === 'disruption' ? 'Disruption' : 'Advantage';
     default:
       return null;
   }

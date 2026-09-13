@@ -139,10 +139,12 @@ export function normalizeWho(raw: unknown[]): WhoNode[] {
 export function normalizeBeliefs(raw: unknown[]): BeliefNode[] {
   return raw.map((r, i) => {
     const o = (r ?? {}) as Record<string, unknown>;
-    const beliefType: BeliefType = str(o.type).toLowerCase() === 'threat' ? 'threat' : 'advantage';
+    // "threat" is the pre-rename spelling; keep reading it as a disruption.
+    const rawType = str(o.type).toLowerCase();
+    const beliefType: BeliefType = rawType === 'disruption' || rawType === 'threat' ? 'disruption' : 'advantage';
     return {
       ...baseFields(o, i, str(o.title)),
-      // Beliefs have no primary/secondary split; `type` carries threat/advantage.
+      // Beliefs have no primary/secondary split; `type` carries disruption/advantage.
       tier: 'primary',
       layerId: 'beliefs',
       beliefType,

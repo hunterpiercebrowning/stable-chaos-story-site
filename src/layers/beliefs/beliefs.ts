@@ -13,12 +13,12 @@ const ICON_BY_ID: Record<string, IconName> = {
 };
 
 const ICON_BY_TYPE: Record<BeliefType, IconName> = {
-  threat: 'spark',
+  disruption: 'spark',
   advantage: 'node',
 };
 
 export const BELIEF_LABEL: Record<BeliefType, string> = {
-  threat: 'Threat',
+  disruption: 'Disruption',
   advantage: 'Advantage',
 };
 
