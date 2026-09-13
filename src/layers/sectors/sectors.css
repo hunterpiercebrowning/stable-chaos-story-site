@@ -136,10 +136,23 @@
   filter: saturate(0.6);
 }
 
-/* Compressed leaves only the three bands: grow them into heroes. NodeCard's
-   layoutId animates the size change, so no CSS transition on min-height here. */
+/* Compressed leaves only the three bands: stack them as a pyramid — Synthetic
+   Bio alone on top, Security and Systems beneath — and grow them into heroes.
+   NodeCard's layoutId animates the moves, so no CSS transitions on layout here. */
+.sectors-layer[data-density='compressed'] .sectors-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.sectors-layer[data-density='compressed'] .sectors-row > :first-child {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: calc(50% - var(--s-4) / 2);
+}
+
 .sectors-layer[data-density='compressed'] .node-card.sectors-sector {
-  min-height: 280px;
+  min-height: 256px;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-end;
