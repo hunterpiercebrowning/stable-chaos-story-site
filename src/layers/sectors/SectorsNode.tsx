@@ -1,7 +1,7 @@
 import type { Ref } from 'react';
 import { NodeCard } from '../../components/NodeCard';
 import { SectorTag } from '../../components/SectorTag';
-import { nodeSectors } from '../../data';
+import { getBackdrop, getChildCount, getCopy, nodeSectors } from '../../data';
 import type { NodeViewProps } from '../types';
 import './sectors.css';
 
@@ -11,8 +11,10 @@ export interface SectorsNodeProps extends NodeViewProps {
 }
 
 /**
- * Sector (primary): a wide, short band tinted in its sector color with a solid
- * rule along the top and the title alone.
+ * Sector (primary): a wide band tinted in its sector color with a solid rule
+ * along the top. Expanded shows the title alone; Compressed (only the three
+ * bands on stage) grows it into a hero with the tagline, the domain count and
+ * a backdrop — the authored `background_image` or a generated sector motif.
  * Domain (secondary): a compact card. Single-sector domains carry their sector
  * as a border tint; dual-sector domains take the border from the first sector,
  * the glow from the second and a two-stop gradient of both (see sectors.css).
@@ -22,6 +24,9 @@ export function SectorsNode({ node, dimmed, collapsed, active, onSelect, ref }: 
   const isSector = node.tier === 'primary';
 
   if (isSector) {
+    const { tagline } = getCopy(node);
+    const backdrop = getBackdrop(node);
+    const domains = getChildCount(node);
     return (
       <NodeCard
         ref={ref}
@@ -33,7 +38,24 @@ export function SectorsNode({ node, dimmed, collapsed, active, onSelect, ref }: 
         active={active}
         onSelect={onSelect}
       >
-        <span className="sectors-sector-title">{node.title}</span>
+        <span
+          className="sectors-sector-backdrop"
+          data-placeholder={backdrop.isPlaceholder ? 'true' : undefined}
+          style={{ backgroundImage: `url("${backdrop.src}")` }}
+          aria-hidden="true"
+        />
+        <span className="sectors-sector-body">
+          <span className="sectors-sector-title">{node.title}</span>
+          <span className="sectors-sector-tagline">
+            {tagline}
+            {node.tagline ? null : <span className="sc-placeholder-tag sectors-sector-ph">placeholder</span>}
+          </span>
+        </span>
+        {domains > 0 ? (
+          <span className="sectors-sector-meta">
+            {domains} {domains === 1 ? 'domain' : 'domains'}
+          </span>
+        ) : null}
       </NodeCard>
     );
   }

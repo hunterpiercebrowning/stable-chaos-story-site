@@ -157,7 +157,13 @@ export function normalizeSectors(raw: unknown[]): SectorNode[] {
     const base = baseFields(o, i, str(o.title));
     if (base.tier === 'primary') {
       const sector = toSectorId(str(o.sector) || base.title);
-      return { ...base, layerId: 'sectors', sector, relatedSectors: [sector] } satisfies SectorNode;
+      return {
+        ...base,
+        layerId: 'sectors',
+        sector,
+        relatedSectors: [sector],
+        backgroundImage: str(o.background_image),
+      } satisfies SectorNode;
     }
     const related = strArray(o.related_sectors).map(toSectorId);
     return { ...base, layerId: 'sectors', relatedSectors: related } satisfies SectorNode;

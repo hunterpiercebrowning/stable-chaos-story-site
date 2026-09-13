@@ -1,6 +1,8 @@
 import type { Ref } from 'react';
 import { NodeCard } from '../../components/NodeCard';
 import { Placeholder } from '../../components/Placeholder';
+import { SectorTag } from '../../components/SectorTag';
+import { getBackdrop, getChildCount, getCopy } from '../../data';
 import type { Node, ServiceNode } from '../../data/types';
 import { cn } from '../../lib/cn';
 import type { NodeViewProps } from '../types';
@@ -37,12 +39,17 @@ export function CompanyLogo({ node, size }: { node: ServiceNode; size: 'card' | 
 /**
  * Services nodes. A company (primary) is the card plus a sibling external link
  * — anchors may not nest inside the card's `<button>` — and an offering
- * (secondary) is a compact card carrying its own sector tag.
+ * (secondary) is a compact card carrying its own sector tag. Under Compressed
+ * the four company cards stand alone, so they carry the tagline, the offering
+ * count and a sector motif backdrop (revealed by services.css).
  */
 export function ServicesNode({ node, dimmed, collapsed, active, onSelect, ref }: ServicesNodeProps) {
   if (!isService(node)) return null;
 
   if (node.tier === 'primary') {
+    const { tagline } = getCopy(node);
+    const backdrop = getBackdrop(node);
+    const offerings = getChildCount(node);
     return (
       <div
         ref={ref}
@@ -56,13 +63,33 @@ export function ServicesNode({ node, dimmed, collapsed, active, onSelect, ref }:
           dimmed={dimmed}
           active={active}
           onSelect={onSelect}
-          media={
+        >
+          <span
+            className="services-company-backdrop"
+            style={{ backgroundImage: `url("${backdrop.src}")` }}
+            aria-hidden="true"
+          />
+          <span className="node-card-media">
             <span className="services-logo-tile">
               <CompanyLogo node={node} size="card" />
             </span>
-          }
-          subtitle=""
-        />
+          </span>
+          <span className="node-card-body">
+            <span className="node-card-title">{node.title}</span>
+            <span className="services-company-tagline">
+              {tagline}
+              {node.tagline ? null : <span className="sc-placeholder-tag services-company-ph">placeholder</span>}
+            </span>
+          </span>
+          <span className="node-card-tags">
+            <SectorTag sector={node.sector} />
+            {offerings > 0 ? (
+              <span className="services-company-meta">
+                {offerings} {offerings === 1 ? 'offering' : 'offerings'}
+              </span>
+            ) : null}
+          </span>
+        </NodeCard>
         <WebsiteLink node={node} variant="chip" className="services-company-link" />
       </div>
     );

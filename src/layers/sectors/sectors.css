@@ -62,10 +62,116 @@
   border-color: color-mix(in srgb, var(--accent) 40%, var(--glass-border));
 }
 
-/* Compressed leaves only the three bands; give them more presence. NodeCard's
+.sectors-sector-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Tagline and domain count are in the DOM in both densities and revealed by
+   Compressed, so the reveal can animate instead of popping in. */
+.sectors-sector-tagline {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--text-muted);
+  text-wrap: pretty;
+  transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease),
+    margin-top var(--dur-slow) var(--ease);
+}
+
+.sectors-sector-ph {
+  position: static;
+  margin-left: var(--s-2);
+  vertical-align: middle;
+}
+
+.sectors-sector-meta {
+  position: absolute;
+  top: var(--s-4);
+  right: var(--s-4);
+  z-index: 1;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--glass-border));
+  background: color-mix(in srgb, var(--accent) 10%, var(--scrim));
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease);
+}
+
+/* Backdrop: the authored photo or the generated motif, faded toward the text
+   corner so the title stays legible. Hidden under Expanded. */
+.sectors-sector-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right center;
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(100deg, transparent 8%, rgba(0, 0, 0, 0.4) 40%, #000 100%),
+    linear-gradient(0deg, transparent 0%, #000 45%);
+  mask-image: linear-gradient(100deg, transparent 8%, rgba(0, 0, 0, 0.4) 40%, #000 100%),
+    linear-gradient(0deg, transparent 0%, #000 45%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+/* An authored photo sits under a tint so it reads as texture, not a picture. */
+.sectors-sector-backdrop:not([data-placeholder]) {
+  filter: saturate(0.6);
+}
+
+/* Compressed leaves only the three bands: grow them into heroes. NodeCard's
    layoutId animates the size change, so no CSS transition on min-height here. */
 .sectors-layer[data-density='compressed'] .node-card.sectors-sector {
-  min-height: 124px;
+  min-height: 280px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: var(--s-5) var(--s-5) var(--s-5);
+}
+
+.sectors-layer[data-density='compressed'] .sectors-sector-title {
+  font-size: var(--fs-xl);
+  letter-spacing: -0.02em;
+}
+
+.sectors-layer[data-density='compressed'] .sectors-sector-tagline {
+  max-height: 6em;
+  margin-top: var(--s-2);
+  opacity: 1;
+}
+
+.sectors-layer[data-density='compressed'] .sectors-sector-meta {
+  opacity: 1;
+}
+
+.sectors-layer[data-density='compressed'] .sectors-sector-backdrop[data-placeholder] {
+  opacity: 0.55;
+}
+
+.sectors-layer[data-density='compressed'] .sectors-sector-backdrop:not([data-placeholder]) {
+  opacity: 0.5;
+}
+
+.sectors-layer[data-density='compressed'] .node-card.sectors-sector:hover .sectors-sector-backdrop,
+.sectors-layer[data-density='compressed'] .node-card.sectors-sector.is-active .sectors-sector-backdrop {
+  opacity: 0.8;
 }
 
 /* The solid color rule along the top edge. */

@@ -123,6 +123,121 @@
   line-height: 1.22;
 }
 
+.services-company-card .node-card-media,
+.services-company-card .node-card-body,
+.services-company-card .node-card-tags {
+  position: relative;
+  z-index: 1;
+}
+
+/* Sector motif behind the card; revealed under Compressed. */
+.services-company-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right top;
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(110deg, transparent 20%, rgba(0, 0, 0, 0.5) 55%, #000 100%),
+    linear-gradient(0deg, transparent 12%, #000 55%);
+  mask-image: linear-gradient(110deg, transparent 20%, rgba(0, 0, 0, 0.5) 55%, #000 100%),
+    linear-gradient(0deg, transparent 12%, #000 55%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+.services-company-tagline {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--text-muted);
+  text-wrap: pretty;
+  transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease),
+    margin-top var(--dur-slow) var(--ease);
+}
+
+.services-company-ph {
+  position: static;
+  margin-left: var(--s-2);
+  vertical-align: middle;
+}
+
+.services-company-meta {
+  display: inline-flex;
+  align-items: center;
+  max-width: 0;
+  padding: 3px 0;
+  overflow: hidden;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-faint);
+  opacity: 0;
+  transition: max-width var(--dur-slow) var(--ease), opacity var(--dur) var(--ease),
+    padding var(--dur-slow) var(--ease);
+}
+
+/* Compressed: the four cards stand alone — grow them into heroes. */
+.services-canvas[data-collapsed='true'] .services-company-card {
+  min-height: 236px;
+  gap: var(--s-3);
+  padding: var(--s-5) var(--s-5) 44px;
+}
+
+.services-canvas[data-collapsed='true'] .services-company-card .node-card-title {
+  font-size: var(--fs-lg);
+  letter-spacing: -0.01em;
+}
+
+.services-canvas[data-collapsed='true'] .services-logo-tile {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--r-lg);
+}
+
+.services-canvas[data-collapsed='true'] .services-logo--card {
+  width: 40px;
+  height: 40px;
+}
+
+.services-canvas[data-collapsed='true'] .ph.services-logo--card {
+  width: 100%;
+  height: 100%;
+}
+
+.services-canvas[data-collapsed='true'] .services-company-tagline {
+  max-height: 6em;
+  margin-top: var(--s-2);
+  opacity: 1;
+}
+
+.services-canvas[data-collapsed='true'] .services-company-meta {
+  max-width: 12em;
+  padding: 3px 9px;
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--glass-border));
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  opacity: 1;
+}
+
+.services-canvas[data-collapsed='true'] .services-company-backdrop {
+  opacity: 0.45;
+}
+
+.services-canvas[data-collapsed='true'] .services-company-card:hover .services-company-backdrop,
+.services-canvas[data-collapsed='true'] .services-company-card.is-active .services-company-backdrop {
+  opacity: 0.7;
+}
+
 .services-logo-tile {
   display: grid;
   place-items: center;

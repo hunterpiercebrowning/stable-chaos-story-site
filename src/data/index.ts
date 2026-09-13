@@ -5,6 +5,7 @@ import {
   loremBullets,
   loremContextItems,
   loremTagline,
+  placeholderMotif,
   placeholderPoster,
 } from './placeholders';
 import { buildRelated, groupByLayer } from './related';
@@ -46,7 +47,18 @@ export interface NavTree {
  * The two-tier index for a layer: every primary with its secondaries nested under it.
  * A secondary with two parents (a domain shared by two sectors) appears under both.
  */
+const navTreeCache = new Map<string, NavTree>();
+
 export function getNavTree(layerId: LayerId | string | undefined): NavTree {
+  const key = layerId ?? '';
+  const cached = navTreeCache.get(key);
+  if (cached) return cached;
+  const tree = buildNavTree(layerId);
+  navTreeCache.set(key, tree);
+  return tree;
+}
+
+function buildNavTree(layerId: LayerId | string | undefined): NavTree {
   const nodes = getNodes(layerId);
   const branches: NavBranch[] = nodes
     .filter((n) => n.tier === 'primary')
@@ -60,6 +72,28 @@ export function getNavTree(layerId: LayerId | string | undefined): NavTree {
     for (const b of parents) b.children.push(node);
   }
   return { branches, orphans };
+}
+
+/** Secondaries nested under a primary (0 for secondaries and for primary-only layers). */
+export function getChildCount(node: Node): number {
+  if (node.tier !== 'primary') return 0;
+  return getNavTree(node.layerId).branches.find((b) => b.primary.id === node.id)?.children.length ?? 0;
+}
+
+export interface Backdrop {
+  src: string;
+  /** True when the image is the generated sector motif rather than an authored file. */
+  isPlaceholder: boolean;
+}
+
+/**
+ * Art behind a sector band or company card under Compressed density: the
+ * authored `background_image` when there is one, else a generated sector motif.
+ */
+export function getBackdrop(node: Node): Backdrop {
+  const authored = node.layerId === 'sectors' ? (node.backgroundImage ?? '') : '';
+  if (authored) return { src: authored, isPlaceholder: false };
+  return { src: placeholderMotif(getPrimarySector(node), node.id), isPlaceholder: true };
 }
 
 const relatedIndex = buildRelated(allNodes);
@@ -122,6 +156,6 @@ export function getPoster(node: Node): string {
 
 export { nodeSectors, parentIds, toSectorId, kebab, toRef, byOrder } from './normalize';
 export { groupByLayer };
-export { placeholderImage, placeholderGallery, placeholderPoster, sectorHex } from './placeholders';
+export { placeholderImage, placeholderGallery, placeholderMotif, placeholderPoster, sectorHex } from './placeholders';
 export { SECTOR_IDS, SECTOR_LABEL } from './types';
 export type * from './types';

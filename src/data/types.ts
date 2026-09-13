@@ -82,6 +82,8 @@ export interface SectorNode extends NodeBase {
   layerId: 'sectors';
   /** Set on primary (Sector) nodes only; equals the node id. */
   sector?: SectorId;
+  /** Primary only: photo behind the sector band under Compressed density; empty → generated motif. */
+  backgroundImage?: string;
   /** Sectors this node belongs to. For a primary node, itself. 1–2 entries. */
   relatedSectors: SectorId[];
 }

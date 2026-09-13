@@ -84,6 +84,7 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | `type` | `"primary"` (Sector) \| `"secondary"` (Domain) | |
 | `title` | string | |
 | `sector` | SectorId | **primary only**, equals `id` |
+| `background_image` | string | **primary only**; photo behind the sector band under Compressed density (`/assets/backgrounds/…`); empty → generated sector motif |
 | `related_sectors` | SectorId[] | **secondary only**, 1–2 entries; drives connectors and dual styling |
 | `tagline`, `blurb`, `bullet_points`, `video_link`, `context_items` | | |
 

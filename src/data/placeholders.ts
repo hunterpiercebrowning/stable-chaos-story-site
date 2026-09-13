@@ -227,6 +227,98 @@ export function placeholderImage(opts: PlaceholderOptions): string {
   return svgUri(svg);
 }
 
+/* ── sector motifs ──────────────────────────────────── */
+
+function helixArt(w: number, h: number, c: string): string {
+  const mid = h * 0.52;
+  const amp = h * 0.2;
+  const k = (Math.PI * 2) / (w * 0.36);
+  const a: string[] = [];
+  const b: string[] = [];
+  let rungs = '';
+  for (let x = 0; x <= w; x += 6) {
+    const y1 = mid + amp * Math.sin(k * x);
+    const y2 = mid + amp * Math.sin(k * x + Math.PI);
+    a.push(`${x},${y1.toFixed(1)}`);
+    b.push(`${x},${y2.toFixed(1)}`);
+    if (x % 30 === 0) {
+      const o = (0.2 + 0.5 * Math.abs(Math.cos(k * x))).toFixed(2);
+      rungs += `<line x1="${x}" y1="${y1.toFixed(1)}" x2="${x}" y2="${y2.toFixed(1)}"
+        stroke="${c}" stroke-width="1.2" opacity="${o}"/>`;
+    }
+  }
+  return `${rungs}
+    <polyline points="${a.join(' ')}" fill="none" stroke="${c}" stroke-width="2" opacity="0.9"/>
+    <polyline points="${b.join(' ')}" fill="none" stroke="${c}" stroke-width="2" opacity="0.5"/>`;
+}
+
+function radarArt(w: number, h: number, c: string): string {
+  const cx = w * 0.8;
+  const cy = h * 0.96;
+  let arcs = '';
+  for (let r = 50, i = 0; r < w * 0.72; r += 48, i++) {
+    const dash = i % 2 ? ' stroke-dasharray="6 10"' : '';
+    arcs += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c}"
+      stroke-width="${i % 3 === 0 ? 1.8 : 1}" opacity="${(0.8 - i * 0.07).toFixed(2)}"${dash}/>`;
+  }
+  const sweep = `<line x1="${cx}" y1="${cy}" x2="${(cx - w * 0.62).toFixed(1)}"
+    y2="${(cy - h * 0.58).toFixed(1)}" stroke="${c}" stroke-width="1.4" opacity="0.7"/>`;
+  const s = h * 0.17;
+  const sx = w * 0.3;
+  const sy = h * 0.4;
+  const shield = `<path d="M ${sx} ${sy - s} L ${sx + s * 0.85} ${sy - s * 0.65} L ${sx + s * 0.85} ${sy + s * 0.1}
+    Q ${sx + s * 0.85} ${sy + s * 0.75} ${sx} ${sy + s * 1.05}
+    Q ${sx - s * 0.85} ${sy + s * 0.75} ${sx - s * 0.85} ${sy + s * 0.1} L ${sx - s * 0.85} ${sy - s * 0.65} Z"
+    fill="none" stroke="${c}" stroke-width="1.8" opacity="0.85"/>`;
+  return arcs + sweep + shield;
+}
+
+function graphArt(w: number, h: number, c: string, rng: () => number): string {
+  const pts: [number, number][] = [];
+  for (let i = 0; i < 18; i++) pts.push([w * (0.05 + rng() * 0.9), h * (0.08 + rng() * 0.84)]);
+  const edges = new Set<string>();
+  pts.forEach(([x, y], i) => {
+    pts
+      .map((p, j) => ({ j, d: Math.hypot(p[0] - x, p[1] - y) }))
+      .filter((o) => o.j !== i)
+      .sort((p, q) => p.d - q.d)
+      .slice(0, 2)
+      .forEach(({ j }) => edges.add(`${Math.min(i, j)}-${Math.max(i, j)}`));
+  });
+  let lines = '';
+  for (const e of edges) {
+    const [i, j] = e.split('-').map(Number);
+    lines += `<line x1="${pts[i][0].toFixed(1)}" y1="${pts[i][1].toFixed(1)}" x2="${pts[j][0].toFixed(1)}"
+      y2="${pts[j][1].toFixed(1)}" stroke="${c}" stroke-width="1.1" opacity="0.5"/>`;
+  }
+  let dots = '';
+  pts.forEach(([x, y], i) => {
+    const hub = i % 5 === 0;
+    dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${hub ? 5 : 2.6}" fill="${c}"
+      opacity="${hub ? 0.9 : 0.7}"/>`;
+    if (hub) dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="11" fill="none" stroke="${c}" stroke-width="1" opacity="0.4"/>`;
+  });
+  return lines + dots;
+}
+
+/**
+ * Transparent line art for the sector bands and company cards under Compressed
+ * density: a double helix for SynBio, radar arcs and a shield for Security, a
+ * node graph for Systems (and for anything without a sector). Drawn in the
+ * sector colour; the CSS sets the opacity and the fade.
+ */
+export function placeholderMotif(sector: SectorId | null, seed = 'motif'): string {
+  const w = 640;
+  const h = 360;
+  const c = sectorHex(sector);
+  const rng = makeRng(`${seed}:${sector ?? 'none'}:motif`);
+  const art =
+    sector === 'synbio' ? helixArt(w, h, c) : sector === 'security' ? radarArt(w, h, c) : graphArt(w, h, c, rng);
+  return svgUri(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">${art}</svg>`,
+  );
+}
+
 /** 16:9 video poster in the node's sector color. */
 export function placeholderPoster(seed: string, sector?: SectorId | null): string {
   return placeholderImage({ seed, sector, variant: 'scene', width: 1280, height: 720 });

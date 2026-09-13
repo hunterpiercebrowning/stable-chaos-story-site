@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { allNodes } from './loader';
 import {
+  getBackdrop,
+  getChildCount,
   getContextItems,
   getCopy,
   getLayers,
@@ -13,7 +15,7 @@ import {
   search,
 } from './index';
 import { kebab, normalizeProducts, normalizeSectors, toSectorId, toStage } from './normalize';
-import { loremBlurb, loremBullets, placeholderImage } from './placeholders';
+import { loremBlurb, loremBullets, placeholderImage, placeholderMotif } from './placeholders';
 import { buildRelated, groupByLayer } from './related';
 import { searchNodes } from './search';
 import type { Node } from './types';
@@ -49,6 +51,35 @@ describe('getNavTree', () => {
     const { branches, orphans } = getNavTree('products');
     expect(orphans).toEqual([]);
     expect(branches.every((b) => b.children.length === 0)).toBe(true);
+  });
+});
+
+describe('compressed card extras', () => {
+  it('counts the secondaries nested under a primary', () => {
+    const synbio = getNode('synbio')!;
+    const expected = getNodes('sectors').filter(
+      (n) => n.layerId === 'sectors' && n.tier === 'secondary' && n.relatedSectors.includes('synbio'),
+    ).length;
+    expect(expected).toBeGreaterThan(0);
+    expect(getChildCount(synbio)).toBe(expected);
+    expect(getChildCount(getNode('growth-curve-bio')!)).toBeGreaterThan(0);
+    expect(getChildCount(getNodes('sectors').find((n) => n.tier === 'secondary')!)).toBe(0);
+    expect(getChildCount(getNodes('products')[0])).toBe(0);
+  });
+
+  it('backdrop prefers the authored image and falls back to a sector motif', () => {
+    const security = getNode('security')!;
+    const fallback = getBackdrop(security);
+    expect(fallback.isPlaceholder).toBe(true);
+    expect(fallback.src.startsWith('data:image/svg+xml,')).toBe(true);
+    expect(fallback.src).toBe(placeholderMotif('security', 'security'));
+    const authored = getBackdrop({ ...security, backgroundImage: '/assets/backgrounds/security.jpg' } as Node);
+    expect(authored).toEqual({ src: '/assets/backgrounds/security.jpg', isPlaceholder: false });
+  });
+
+  it('draws a different motif per sector, deterministically', () => {
+    expect(placeholderMotif('synbio')).toBe(placeholderMotif('synbio'));
+    expect(new Set([placeholderMotif('synbio'), placeholderMotif('security'), placeholderMotif('systems')]).size).toBe(3);
   });
 });
 
