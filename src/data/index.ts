@@ -1,5 +1,5 @@
 import { allNodes, layers, nodeIndex, nodesOf } from './loader';
-import { nodeSectors } from './normalize';
+import { nodeSectors, parentIds } from './normalize';
 import {
   loremBlurb,
   loremBullets,
@@ -28,6 +28,38 @@ export function getNodes(layerId: LayerId | string | undefined): Node[] {
 
 export function getNode(id: string | undefined): Node | undefined {
   return id ? nodeIndex.get(id) : undefined;
+}
+
+export interface NavBranch {
+  primary: Node;
+  /** Secondaries that name this primary as a parent, in content order. */
+  children: Node[];
+}
+
+export interface NavTree {
+  branches: NavBranch[];
+  /** Secondaries whose parent is missing from the layer — should be empty; rendered flat if not. */
+  orphans: Node[];
+}
+
+/**
+ * The two-tier index for a layer: every primary with its secondaries nested under it.
+ * A secondary with two parents (a domain shared by two sectors) appears under both.
+ */
+export function getNavTree(layerId: LayerId | string | undefined): NavTree {
+  const nodes = getNodes(layerId);
+  const branches: NavBranch[] = nodes
+    .filter((n) => n.tier === 'primary')
+    .map((primary) => ({ primary, children: [] as Node[] }));
+  const byPrimary = new Map(branches.map((b) => [b.primary.id, b]));
+  const orphans: Node[] = [];
+  for (const node of nodes) {
+    if (node.tier !== 'secondary') continue;
+    const parents = parentIds(node).map((id) => byPrimary.get(id)).filter((b): b is NavBranch => Boolean(b));
+    if (parents.length === 0) orphans.push(node);
+    for (const b of parents) b.children.push(node);
+  }
+  return { branches, orphans };
 }
 
 const relatedIndex = buildRelated(allNodes);
@@ -88,7 +120,7 @@ export function getPoster(node: Node): string {
   return placeholderPoster(node.id, getPrimarySector(node));
 }
 
-export { nodeSectors, toSectorId, kebab, toRef, byOrder } from './normalize';
+export { nodeSectors, parentIds, toSectorId, kebab, toRef, byOrder } from './normalize';
 export { groupByLayer };
 export { placeholderImage, placeholderGallery, placeholderPoster, sectorHex } from './placeholders';
 export { SECTOR_IDS, SECTOR_LABEL } from './types';

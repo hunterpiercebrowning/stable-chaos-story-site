@@ -2,7 +2,7 @@ import { useReducedMotion } from 'motion/react';
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { NavLink, useNavigate } from 'react-router';
-import { getLayers, getNodes } from '../data';
+import { getLayers, getNavTree, getNodes } from '../data';
 import type { Layer, LayerId, Node } from '../data/types';
 import { Icon, type IconName } from '../components/Icon';
 import { track } from '../lib/track';
@@ -23,9 +23,9 @@ const LAYER_ICON: Record<LayerId, IconName> = {
 
 /**
  * Site index. Open: a search entry plus a collapsible group per layer with the
- * primary tier bold and the secondary tier indented (hidden under Compressed
- * density with a "+N more" affordance). Closed: an icon rail, one icon per
- * layer, with tooltips.
+ * primary tier bold and each primary's secondaries nested under it (hidden under
+ * Compressed density with a "+N more" affordance). Closed: an icon rail, one
+ * icon per layer, with tooltips.
  */
 export function LeftNav() {
   const leftOpen = useUi((s) => s.leftOpen);
@@ -122,8 +122,8 @@ function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
   const toggleNavGroup = useUi((s) => s.toggleNavGroup);
   const setDensity = useUi((s) => s.setDensity);
   const nodes = getNodes(layer.id);
-  const primary = nodes.filter((n) => n.tier === 'primary');
-  const secondary = nodes.filter((n) => n.tier === 'secondary');
+  const { branches, orphans } = getNavTree(layer.id);
+  const secondaryCount = nodes.filter((n) => n.tier === 'secondary').length;
   const hasBody = nodes.length > 0 || layer.nodesFile !== null;
   const bodyId = `leftnav-body-${layer.id}`;
 
@@ -135,20 +135,32 @@ function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
     navigate(path);
   };
 
-  const renderNode = (node: Node) => (
-    <li key={node.id}>
-      <button
-        type="button"
-        className="leftnav-node"
-        data-tier={node.tier}
-        data-node-id={node.id}
-        aria-current={node.id === nodeId ? 'page' : undefined}
-        onClick={() => go(node)}
-      >
-        {node.title}
-      </button>
-    </li>
+  const renderButton = (node: Node) => (
+    <button
+      type="button"
+      className="leftnav-node"
+      data-tier={node.tier}
+      data-node-id={node.id}
+      aria-current={node.id === nodeId ? 'page' : undefined}
+      onClick={() => go(node)}
+    >
+      {node.title}
+    </button>
   );
+
+  // Secondaries nest under their primary; Compressed density folds them away.
+  const renderChildren = (children: Node[]) =>
+    children.length > 0 ? (
+      <ul
+        className="leftnav-list leftnav-list--secondary"
+        data-hidden={compressed ? 'true' : undefined}
+        aria-hidden={compressed}
+      >
+        {children.map((child) => (
+          <li key={child.id}>{renderButton(child)}</li>
+        ))}
+      </ul>
+    ) : null;
 
   return (
     <section
@@ -187,19 +199,20 @@ function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
       {hasBody ? (
         <div className="leftnav-body" id={bodyId} aria-hidden={!open}>
           <div className="leftnav-body-inner">
-            {primary.length > 0 ? <ul className="leftnav-list">{primary.map(renderNode)}</ul> : null}
-
-            {secondary.length > 0 ? (
-              <ul
-                className="leftnav-list leftnav-list--secondary"
-                data-hidden={compressed ? 'true' : undefined}
-                aria-hidden={compressed}
-              >
-                {secondary.map(renderNode)}
+            {branches.length > 0 ? (
+              <ul className="leftnav-list">
+                {branches.map(({ primary, children }) => (
+                  <li key={primary.id}>
+                    {renderButton(primary)}
+                    {renderChildren(children)}
+                  </li>
+                ))}
               </ul>
             ) : null}
 
-            {secondary.length > 0 && compressed ? (
+            {renderChildren(orphans)}
+
+            {secondaryCount > 0 && compressed ? (
               <button
                 type="button"
                 className="leftnav-more"
@@ -209,7 +222,7 @@ function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
                   track('density_change', { value: 'expanded' });
                 }}
               >
-                +{secondary.length} more
+                +{secondaryCount} more
               </button>
             ) : null}
 

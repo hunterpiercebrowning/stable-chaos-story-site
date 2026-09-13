@@ -223,6 +223,22 @@ export function nodeSectors(node: Node): SectorId[] {
   }
 }
 
+/**
+ * Primary node ids a secondary node sits under: a domain's `relatedSectors`
+ * (1–2 sectors), an offering's `company`. Primaries and other layers have none.
+ */
+export function parentIds(node: Node): string[] {
+  if (node.tier !== 'secondary') return [];
+  switch (node.layerId) {
+    case 'sectors':
+      return node.relatedSectors;
+    case 'services':
+      return node.company ? [node.company] : [];
+    default:
+      return [];
+  }
+}
+
 export function toRef(node: Node): NodeRef {
   return { id: node.id, layerId: node.layerId, title: node.title, tier: node.tier };
 }

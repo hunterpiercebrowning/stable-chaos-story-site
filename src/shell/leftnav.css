@@ -210,6 +210,17 @@
   color: var(--text-faint);
 }
 
+/* Nested under a primary: a hairline guide ties the children to their parent. */
+.leftnav-list--secondary {
+  margin: 1px 0 var(--s-1) var(--s-3);
+  border-left: 1px solid var(--glass-border);
+}
+
+.leftnav-list--secondary .leftnav-node[data-tier='secondary'] {
+  padding-left: var(--s-3);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+
 .leftnav-node:hover {
   background: var(--glass);
   color: var(--text);

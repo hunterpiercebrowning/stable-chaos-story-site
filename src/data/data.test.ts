@@ -4,6 +4,7 @@ import {
   getContextItems,
   getCopy,
   getLayers,
+  getNavTree,
   getNextLayer,
   getNode,
   getNodes,
@@ -16,6 +17,40 @@ import { loremBlurb, loremBullets, placeholderImage } from './placeholders';
 import { buildRelated, groupByLayer } from './related';
 import { searchNodes } from './search';
 import type { Node } from './types';
+
+describe('getNavTree', () => {
+  it('nests every secondary under its primary, with no orphans', () => {
+    for (const layerId of ['sectors', 'services'] as const) {
+      const { branches, orphans } = getNavTree(layerId);
+      const nodes = getNodes(layerId);
+      expect(orphans).toEqual([]);
+      expect(branches.map((b) => b.primary.id)).toEqual(
+        nodes.filter((n) => n.tier === 'primary').map((n) => n.id),
+      );
+      const nested = new Set(branches.flatMap((b) => b.children.map((c) => c.id)));
+      expect(nested.size).toBe(nodes.filter((n) => n.tier === 'secondary').length);
+      for (const b of branches) {
+        for (const c of b.children) expect(c.tier).toBe('secondary');
+      }
+    }
+  });
+
+  it('lists a domain shared by two sectors under both', () => {
+    const { branches } = getNavTree('sectors');
+    const shared = getNodes('sectors').find(
+      (n) => n.tier === 'secondary' && n.layerId === 'sectors' && n.relatedSectors.length === 2,
+    );
+    expect(shared).toBeDefined();
+    const under = branches.filter((b) => b.children.some((c) => c.id === shared!.id)).map((b) => b.primary.id);
+    expect(under).toEqual(shared!.layerId === 'sectors' ? shared!.relatedSectors : []);
+  });
+
+  it('is flat for primary-only layers', () => {
+    const { branches, orphans } = getNavTree('products');
+    expect(orphans).toEqual([]);
+    expect(branches.every((b) => b.children.length === 0)).toBe(true);
+  });
+});
 
 describe('normalize', () => {
   it('kebabs titles, stripping symbols and diacritics', () => {
