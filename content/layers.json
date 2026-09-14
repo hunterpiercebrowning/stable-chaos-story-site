@@ -13,7 +13,8 @@
     "title": "Who We Are",
     "shortTitle": "Who",
     "path": "/who",
-    "nodesFile": "who-nodes.json"
+    "nodesFile": "who-nodes.json",
+    "subtitle": "Entrepreneurs, Technologist & n=1 Individuals tackling the nation's most critical problems"
   },
   {
     "id": "operations",
@@ -21,7 +22,8 @@
     "title": "Our Operational Advantage",
     "shortTitle": "Operational Advantage",
     "path": "/operations",
-    "nodesFile": null
+    "nodesFile": null,
+    "subtitle": "We've been here many times. Now we are building an engine that systematizes our success."
   },
   {
     "id": "beliefs",
@@ -40,13 +42,14 @@
     "shortTitle": "Sectors",
     "path": "/sectors",
     "nodesFile": "sectors-nodes.json",
-    "hasDensity": true
+    "hasDensity": true,
+    "subtitle": "Our maximum value lies with the most important problems we are disproportionally advantaged to solve"
   },
   {
     "id": "trajectory",
     "order": 5,
-    "title": "What We've Done",
-    "shortTitle": "What We've Done",
+    "title": "What We've Already Built",
+    "shortTitle": "Already Built",
     "path": "/trajectory",
     "nodesFile": null
   },
