@@ -12,7 +12,7 @@ const SCORE = {
 function bodyText(node: Node): string {
   const extra: string[] = [];
   if (node.layerId === 'who') extra.push(node.role, node.company);
-  if (node.layerId === 'products') extra.push(node.category, node.stage);
+  if (node.layerId === 'products' && node.category && node.stage) extra.push(node.category, node.stage);
   return [node.tagline, node.blurb, ...node.bulletPoints, ...extra].join(' ').toLowerCase();
 }
 

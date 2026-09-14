@@ -6,7 +6,7 @@
     "sector": "synbio",
     "website": "https://growthcurvebio.com/",
     "logo_file": "/assets/logos/gcb-logo.svg",
-    "tagline": "",
+    "tagline": "Synthetic biology rapid iteration & biomanufacturing lab",
     "blurb": "",
     "bullet_points": [],
     "video_link": "",
@@ -19,7 +19,7 @@
     "sector": "systems",
     "website": "https://fountaincitypartners.com/",
     "logo_file": "/assets/logos/fcp-icon.png",
-    "tagline": "",
+    "tagline": "Airtight back-office, operations & compliance",
     "blurb": "",
     "bullet_points": [],
     "video_link": "",
@@ -32,8 +32,8 @@
     "sector": "security",
     "website": "https://starlingintel.com/domains",
     "logo_file": "/assets/logos/starling-intel-icon.svg",
-    "tagline": "",
-    "blurb": "",
+    "tagline": "Bespoke engagements",
+    "blurb": "Underpinning our access and trust in the security sector is a services offering that provides discrete professionalism, deep technical capabilities and tactical domain expertise.",
     "bullet_points": [],
     "video_link": "",
     "context_items": []
@@ -92,9 +92,13 @@
     "title": "Molecular Engineering",
     "sector": "synbio",
     "company": "growth-curve-bio",
-    "tagline": "",
+    "tagline": "Tailoring the performance of target biomolecules in their deployed applications and use cases",
     "blurb": "",
-    "bullet_points": [],
+    "bullet_points": [
+      "Application-first design — molecules engineered against the demands of their end use from the start.",
+      "Performance tuning — structure and formulation adjusted for stability, potency, and shelf life in deployment.",
+      "Use-case validation — testing in conditions that mirror the customer's actual environment."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -104,9 +108,13 @@
     "title": "Genetic Engineering",
     "sector": "synbio",
     "company": "growth-curve-bio",
-    "tagline": "",
+    "tagline": "DNA programming, host organism editing, and exotic organism harnessing",
     "blurb": "",
-    "bullet_points": [],
+    "bullet_points": [
+      "DNA programming — genetic circuits that direct organisms to express target biomolecules reliably.",
+      "Host organism editing — precision edits to proven hosts for yield, stability, and process tolerance.",
+      "Exotic organism selection — evaluating non-standard organisms for capabilities conventional chassis cannot offer."
+    ],
     "video_link": "",
     "context_items": []
   },

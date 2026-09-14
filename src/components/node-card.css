@@ -118,13 +118,19 @@
   min-width: 120px;
   max-width: 190px;
 }
+/* The card is a flex column aligned to the start, so the body would otherwise
+   size to the unwrapped title and push past the card's max-width. */
+.node-card--xs .node-card-body {
+  max-width: 100%;
+}
 .node-card--xs .node-card-title {
   font-size: var(--fs-sm);
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 164px;
+  /* Ellipsis at the card's own edge, whatever width the card settles at. */
+  max-width: 100%;
 }
 
 .node-card--sm {

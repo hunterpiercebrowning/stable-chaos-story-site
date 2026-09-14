@@ -204,20 +204,38 @@ export function normalizeServices(raw: unknown[]): ServiceNode[] {
 
 const CATEGORIES: ProductCategory[] = ['Bioproduct', 'Hardware', 'Software'];
 
+/**
+ * Products are two-tier: one primary per sector summarising what gets built
+ * there, and the products (secondary) beneath it. A product's parent is the
+ * primary that shares its sector.
+ */
 export function normalizeProducts(raw: unknown[]): ProductNode[] {
-  return raw.map((r, i) => {
+  const nodes = raw.map((r, i) => {
     const o = (r ?? {}) as Record<string, unknown>;
-    const category = str(o.category) as ProductCategory;
-    return {
-      ...baseFields(o, i, str(o.title)),
+    const base = baseFields(o, i, str(o.title));
+    const node: ProductNode = {
+      ...base,
       layerId: 'products',
       sector: toSectorId(str(o.sector)),
-      stage: toStage(str(o.stage)),
-      category: CATEGORIES.includes(category) ? category : 'Software',
       backgroundImage: str(o.background_image),
       gallery: strArray(o.gallery),
-    } satisfies ProductNode;
+    };
+    if (base.tier === 'secondary') {
+      const category = str(o.category) as ProductCategory;
+      node.stage = toStage(str(o.stage));
+      node.category = CATEGORIES.includes(category) ? category : 'Software';
+    }
+    return node;
   });
+
+  const primaryBySector = new Map<SectorId, string>();
+  for (const n of nodes) {
+    if (n.tier === 'primary' && !primaryBySector.has(n.sector)) primaryBySector.set(n.sector, n.id);
+  }
+  for (const n of nodes) {
+    if (n.tier === 'secondary') n.parent = primaryBySector.get(n.sector);
+  }
+  return nodes;
 }
 
 export function normalizeBackground(raw: unknown[]): BackgroundNode[] {
@@ -244,7 +262,8 @@ export function nodeSectors(node: Node): SectorId[] {
 
 /**
  * Primary node ids a secondary node sits under: a domain's `relatedSectors`
- * (1–2 sectors), an offering's `company`. Primaries and other layers have none.
+ * (1–2 sectors), an offering's `company`, a product's sector `parent`.
+ * Primaries and other layers have none.
  */
 export function parentIds(node: Node): string[] {
   if (node.tier !== 'secondary') return [];
@@ -253,6 +272,8 @@ export function parentIds(node: Node): string[] {
       return node.relatedSectors;
     case 'services':
       return node.company ? [node.company] : [];
+    case 'products':
+      return node.parent ? [node.parent] : [];
     default:
       return [];
   }

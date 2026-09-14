@@ -107,15 +107,18 @@ Sectors domain node: `molecular-engineering-growth-curve-bio`, `operations-fount
 
 | field | type | notes |
 |---|---|---|
-| `id` | string | |
-| `type` | `"primary"` | one tier only |
-| `title` | string | |
-| `sector` | SectorId | drives the band and color |
-| `stage` | `"active"` \| `"slated"` | active = solid; slated = dashed, muted, "Slated" tag. The loader also accepts the legacy spelling `"slatted"`. |
-| `category` | `"Bioproduct"` \| `"Hardware"` \| `"Software"` | picks the node icon |
-| `background_image` | string | environment photo behind the focus frame; empty → generated gradient scene |
-| `gallery` | string[] | 3–5 image paths; empty → generated placeholders |
-| `tagline`, `blurb`, `bullet_points`, `video_link`, `context_items` | | |
+| `id` | string | primary ids are `<sector>-products` (the bare sector id is taken by the Sectors layer) |
+| `type` | `"primary"` (Sector summary) \| `"secondary"` (Product) | one primary per sector; each product nests under the primary with the same `sector` |
+| `title` | string | primary: the sector label, e.g. `SynBio` |
+| `sector` | SectorId | on **both** tiers; drives the band, color and the product → summary link |
+| `stage` | `"active"` \| `"slated"` | **secondary only**. active = solid; slated = dashed, muted, "Slated" tag. The loader also accepts the legacy spelling `"slatted"`. |
+| `category` | `"Bioproduct"` \| `"Hardware"` \| `"Software"` | **secondary only**; picks the node icon |
+| `background_image` | string | environment photo behind the focus frame (primary: also the card backdrop under Compressed); empty → generated scene / sector motif |
+| `gallery` | string[] | **secondary only**; 3–5 image paths; empty → generated placeholders |
+| `tagline`, `blurb`, `bullet_points`, `video_link`, `context_items` | | primary `tagline` is the summary on the Compressed card |
+
+Under Compressed density the products fold away and the three primaries render as summary cards;
+Expanded shows the sector bands, whose titles open the primary.
 
 ## `background-nodes.json`
 

@@ -16,8 +16,16 @@
     "nodesFile": "who-nodes.json"
   },
   {
-    "id": "beliefs",
+    "id": "operations",
     "order": 2,
+    "title": "Our Operational Advantage",
+    "shortTitle": "Operational Advantage",
+    "path": "/operations",
+    "nodesFile": null
+  },
+  {
+    "id": "beliefs",
+    "order": 3,
     "title": "What We Believe",
     "shortTitle": "Beliefs",
     "path": "/beliefs",
@@ -25,7 +33,7 @@
   },
   {
     "id": "sectors",
-    "order": 3,
+    "order": 4,
     "title": "Critical Sectors",
     "shortTitle": "Sectors",
     "path": "/sectors",
@@ -33,8 +41,16 @@
     "hasDensity": true
   },
   {
+    "id": "trajectory",
+    "order": 5,
+    "title": "What We've Done",
+    "shortTitle": "What We've Done",
+    "path": "/trajectory",
+    "nodesFile": null
+  },
+  {
     "id": "services",
-    "order": 4,
+    "order": 6,
     "title": "Services",
     "shortTitle": "Services",
     "path": "/services",
@@ -43,15 +59,16 @@
   },
   {
     "id": "products",
-    "order": 5,
+    "order": 7,
     "title": "Products",
     "shortTitle": "Products",
     "path": "/products",
-    "nodesFile": "product-nodes.json"
+    "nodesFile": "product-nodes.json",
+    "hasDensity": true
   },
   {
     "id": "background",
-    "order": 6,
+    "order": 8,
     "title": "Foundational Background",
     "shortTitle": "Background",
     "path": "/background",

@@ -22,7 +22,7 @@ import type { Node } from './types';
 
 describe('getNavTree', () => {
   it('nests every secondary under its primary, with no orphans', () => {
-    for (const layerId of ['sectors', 'services'] as const) {
+    for (const layerId of ['sectors', 'services', 'products'] as const) {
       const { branches, orphans } = getNavTree(layerId);
       const nodes = getNodes(layerId);
       expect(orphans).toEqual([]);
@@ -47,8 +47,19 @@ describe('getNavTree', () => {
     expect(under).toEqual(shared!.layerId === 'sectors' ? shared!.relatedSectors : []);
   });
 
+  it('nests every product under the primary of its sector', () => {
+    const { branches } = getNavTree('products');
+    expect(branches.map((b) => b.primary.id)).toEqual(['synbio-products', 'security-products', 'systems-products']);
+    for (const b of branches) {
+      expect(b.children.length).toBeGreaterThan(0);
+      for (const c of b.children) {
+        expect(c.layerId === 'products' && b.primary.layerId === 'products' && c.sector === b.primary.sector).toBe(true);
+      }
+    }
+  });
+
   it('is flat for primary-only layers', () => {
-    const { branches, orphans } = getNavTree('products');
+    const { branches, orphans } = getNavTree('beliefs');
     expect(orphans).toEqual([]);
     expect(branches.every((b) => b.children.length === 0)).toBe(true);
   });
@@ -64,7 +75,8 @@ describe('compressed card extras', () => {
     expect(getChildCount(synbio)).toBe(expected);
     expect(getChildCount(getNode('growth-curve-bio')!)).toBeGreaterThan(0);
     expect(getChildCount(getNodes('sectors').find((n) => n.tier === 'secondary')!)).toBe(0);
-    expect(getChildCount(getNodes('products')[0])).toBe(0);
+    expect(getChildCount(getNode('synbio-products')!)).toBeGreaterThan(0);
+    expect(getChildCount(getNode('conus-coat')!)).toBe(0);
   });
 
   it('backdrop prefers the authored image and falls back to a sector motif', () => {
@@ -115,19 +127,23 @@ describe('normalize', () => {
   });
 
   it('normalizes a raw product node with legacy fields', () => {
-    const [p] = normalizeProducts([
-      { type: 'primary', id: 'x', title: 'X', sector: 'security', stage: 'slatted', category: 'Hardware' },
+    const [primary, p] = normalizeProducts([
+      { type: 'primary', id: 'security-products', title: 'Security', sector: 'Security' },
+      { type: 'secondary', id: 'x', title: 'X', sector: 'security', stage: 'slatted', category: 'Hardware' },
     ]);
+    expect(primary.tier).toBe('primary');
+    expect(primary.stage).toBeUndefined();
     expect(p.stage).toBe('slated');
     expect(p.sector).toBe('security');
+    expect(p.parent).toBe('security-products');
     expect(p.gallery).toEqual([]);
   });
 });
 
 describe('content', () => {
-  it('has all seven layers in order', () => {
+  it('has all nine layers in order', () => {
     expect(getLayers().map((l) => l.id)).toEqual([
-      'welcome', 'who', 'beliefs', 'sectors', 'services', 'products', 'background',
+      'welcome', 'who', 'operations', 'beliefs', 'sectors', 'trajectory', 'services', 'products', 'background',
     ]);
   });
 
@@ -142,13 +158,18 @@ describe('content', () => {
     expect(getNodes('beliefs')).toHaveLength(7);
     expect(getNodes('sectors')).toHaveLength(21);
     expect(getNodes('services')).toHaveLength(24);
-    expect(getNodes('products')).toHaveLength(23);
+    expect(getNodes('products')).toHaveLength(26);
     expect(getNodes('background')).toHaveLength(0);
+    expect(getNodes('operations')).toHaveLength(0);
+    expect(getNodes('trajectory')).toHaveLength(0);
   });
 
   it('walks layers with prev/next', () => {
     expect(getPrevLayer('welcome')).toBeUndefined();
     expect(getNextLayer('welcome')?.id).toBe('who');
+    expect(getNextLayer('who')?.id).toBe('operations');
+    expect(getNextLayer('sectors')?.id).toBe('trajectory');
+    expect(getNextLayer('trajectory')?.id).toBe('services');
     expect(getNextLayer('background')).toBeUndefined();
     expect(getPrevLayer('products')?.id).toBe('services');
   });
@@ -228,8 +249,11 @@ describe('related', () => {
     expect(refs).toContain('security');
   });
 
-  it('links products to their sector', () => {
-    expect(getRelated('conus-coat').map((r) => r.id)).toContain('synbio');
+  it('links products to their sector and its products summary', () => {
+    const refs = getRelated('conus-coat').map((r) => r.id);
+    expect(refs).toContain('synbio');
+    expect(refs).toContain('synbio-products');
+    expect(getRelated('synbio-products').map((r) => r.id)).toContain('synbio');
   });
 
   it('gives beliefs no relations', () => {

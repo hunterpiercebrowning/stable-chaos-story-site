@@ -14,8 +14,10 @@ import './leftnav.css';
 const LAYER_ICON: Record<LayerId, IconName> = {
   welcome: 'home',
   who: 'people',
+  operations: 'chip',
   beliefs: 'lightbulb',
   sectors: 'grid',
+  trajectory: 'clock',
   services: 'briefcase',
   products: 'box',
   background: 'book',

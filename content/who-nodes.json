@@ -3,11 +3,18 @@
     "id": "hunter-browning",
     "type": "founder",
     "name": "Hunter Browning",
-    "title": "Science, & Technology",
+    "title": "Science & Technology",
     "company": "Stable Chaos",
     "headshot_file": "/assets/headshots/hunter-head_shot_cropped.jpg",
     "blurb": "Having built ventures across the energy production, machine learning, SaaS, digital forensics, and hardware sectors, Hunter is a seasoned entrepreneur and inventor who lives at the intersection between high speed and high complexity.",
-    "bullet_points": [],
+    "bullet_points": [
+      "LLMs and ML applications from scratch",
+      "Novel energy production technologies",
+      "Robotics and embedded hardware systems",
+      "Large-scale, high-usage software systems",
+      "Technical leadership from startups through unicorns",
+      "Offensive and defensive cyber operations"
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -82,8 +89,7 @@
     "bullet_points": [],
     "video_link": "",
     "context_items": []
-  }
-  ,
+  },
   {
     "id": "greg-lapin",
     "type": "expert",

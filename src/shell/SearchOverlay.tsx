@@ -284,6 +284,8 @@ function tierLabel(r: SearchResult): string {
       return 'Domain';
     case 'services':
       return 'Offering';
+    case 'products':
+      return 'Product';
     default:
       return 'Secondary';
   }
@@ -296,7 +298,7 @@ function snippet(nodeId: string, query: string): string {
   const copy = getCopy(node);
   const fields = [copy.tagline, copy.blurb, ...copy.bullets];
   if (node.layerId === 'who') fields.unshift(node.role, node.company);
-  if (node.layerId === 'products') fields.unshift(node.category, node.stage);
+  if (node.layerId === 'products' && node.category && node.stage) fields.unshift(node.category, node.stage);
   const needle = query.toLowerCase();
   const hit = fields.find((f) => f.toLowerCase().includes(needle)) ?? fields[0] ?? '';
   const at = hit.toLowerCase().indexOf(needle);

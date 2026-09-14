@@ -33,7 +33,7 @@ function defaultSubtitle(node: Node): string | null {
     case 'who':
       return `${node.role} · ${node.company}`;
     case 'products':
-      return node.category;
+      return node.category ?? 'Sector';
     case 'services':
       return node.tier === 'primary' ? 'Company' : 'Offering';
     case 'sectors':
@@ -105,7 +105,7 @@ export function NodeCard({
           {showTags && size !== 'xs' ? (
             <span className="node-card-tags">
               {sectors[0] ? <SectorTag sector={sectors[0]} second={sectors[1] ?? null} /> : null}
-              {node.layerId === 'products' ? <StageTag stage={node.stage} /> : null}
+              {node.layerId === 'products' && node.stage ? <StageTag stage={node.stage} /> : null}
             </span>
           ) : null}
         </>

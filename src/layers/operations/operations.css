@@ -1,0 +1,239 @@
+/* Our Operational Advantage — hard-coded layer (deck slide 6).
+   Class prefix: .operations-
+
+   Two glass panels side by side: the operators on the left in the warm peach,
+   the software layer on the right in green-2. Each panel reads its tint from
+   --accent so the eyebrow, rule, figures and indices stay in step. Below
+   ~700px of stage width the panels stack. */
+
+/* ── layer ── */
+.operations {
+  container-type: inline-size;
+  container-name: operations;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 auto;
+  width: 100%;
+  padding: var(--s-2) var(--s-2) var(--s-6);
+}
+
+.operations-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: stretch;
+  gap: var(--s-4);
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+@container operations (max-width: 700px) {
+  .operations-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── panel ── */
+.operations-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  min-width: 0;
+  padding: var(--s-6) var(--s-6) var(--s-5);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: operations-rise 0.7s var(--ease) forwards;
+}
+
+.operations-panel--operators {
+  --accent: var(--peach);
+  animation-delay: 0.1s;
+}
+
+.operations-panel--software {
+  --accent: var(--green-2);
+  animation-delay: 0.22s;
+}
+
+/* Accent rule along the top edge, fading out to the right. */
+.operations-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0%,
+    color-mix(in srgb, var(--accent) 45%, transparent) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Soft pool of the accent in the top-left corner. */
+.operations-panel::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -20%;
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--accent) 10%, transparent) 0%,
+    transparent 100%
+  );
+  filter: blur(24px);
+  pointer-events: none;
+}
+
+.operations-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.operations-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: color-mix(in srgb, var(--accent) 78%, var(--text-faint));
+}
+
+.operations-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.operations-heading {
+  max-width: 24ch;
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+}
+
+.operations-panel--software .operations-heading {
+  font-size: var(--fs-xl);
+  max-width: 22ch;
+}
+
+.operations-body {
+  max-width: 44ch;
+  font-size: var(--fs-base);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ── operators: headline figures ── */
+.operations-stats {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-5) var(--s-7);
+  margin-top: auto;
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--glass-border);
+}
+
+.operations-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+/* The figure sits above its label; the DOM keeps dt before dd for screen readers. */
+.operations-stat-value {
+  order: -1;
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.operations-stat-label {
+  color: var(--text-faint);
+}
+
+/* ── software layer: numbered capabilities ── */
+.operations-list {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--s-1);
+}
+
+.operations-item {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--s-2) var(--s-2);
+  padding: var(--s-4) 0;
+  border-top: 1px solid var(--glass-border);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: operations-rise 0.6s var(--ease) forwards;
+  animation-delay: calc(0.42s + var(--i, 0) * 0.09s);
+}
+
+.operations-item:last-child {
+  padding-bottom: var(--s-2);
+}
+
+.operations-item-index {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.operations-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  min-width: 0;
+}
+
+.operations-item-title {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.operations-item-text {
+  font-size: var(--fs-sm);
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+@keyframes operations-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

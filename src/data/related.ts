@@ -4,11 +4,13 @@ import type { LayerId, Node, NodeRef } from './types';
 const LAYER_RANK: Record<LayerId, number> = {
   welcome: 0,
   who: 1,
-  beliefs: 2,
-  sectors: 3,
-  services: 4,
-  products: 5,
-  background: 6,
+  operations: 2,
+  beliefs: 3,
+  sectors: 4,
+  trajectory: 5,
+  services: 6,
+  products: 7,
+  background: 8,
 };
 
 /**
@@ -19,6 +21,7 @@ const LAYER_RANK: Record<LayerId, number> = {
  *   offering ↔ company         (services secondary .company → services primary id)
  *   offering ↔ sector
  *   product ↔ sector
+ *   product ↔ sector products node  (products secondary .parent → products primary id)
  *   domain  ↔ sector(s)        (sectors secondary .relatedSectors)
  *
  * Every edge is added in both directions. Beliefs have no edges by design.
@@ -62,6 +65,7 @@ export function buildRelated(nodes: Node[]): Map<string, NodeRef[]> {
       }
       case 'products': {
         link(node.id, node.sector);
+        if (node.tier === 'secondary' && node.parent) link(node.id, node.parent);
         break;
       }
       default:

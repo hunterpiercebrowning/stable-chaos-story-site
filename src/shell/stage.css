@@ -78,6 +78,12 @@
   padding: var(--s-2) 2px var(--s-3);
 }
 
+/* Cards keep their content width (within the xs min/max) and the rail
+   scrolls, rather than every card shrinking to the min and spilling its title. */
+.focus-rail > .node-card {
+  flex: none;
+}
+
 .focus-rail::-webkit-scrollbar {
   height: 6px;
 }

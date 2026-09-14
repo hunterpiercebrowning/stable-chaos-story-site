@@ -273,47 +273,92 @@ function radarArt(w: number, h: number, c: string): string {
   return arcs + sweep + shield;
 }
 
-function graphArt(w: number, h: number, c: string, rng: () => number): string {
-  const pts: [number, number][] = [];
-  for (let i = 0; i < 18; i++) pts.push([w * (0.05 + rng() * 0.9), h * (0.08 + rng() * 0.84)]);
-  const edges = new Set<string>();
-  pts.forEach(([x, y], i) => {
-    pts
-      .map((p, j) => ({ j, d: Math.hypot(p[0] - x, p[1] - y) }))
-      .filter((o) => o.j !== i)
-      .sort((p, q) => p.d - q.d)
-      .slice(0, 2)
-      .forEach(({ j }) => edges.add(`${Math.min(i, j)}-${Math.max(i, j)}`));
-  });
-  let lines = '';
-  for (const e of edges) {
-    const [i, j] = e.split('-').map(Number);
-    lines += `<line x1="${pts[i][0].toFixed(1)}" y1="${pts[i][1].toFixed(1)}" x2="${pts[j][0].toFixed(1)}"
-      y2="${pts[j][1].toFixed(1)}" stroke="${c}" stroke-width="1.1" opacity="0.5"/>`;
-  }
-  let dots = '';
-  pts.forEach(([x, y], i) => {
-    const hub = i % 5 === 0;
-    dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${hub ? 5 : 2.6}" fill="${c}"
-      opacity="${hub ? 0.9 : 0.7}"/>`;
-    if (hub) dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="11" fill="none" stroke="${c}" stroke-width="1" opacity="0.4"/>`;
-  });
-  return lines + dots;
+function blockArt(w: number, h: number, c: string): string {
+  const bw = 88;
+  const bh = 46;
+  const r = 7;
+  // Block centres. The flow runs left to right: intake → two parallel stages
+  // → merge → decision → two outputs, with a dashed return loop underneath.
+  // The right two thirds carry the detail: the CSS masks fade the left edge out.
+  const B = {
+    intake: [92, h * 0.5],
+    stageA: [232, h * 0.28],
+    stageB: [232, h * 0.72],
+    merge: [372, h * 0.5],
+    outA: [w - 84, h * 0.24],
+    outB: [w - 84, h * 0.76],
+  } as const;
+  const D: [number, number] = [468, h * 0.5];
+  const ds = 22;
+
+  const block = ([x, y]: readonly [number, number], hub = false) => {
+    const x0 = (x - bw / 2).toFixed(1);
+    const y0 = (y - bh / 2).toFixed(1);
+    const l1 = `<line x1="${(x - bw / 2 + 14).toFixed(1)}" y1="${(y - 6).toFixed(1)}" x2="${(x + bw / 2 - 26).toFixed(1)}" y2="${(y - 6).toFixed(1)}" stroke="${c}" stroke-width="1.6" opacity="0.55"/>`;
+    const l2 = `<line x1="${(x - bw / 2 + 14).toFixed(1)}" y1="${(y + 6).toFixed(1)}" x2="${(x + bw / 2 - 40).toFixed(1)}" y2="${(y + 6).toFixed(1)}" stroke="${c}" stroke-width="1.6" opacity="0.35"/>`;
+    return `<rect x="${x0}" y="${y0}" width="${bw}" height="${bh}" rx="${r}" fill="${c}" fill-opacity="${hub ? 0.14 : 0.07}"
+      stroke="${c}" stroke-width="${hub ? 2 : 1.4}" opacity="${hub ? 0.95 : 0.8}"/>${l1}${l2}`;
+  };
+  const port = (x: number, y: number) =>
+    `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="${c}" opacity="0.9"/>`;
+  // Orthogonal connector: out of the right edge of `a`, elbow at the midpoint, into the left edge of `b`.
+  const link = (a: readonly [number, number], b: readonly [number, number], dashed = false, aw = bw, bwid = bw) => {
+    const x1 = a[0] + aw / 2;
+    const x2 = b[0] - bwid / 2;
+    const mx = (x1 + x2) / 2;
+    return `<path d="M ${x1.toFixed(1)} ${a[1].toFixed(1)} H ${mx.toFixed(1)} V ${b[1].toFixed(1)} H ${(x2 - 5).toFixed(1)}"
+      fill="none" stroke="${c}" stroke-width="1.4" opacity="0.7" stroke-linejoin="round"${dashed ? ' stroke-dasharray="5 6"' : ''} marker-end="url(#ah)"/>`;
+  };
+
+  const diamond = `<path d="M ${D[0]} ${D[1] - ds} L ${D[0] + ds} ${D[1]} L ${D[0]} ${D[1] + ds} L ${D[0] - ds} ${D[1]} Z"
+    fill="${c}" fill-opacity="0.1" stroke="${c}" stroke-width="1.6" opacity="0.85" stroke-linejoin="round"/>`;
+
+  // The return loop: out of the bottom output, down and back along the floor, up into the intake.
+  const floor = h * 0.94;
+  const loop = `<path d="M ${B.outB[0]} ${(B.outB[1] + bh / 2).toFixed(1)} V ${floor.toFixed(1)} H ${B.intake[0]} V ${(B.intake[1] + bh / 2 + 5).toFixed(1)}"
+    fill="none" stroke="${c}" stroke-width="1.2" opacity="0.45" stroke-dasharray="4 7" stroke-linejoin="round" marker-end="url(#ah)"/>`;
+
+  const defs = `<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="${c}"/></marker></defs>`;
+
+  return (
+    defs +
+    link(B.intake, B.stageA) +
+    link(B.intake, B.stageB) +
+    link(B.stageA, B.merge) +
+    link(B.stageB, B.merge) +
+    link(B.merge, D, false, bw, ds * 2) +
+    link(D, B.outA, false, ds * 2, bw) +
+    link(D, B.outB, true, ds * 2, bw) +
+    loop +
+    block(B.intake) +
+    block(B.stageA) +
+    block(B.stageB) +
+    block(B.merge, true) +
+    diamond +
+    block(B.outA, true) +
+    block(B.outB) +
+    port(B.intake[0] + bw / 2, B.intake[1]) +
+    port(B.merge[0] - bw / 2, B.merge[1]) +
+    port(B.merge[0] + bw / 2, B.merge[1]) +
+    port(B.outA[0] - bw / 2, B.outA[1]) +
+    port(B.outB[0] - bw / 2, B.outB[1])
+  );
 }
 
 /**
  * Transparent line art for the sector bands and company cards under Compressed
  * density: a double helix for SynBio, radar arcs and a shield for Security, a
- * node graph for Systems (and for anything without a sector). Drawn in the
- * sector colour; the CSS sets the opacity and the fade.
+ * block-diagram workflow for Systems (and for anything without a sector). Drawn
+ * in the sector colour; the CSS sets the opacity and the fade.
  */
-export function placeholderMotif(sector: SectorId | null, seed = 'motif'): string {
+/** `_seed` is kept for callers: every sector's motif is now a fixed drawing, so it is unused. */
+export function placeholderMotif(sector: SectorId | null, _seed = 'motif'): string {
   const w = 640;
   const h = 360;
   const c = sectorHex(sector);
-  const rng = makeRng(`${seed}:${sector ?? 'none'}:motif`);
   const art =
-    sector === 'synbio' ? helixArt(w, h, c) : sector === 'security' ? radarArt(w, h, c) : graphArt(w, h, c, rng);
+    sector === 'synbio' ? helixArt(w, h, c) : sector === 'security' ? radarArt(w, h, c) : blockArt(w, h, c);
   return svgUri(
     `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">${art}</svg>`,
   );

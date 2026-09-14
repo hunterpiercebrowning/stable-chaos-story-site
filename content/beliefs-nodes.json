@@ -5,7 +5,7 @@
     "title": "Trusted Access",
     "icon": "",
     "tagline": "",
-    "blurb": "",
+    "blurb": "We build authentic community and trust in arenas where entrance is hard earned, gaining unique insights outsiders could never have.",
     "bullet_points": [],
     "video_link": "",
     "context_items": []
@@ -16,7 +16,7 @@
     "title": "Consilience",
     "icon": "",
     "tagline": "",
-    "blurb": "",
+    "blurb": "True invention comes from unique insights and cross-cutting patterns that span industries, perspectives and applications.",
     "bullet_points": [],
     "video_link": "",
     "context_items": []
@@ -27,7 +27,7 @@
     "title": "First Principles",
     "icon": "",
     "tagline": "",
-    "blurb": "",
+    "blurb": "Everything we do is rooted in a first-principles understanding, keeping our outcomes refined and deterministic in a world that is becoming more and more bloated and stochastic.",
     "bullet_points": [],
     "video_link": "",
     "context_items": []
@@ -38,7 +38,7 @@
     "title": "Nth° Specificity",
     "icon": "",
     "tagline": "",
-    "blurb": "",
+    "blurb": "We target areas that require extreme specificity and nth order reasoning to uniquely leverage precision and causal reasoning in a way iterative AI workflows will continue to struggle with.",
     "bullet_points": [],
     "video_link": "",
     "context_items": []
@@ -59,9 +59,13 @@
     "type": "disruption",
     "title": "Eroding Knowledge Moats",
     "icon": "",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "AI is rewriting value creation",
+    "blurb": "Classical competitive advantage for a company relied on effort, skill, and intelligence existing as bottlenecks. AI is removing those barriers and eroding where advantage used to exist.",
+    "bullet_points": [
+      "Labor automation — machines executing in highly enumerated or low-specificity spaces. The work itself becomes cheap and outputs lose intrinsic value.",
+      "Novel innovation — finding better paths through problems we used to dedicate lifetimes to. New solutions that overnight make pillars of prior human work obsolete.",
+      "Simulation-led discovery — iterative design in models and simulations, collapsing physical trial-and-error into evolutionary design at hyper speed, limited only by compute."
+    ],
     "video_link": "",
     "context_items": []
   },

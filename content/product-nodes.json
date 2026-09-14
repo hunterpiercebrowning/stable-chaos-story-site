@@ -1,7 +1,52 @@
 [
   {
-    "id": "conus-coat",
+    "id": "synbio-products",
     "type": "primary",
+    "title": "Peptides, Proteins, & Reactors",
+    "sector": "synbio",
+    "tagline": "Productizing being world class at solving real-world problems with biology",
+    "blurb": "Leveraging our facilities, expertise and team to develop in-house biological products for critical sectors and industries.",
+    "bullet_points": [
+      "Built on our own stack — facilities, expertise, and team already in place, so product development comes at marginal cost.",
+      "Protected as trade secrets — strains and processes held in-house, never published, never licensed away.",
+      "Owned upside — products we own outright, with recurring value beyond the services business."
+    ],
+    "video_link": "",
+    "background_image": "",
+    "context_items": []
+  },
+  {
+    "id": "security-products",
+    "type": "primary",
+    "title": "Next-Gen Technologies & Devices",
+    "sector": "security",
+    "tagline": "Deploying solutions developed alongside tier 1 special operations and intelligence personnel",
+    "blurb": "Solutions to the sensitive and complex problems facing our nation.",
+    "bullet_points": [
+      "Next-Gen Comms — communications for contested environments",
+      "New-Era ISR — intelligence, surveillance & reconnaissance for the modern fight",
+      "Signals Warfare — novel offensive and defensive solutions across the spectrum",
+      "Rapid Prototyping — solutions to request by government agencies or departments"
+    ],
+    "video_link": "",
+    "background_image": "",
+    "context_items": []
+  },
+  {
+    "id": "systems-products",
+    "type": "primary",
+    "title": "Deployable Wisdom",
+    "sector": "systems",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "background_image": "",
+    "context_items": []
+  },
+  {
+    "id": "conus-coat",
+    "type": "secondary",
     "title": "Conus Coat",
     "sector": "synbio",
     "stage": "active",
@@ -16,7 +61,7 @@
   },
   {
     "id": "invertase-pichia",
-    "type": "primary",
+    "type": "secondary",
     "title": "Invertase Pichia",
     "sector": "synbio",
     "stage": "active",
@@ -31,7 +76,7 @@
   },
   {
     "id": "biomimicry-ai-mining",
-    "type": "primary",
+    "type": "secondary",
     "title": "Biomimicry AI Mining",
     "sector": "synbio",
     "stage": "slated",
@@ -46,7 +91,7 @@
   },
   {
     "id": "bioproducts",
-    "type": "primary",
+    "type": "secondary",
     "title": "Bioproducts",
     "sector": "synbio",
     "stage": "slated",
@@ -61,7 +106,7 @@
   },
   {
     "id": "mitochondrial-sleep-simulator",
-    "type": "primary",
+    "type": "secondary",
     "title": "Mitochondrial Sleep Simulator",
     "sector": "synbio",
     "stage": "slated",
@@ -76,7 +121,7 @@
   },
   {
     "id": "bioreactor-plasma-water-ports",
-    "type": "primary",
+    "type": "secondary",
     "title": "Bioreactor Plasma Water Ports",
     "sector": "synbio",
     "stage": "slated",
@@ -91,7 +136,7 @@
   },
   {
     "id": "modular-volume-bioreactors",
-    "type": "primary",
+    "type": "secondary",
     "title": "Modular Volume Bioreactors",
     "sector": "synbio",
     "stage": "slated",
@@ -106,7 +151,7 @@
   },
   {
     "id": "plasma-water-ports",
-    "type": "primary",
+    "type": "secondary",
     "title": "Plasma Water Ports",
     "sector": "synbio",
     "stage": "slated",
@@ -121,7 +166,7 @@
   },
   {
     "id": "electromagnetic-cellular-growth-controller",
-    "type": "primary",
+    "type": "secondary",
     "title": "Electromagnetic Cellular Growth Controller",
     "sector": "synbio",
     "stage": "slated",
@@ -136,7 +181,7 @@
   },
   {
     "id": "biomalware-detection",
-    "type": "primary",
+    "type": "secondary",
     "title": "Biomalware Detection",
     "sector": "synbio",
     "stage": "slated",
@@ -151,14 +196,19 @@
   },
   {
     "id": "biomanufacturing-ai",
-    "type": "primary",
+    "type": "secondary",
     "title": "Biomanufacturing AI",
     "sector": "synbio",
     "stage": "slated",
     "category": "Software",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Training artificial intelligence to understand the natural world",
+    "blurb": "Localized artificial intelligence within the moat of a physical lab to drive discovery, refinement, and novel outcomes.",
+    "bullet_points": [
+      "Proprietary training data — every run generates structured data very few outside our walls can replicate.",
+      "Closed-loop experimentation — models propose changes to the next run; the lab executes and feeds results straight back.",
+      "Novel outcomes — pattern discovery across runs surfaces candidates and pathways humans would miss.",
+      "Long-term enterprise value — proprietary, real-world data sets are becoming one of the largest long-term drivers of enterprise value a company can hold."
+    ],
     "video_link": "",
     "background_image": "",
     "gallery": [],
@@ -166,7 +216,7 @@
   },
   {
     "id": "private-pear",
-    "type": "primary",
+    "type": "secondary",
     "title": "Private Pear",
     "sector": "security",
     "stage": "active",
@@ -181,7 +231,7 @@
   },
   {
     "id": "operatoriq",
-    "type": "primary",
+    "type": "secondary",
     "title": "OperatorIQ",
     "sector": "security",
     "stage": "active",
@@ -196,7 +246,7 @@
   },
   {
     "id": "scan-sport",
-    "type": "primary",
+    "type": "secondary",
     "title": "Scan Sport",
     "sector": "security",
     "stage": "active",
@@ -211,7 +261,7 @@
   },
   {
     "id": "conformal-tactical-antennas",
-    "type": "primary",
+    "type": "secondary",
     "title": "Conformal Tactical Antennas",
     "sector": "security",
     "stage": "active",
@@ -226,7 +276,7 @@
   },
   {
     "id": "location-lock",
-    "type": "primary",
+    "type": "secondary",
     "title": "Location Lock",
     "sector": "security",
     "stage": "slated",
@@ -241,7 +291,7 @@
   },
   {
     "id": "2fhuman",
-    "type": "primary",
+    "type": "secondary",
     "title": "2FHuman",
     "sector": "security",
     "stage": "slated",
@@ -256,7 +306,7 @@
   },
   {
     "id": "survival-vault",
-    "type": "primary",
+    "type": "secondary",
     "title": "Survival Vault",
     "sector": "security",
     "stage": "active",
@@ -271,7 +321,7 @@
   },
   {
     "id": "tailored-access-devices",
-    "type": "primary",
+    "type": "secondary",
     "title": "Tailored Access Devices",
     "sector": "security",
     "stage": "active",
@@ -286,7 +336,7 @@
   },
   {
     "id": "starling-os",
-    "type": "primary",
+    "type": "secondary",
     "title": "Starling OS",
     "sector": "systems",
     "stage": "active",
@@ -301,7 +351,7 @@
   },
   {
     "id": "sealed-secret",
-    "type": "primary",
+    "type": "secondary",
     "title": "Sealed Secret",
     "sector": "systems",
     "stage": "active",
@@ -316,7 +366,7 @@
   },
   {
     "id": "variable-comp-and-phantom-equity-management",
-    "type": "primary",
+    "type": "secondary",
     "title": "Variable Comp & Phantom Equity Management",
     "sector": "systems",
     "stage": "active",
@@ -331,7 +381,7 @@
   },
   {
     "id": "hiring-for-specificity",
-    "type": "primary",
+    "type": "secondary",
     "title": "Hiring for Specificity",
     "sector": "systems",
     "stage": "slated",

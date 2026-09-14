@@ -16,8 +16,10 @@ export const SECTOR_LABEL: Record<SectorId, string> = {
 export type LayerId =
   | 'welcome'
   | 'who'
+  | 'operations'
   | 'beliefs'
   | 'sectors'
+  | 'trajectory'
   | 'services'
   | 'products'
   | 'background';
@@ -106,9 +108,14 @@ export type ProductCategory = 'Bioproduct' | 'Hardware' | 'Software';
 
 export interface ProductNode extends NodeBase {
   layerId: 'products';
+  /** On both tiers: a primary is the sector's summary node, a secondary a product. */
   sector: SectorId;
-  stage: ProductStage;
-  category: ProductCategory;
+  /** Secondary (product) nodes only. */
+  stage?: ProductStage;
+  category?: ProductCategory;
+  /** Secondary only — the node id of the sector's primary node, resolved by `sector`. */
+  parent?: string;
+  /** Focus scene; on a primary also the card backdrop under Compressed. */
   backgroundImage: string;
   gallery: string[];
 }

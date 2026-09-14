@@ -27,8 +27,10 @@ export const layers: Layer[] = normalizeLayers(layersJson as unknown[]);
 const nodesByLayer: Record<LayerId, Node[]> = {
   welcome: [],
   who: normalizeWho(whoJson as unknown[]).sort(byOrder),
+  operations: [],
   beliefs: normalizeBeliefs(beliefsJson as unknown[]).sort(byOrder),
   sectors: normalizeSectors(sectorsJson as unknown[]).sort(byOrder),
+  trajectory: [],
   services: normalizeServices(servicesJson as unknown[]).sort(byOrder),
   products: normalizeProducts(productsJson as unknown[]).sort(byOrder),
   background: normalizeBackground(backgroundJson as unknown[]).sort(byOrder),

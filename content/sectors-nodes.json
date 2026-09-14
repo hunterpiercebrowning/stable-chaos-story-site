@@ -5,9 +5,16 @@
     "title": "Synthetic Bio",
     "sector": "synbio",
     "background_image": "",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Going full-stack to harness 4.5 billion years of engineering infrastructure",
+    "blurb": "Scaling the infrastructure we already operate to be full stack and yield novel products.",
+    "bullet_points": [
+      "Genetic Engineering — DNA programming, host organism editing, and exotic organism harnessing",
+      "Applied AI — localized artificial intelligence within the moat of a physical lab to drive discovery, refinement, and novel outcomes",
+      "Cloud Lab — shifting the paradigm from clunky industrial engagements to digitized infrastructure with real-time control for end customers",
+      "Novel Hardware — next-generation hardware that breaks 50 years of stagnation, enabling new capabilities, efficiencies and outcomes",
+      "Molecular Engineering — tailoring the performance of target biomolecules in their deployed applications and use cases",
+      "Proprietary Strains & Molecules — in-house biological products for critical sectors and industries"
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -19,7 +26,14 @@
     "background_image": "",
     "tagline": "",
     "blurb": "",
-    "bullet_points": [],
+    "bullet_points": [
+      "Contested spectrum is the default — peer adversaries jam, intercept and geolocate. Legacy comms assume permissive environments that no longer exist.",
+      "Detection is lethal — emitting is exposure. Units need to move data without lighting up the spectrum.",
+      "Interoperability gaps — joint and partner operations stall when systems cannot talk securely across echelons and allies.",
+      "Sensors outpace sensemaking — collection has exploded; the bottleneck is turning raw feeds into decisions at speed.",
+      "Standoff is shrinking — operators need persistent awareness without putting people or exquisite assets at risk.",
+      "Legacy ISR is exquisite and scarce — high-end national systems are over-subscribed. Tactical units need organic, attritable coverage."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -42,9 +56,14 @@
     "related_sectors": [
       "synbio"
     ],
-    "tagline": "",
+    "tagline": "Even manufacturing that leverages biology as its smallest machines requires innovation with its largest",
     "blurb": "",
-    "bullet_points": [],
+    "bullet_points": [
+      "50 years of stagnation — bioreactors and process equipment are legacy industrial designs, barely changed in decades.",
+      "Equipment constrains biology — whole classes of organisms and process regimes are off-limits to today's hardware.",
+      "Raised ceiling — limitations in legacy bioreactor designs dramatically limit actualized yields compared to known theoretical limits, leaving headroom to improve output through redesigned hardware.",
+      "New hardware unlocks novel processes — altering and adding hardware makes it possible to add highly advantageous steps to the biomanufacturing process."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -55,9 +74,14 @@
     "related_sectors": [
       "synbio"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Where every biomanufacturing project must start",
+    "blurb": "Also known as genetic engineering: DNA programming, host organism editing, and exotic organism harnessing. Most production limitations and failures trace back to the organism itself.",
+    "bullet_points": [
+      "The organism is the biggest bottleneck — most production limitations and failures trace back to the organism itself. Deep expertise in the biomanufacturing process can better inform organism design to optimize for these factors.",
+      "Organism optimization should be recursive — doing strain engineering and biomanufacturing prototyping within the same company allows for recursive refinement of the host organism in ways few others can achieve.",
+      "Data collection starts at zero — an AI-enabled bio lab needs in-house data on the organisms it engineers and the edited DNA going into them as the first data point in its AI pipelines.",
+      "Most organisms are undiscovered or unutilized — the vast majority of microbial organisms in nature have not yet been harnessed for biomanufacturing. Expanding the list of usable organisms dramatically expands possibilities."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -94,9 +118,13 @@
     "related_sectors": [
       "synbio"
     ],
-    "tagline": "",
+    "tagline": "The success of any biological product is ultimately determined by its usefulness in the real world",
     "blurb": "",
-    "bullet_points": [],
+    "bullet_points": [
+      "Bench success ≠ field success — molecules optimized for lab benchmarks often underperform in real deployment conditions.",
+      "Applications demand tailoring — each use case has its own stability, potency, and formulation requirements.",
+      "Target molecule is the first gate — no other part of the biomanufacturing process matters or is worth investing in until customers have de-risked their target molecule and its mechanistic capabilities."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -122,9 +150,14 @@
       "synbio",
       "systems"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Bringing commercial biology offerings into the modern era",
+    "blurb": "Shifting the paradigm from clunky industrial engagements to digitized infrastructure with real-time control for end customers.",
+    "bullet_points": [
+      "Industrial engagements are clunky — customers hand off a project to a salesperson, often with low specificity around the engagement, and wait weeks for a report with no visibility in between.",
+      "Single master engagements kill iteration — biomanufacturing benefits from iterative collaboration between stakeholders and customers, which is almost impossible under fixed, one-time purchase orders.",
+      "Buyers are familiar with digital procurement — in most other areas of commerce, buyers can log into a portal, control what they are spending and understand what they are getting. Bio shouldn't be any different.",
+      "Increased alignment — with a direct portal to the lab, customers can fully understand the offerings and their real-time data, interact directly with the team on the project, and gain insights when they matter most."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -188,9 +221,13 @@
     "related_sectors": [
       "security"
     ],
-    "tagline": "",
+    "tagline": "Novel offensive and defensive solutions across the spectrum",
     "blurb": "",
-    "bullet_points": [],
+    "bullet_points": [
+      "The spectrum is a battlespace — every modern engagement opens in the electromagnetic domain, often decisively.",
+      "Attack surface everywhere — proliferated commercial RF, drones and IoT create openings on both sides of the fight.",
+      "Defensive posture lags — friendly emissions and infrastructure remain soft targets without purpose-built protection."
+    ],
     "video_link": "",
     "context_items": []
   },

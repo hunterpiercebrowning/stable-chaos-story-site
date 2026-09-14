@@ -87,11 +87,15 @@ export interface Backdrop {
 }
 
 /**
- * Art behind a sector band or company card under Compressed density: the
- * authored `background_image` when there is one, else a generated sector motif.
+ * Art behind a sector band, company card or sector products card under
+ * Compressed density: the authored `background_image` when there is one, else
+ * a generated sector motif.
  */
 export function getBackdrop(node: Node): Backdrop {
-  const authored = node.layerId === 'sectors' ? (node.backgroundImage ?? '') : '';
+  const authored =
+    node.layerId === 'sectors' || (node.layerId === 'products' && node.tier === 'primary')
+      ? (node.backgroundImage ?? '')
+      : '';
   if (authored) return { src: authored, isPlaceholder: false };
   return { src: placeholderMotif(getPrimarySector(node), node.id), isPlaceholder: true };
 }

@@ -9,6 +9,8 @@ import { cn } from '../../lib/cn';
 import type { FocusViewProps } from '../types';
 import { ProductsGallery } from './ProductsGallery';
 import { ProductsLightbox } from './ProductsLightbox';
+import { CategoryMix } from './ProductsNode';
+import { getSectorProductStats } from './productStats';
 import { CATEGORY_ICON } from './categoryIcon';
 import './products.css';
 
@@ -17,6 +19,10 @@ import './products.css';
  * focus area; the text sits on a glass panel over it. Extras carry the video
  * placeholder and the gallery strip; the gallery's lightbox takes over the
  * same area the expanded video uses.
+ *
+ * A sector summary (primary) uses the same scene and panel with the sector's
+ * product counts and category mix in place of the stage and gallery; its
+ * products are listed by the related strip.
  */
 export function ProductsFocus({ node, onClose }: FocusViewProps) {
   // Keyed by node id so an open lightbox never carries across to a sibling.
@@ -36,17 +42,60 @@ export function ProductsFocus({ node, onClose }: FocusViewProps) {
     ? node.backgroundImage
     : placeholderImage({ seed: `${node.id}:scene`, sector, variant: 'scene', width: 1600, height: 900 });
 
+  const sceneLayer = (
+    <div className="products-focus-scene" aria-hidden="true">
+      <img className="products-focus-scene-img" src={scene} alt="" />
+      <span className="products-focus-scene-scrim" />
+      {hasScene ? null : <span className="sc-placeholder-tag">placeholder</span>}
+    </div>
+  );
+
+  if (node.tier === 'primary') {
+    const stats = getSectorProductStats(node);
+    return (
+      <div className="products-focus products-focus--sector" data-sector={sector}>
+        {sceneLayer}
+        <FocusFrame
+          node={node}
+          onClose={onClose}
+          className="products-focus-frame"
+          eyebrow={
+            <span className="products-focus-eyebrow">
+              <span className="products-focus-category">Products</span>
+              <SectorTag sector={sector} />
+              <span className="products-focus-stats">
+                {stats.total} {stats.total === 1 ? 'product' : 'products'} · {stats.active} active ·{' '}
+                {stats.slated} slated
+              </span>
+            </span>
+          }
+          subtitle={copy.tagline}
+          body={<p>{copy.blurb}</p>}
+          bullets={copy.bullets}
+          extras={
+            <>
+              <VideoPlayer node={node} />
+              <CategoryMix stats={stats} className="products-mix--focus" />
+            </>
+          }
+        />
+      </div>
+    );
+  }
+
   const hasGallery = node.gallery.length > 0;
   const gallery = hasGallery ? node.gallery : placeholderGallery(node.id, sector, 0);
 
   const eyebrow = (
     <span className="products-focus-eyebrow">
-      <span className="products-focus-category">
-        <Icon name={CATEGORY_ICON[node.category]} size={15} />
-        {node.category}
-      </span>
+      {node.category ? (
+        <span className="products-focus-category">
+          <Icon name={CATEGORY_ICON[node.category]} size={15} />
+          {node.category}
+        </span>
+      ) : null}
       <SectorTag sector={sector} />
-      <StageTag stage={node.stage} />
+      {node.stage ? <StageTag stage={node.stage} /> : null}
     </span>
   );
 
@@ -56,11 +105,7 @@ export function ProductsFocus({ node, onClose }: FocusViewProps) {
       data-sector={sector}
       data-stage={node.stage}
     >
-      <div className="products-focus-scene" aria-hidden="true">
-        <img className="products-focus-scene-img" src={scene} alt="" />
-        <span className="products-focus-scene-scrim" />
-        {hasScene ? null : <span className="sc-placeholder-tag">placeholder</span>}
-      </div>
+      {sceneLayer}
 
       <FocusFrame
         node={node}

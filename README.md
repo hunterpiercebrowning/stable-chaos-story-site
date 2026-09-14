@@ -1,9 +1,9 @@
 # Stable Chaos — Investor Story Site
 
-A private, link-gated pitch experience for **context.stablechaos.com**. Seven layers of story
-(Welcome → Who We Are → What We Believe → Critical Sectors → Services → Products → Foundational
-Background), navigated like a layered node graph: a left index, a centre stage with focusable
-nodes, and a right "Supporting Context" tray. Every visit is tracked per invitation link and
+A private, link-gated pitch experience for **context.stablechaos.com**. Nine layers of story
+(Welcome → Who We Are → Our Operational Advantage → What We Believe → Critical Sectors →
+What We've Done → Services → Products → Foundational Background), navigated like a layered node
+graph: a left index, a centre stage with focusable nodes, and a right "Supporting Context" tray. Every visit is tracked per invitation link and
 reviewed in a built-in admin.
 
 Stack: Vite + React + TypeScript · `motion` (layout transitions) · Zustand (UI state) ·
@@ -166,7 +166,7 @@ The gate and D1 paths were verified locally on the real Workers runtime
 2. `/admin` → sign in → **New link** → copy the URL. `GET /api/admin/login` should answer
    `{"ok":true}` while signed in.
 3. Open the URL in a private window → lands on the welcome state with "Prepared for <label>".
-   Walk the down arrows through all seven layers; focus a node in each; open the tray; press `/`
+   Walk the down arrows through all nine layers; focus a node in each; open the tray; press `/`
    and search.
 4. Back in `/admin/links/<id>`: the session row shows device, viewport and **a real city/country**
    (`request.cf` geo from a real edge location). The timeline
