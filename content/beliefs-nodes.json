@@ -1,5 +1,126 @@
 [
   {
+    "id": "china",
+    "type": "threat",
+    "title": "China",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "asymmetric-weapons",
+    "type": "threat",
+    "title": "Asymmetric Weapons",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "ai-reliance",
+    "type": "threat",
+    "title": "Non-sovereign AI Reliance",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "noise",
+    "type": "threat",
+    "title": "Noise & Dead Internet",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "restricted-info",
+    "type": "threat",
+    "title": "Restricted Information Access",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  
+
+
+
+  {
+    "id": "compute",
+    "type": "disruption",
+    "title": "Can't Compete with Compute",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "execution-automation",
+    "type": "disruption",
+    "title": "Execution Collapsing To Automation",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "murky-markets",
+    "type": "disruption",
+    "title": "Murky Markets With No Barriers To Entry",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "commodified-intelligence",
+    "type": "disruption",
+    "title": "Commodified Intelligence & Expertise",
+    "icon": "",
+    "tagline": "AI is rewriting value creation",
+    "blurb": "Classical competitive advantage for a company relied on effort, skill, and intelligence existing as bottlenecks. AI is removing those barriers and eroding where advantage used to exist.",
+    "bullet_points": [
+      "Labor automation — machines executing in highly enumerated or low-specificity spaces. The work itself becomes cheap and outputs lose intrinsic value.",
+      "Novel innovation — finding better paths through problems we used to dedicate lifetimes to. New solutions that overnight make pillars of prior human work obsolete.",
+      "Simulation-led discovery — iterative design in models and simulations, collapsing physical trial-and-error into evolutionary design at hyper speed, limited only by compute."
+    ],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "cloneable",
+    "type": "disruption",
+    "title": "Everything is Cloneable",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+
+
+
+  {
     "id": "trusted-access",
     "type": "advantage",
     "title": "Trusted Access",
@@ -11,9 +132,9 @@
     "context_items": []
   },
   {
-    "id": "consilience",
+    "id": "compounding-integration",
     "type": "advantage",
-    "title": "Consilience",
+    "title": "Compounding Integration",
     "icon": "",
     "tagline": "",
     "blurb": "True invention comes from unique insights and cross-cutting patterns that span industries, perspectives and applications.",
@@ -24,7 +145,7 @@
   {
     "id": "first-principles",
     "type": "advantage",
-    "title": "First Principles",
+    "title": "First Principles Thinking",
     "icon": "",
     "tagline": "",
     "blurb": "Everything we do is rooted in a first-principles understanding, keeping our outcomes refined and deterministic in a world that is becoming more and more bloated and stochastic.",
@@ -44,49 +165,12 @@
     "context_items": []
   },
   {
-    "id": "compute",
-    "type": "disruption",
-    "title": "Compute",
+    "id": "divergent-converging",
+    "type": "advantage",
+    "title": "Divergent Individuals in a Converging World",
     "icon": "",
     "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
-    "video_link": "",
-    "context_items": []
-  },
-  {
-    "id": "eroding-knowledge-moats",
-    "type": "disruption",
-    "title": "Eroding Knowledge Moats",
-    "icon": "",
-    "tagline": "AI is rewriting value creation",
-    "blurb": "Classical competitive advantage for a company relied on effort, skill, and intelligence existing as bottlenecks. AI is removing those barriers and eroding where advantage used to exist.",
-    "bullet_points": [
-      "Labor automation — machines executing in highly enumerated or low-specificity spaces. The work itself becomes cheap and outputs lose intrinsic value.",
-      "Novel innovation — finding better paths through problems we used to dedicate lifetimes to. New solutions that overnight make pillars of prior human work obsolete.",
-      "Simulation-led discovery — iterative design in models and simulations, collapsing physical trial-and-error into evolutionary design at hyper speed, limited only by compute."
-    ],
-    "video_link": "",
-    "context_items": []
-  },
-  {
-    "id": "china",
-    "type": "disruption",
-    "title": "China",
-    "icon": "",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
-    "video_link": "",
-    "context_items": []
-  },
-  {
-    "id": "ai-reliance",
-    "type": "disruption",
-    "title": "AI Reliance",
-    "icon": "",
-    "tagline": "",
-    "blurb": "",
+    "blurb": "We target areas that require extreme specificity and nth order reasoning to uniquely leverage precision and causal reasoning in a way iterative AI workflows will continue to struggle with.",
     "bullet_points": [],
     "video_link": "",
     "context_items": []

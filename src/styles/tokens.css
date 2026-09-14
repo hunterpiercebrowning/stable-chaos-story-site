@@ -19,8 +19,9 @@
   --sector-security: var(--orange);
   --sector-systems:  var(--lavender);
 
-  /* ── beliefs ── */
-  --disruption: var(--peach);
+  /* ── beliefs (left → right: what threatens, what is changing, what we bring) ── */
+  --threat:     var(--orange);
+  --disruption: var(--yellow);
   --advantage:  var(--green-2);
 
   /* ── product stage ── */

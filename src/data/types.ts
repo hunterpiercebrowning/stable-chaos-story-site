@@ -32,6 +32,10 @@ export interface Layer {
   path: string;
   nodesFile: string | null;
   hasDensity: boolean;
+  /** Line under the stage title; empty → none. */
+  subtitle: string;
+  /** Layer-wide video (same forms as a node's `videoLink`); empty → no play button. */
+  videoLink: string;
 }
 
 export type ContextItemType = 'article' | 'video' | 'link' | 'pdf' | 'image' | 'quote';
@@ -75,7 +79,15 @@ export interface WhoNode extends NodeBase {
   headshotFile: string;
 }
 
-export type BeliefType = 'disruption' | 'advantage';
+/** Column order on the layer: threats → disruptions → advantages. */
+export const BELIEF_TYPES = ['threat', 'disruption', 'advantage'] as const;
+export type BeliefType = (typeof BELIEF_TYPES)[number];
+
+export const BELIEF_TYPE_LABEL: Record<BeliefType, string> = {
+  threat: 'Threat',
+  disruption: 'Disruption',
+  advantage: 'Advantage',
+};
 
 export interface BeliefNode extends NodeBase {
   layerId: 'beliefs';

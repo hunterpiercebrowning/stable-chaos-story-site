@@ -1,9 +1,11 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router';
+import { VideoHost } from '../components/ContextCardVideoHost';
+import { Icon } from '../components/Icon';
 import { NodeCard } from '../components/NodeCard';
 import { getNextLayer, getNodes, getPrevLayer } from '../data';
-import type { Node } from '../data/types';
+import type { BackgroundNode, Layer as LayerData, Node } from '../data/types';
 import { getLayerComponents } from '../layers/registry';
 import { track } from '../lib/track';
 import { navVia, useUi } from '../store/ui';
@@ -67,7 +69,11 @@ export function Stage() {
         {/* The welcome state carries its own wordmark, so it has no head at all. */}
         {layer.id === 'welcome' ? null : (
           <div className="stage-head">
-            <h1 className="stage-title">{layer.title}</h1>
+            <div className="stage-title-row">
+              <h1 className="stage-title">{layer.title}</h1>
+              {layer.videoLink ? <LayerVideoButton key={layer.id} layer={layer} /> : null}
+            </div>
+            {layer.subtitle ? <p className="stage-subtitle">{layer.subtitle}</p> : null}
           </div>
         )}
 
@@ -106,6 +112,45 @@ export function Stage() {
       <LayerArrow layer={prev} direction="up" />
       <LayerArrow layer={next} direction="down" />
     </div>
+  );
+}
+
+/**
+ * The layer-wide video: a play button beside the stage title that opens the
+ * shared player expanded over the viewport. The synthetic node carries the
+ * link and the tracking id (`layer-<id>`).
+ */
+function LayerVideoButton({ layer }: { layer: LayerData }) {
+  const [playing, setPlaying] = useState(false);
+  const stopPlaying = useCallback(() => setPlaying(false), []);
+
+  const node: BackgroundNode = {
+    id: `layer-${layer.id}`,
+    layerId: 'background',
+    tier: 'primary',
+    order: 0,
+    title: layer.title,
+    tagline: '',
+    blurb: '',
+    bulletPoints: [],
+    videoLink: layer.videoLink,
+    contextItems: [],
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        className="stage-video"
+        onClick={() => setPlaying(true)}
+        aria-haspopup="dialog"
+        aria-label={`Watch: ${layer.title}`}
+        title="Watch"
+      >
+        <Icon name="play" size={16} />
+      </button>
+      {playing ? <VideoHost node={node} label={layer.title} onClose={stopPlaying} /> : null}
+    </>
   );
 }
 

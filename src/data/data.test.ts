@@ -14,7 +14,7 @@ import {
   getRelated,
   search,
 } from './index';
-import { kebab, normalizeProducts, normalizeSectors, toSectorId, toStage } from './normalize';
+import { kebab, normalizeLayers, normalizeProducts, normalizeSectors, toSectorId, toStage } from './normalize';
 import { loremBlurb, loremBullets, placeholderImage, placeholderMotif } from './placeholders';
 import { buildRelated, groupByLayer } from './related';
 import { searchNodes } from './search';
@@ -102,6 +102,15 @@ describe('normalize', () => {
     expect(kebab('Supply Chain & Logistics')).toBe('supply-chain-and-logistics');
   });
 
+  it('reads optional layer subtitle and video, defaulting to empty', () => {
+    const [bare, full] = normalizeLayers([
+      { id: 'who', order: 0, title: 'Who' },
+      { id: 'beliefs', order: 1, title: 'Beliefs', subtitle: 'Why we exist', videoLink: 'https://x/a.mp4' },
+    ]);
+    expect(bare).toMatchObject({ subtitle: '', videoLink: '' });
+    expect(full).toMatchObject({ subtitle: 'Why we exist', videoLink: 'https://x/a.mp4' });
+  });
+
   it('resolves every sector alias to a canonical id', () => {
     expect(toSectorId('Synthetic Bio')).toBe('synbio');
     expect(toSectorId('SynBio')).toBe('synbio');
@@ -155,7 +164,7 @@ describe('content', () => {
 
   it('loads every node file', () => {
     expect(getNodes('who')).toHaveLength(8);
-    expect(getNodes('beliefs')).toHaveLength(7);
+    expect(getNodes('beliefs')).toHaveLength(9);
     expect(getNodes('sectors')).toHaveLength(21);
     expect(getNodes('services')).toHaveLength(24);
     expect(getNodes('products')).toHaveLength(26);

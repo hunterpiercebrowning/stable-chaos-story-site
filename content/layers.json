@@ -29,7 +29,9 @@
     "title": "What We Believe",
     "shortTitle": "Beliefs",
     "path": "/beliefs",
-    "nodesFile": "beliefs-nodes.json"
+    "nodesFile": "beliefs-nodes.json",
+    "subtitle": "Artificial Intelligence & next-gen technologies are rewriting value creation",
+   "videoLink": "1231431"
   },
   {
     "id": "sectors",

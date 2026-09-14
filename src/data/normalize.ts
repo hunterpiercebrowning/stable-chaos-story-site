@@ -1,6 +1,7 @@
 import {
   SECTOR_IDS,
   type BeliefNode,
+  BELIEF_TYPES,
   type BeliefType,
   type BackgroundNode,
   type ContextItem,
@@ -118,6 +119,8 @@ export function normalizeLayers(raw: unknown[]): Layer[] {
         path: str(o.path) || `/${str(o.id)}`,
         nodesFile: typeof o.nodesFile === 'string' ? o.nodesFile : null,
         hasDensity: o.hasDensity === true,
+        subtitle: str(o.subtitle),
+        videoLink: str(o.videoLink) || str(o.video_link),
       } satisfies Layer;
     })
     .sort((a, b) => a.order - b.order);
@@ -150,12 +153,13 @@ export function normalizeWho(raw: unknown[]): WhoNode[] {
 export function normalizeBeliefs(raw: unknown[]): BeliefNode[] {
   return raw.map((r, i) => {
     const o = (r ?? {}) as Record<string, unknown>;
-    // "threat" is the pre-rename spelling; keep reading it as a disruption.
     const rawType = str(o.type).toLowerCase();
-    const beliefType: BeliefType = rawType === 'disruption' || rawType === 'threat' ? 'disruption' : 'advantage';
+    const beliefType: BeliefType = (BELIEF_TYPES as readonly string[]).includes(rawType)
+      ? (rawType as BeliefType)
+      : 'advantage';
     return {
       ...baseFields(o, i, str(o.title)),
-      // Beliefs have no primary/secondary split; `type` carries disruption/advantage.
+      // Beliefs have no primary/secondary split; `type` carries threat/disruption/advantage.
       tier: 'primary',
       layerId: 'beliefs',
       beliefType,

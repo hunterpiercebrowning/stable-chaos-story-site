@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react';
 import type { ReactNode, Ref } from 'react';
 import { nodeSectors } from '../data/normalize';
-import type { Node } from '../data/types';
+import { BELIEF_TYPE_LABEL, type Node } from '../data/types';
 import { cn } from '../lib/cn';
 import { SectorTag } from './SectorTag';
 import { StageTag } from './StageTag';
@@ -39,7 +39,7 @@ function defaultSubtitle(node: Node): string | null {
     case 'sectors':
       return node.tier === 'primary' ? 'Sector' : 'Domain';
     case 'beliefs':
-      return node.beliefType === 'disruption' ? 'Disruption' : 'Advantage';
+      return BELIEF_TYPE_LABEL[node.beliefType];
     default:
       return null;
   }

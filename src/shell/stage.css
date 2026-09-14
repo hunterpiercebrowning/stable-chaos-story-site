@@ -23,11 +23,11 @@
 
 .stage-head {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--s-5);
+  gap: var(--s-1);
   flex: none;
-  flex-wrap: wrap;
   padding-bottom: var(--s-4);
 }
 
@@ -35,6 +35,47 @@
   font-size: var(--fs-xl);
   font-weight: 600;
   letter-spacing: -0.01em;
+}
+
+.stage-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+}
+
+.stage-subtitle {
+  max-width: 60ch;
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Layer-wide video: a small glass play ring beside the title. */
+.stage-video {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border-2);
+  background: var(--scrim);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.stage-video svg {
+  transform: translateX(1px);
+}
+
+.stage-video:hover {
+  transform: scale(1.06);
+  border-color: color-mix(in srgb, var(--green-2) 70%, transparent);
+  box-shadow: var(--glow-green);
 }
 
 /* `position: relative` is load-bearing: the expanded video portals in here. */

@@ -47,6 +47,8 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | `path` | route |
 | `nodesFile` | file in this folder, or `null` (welcome) |
 | `hasDensity` | Compressed collapses this layer's `secondary` nodes |
+| `subtitle` | optional; shown under the stage title. Absent/empty → no subtitle |
+| `videoLink` | optional; a layer-wide video (same forms as `video_link`). Absent/empty → no play button beside the title |
 
 ## `who-nodes.json`
 
@@ -68,7 +70,7 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | field | type | notes |
 |---|---|---|
 | `id` | string | |
-| `type` | `"disruption"` \| `"advantage"` | drives cluster side and color |
+| `type` | `"threat"` \| `"disruption"` \| `"advantage"` | drives the column (left → right) and color |
 | `title` | string | |
 | `icon` | string | `Icon` sprite name; empty → the layer picks a default per belief |
 | `tagline`, `blurb` | string | |

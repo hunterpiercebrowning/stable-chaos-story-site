@@ -66,6 +66,9 @@
 .node-card[data-belief='disruption'] {
   --accent: var(--disruption);
 }
+.node-card[data-belief='threat'] {
+  --accent: var(--threat);
+}
 
 /* Dual-sector: border from the first sector, glow from the second. */
 .node-card[data-sector-2='synbio'] {

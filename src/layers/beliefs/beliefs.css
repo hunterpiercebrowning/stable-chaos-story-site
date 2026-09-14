@@ -1,139 +1,169 @@
 /* WS2 — What We Believe — layer styles.
-   Class prefix: .beliefs-  (e.g. .beliefs-node, .beliefs-cluster)
+   Class prefix: .beliefs-  (e.g. .beliefs-node, .beliefs-column)
 
-   Two clusters face each other across a soft divider: disruptions on the left in
-   --disruption (warm peach), advantages on the right in --advantage (green-2).
+   Three columns read left to right, joined by flow connectors:
+     Threats (--threat, orange) → Disruptions (--disruption, yellow) → Advantages (--advantage, green-2)
    Every tinted surface reads its color from --cluster / --accent so the card,
    pill and focus frame stay in step with tokens.css. */
 
 /* ── layer ── */
 .beliefs-layer {
+  /* Shared top offset so all three column headers sit on the same line; the
+     flow arrows anchor to it too. */
+  --col-top: clamp(var(--s-5), 9vh, 88px);
+  --flow-w: 32px;
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
-  align-items: start;
-  column-gap: var(--s-6);
   flex: 1 0 auto;
   width: 100%;
   padding: var(--s-2) var(--s-3) var(--s-5);
+  /* The stage can get narrow with both trays open: stack by container width. */
+  container-type: inline-size;
 }
 
-/* Soft field behind each side so the two colors visibly meet in the middle. */
-.beliefs-layer::before,
-.beliefs-layer::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 46%;
-  height: 78%;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(40px);
-  z-index: 0;
-}
-.beliefs-layer::before {
-  left: 2%;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--disruption) 9%, transparent) 0%,
-    transparent 100%
-  );
-}
-.beliefs-layer::after {
-  right: 2%;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--advantage) 9%, transparent) 0%,
-    transparent 100%
-  );
+.beliefs-story {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) var(--flow-w) minmax(0, 1fr) var(--flow-w)
+    minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--s-2);
+  min-height: 100%;
 }
 
-/* ── divider ── */
-.beliefs-divider {
+/* ── flow connectors ── */
+.beliefs-flow {
+  --from: var(--threat);
+  --to: var(--disruption);
   position: relative;
   align-self: stretch;
-  width: 1px;
-  margin: var(--s-6) 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    color-mix(in srgb, var(--disruption) 50%, transparent) 28%,
-    color-mix(in srgb, var(--light) 28%, transparent) 50%,
-    color-mix(in srgb, var(--advantage) 50%, transparent) 72%,
-    transparent 100%
-  );
   z-index: 1;
 }
-
-.beliefs-divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 9px;
-  height: 9px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--disruption) 0%, var(--advantage) 100%);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--light) 22%, transparent);
+.beliefs-flow--disruption-advantage {
+  --from: var(--disruption);
+  --to: var(--advantage);
 }
 
-/* ── clusters ── */
-.beliefs-cluster {
+/* A hairline dropping from the header line, blending the two colours it sits
+   between and fading out before the bottom of the page. */
+.beliefs-flow::before {
+  content: '';
+  position: absolute;
+  top: var(--col-top);
+  bottom: var(--s-6);
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, color-mix(in srgb, var(--from), var(--to)) 40%, transparent) 0%,
+    transparent 100%
+  );
+}
+
+/* The arrow sits on the header line, so the three titles read as one sentence:
+   01 Threats → 02 Disruptions → 03 Advantages. */
+.beliefs-flow-arrow {
+  position: absolute;
+  top: var(--col-top);
+  left: 50%;
+  transform: translate(-50%, -4px);
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: var(--light);
+  background: var(--dark-2);
+  border: 1px solid color-mix(in srgb, var(--light) 18%, transparent);
+  box-shadow:
+    0 0 0 4px var(--dark),
+    0 0 18px color-mix(in srgb, var(--to) 30%, transparent);
+}
+
+/* ── columns ── */
+.beliefs-column {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--s-4);
   min-width: 0;
   min-height: 0;
-  /* Shared top offset so both cluster headers sit on the same line. */
-  padding-top: clamp(var(--s-5), 9vh, 88px);
+  padding-top: var(--col-top);
   z-index: 1;
 }
 
-.beliefs-cluster--disruption {
+.beliefs-column--threat {
+  --cluster: var(--threat);
+}
+.beliefs-column--disruption {
   --cluster: var(--disruption);
 }
-.beliefs-cluster--advantage {
+.beliefs-column--advantage {
   --cluster: var(--advantage);
 }
 
-.beliefs-cluster-head {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s-2);
-  padding: 0 var(--s-2);
-}
-.beliefs-cluster--disruption .beliefs-cluster-head {
-  justify-content: flex-end;
-  text-align: right;
+/* Soft field behind each column so the three colors visibly hand off. */
+.beliefs-column::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 80%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--cluster) 9%, transparent) 0%,
+    transparent 100%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: -1;
 }
 
-.beliefs-cluster-dot {
-  align-self: center;
+.beliefs-column-head {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  column-gap: var(--s-2);
+  row-gap: 2px;
+  padding: 0 var(--s-2);
+}
+
+.beliefs-column-step {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--cluster) 60%, var(--text-ghost));
+}
+
+.beliefs-column-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--cluster);
   box-shadow: 0 0 10px color-mix(in srgb, var(--cluster) 55%, transparent);
 }
-.beliefs-cluster--disruption .beliefs-cluster-dot {
-  order: 3;
-}
 
-.beliefs-cluster-title {
+.beliefs-column-title {
   font-size: var(--fs-sm);
   color: color-mix(in srgb, var(--cluster) 72%, var(--text-faint));
 }
 
-.beliefs-cluster-hint {
+.beliefs-column-hint {
+  grid-column: 1 / -1;
+  min-width: 0;
   font-size: var(--fs-xs);
   color: var(--text-ghost);
   letter-spacing: 0.02em;
+  /* One line always, so the three card stacks start level. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.beliefs-cluster-nodes {
+.beliefs-column-nodes {
   display: flex;
   flex-direction: column;
   gap: var(--s-3);
@@ -141,10 +171,19 @@
   padding: 0 var(--s-2);
 }
 
+.beliefs-column-empty {
+  margin: 0;
+  padding: var(--s-3) var(--s-2);
+  font-size: var(--fs-xs);
+  color: var(--text-ghost);
+  border: 1px dashed color-mix(in srgb, var(--cluster) 30%, transparent);
+  border-radius: var(--r-md, 12px);
+}
+
 /* The organic offset lives on a wrapper: motion writes inline transforms on
    the card itself for the grow-into-focus transition. */
 .beliefs-slot {
-  width: min(78%, 320px);
+  width: min(100%, 320px);
   transform: translate(var(--ox, 0), var(--oy, 0));
 }
 
@@ -163,6 +202,9 @@
 
 /* Higher specificity than node-card.css's `[data-layer='beliefs']`, which
    assumes every belief is an advantage. */
+.node-card.beliefs-node.beliefs-node--threat {
+  --accent: var(--threat);
+}
 .node-card.beliefs-node.beliefs-node--disruption {
   --accent: var(--disruption);
 }
@@ -171,7 +213,9 @@
 }
 
 .node-card.beliefs-node.is-active {
-  box-shadow: var(--shadow-2), 0 0 28px color-mix(in srgb, var(--accent) 22%, transparent);
+  box-shadow:
+    var(--shadow-2),
+    0 0 28px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 .beliefs-node-icon {
@@ -184,7 +228,9 @@
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
-  transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  transition:
+    background var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
 }
 
 .beliefs-node:hover .beliefs-node-icon,
@@ -215,6 +261,9 @@
 }
 
 /* ── focus ── */
+.focus-frame.beliefs-focus--threat {
+  --accent: var(--threat);
+}
 .focus-frame.beliefs-focus--disruption {
   --accent: var(--disruption);
 }
@@ -245,6 +294,47 @@
 
 .beliefs-focus-eyebrow-sep {
   color: var(--text-ghost);
+}
+
+/* ── narrow: stack the story top to bottom, arrows turn downward ── */
+@container (max-width: 680px) {
+  .beliefs-story {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--s-2);
+  }
+
+  .beliefs-column {
+    padding-top: var(--s-3);
+  }
+
+  .beliefs-flow {
+    height: var(--flow-w);
+    margin: 0 var(--s-4);
+  }
+  .beliefs-flow::before {
+    top: 50%;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 1px;
+    transform: translateY(-50%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--from) 45%, transparent) 30%,
+      color-mix(in srgb, var(--to) 45%, transparent) 70%,
+      transparent 100%
+    );
+  }
+  .beliefs-flow-arrow {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .beliefs-slot {
+    width: min(100%, 360px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
