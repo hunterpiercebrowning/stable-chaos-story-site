@@ -14,7 +14,7 @@
     "shortTitle": "Who",
     "path": "/who",
     "nodesFile": "who-nodes.json",
-    "subtitle": "Entrepreneurs, Technologist & n=1 Individuals tackling the nation's most critical problems"
+    "subtitle": "Entrepreneurs, Technologist & n=1 Individuals tackling the nation's most critical problems."
   },
   {
     "id": "operations",
@@ -23,7 +23,7 @@
     "shortTitle": "Operational Advantage",
     "path": "/operations",
     "nodesFile": null,
-    "subtitle": "We've been here many times. Now we are building an engine that systematizes our success."
+    "subtitle": "We've done this before. Now we are building an engine that systematizes our success."
   },
   {
     "id": "beliefs",
@@ -32,7 +32,7 @@
     "shortTitle": "Beliefs",
     "path": "/beliefs",
     "nodesFile": "beliefs-nodes.json",
-    "subtitle": "Artificial Intelligence & next-gen technologies are rewriting value creation",
+    "subtitle": "Artificial Intelligence & next-gen technologies are rewriting value creation.",
    "videoLink": "1231431"
   },
   {
@@ -43,7 +43,7 @@
     "path": "/sectors",
     "nodesFile": "sectors-nodes.json",
     "hasDensity": true,
-    "subtitle": "Our maximum value lies with the most important problems we are disproportionally advantaged to solve"
+    "subtitle": "Our maximum value lies with the most important problems we are disproportionally advantaged to solve."
   },
   {
     "id": "trajectory",
@@ -60,7 +60,8 @@
     "shortTitle": "Services",
     "path": "/services",
     "nodesFile": "service-nodes.json",
-    "hasDensity": true
+    "hasDensity": true,
+    "subtitle": "Developing authentic trust with industry participants while developing insights that inform our product strategies."
   },
   {
     "id": "products",
@@ -69,7 +70,8 @@
     "shortTitle": "Products",
     "path": "/products",
     "nodesFile": "product-nodes.json",
-    "hasDensity": true
+    "hasDensity": true,
+    "subtitle": "Unique offerings based on hard won, first hand experience and first principals thinking."
   },
   {
     "id": "background",
