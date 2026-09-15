@@ -311,6 +311,39 @@
   font-size: 0.6rem;
 }
 
+/* The offering's scene photo, revealed on hover / focus (same treatment as
+   the product cards). Kept in the DOM so the reveal is a plain opacity fade. */
+.services-offering-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(110deg, transparent 10%, rgba(0, 0, 0, 0.55) 50%, #000 100%),
+    linear-gradient(0deg, transparent 8%, #000 50%);
+  mask-image: linear-gradient(110deg, transparent 10%, rgba(0, 0, 0, 0.55) 50%, #000 100%),
+    linear-gradient(0deg, transparent 8%, #000 50%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+.services-offering-card .node-card-media,
+.services-offering-card .node-card-body,
+.services-offering-card .node-card-tags {
+  position: relative;
+  z-index: 1;
+}
+
+.services-offering-card:hover .services-offering-backdrop,
+.services-offering-card.is-active .services-offering-backdrop {
+  opacity: 0.6;
+}
+
 /* ── external link ──────────────────────────────────── */
 
 .services-link {
@@ -364,6 +397,71 @@
 }
 
 /* ── focus ──────────────────────────────────────────── */
+
+/* Offering focus with a scene: the photo fills the focus area, the glass
+   panel sits over it on the left (mirrors .products-focus). */
+.services-focus-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: var(--s-4);
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--glass-border);
+  background: var(--dark-3);
+  box-shadow: var(--shadow-3);
+}
+
+.services-focus-stage[data-sector='synbio'] {
+  --accent: var(--sector-synbio);
+}
+.services-focus-stage[data-sector='security'] {
+  --accent: var(--sector-security);
+}
+.services-focus-stage[data-sector='systems'] {
+  --accent: var(--sector-systems);
+}
+
+.services-focus-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.services-focus-scene-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+}
+
+.services-focus-scene-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--dark) 72%, transparent) 0%,
+      color-mix(in srgb, var(--dark) 40%, transparent) 55%,
+      color-mix(in srgb, var(--dark) 18%, transparent) 100%
+    ),
+    linear-gradient(180deg, transparent 60%, color-mix(in srgb, var(--dark) 55%, transparent) 100%);
+}
+
+.services-focus-frame.focus-frame {
+  position: relative;
+  z-index: 1;
+  width: min(100%, max(720px, 70%));
+  background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent, var(--green-2)) 9%, transparent) 0%,
+      transparent 50%
+    ),
+    color-mix(in srgb, var(--dark) 58%, transparent);
+  border-color: var(--glass-border-2);
+  -webkit-backdrop-filter: blur(22px) saturate(1.1);
+  backdrop-filter: blur(22px) saturate(1.1);
+}
 
 .services-focus-eyebrow {
   display: inline-flex;

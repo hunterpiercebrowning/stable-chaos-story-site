@@ -1,10 +1,13 @@
-/* What We've Done — hard-coded layer (deck slide 7, "Our Foundation").
+/* The Roadmap — hard-coded layer (deck slide 7, "Our Foundation").
    Class prefix: .trajectory-
 
-   An intro line over a four-stop timeline. The rail runs left to right in
-   green-2 and fades out past the last stop; each stop is a dot on the rail
-   with the year, venture and one line beneath, left-aligned to the dot. Below
-   ~680px of stage width the rail turns vertical and the stops stack. */
+   Two four-stop timelines. Each rail runs left to right and fades out past
+   the last stop; each stop is a dot on the rail with the year and its sector
+   tag, the venture and one line beneath, left-aligned to the dot. The first rail
+   ("Already built") is solid green-2 and its last stop pulses as "now"; the
+   second ("What's next") is a dashed peach rail with hollow dots, so the
+   future reads as planned rather than done. Below ~680px of stage width the
+   rails turn vertical and the stops stack. */
 
 /* ── layer ── */
 .trajectory {
@@ -14,22 +17,32 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: clamp(var(--s-6), 7vh, 72px);
+  gap: clamp(var(--s-5), 5vh, 56px);
   flex: 1 0 auto;
   width: 100%;
   padding: var(--s-3) var(--s-2) var(--s-7);
 }
 
-.trajectory-intro {
-  max-width: 62ch;
-  text-align: center;
-  font-size: var(--fs-md);
-  font-weight: 300;
-  line-height: 1.6;
-  color: var(--text-muted);
+/* ── section: one labelled rail ── */
+.trajectory-section {
+  --accent: var(--green-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  width: 100%;
+  max-width: 1120px;
+}
+
+.trajectory-section--next {
+  --accent: var(--peach);
+}
+
+.trajectory-label {
+  padding-left: var(--s-2);
   opacity: 0;
-  transform: translateY(12px);
-  animation: trajectory-rise 0.7s var(--ease) 0.1s forwards;
+  transform: translateY(8px);
+  animation: trajectory-rise 0.6s var(--ease) forwards;
+  animation-delay: calc(0.3s + var(--offset, 0) * 0.16s);
 }
 
 /* ── rail ── */
@@ -40,7 +53,6 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--s-5);
   width: 100%;
-  max-width: 1120px;
   padding: 0 var(--s-2);
 }
 
@@ -51,16 +63,20 @@
   left: calc(var(--s-2) + var(--dot) / 2);
   right: 0;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    var(--green-2) 0%,
-    color-mix(in srgb, var(--green-2) 70%, transparent) 60%,
-    transparent 100%
-  );
-  box-shadow: 0 0 12px color-mix(in srgb, var(--green-2) 35%, transparent);
+  background: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 35%, transparent);
+  /* The mask carries the fade so the dashed rail can fade the same way. */
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%);
   transform-origin: left center;
   transform: scaleX(0);
-  animation: trajectory-draw 1.1s var(--ease) 0.25s forwards;
+  animation: trajectory-draw 1.1s var(--ease) forwards;
+  animation-delay: calc(0.25s + var(--offset, 0) * 0.16s);
+}
+
+.trajectory-section--next .trajectory-line::before {
+  background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px);
+  box-shadow: none;
 }
 
 /* ── stops ── */
@@ -89,19 +105,39 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--green-2);
+  background: var(--accent);
   /* Dark ring so the rail does not run through the dot. */
-  box-shadow: 0 0 0 4px var(--dark), 0 0 18px color-mix(in srgb, var(--green-2) 55%, transparent);
+  box-shadow: 0 0 0 4px var(--dark), 0 0 18px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 
-/* The most recent stop is "now": a slow pulse rings it. */
-.trajectory-stop:last-child .trajectory-dot::after {
+/* Upcoming stops are hollow: outlined, not filled. */
+.trajectory-section--next .trajectory-dot {
+  background: var(--dark);
+  border: 1.5px solid var(--accent);
+  box-shadow: 0 0 0 4px var(--dark), 0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* The most recent built stop is "now": a slow pulse rings it. */
+.trajectory-section--built .trajectory-stop:last-child .trajectory-dot::after {
   content: '';
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--green-2) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
   animation: trajectory-pulse 3.2s var(--ease) infinite;
+}
+
+.trajectory-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+/* Sector tag: the shared pill in its sector color, trimmed to sit on one line with the year. */
+.tag.trajectory-tag {
+  padding: 2px 8px;
 }
 
 .trajectory-year {
@@ -109,7 +145,7 @@
   font-weight: 600;
   letter-spacing: var(--ls-label);
   font-variant-numeric: tabular-nums;
-  color: var(--green-2);
+  color: var(--accent);
 }
 
 .trajectory-title {
@@ -127,12 +163,15 @@
   color: var(--text-muted);
 }
 
-/* ── narrow stage: vertical rail ── */
+/* ── narrow stage: vertical rails ── */
 @container trajectory (max-width: 680px) {
+  .trajectory-section {
+    max-width: 520px;
+  }
+
   .trajectory-line {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--s-5);
-    max-width: 520px;
   }
 
   .trajectory-line::before {
@@ -142,14 +181,14 @@
     right: auto;
     width: 1px;
     height: auto;
-    background: linear-gradient(
-      180deg,
-      var(--green-2) 0%,
-      color-mix(in srgb, var(--green-2) 70%, transparent) 60%,
-      transparent 100%
-    );
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%);
     transform-origin: center top;
     animation-name: trajectory-draw-y;
+  }
+
+  .trajectory-section--next .trajectory-line::before {
+    background: repeating-linear-gradient(180deg, var(--accent) 0 6px, transparent 6px 12px);
   }
 
   .trajectory-stop {
@@ -165,7 +204,7 @@
     margin-bottom: 0;
   }
 
-  .trajectory-year,
+  .trajectory-meta,
   .trajectory-title,
   .trajectory-body {
     grid-column: 2;

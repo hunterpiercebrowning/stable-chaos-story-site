@@ -23,6 +23,8 @@ export interface NodeCardProps {
   children?: ReactNode;
   /** Slot above the title (logo, headshot, icon …). */
   media?: ReactNode;
+  /** Full-bleed layer behind the content (a photo, a motif); the layer's CSS positions it. */
+  backdrop?: ReactNode;
   subtitle?: ReactNode;
   showTags?: boolean;
   ref?: Ref<HTMLButtonElement>;
@@ -59,6 +61,7 @@ export function NodeCard({
   className,
   children,
   media,
+  backdrop,
   subtitle,
   showTags = true,
   ref,
@@ -95,6 +98,7 @@ export function NodeCard({
       }}
       transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
     >
+      {backdrop}
       {children ?? (
         <>
           {media ? <span className="node-card-media">{media}</span> : null}

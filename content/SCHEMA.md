@@ -12,6 +12,8 @@ Rules that apply to **every** node file:
   absent the loader assigns the array index.
 - Any empty string / empty array is rendered with a deterministic lorem or generated-SVG
   placeholder (seeded by `id`, so it is stable between reloads). Fill the field to replace it.
+  Placeholder tagline/blurb/bullets are sized per layer to fit the focus card at 1440×900 without
+  scrolling (`loremBudget` in `src/data/index.ts`), so they double as the copy-length target.
 - `context_items` is an array of context items (shape at the bottom). Empty → the right tray shows
   three lorem placeholders.
 - `video_link` accepts a Cloudflare Stream UID (32 hex), a `*.cloudflarestream.com` URL, an
@@ -100,6 +102,7 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | `website` | string | primary only; opens in a new tab |
 | `logo_file` | string | primary only; empty → `Placeholder variant="logo"` |
 | `company` | string | secondary only — the **node id** of its parent company |
+| `background_image` | string | secondary only; scene behind the offering focus, revealed on card hover (`/assets/backgrounds/services/…`); empty → plain glass |
 | `tagline`, `blurb`, `bullet_points`, `video_link`, `context_items` | | |
 
 Two offering ids are suffixed with their company because the bare kebab is already taken by a

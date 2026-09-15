@@ -113,6 +113,8 @@ export interface ServiceNode extends NodeBase {
   logoFile?: string;
   /** Secondary (offering) nodes only — the node id of the parent company. */
   company?: string;
+  /** Secondary only — scene behind the offering focus and revealed on card hover. */
+  backgroundImage?: string;
 }
 
 export type ProductStage = 'active' | 'slated';

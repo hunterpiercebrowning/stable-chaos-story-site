@@ -74,8 +74,8 @@
   margin: 0;
 }
 
-/* Sized so a 60-word blurb, five bullets, the video row and the related strip
-   fit at 1440×900 with both panels open; the column still scrolls past that. */
+/* Sized so a 40-word blurb, six short bullets and the related strip fit at
+   1440×900 with both panels open; longer copy makes the stage scroll. */
 .focus-main {
   display: flex;
   flex-direction: column;
@@ -96,41 +96,56 @@
 }
 
 .focus-subtitle {
-  font-size: var(--fs-base);
+  font-size: var(--fs-md);
   color: var(--text-muted);
 }
 
+/* Focus copy is slide-deck length (a short blurb, up to six bullets), so it is
+   set large and near-white for reading at a glance rather than packed small. */
 .focus-body {
-  max-width: 66ch;
-  margin-top: var(--s-1);
-  color: var(--text-muted);
-  font-size: var(--fs-base);
+  margin-top: var(--s-2);
+  color: color-mix(in srgb, var(--text) 90%, transparent);
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
   line-height: 1.55;
+}
+
+.focus-body p {
+  line-height: inherit;
 }
 
 .focus-bullets {
   display: grid;
-  gap: 5px;
-  max-width: 70ch;
-  margin-top: var(--s-2);
+  gap: 6px;
+  font-size: clamp(0.98rem, 1.1vw, 1.12rem);
+  margin-top: var(--s-3);
 }
 
+/* Each bullet is a row with an accent edge and a tint that fades out to the right. */
 .focus-bullets li {
   display: flex;
   align-items: baseline;
   gap: var(--s-3);
-  color: var(--text-muted);
-  font-size: var(--fs-base);
+  padding: 6px var(--s-4);
+  border-left: 2px solid var(--accent, var(--green-2));
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent, var(--green-2)) 14%, transparent) 0%,
+    color-mix(in srgb, var(--accent, var(--green-2)) 4%, transparent) 60%,
+    transparent 100%
+  );
+  color: var(--text);
+  font-weight: 500;
   line-height: 1.4;
 }
 
 .focus-bullet-mark {
   flex: none;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
+  width: 6px;
+  height: 6px;
   background: var(--accent, var(--green-2));
-  transform: translateY(-2px);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent, var(--green-2)) 70%, transparent);
+  transform: translateY(-2px) rotate(45deg);
 }
 
 .focus-extras {

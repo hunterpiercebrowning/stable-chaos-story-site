@@ -7,10 +7,44 @@
     "website": "https://growthcurvebio.com/",
     "logo_file": "/assets/logos/gcb-logo.svg",
     "tagline": "Synthetic biology rapid iteration & biomanufacturing lab",
-    "blurb": "",
-    "bullet_points": [],
+    "blurb": "A full-stack synthetic biology partner that helps teams turn ideas into commercially viable bioproducts, from a single engineered cell to commercial scale. Growth Curve is an independent development partner with no competing product interests, no academic mandates, and no publishing agenda.",
+    "bullet_points": [
+      "One accountable partner: strain engineering, rapid prototyping, process optimization, pilot production, and manufacturing hand-off carried by one team, with no hand-offs between vendors.",
+      "Enter at any stage: every stage ends with a deliverable the client owns, so programs start where they are and exit the moment they have what they came for.",
+      "Precision fermentation facility: R&D-grade and specializing in BSL-1 microbial hosts, with benchtop and pilot bioreactors at 100 L and under, downstream processing, and analytics.",
+      "Data drives every decision: every run is instrumented end to end and delivered as a structured data packet, so the call to advance is made on numbers, not hunches.",
+      "So aligned it feels in-house: clients work directly with the scientists running their program and see the methods, the raw data, and an honest read on every run."
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Inside the Full-Stack Process",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/process.html",
+        "thumbnail": "",
+        "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
+        "date": ""
+      },
+      {
+        "type": "article",
+        "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
+        "thumbnail": "",
+        "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",
+        "date": "Sep 2026"
+      },
+      {
+        "type": "article",
+        "title": "Was Walking Away From an In-House R&D Team the Right Call?",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/walking-away-from-in-house-rd.html",
+        "thumbnail": "",
+        "blurb": "Re-validating a proprietary non-GMO yeast process for a new site and feedstock supply chain, without building pilot infrastructure of its own.",
+        "date": "Aug 2026"
+      }
+    ]
   },
   {
     "id": "fountain-city-partners",
@@ -20,8 +54,15 @@
     "website": "https://fountaincitypartners.com/",
     "logo_file": "/assets/logos/fcp-icon.svg",
     "tagline": "Airtight back-office, operations & compliance",
-    "blurb": "",
-    "bullet_points": [],
+    "blurb": "A firm of operating partners: professionals across every function, all trained on the same systems, philosophies, and methodologies. Not a consulting firm and not a staffing agency, Fountain City Partners covers the entire operating picture for businesses across SMB and the middle market, from leadership to systems, transactions, and everything in between.",
+    "bullet_points": [
+      "Operators who do the work: founded by operators with decades of experience building structure and systems inside growing businesses, including one acquired by a publicly traded company in 2021.",
+      "One firm, every layer: leadership, accounting, finance, operations, systems, and transactions under one roof, applied with a single methodology.",
+      "Every situation is different: embedded, interim, project-based, or ongoing advisory engagements, scoped to what the business actually needs.",
+      "For operators and investors: support for leadership teams running the business, and for investors and boards from pre-transaction diligence through post-close performance.",
+      "Industry agnostic, execution obsessed: the structure, accountability, and follow-through that turn what needs to improve into what actually happens.",
+      "Insight that becomes product: work inside real businesses surfaces the recurring problems our Deployable Wisdom products are built to solve."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -34,9 +75,53 @@
     "logo_file": "/assets/logos/starling-intel-icon.svg",
     "tagline": "Bespoke engagements",
     "blurb": "Underpinning our access and trust in the security sector is a services offering that provides discrete professionalism, deep technical capabilities and tactical domain expertise.",
-    "bullet_points": [],
+    "bullet_points": [
+      "Three lineages, one firm: former tier-one military personnel, intelligence operatives, and serial entrepreneurs, each bringing a discipline that compounds the others.",
+      "Proven where it counts: offensive and defensive security practiced in war zones, inside intelligence operations, and across the private sector's highest-stakes engagements.",
+      "Full-spectrum offerings: offense, defense and response, evaluations, training, investigations and ISR, command and control, forensics, privacy, and bespoke work across fourteen threat domains.",
+      "Who we serve: corporations, government agencies, law firms, high-net-worth individuals, families, and special projects that fit no category.",
+      "Two pricing models: scoped engagements for nearly all work, and an outcome model that prices binary objectives by the result.",
+      "Silent professionals: no published client names or case studies."
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Capabilities for Contested Environments",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/",
+        "thumbnail": "",
+        "blurb": "A discreet security & intelligence firm built by people who have worked both offense and defense at the highest levels.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "The Firm: Three Lineages, One Firm",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/firm",
+        "thumbnail": "",
+        "blurb": "Former tier-one military personnel, intelligence operatives, and serial entrepreneurs, proven in war zones, intelligence operations, and the private sector.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Two Models, One Standard of Work",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/pricing",
+        "thumbnail": "",
+        "blurb": "The scoped engagement where nearly all work runs, and the outcome model that prices binary objectives by the result.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Confidential Briefings",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/briefings",
+        "thumbnail": "",
+        "blurb": "Written assessments, video briefings, and a private weekly podcast on emerging threats, issued to registered recipients only.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "biomolecule-rapid-prototyping",
@@ -44,11 +129,37 @@
     "title": "Biomolecule Rapid Prototyping",
     "sector": "synbio",
     "company": "growth-curve-bio",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Prove the strain and molecule perform before committing to a longer, costlier program",
+    "blurb": "Candidate molecules move through fast, structured design-build-test cycles: small-scale expression, screening, and analytical characterization. The loops are tuned to answer feasibility first, for an early, honest read on whether a molecule performs and can be reproduced before capital is committed.",
+    "bullet_points": [
+      "Answer the hard question first: the make-or-break feasibility question gets the first dollar, not the last one.",
+      "Structured screening: microplate and shake-flask cultivation with parallel screening workflows and replicate testing for reproducibility.",
+      "Analytical characterization: chromatography and spectroscopy tie every result to a defined analytical spec.",
+      "Decision-grade output: a feasibility data package, a ranked shortlist of candidates, and a go / no-go recommendation with evidence.",
+      "Hand-off ready: stop with a package for the board or investors, or advance the winner straight into process optimization."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/biomolecule-rapid-prototyping.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Inside the Full-Stack Process",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/process.html",
+        "thumbnail": "",
+        "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
+        "date": ""
+      },
+      {
+        "type": "article",
+        "title": "Equipment Spotlight: Eppendorf BioFlo 120",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/equipment-spotlight-eppendorf-bioflo-120.html",
+        "thumbnail": "",
+        "blurb": "The bridge between iterative R&D and manufacturing readiness. The fastest, most cost-effective way to build a robust data package.",
+        "date": "Feb 26, 2026"
+      }
+    ]
   },
   {
     "id": "biomanufacturing-process-optimization",
@@ -56,11 +167,46 @@
     "title": "Biomanufacturing Process Optimization",
     "sector": "synbio",
     "company": "growth-curve-bio",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "A reproducible, cost-aware bioprocess that translates onto industrially representative equipment",
+    "blurb": "Growth Curve develops and refines the bioprocess itself (media and feed strategy, fermentation parameters, and downstream recovery), driving titer, yield, and batch-to-batch consistency up while pulling cost of goods down. Every change is measured against a defined analytical baseline and chosen to translate onto larger equipment.",
+    "bullet_points": [
+      "Recursive by design: iterative design-build-test loops tune the process and the strain against quantitative targets until the data says the program is ready.",
+      "Fully instrumented bioreactors: benchtop vessels controlling temperature, pH, DO, and feed, with at-line and in-line monitoring and design-of-experiments workflows.",
+      "Precision where it counts: gravimetric feeding for critical carbon sources and inducers measures what actually reaches the vessel, not what a pump totalizer assumes.",
+      "Downstream included: centrifugation, filtration, chromatography, and drying developed alongside the upstream process.",
+      "Deliverables: a defined process with control ranges, a titer, yield, and cost-of-goods model, batch records, and a scale-up risk assessment."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/biomanufacturing-process-optimization.jpg",
+    "context_items": [
+      {
+        "type": "article",
+        "title": "The Case for Gravimetric Feeding",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/gravimetric-feeding.html",
+        "thumbnail": "",
+        "blurb": "Why volumetric totalizers drift, and how weight-based feeding measures what actually reaches the vessel.",
+        "date": "Apr 7, 2026"
+      },
+      {
+        "type": "article",
+        "title": "Equipment Spotlight: Eppendorf BioFlo 120",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/equipment-spotlight-eppendorf-bioflo-120.html",
+        "thumbnail": "",
+        "blurb": "The bridge between iterative R&D and manufacturing readiness. The fastest, most cost-effective way to build a robust data package.",
+        "date": "Feb 26, 2026"
+      },
+      {
+        "type": "article",
+        "title": "Was Walking Away From an In-House R&D Team the Right Call?",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/walking-away-from-in-house-rd.html",
+        "thumbnail": "",
+        "blurb": "Re-validating a proprietary non-GMO yeast process for a new site and feedstock supply chain, without building pilot infrastructure of its own.",
+        "date": "Aug 2026"
+      }
+    ]
   },
   {
     "id": "bioproduct-test-and-evaluation-production",
@@ -68,11 +214,46 @@
     "title": "Bioproduct Test & Evaluation Production",
     "sector": "synbio",
     "company": "growth-curve-bio",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Scale-representative material at 100 L and under for testing, evaluation, and validation",
+    "blurb": "Growth Curve produces client molecules at pilot scale, in batches at 100 L and under, under defined process controls. Pilot runs are where scale-up risk actually shows itself, so real material and real data land in the client's hands, with every run documented to carry cleanly into a regulated manufacturing environment later.",
+    "bullet_points": [
+      "Manufacturing-relevant vessels: the Eppendorf BioFlo 610 (31 to 100 L) mirrors production conditions with Rushton impellers, removable baffles, a 2:1 aspect ratio, and pressure control.",
+      "Redundancy is standard: duplicate pH and DO sensors keep pilot batches in control through a sensor failure, so data and samples arrive on schedule.",
+      "Pilot-scale downstream: recovery, purification, and quality-control release analytics on representative broth volumes.",
+      "Validation-ready: full analytical and batch documentation plus process performance data at pilot scale.",
+      "Material that keeps pace: repeatable 100 L batches supplied Modulant Biosciences' live animal studies while its commercial-scale CMO search ran in parallel."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/bioproduct-test-and-evaluation-production.jpg",
+    "context_items": [
+      {
+        "type": "article",
+        "title": "Equipment Spotlight: Eppendorf BioFlo 610",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/equipment-spotlight-eppendorf-bioflo-610.html",
+        "thumbnail": "",
+        "blurb": "The linchpin of fermentation scale-up: manufacturing-scale features with pilot-scale flexibility, from 31 to 100 L.",
+        "date": "Feb 26, 2026"
+      },
+      {
+        "type": "article",
+        "title": "The Case for Redundant Sensors",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/redundant-sensors.html",
+        "thumbnail": "",
+        "blurb": "When time is of the essence, run duplicate online sensors for critical parameters. One sensor failure can cost you the whole batch.",
+        "date": "Mar 5, 2026"
+      },
+      {
+        "type": "article",
+        "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
+        "thumbnail": "",
+        "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",
+        "date": "Sep 2026"
+      }
+    ]
   },
   {
     "id": "managed-commercial-manufacturing",
@@ -80,11 +261,37 @@
     "title": "Managed Commercial Manufacturing",
     "sector": "synbio",
     "company": "growth-curve-bio",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "The team that engineered the process is the one making sure it lands at scale",
+    "blurb": "When a program is ready to grow beyond the pilot suite, Growth Curve packages the process, controls, and documentation into a manufacturing-ready tech transfer. The team translates the program into the partner environment, troubleshoots the early runs, and can stay on to manage the relationship through the first commercial campaigns.",
+    "bullet_points": [
+      "Tech transfer package: process, control strategy, and batch records packaged so a manufacturing partner can pick it up and run.",
+      "Partner selection: help selecting and qualifying a CDMO or facility against commercial volume, timeline, quality, and regulatory targets.",
+      "Technical advocate on the floor: on-site and remote process support, campaign oversight, and troubleshooting.",
+      "Data that travels: cross-site calibration of measurements like optical density removes hidden variability before a tech transfer batch.",
+      "More manufacturers to choose from: processes shaped for what CMOs can actually run at scale, such as converting a continuous process to fed-batch."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/managed-commercial-manufacturing.jpg",
+    "context_items": [
+      {
+        "type": "article",
+        "title": "OD ≠ OD",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/optical-density.html",
+        "thumbnail": "",
+        "blurb": "Optical density is consistent on one instrument and inconsistent across instruments. How to normalize it before a tech transfer.",
+        "date": "Mar 18, 2026"
+      },
+      {
+        "type": "article",
+        "title": "Was Walking Away From an In-House R&D Team the Right Call?",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/walking-away-from-in-house-rd.html",
+        "thumbnail": "",
+        "blurb": "Re-validating a proprietary non-GMO yeast process for a new site and feedstock supply chain, without building pilot infrastructure of its own.",
+        "date": "Aug 2026"
+      }
+    ]
   },
   {
     "id": "molecular-engineering-growth-curve-bio",
@@ -93,14 +300,34 @@
     "sector": "synbio",
     "company": "growth-curve-bio",
     "tagline": "Tailoring the performance of target biomolecules in their deployed applications and use cases",
-    "blurb": "",
+    "blurb": "Target molecules are engineered against the demands of their end use, then proven in the conditions they will actually face. Growth Curve helps bring molecules to scale across therapeutic proteins and peptides, enzymes and biocatalysts, agriculture and animal health, sustainable materials, flavors and fragrances, and next-generation food.",
     "bullet_points": [
-      "Application-first design — molecules engineered against the demands of their end use from the start.",
-      "Performance tuning — structure and formulation adjusted for stability, potency, and shelf life in deployment.",
-      "Use-case validation — testing in conditions that mirror the customer's actual environment."
+      "Application-first design: molecules engineered against the demands of their end use from the start.",
+      "Performance tuning: structure and formulation adjusted for stability, potency, and shelf life in deployment.",
+      "Use-case validation: testing in conditions that mirror the customer's actual environment."
     ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/molecular-engineering-growth-curve-bio.jpg",
+    "context_items": [
+      {
+        "type": "article",
+        "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
+        "thumbnail": "",
+        "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",
+        "date": "Sep 2026"
+      },
+      {
+        "type": "link",
+        "title": "Full-Stack Synthetic Biology Partner",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/",
+        "thumbnail": "",
+        "blurb": "Growth Curve helps synthetic biology teams prototype, optimize, and produce biomolecules, turning ideas into commercially viable bioproducts.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "genetic-engineering",
@@ -109,14 +336,25 @@
     "sector": "synbio",
     "company": "growth-curve-bio",
     "tagline": "DNA programming, host organism editing, and exotic organism harnessing",
-    "blurb": "",
+    "blurb": "Strain engineering designs and builds a production host that expresses the target reliably under real fermentation conditions, not just in a shake flask: pathway and construct design, codon optimization, genetic stability, and tolerance to the real stresses of fermentation.",
     "bullet_points": [
-      "DNA programming — genetic circuits that direct organisms to express target biomolecules reliably.",
-      "Host organism editing — precision edits to proven hosts for yield, stability, and process tolerance.",
-      "Exotic organism selection — evaluating non-standard organisms for capabilities conventional chassis cannot offer."
+      "DNA programming: genetic circuits that direct organisms to express target biomolecules reliably.",
+      "Host organism editing: precision edits to proven hosts for yield, stability, and process tolerance.",
+      "Exotic organism selection: evaluating non-standard organisms for capabilities conventional chassis cannot offer."
     ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/genetic-engineering.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Inside the Full-Stack Process",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/process.html",
+        "thumbnail": "",
+        "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "microbial-host-consulting",
@@ -124,11 +362,37 @@
     "title": "Microbial Host Consulting",
     "sector": "synbio",
     "company": "growth-curve-bio",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Selecting and shaping the right microbial chassis for the molecule and the process",
+    "blurb": "Engineers and operators with deep, hands-on experience across microbial systems help clients choose, characterize, and de-risk their production host. Because the same team runs every downstream stage, host decisions are made with commercial production in mind from the very first edit.",
+    "bullet_points": [
+      "Chassis selection: matching the host to the molecule and to regulatory, IP, and GRAS constraints.",
+      "Strain characterization: titer, growth rate, and yield compared strain against strain, with the data to decide which candidate to scale.",
+      "Proven across platforms: from lactobacillus to naturally pentose-consuming, non-GMO yeast.",
+      "Genetic stability: extended fermentation protocols and samples for independent genetic drift analysis confirm a strain holds up over long production runs.",
+      "Feedstock fit: adapting hosts and processes to lower-cost, regionally available carbon sources like corn mash, barley mash, molasses, and woody sugars."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/microbial-host-consulting.jpg",
+    "context_items": [
+      {
+        "type": "article",
+        "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
+        "thumbnail": "",
+        "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",
+        "date": "Sep 2026"
+      },
+      {
+        "type": "article",
+        "title": "Was Walking Away From an In-House R&D Team the Right Call?",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/walking-away-from-in-house-rd.html",
+        "thumbnail": "",
+        "blurb": "Re-validating a proprietary non-GMO yeast process for a new site and feedstock supply chain, without building pilot infrastructure of its own.",
+        "date": "Aug 2026"
+      }
+    ]
   },
   {
     "id": "red-teaming",
@@ -136,11 +400,45 @@
     "title": "Red Teaming",
     "sector": "security",
     "company": "starling-intel",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "We've spent lifetimes getting into where we weren't supposed to",
+    "blurb": "Testing the people and systems intended to keep you safe: cyber, physical, human, and everything in between. Starling Intel attacks the way a genuine adversary would, then hands over the findings before anyone else finds them.",
+    "bullet_points": [
+      "All domains: cyber, physical, and human attack surfaces tested together, the way a genuine adversary would approach them.",
+      "Authorized action & support: when the moment demands more than advice, operators plan, rehearse, and stand alongside your team through execution, under proper authority and documented end to end.",
+      "Priced by depth: under the outcome model, each rung from perimeter breached to objective taken carries its own figure, and if the team is stopped at the door, nothing is owed.",
+      "In practice: the forty-minute floor. At a Fortune 100 client's new headquarters, the team was photographing documents on the executive floor within forty minutes of arriving on site."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/red-teaming.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Offense",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#offense",
+        "thumbnail": "",
+        "blurb": "Red teaming across all domains, and authorized action and support for critical operations.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "The Outcome Model",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/pricing#model-outcome",
+        "thumbnail": "",
+        "blurb": "No hourly rates, no line items: red team work priced by the depth reached, and nothing owed if the door holds.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Physical Facilities, Infrastructure & Locations",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#physical",
+        "thumbnail": "",
+        "blurb": "Physical intrusion has quietly converged with cyber. The door controller is a computer, and the computer opens doors.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "investigations-and-isr",
@@ -148,11 +446,46 @@
     "title": "Investigations & ISR",
     "sector": "security",
     "company": "starling-intel",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Knowing first. Knowing more. Knowing what to do about it.",
+    "blurb": "Quiet, thorough investigative work documented to survive scrutiny, paired with intelligence collected and packaged to be instantly actioned. Not a feed to interpret, but a decision made ready.",
+    "bullet_points": [
+      "Targeted investigations: detailed investigative work that stands up in a court of law.",
+      "Confidential briefings: executive-focused, bottom-line-up-front briefs on the most critical topics in a client's world, curated by former intelligence personnel.",
+      "Monitoring: digital and manned monitoring for sensitive information leaking outside the organization, with predetermined mitigation SOPs so detection becomes action instead of alarm.",
+      "Surveillance & recon: observation, assessment, and monitoring of live scenarios in real time, for as long as needed.",
+      "In practice: built for the courtroom. An investigation traced how trade secrets kept reaching a competitor, documented it to an evidentiary standard, and became the backbone of a successful injunction."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/investigations-and-isr.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Investigations & ISR",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#investigations",
+        "thumbnail": "",
+        "blurb": "Targeted investigations, confidential briefings, monitoring, intelligence, and surveillance and recon.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Confidential Briefings",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/briefings",
+        "thumbnail": "",
+        "blurb": "Written assessments, video briefings, and a private weekly podcast on emerging threats, issued to registered recipients only.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Personnel & Insider Threats",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#insider",
+        "thumbnail": "",
+        "blurb": "Adversaries recruit insiders in the open now. The person is the perimeter.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "forensics-and-collections",
@@ -160,11 +493,36 @@
     "title": "Forensics & Collections",
     "sector": "security",
     "company": "starling-intel",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Evidence that holds, because how it was gathered matters as much as what it says",
+    "blurb": "Critical evidence extracted from devices and digital systems, or collected in the field when it can't come to the lab, then preserved and documented with an unbroken chain of custody.",
+    "bullet_points": [
+      "Device & system extraction: critical evidence recovered from an array of devices and digital systems, preserved and documented with an unbroken chain of custody.",
+      "Field collection: in-field collection on technical targets. Where the evidence can't come to the lab, the lab goes to the evidence.",
+      "Live targets: systems that cannot be powered down, imaged, or shipped are collected on-site, preserving both the data and its admissibility.",
+      "In practice: the laptop that told the story. Forensic work on a departing executive's devices reconstructed the full timeline, deletions included, and the documentation held under legal challenge."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/forensics-and-collections.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Forensics & Collection",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#forensics",
+        "thumbnail": "",
+        "blurb": "Device and system extraction and in-field collection, with an unbroken chain of custody.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Signals & Spectrum",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#signals",
+        "thumbnail": "",
+        "blurb": "Everything you carry emits, and listening has never been cheaper.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "privacy-and-sanitization",
@@ -172,11 +530,46 @@
     "title": "Privacy & Sanitization",
     "sector": "security",
     "company": "starling-intel",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Invisibility is not a product. It's a discipline.",
+    "blurb": "Front-running clients so environments and movements are clean, and sweeping up after so no trail is left behind. What the internet knows about you is a choice, and Starling Intel helps you make it.",
+    "bullet_points": [
+      "OpSec-as-a-Service: environments and movements cleaned ahead of the client, and swept afterward so no trail is left behind.",
+      "Ghosting: non-attributable devices, real-world proxies for locations, transport, and accounts, and genuine freedom of movement for people whose presence is itself information.",
+      "Noising: flooding information channels with material that obscures specific events, controlling not just what stays hidden but what gets seen instead.",
+      "Cleaning: systematic reduction of the digital footprint of an individual or an event.",
+      "In practice: a quieter internet. Eighteen months of broker removals, record suppression, and footprint reduction took one family from trivially findable to genuinely difficult."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/privacy-and-sanitization.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Privacy & Sanitization",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#privacy",
+        "thumbnail": "",
+        "blurb": "OpSec-as-a-service, ghosting, noising, and cleaning. Invisibility is a discipline, practiced for you.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Personal, Family & Pattern of Life",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#pattern-of-life",
+        "thumbnail": "",
+        "blurb": "Pattern-of-life exposure is the map every adversary starts with. Take the map away.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Anti-Surveillance",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#antisurveillance",
+        "thumbnail": "",
+        "blurb": "Being followed no longer requires followers. Detecting surveillance has become a discipline again.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "blue-team-defense-and-response",
@@ -184,11 +577,45 @@
     "title": "Blue Team Defense & Response",
     "sector": "security",
     "company": "starling-intel",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "The best defenders spent years as attackers. Ours still are.",
+    "blurb": "Defensive systems implemented and maintained by operators who spend their other days breaking into companies, as a standing capability or a fractional one, backed by incident response that moves immediately across digital and physical domains.",
+    "bullet_points": [
+      "Dedicated & fractional blue team: actively implementing and maintaining the defensive systems that keep organizations and information safe, at full strength or sized to what you actually need.",
+      "Rapid response, all domains: incident response teams that move immediately to stop the threat, assess the damage, and take the follow-up actions the situation demands, whether digital, physical, or both at once.",
+      "In practice: a blue team without the headcount. A mid-market financial firm's fractional blue team took over detection and hardening inside a month.",
+      "In practice: ninety minutes to containment. A Friday-night ransomware intrusion was isolated in ninety minutes, and by Monday the board had a complete account of what happened, what was touched, and what needed to change."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/blue-team-defense-and-response.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Defense & Response",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#defense",
+        "thumbnail": "",
+        "blurb": "Dedicated and fractional blue teams, and rapid incident response across digital and physical domains.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Cyber",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#cyber",
+        "thumbnail": "",
+        "blurb": "AI has collapsed the cost of a competent attack, and the gap between attacker tempo and defender staffing is the widest it has ever been.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Emergency Help",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/emergency",
+        "thumbnail": "",
+        "blurb": "A twenty-four-hour duty line answered by a duty officer, not a queue, for extraction, physical security, or an attack already inside your network.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "command-and-control",
@@ -196,11 +623,37 @@
     "title": "Command & Control",
     "sector": "security",
     "company": "starling-intel",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "An operation is only as good as the picture it runs on",
+    "blurb": "Tailored C2 systems purpose-built for a specific operation on top of battle-proven infrastructure, not a dashboard product bent until it almost fits, and built for the environment the client actually operates in.",
+    "bullet_points": [
+      "Custom systems: purpose-built for the operation, on infrastructure proven somewhere much harsher.",
+      "Environment flexibility: from fully mobile deployments to the most stringent data and access governance regimes.",
+      "Event command & coordination: an on-site operations cell that fuses physical and technical reporting into one picture and speaks the same language as venue security, local law enforcement, and emergency services.",
+      "In practice: an operations room for a family office. Live awareness of principals in transit, monitored alerting, and predetermined playbooks.",
+      "In practice: C2 in a road case. A mobile command element that stood up in ninety minutes at each venue, with cameras, communications, and coordination together."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/command-and-control.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Command & Control",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#c2",
+        "thumbnail": "",
+        "blurb": "Tailored C2 systems on battle-proven infrastructure, from fully mobile deployments to stringent governance regimes.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Events",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#events",
+        "thumbnail": "",
+        "blurb": "Every guest list is also a target list: advance work, physical and technical security, and on-site command and coordination.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "fractional-software-security",
@@ -208,11 +661,345 @@
     "title": "Fractional Software Security",
     "sector": "security",
     "company": "starling-intel",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Ship at AI speed without leaving the door open",
+    "blurb": "Secure Vibe wraps teams running AI-driven development with security services: reviewing what the models write, hardening what ships, and supplying the deep technical expertise the team doesn't have to hire.",
+    "bullet_points": [
+      "Review what the models write: generated code is reviewed before it merges.",
+      "Harden what ships: what reaches production is hardened by people who know how software is actually attacked.",
+      "Expertise without the hire: deep technical security expertise supplied fractionally, answering the questions the team didn't know to ask.",
+      "No drag on delivery: an AI-native team shipping weekly gained a fractional security capability without slowing a single release."
+    ],
     "video_link": "",
-    "context_items": []
+    "background_image": "/assets/backgrounds/services/fractional-software-security.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Fractional Software Security",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#software",
+        "thumbnail": "",
+        "blurb": "Secure Vibe: security services that let teams ship at AI speed without leaving the door open.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: AI",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#ai",
+        "thumbnail": "",
+        "blurb": "AI is simultaneously your newest attack surface and your adversary's newest capability. It must be defended, and defended against.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Cyber",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#cyber",
+        "thumbnail": "",
+        "blurb": "AI has collapsed the cost of a competent attack, and the gap between attacker tempo and defender staffing is the widest it has ever been.",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "evaluations",
+    "type": "secondary",
+    "title": "Evaluations",
+    "sector": "security",
+    "company": "starling-intel",
+    "tagline": "An honest picture of where you actually stand, before events provide one",
+    "blurb": "Evaluations of facilities, systems, people, and digital technologies, of the businesses and industries a client is weighing, and of readiness for the emergencies its geography makes likely. Findings are specific, prioritized, and actionable rather than a binder of generic recommendations.",
+    "bullet_points": [
+      "Security posture assessments: the strengths and weaknesses of facilities, systems, people, and digital technologies, with findings that are specific, prioritized, and actionable.",
+      "Industry & business diligence: cutting to the core reality of an industry or business, whether that's future-proofing, M&A, competitive analysis, or the question no data room will answer.",
+      "Emergency readiness: preparedness and mitigation graded against how events actually unfold rather than how plans assume they will.",
+      "In practice: the acquisition that wasn't. Two weeks of diligence surfaced an undisclosed breach, an inflated customer list, and a key-person dependency the data room never mentioned. The client walked.",
+      "In practice: graded before the storm does it. A coastal family compound's generator fuel plan failed at day three, communications at hour one, and the evacuation route depended on a bridge that closes in exactly the conditions that would require it."
+    ],
+    "video_link": "",
+    "background_image": "/assets/backgrounds/services/evaluations.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Evaluations",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#evaluations",
+        "thumbnail": "",
+        "blurb": "Security posture assessments, industry and business diligence, and emergency readiness.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Disaster & Emergency",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#disaster",
+        "thumbnail": "",
+        "blurb": "In the first seventy-two hours of a real emergency, families and organizations operate alone.",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "training",
+    "type": "secondary",
+    "title": "Training",
+    "sector": "security",
+    "company": "starling-intel",
+    "tagline": "Skills transferred directly from the people who used them when it counted",
+    "blurb": "Direct-action, operational security, and surveillance-detection training taught by instructors who have done it at the tier-one level and have attacked some of the most hardened targets in the world, rather than read it from a manual.",
+    "bullet_points": [
+      "Tactical proficiency: direct-action training in firearms, team operations, and hand-to-hand combat, taught by tier-one instructors.",
+      "Full-spectrum signature mitigation: learning to become undetectable across thermal, radio, digital, and visual spectra. What you emit is a choice.",
+      "OpSec: personal and organizational operational security from people who know exactly which habits give you away.",
+      "Surveillance detection: determining when you are under active surveillance on foot, in vehicles, and online, and what to do about it once you know.",
+      "In practice: learning to see the followers. After an executive noticed the same face in three different airports, her team took the course and within a month had confirmed, documented, and ended an actual surveillance effort, legally and without a scene."
+    ],
+    "video_link": "",
+    "background_image": "/assets/backgrounds/services/training.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Training",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#training",
+        "thumbnail": "",
+        "blurb": "Tactical proficiency, full-spectrum signature mitigation, OpSec, and surveillance detection.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Product: Operator IQ",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/products#operator-iq",
+        "thumbnail": "",
+        "blurb": "An instrumented shoot house, live scoring on every entry, and after-action review for close-quarters battle.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Anti-Surveillance",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#antisurveillance",
+        "thumbnail": "",
+        "blurb": "Being followed no longer requires followers. Detecting surveillance has become a discipline again.",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "logistics-and-recovery",
+    "type": "secondary",
+    "title": "Logistics & Recovery",
+    "sector": "security",
+    "company": "starling-intel",
+    "tagline": "The right people and things, in the right place, without incident",
+    "blurb": "Getting important people and assets where they belong through environments where \"usually fine\" isn't good enough, and retrieving them from complex situations when the window is measured in hours.",
+    "bullet_points": [
+      "Transport: important people and assets moved safely, with every move planned, escorted, and executed end to end.",
+      "Recovery: retrieving personnel or assets from complex situations, from delicate negotiations to fast-moving conditions.",
+      "Paid on verified delivery: under the outcome model, a base rate covers deployment and the larger mission-complete rate is released only when the outcome is verified.",
+      "In practice: four borders, no ripples. A collection of significant value crossed four borders in five days without a single party outside the operation ever learning it had moved.",
+      "In practice: out before the airport closed. When a region destabilized over a weekend, the client's personnel were consolidated, moved, and wheels-up while commercial options were still refreshing their booking pages."
+    ],
+    "video_link": "",
+    "background_image": "/assets/backgrounds/services/logistics-and-recovery.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Logistics & Recovery",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#logistics",
+        "thumbnail": "",
+        "blurb": "Transport and recovery of people and assets, without incident.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Travel & Logistics",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#travel",
+        "thumbnail": "",
+        "blurb": "Movement is the moment of maximum exposure, yet most itineraries are planned as if it were the safest part of the week.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "The Outcome Model",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/pricing#model-outcome",
+        "thumbnail": "",
+        "blurb": "One schedule of outcomes and the figure attached to each, signed before the work starts.",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "events",
+    "type": "secondary",
+    "title": "Events",
+    "sector": "security",
+    "company": "starling-intel",
+    "tagline": "Every guest list is also a target list. We plan for both.",
+    "blurb": "Event security from the first venue survey to the last guest out: a threat picture written for this event, layered physical and technical security, and one operations cell that decides fast when something happens. Guests see hospitality. The people watching them see nothing to work with.",
+    "bullet_points": [
+      "Advance & threat picture: venue surveys, route planning, attendee and adversary profiling, and a threat assessment written for this event rather than lifted from the last one.",
+      "Physical security, perimeter to principal: layered access control, screening, and credentialing, close protection, counter-surveillance on the approaches, and medical and evacuation plans rehearsed with the venue.",
+      "Technical security: sweeps of green rooms and hospitality suites, RF monitoring for rogue devices, counter-drone detection, and hardening of the event's own Wi-Fi, AV, registration, and payment systems.",
+      "Command & coordination: an on-site operations cell fusing physical and technical reporting into one picture, integrated with the run of show, venue security, law enforcement, and emergency services.",
+      "In practice: the suite that was already listening. The night before a closed-door investor summit, the sweep team found a live transmitter in the keynote's hospitality suite. It was removed, traced, and reported, and the summit ran on schedule."
+    ],
+    "video_link": "",
+    "background_image": "/assets/backgrounds/services/events.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Events",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#events",
+        "thumbnail": "",
+        "blurb": "Advance work, physical and technical security, and on-site command and coordination.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Product: Scan Sport",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/products#scan-sport",
+        "thumbnail": "",
+        "blurb": "Discreet, portable environment scanning in an unremarkable form factor.",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "personal-and-family-solutions",
+    "type": "secondary",
+    "title": "Personal & Family Solutions",
+    "sector": "security",
+    "company": "starling-intel",
+    "tagline": "The standard we bring to governments and boardrooms, scaled to the household",
+    "blurb": "Protection, preparedness, and digital security built around how a family actually lives, rather than a formation of black SUVs that announces them everywhere they go.",
+    "bullet_points": [
+      "Personal security: deployed mobile and stationary security teams, tuned to the family's actual patterns of life.",
+      "Emergency preparedness & services: contingency plans, hardened communications, and disaster services, drilled until a bad night runs on muscle memory.",
+      "Digital protection: devices, accounts, home networks, and children's online exposure, secured and quietly watched.",
+      "In practice: security that fits the school run. Mobile coverage shaped around school, sport, and travel, so the protection works because nobody notices it.",
+      "In practice: the plan the family actually knows. Rally points, communications, supplies, and roles rehearsed with the whole household, so the plan exists in people and not just in a binder."
+    ],
+    "video_link": "",
+    "background_image": "/assets/backgrounds/services/personal-and-family-solutions.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Personal & Family Solutions",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#family",
+        "thumbnail": "",
+        "blurb": "Personal security, emergency preparedness and services, and digital protection for the household.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Personal, Family & Pattern of Life",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#pattern-of-life",
+        "thumbnail": "",
+        "blurb": "Pattern-of-life exposure is the map every adversary starts with. Take the map away.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Emergency Help",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/emergency",
+        "thumbnail": "",
+        "blurb": "A twenty-four-hour duty line answered by a duty officer, not a queue, for extraction, physical security, or an attack already inside your network.",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "infrastructure-and-supply-chain",
+    "type": "secondary",
+    "title": "Infrastructure & Supply Chain",
+    "sector": "security",
+    "company": "starling-intel",
+    "tagline": "The systems beneath your systems, mapped, understood, and hardened",
+    "blurb": "Understanding how attacks on and failures of critical infrastructure and supply chains reach a client's operations, and protecting critical systems from external disruption, assessed and remediated by people who know how such systems are actually attacked.",
+    "bullet_points": [
+      "Downstream analysis: the fallout and risk from attacks or failures in critical infrastructure and supply chains, including which operations feel it, in what order, and with how much warning.",
+      "Hardening: protecting critical systems from external disruption, assessed and remediated by people who know how they are attacked.",
+      "In practice: downstream of the headline. When a regional supplier was hit, a manufacturing client learned exactly which of its lines would feel it, and when, before the supplier itself had finished figuring that out.",
+      "In practice: hardening what must not fail. Operational infrastructure designed in an era that never imagined an adversary, brought up to one that has several, without taking the systems offline."
+    ],
+    "video_link": "",
+    "background_image": "/assets/backgrounds/services/infrastructure-and-supply-chain.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Infrastructure & Supply Chain",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#infrastructure",
+        "thumbnail": "",
+        "blurb": "Downstream analysis and hardening for the systems beneath your systems.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Construction",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#construction",
+        "thumbnail": "",
+        "blurb": "A facility is compromised long before it opens. Protecting projects, sites, and supply chains from design through commissioning.",
+        "date": ""
+      }
+    ]
+  },
+  {
+    "id": "bespoke",
+    "type": "secondary",
+    "title": "Bespoke",
+    "sector": "security",
+    "company": "starling-intel",
+    "tagline": "If it matters, and it's lawful, it can be done",
+    "blurb": "Special services handled with discretion by people who have handled harder, and special projects engineered for when no commercial product exists because no one else has the problem.",
+    "bullet_points": [
+      "Special services: whatever the client needs, handled with discretion.",
+      "Special projects: what the client needs built, engineered with expertise when no commercial product exists.",
+      "Hardware built to order: bring the problem, the environment, and the constraints; purpose-built hardware is designed, prototyped, hardened, delivered, and supported for as long as it's in service.",
+      "Silent by design: the engagements Starling Intel is proudest of are the ones it will never describe."
+    ],
+    "video_link": "",
+    "background_image": "/assets/backgrounds/services/bespoke.jpg",
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Bespoke",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#bespoke",
+        "thumbnail": "",
+        "blurb": "Special services and special projects. If it matters, and it's lawful, it can be done.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Hardware as a Service",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/products#build",
+        "thumbnail": "",
+        "blurb": "Purpose-built hardware designed, prototyped, hardened, and delivered under engagement, from a single bespoke unit to a small production run.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "The Firm: Three Lineages, One Firm",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/firm",
+        "thumbnail": "",
+        "blurb": "Former tier-one military personnel, intelligence operatives, and serial entrepreneurs, proven in war zones, intelligence operations, and the private sector.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "leadership-strategy",
@@ -220,10 +1007,17 @@
     "title": "Leadership Strategy",
     "sector": "systems",
     "company": "fountain-city-partners",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "A trusted extension of leadership",
+    "blurb": "Supporting founders and leadership teams in decision-making, alignment, and execution oversight, especially during periods of complexity, growth, and change. Fountain City Partners operates alongside leadership, not above it.",
+    "bullet_points": [
+      "Strategic planning and prioritization: turning a long list of good ideas into a short list of what matters now, with owners and deadlines.",
+      "Leadership alignment: the leadership team working from the same definitions, priorities, and expectations.",
+      "Organizational structure: every role defined and every decision assigned, so accountability is designed in rather than hoped for.",
+      "Accountability systems: the cadence, metrics, and follow-through that make sure what gets decided actually gets done.",
+      "Interim executive support: an experienced operator in the seat while the business searches, transitions, or scales into a permanent hire."
+    ],
     "video_link": "",
+    "background_image": "/assets/backgrounds/services/leadership-strategy.jpg",
     "context_items": []
   },
   {
@@ -232,10 +1026,16 @@
     "title": "Accounting",
     "sector": "systems",
     "company": "fountain-city-partners",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Clean books, reliable controls",
+    "blurb": "Maintaining accurate financial records and the control infrastructure leadership depends on. Clean books and reliable reporting are the foundation every other decision is built on.",
+    "bullet_points": [
+      "Chart of accounts and coding: a structure that reflects how the business actually operates, so the numbers mean something.",
+      "Payables, receivables, expenses, and payroll: the day-to-day transactions handled accurately and on time.",
+      "GAAP-compliant close and reporting: a disciplined, repeatable close that produces statements leadership, lenders, and investors can trust.",
+      "Internal controls and audit readiness: controls designed in advance, so an audit is a formality instead of a fire drill."
+    ],
     "video_link": "",
+    "background_image": "/assets/backgrounds/services/accounting.jpg",
     "context_items": []
   },
   {
@@ -244,10 +1044,17 @@
     "title": "Finance",
     "sector": "systems",
     "company": "fountain-city-partners",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Financial visibility that drives decisions",
+    "blurb": "Helping leadership understand, forecast, and manage business performance. Fountain City Partners connects operational activity to financial visibility so decisions are grounded in reality.",
+    "bullet_points": [
+      "Forecasting, planning, and budgeting: forward-looking models tied to the operational drivers that actually move the numbers.",
+      "Cash management: visibility into cash needs before they become cash problems.",
+      "Financial reporting: clear, consistent performance reporting built for the people who have to act on it.",
+      "Compensation structure: pay and incentive plans designed around the outcomes the business needs.",
+      "Board and investor reporting: investor-grade reporting that builds confidence with the people backing the business."
+    ],
     "video_link": "",
+    "background_image": "/assets/backgrounds/services/finance.jpg",
     "context_items": []
   },
   {
@@ -256,10 +1063,17 @@
     "title": "Operations",
     "sector": "systems",
     "company": "fountain-city-partners",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "How work moves through the business",
+    "blurb": "Designing and improving how work moves through the organization. Fountain City Partners helps teams operate more consistently, efficiently, and predictably across every function.",
+    "bullet_points": [
+      "Process design and standardization: one documented way to do the work, so outcomes stop depending on who happens to do it.",
+      "Workflow optimization: removing the hand-offs, duplication, and delays that slow work down between teams.",
+      "Operating cadence and governance: meeting structures and review rhythms that keep priorities visible and decisions moving.",
+      "Cross-functional coordination: teams aligned around shared goals instead of competing ones.",
+      "Capacity planning: constraints seen coming before they turn into missed commitments."
+    ],
     "video_link": "",
+    "background_image": "/assets/backgrounds/services/operations-fountain-city-partners.jpg",
     "context_items": []
   },
   {
@@ -268,10 +1082,17 @@
     "title": "Custom Systems",
     "sector": "systems",
     "company": "fountain-city-partners",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Every role, decision, and workflow defined, visible, and connected",
+    "blurb": "Building the systems and data infrastructure that support scalable operations. Fountain City Partners documents how the business runs, implements and integrates the right software, and structures the data underneath it, because AI is only as good as the system it runs on.",
+    "bullet_points": [
+      "Documentation and SOPs: how the business actually runs, written down, so it can be taught, measured, and improved.",
+      "Software implementations: new tools configured around defined processes, not the other way around.",
+      "Systems integration: the software already in use connected, so data flows between systems instead of being re-keyed.",
+      "Data structuring and governance: consistent definitions, clear ownership, and controlled access across the organization's data.",
+      "AI foundations: the structured data and clear processes that let automation and AI deliver real results."
+    ],
     "video_link": "",
+    "background_image": "/assets/backgrounds/services/custom-systems.jpg",
     "context_items": []
   },
   {
@@ -280,10 +1101,16 @@
     "title": "Custom Software",
     "sector": "systems",
     "company": "fountain-city-partners",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Built for how the business actually runs",
+    "blurb": "When off-the-shelf tools don't fit, Fountain City Partners builds software around the organization's own processes and data. Every build starts from a defined system, so the software reinforces how the business should run rather than hard-coding how it happens to run today.",
+    "bullet_points": [
+      "System first, software second: processes and data are defined before a line of code is written.",
+      "Fits the existing stack: custom tools integrate with the systems already in place instead of adding another silo.",
+      "Automation where it compounds: repetitive, rules-based work moved out of spreadsheets and inboxes and into software.",
+      "Built by operators: designed by people who work inside the finance, operations, and technology environments the software supports."
+    ],
     "video_link": "",
+    "background_image": "/assets/backgrounds/services/custom-software.jpg",
     "context_items": []
   },
   {
@@ -292,10 +1119,17 @@
     "title": "Transactions",
     "sector": "systems",
     "company": "fountain-city-partners",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Operational truth before, during, and after the deal",
+    "blurb": "Supporting businesses, investors, and boards through transactions and organizational change. Fountain City Partners helps leadership teams prepare for, execute, and integrate major business events, and helps investors see what's really happening inside the businesses they back.",
+    "bullet_points": [
+      "Transaction readiness: the books, systems, and structure a buyer or investor expects, in place before the process starts.",
+      "Pre-transaction diligence: quality of earnings plus operational, process, systems, and organizational assessments that go beyond presentations and surface-level reporting.",
+      "Post-close integration: operating model design, finance and reporting infrastructure, and systems integration that help the business perform after the deal closes.",
+      "Oversight and advisory: performance monitoring, board participation, and early identification of operational risk.",
+      "Experience from inside the process: the team has bootstrapped companies, raised outside capital, completed acquisitions, and gone through diligence themselves, so they know what diligence captures and what it misses."
+    ],
     "video_link": "",
+    "background_image": "/assets/backgrounds/services/transactions.jpg",
     "context_items": []
   }
 ]

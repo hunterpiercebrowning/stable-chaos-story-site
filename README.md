@@ -2,7 +2,7 @@
 
 A private, link-gated pitch experience for **context.stablechaos.com**. Nine layers of story
 (Welcome → Who We Are → Our Operational Advantage → What We Believe → Critical Sectors →
-What We've Done → Services → Products → Foundational Background), navigated like a layered node
+The Roadmap → Services → Products → Foundational Background), navigated like a layered node
 graph: a left index, a centre stage with focusable nodes, and a right "Supporting Context" tray. Every visit is tracked per invitation link and
 reviewed in a built-in admin.
 

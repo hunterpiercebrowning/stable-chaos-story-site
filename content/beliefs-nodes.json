@@ -61,7 +61,7 @@
   {
     "id": "compute",
     "type": "disruption",
-    "title": "Can't Compete with Compute",
+    "title": "Can't Compete With Compute",
     "icon": "",
     "tagline": "",
     "blurb": "",
@@ -83,7 +83,7 @@
   {
     "id": "murky-markets",
     "type": "disruption",
-    "title": "Murky Markets With No Barriers To Entry",
+    "title": "Murky Markets With Low Barriers To Entry",
     "icon": "",
     "tagline": "",
     "blurb": "",
@@ -99,9 +99,9 @@
     "tagline": "AI is rewriting value creation",
     "blurb": "Classical competitive advantage for a company relied on effort, skill, and intelligence existing as bottlenecks. AI is removing those barriers and eroding where advantage used to exist.",
     "bullet_points": [
-      "Labor automation — machines executing in highly enumerated or low-specificity spaces. The work itself becomes cheap and outputs lose intrinsic value.",
-      "Novel innovation — finding better paths through problems we used to dedicate lifetimes to. New solutions that overnight make pillars of prior human work obsolete.",
-      "Simulation-led discovery — iterative design in models and simulations, collapsing physical trial-and-error into evolutionary design at hyper speed, limited only by compute."
+      "Labor automation: machines executing in highly enumerated or low-specificity spaces. The work itself becomes cheap and outputs lose intrinsic value.",
+      "Novel innovation: finding better paths through problems we used to dedicate lifetimes to. New solutions that overnight make pillars of prior human work obsolete.",
+      "Simulation-led discovery: iterative design in models and simulations, collapsing physical trial-and-error into evolutionary design at hyper speed, limited only by compute."
     ],
     "video_link": "",
     "context_items": []
@@ -109,7 +109,7 @@
   {
     "id": "cloneable",
     "type": "disruption",
-    "title": "Everything is Cloneable",
+    "title": "Almost Everything Is Cloneable",
     "icon": "",
     "tagline": "",
     "blurb": "",
@@ -145,7 +145,7 @@
   {
     "id": "first-principles",
     "type": "advantage",
-    "title": "First Principles Thinking",
+    "title": "First Principles & Nth° Specificity",
     "icon": "",
     "tagline": "",
     "blurb": "Everything we do is rooted in a first-principles understanding, keeping our outcomes refined and deterministic in a world that is becoming more and more bloated and stochastic.",
@@ -154,9 +154,9 @@
     "context_items": []
   },
   {
-    "id": "nth-specificity",
+    "id": "Frontier Insights",
     "type": "advantage",
-    "title": "Nth° Specificity",
+    "title": "Frontier Insights",
     "icon": "",
     "tagline": "",
     "blurb": "We target areas that require extreme specificity and nth order reasoning to uniquely leverage precision and causal reasoning in a way iterative AI workflows will continue to struggle with.",
@@ -167,7 +167,7 @@
   {
     "id": "divergent-converging",
     "type": "advantage",
-    "title": "Divergent Individuals in a Converging World",
+    "title": "Divergent Individuals In A Converging World",
     "icon": "",
     "tagline": "",
     "blurb": "We target areas that require extreme specificity and nth order reasoning to uniquely leverage precision and causal reasoning in a way iterative AI workflows will continue to struggle with.",

@@ -39,7 +39,8 @@ export function CompanyLogo({ node, size }: { node: ServiceNode; size: 'card' | 
 /**
  * Services nodes. A company (primary) is the card plus a sibling external link
  * — anchors may not nest inside the card's `<button>` — and an offering
- * (secondary) is a compact card carrying its own sector tag. Under Compressed
+ * (secondary) is a compact card carrying its own sector tag and, when it has a
+ * scene photo, a backdrop revealed on hover / focus. Under Compressed
  * the company cards stand alone, so they carry the tagline, the offering
  * count and a sector motif backdrop (revealed by services.css).
  */
@@ -108,6 +109,15 @@ export function ServicesNode({ node, collapsed, active, onSelect, ref }: Service
         active={active}
         onSelect={onSelect}
         subtitle=""
+        backdrop={
+          node.backgroundImage ? (
+            <span
+              className="services-offering-backdrop"
+              style={{ backgroundImage: `url("${node.backgroundImage}")` }}
+              aria-hidden="true"
+            />
+          ) : null
+        }
       />
     </div>
   );

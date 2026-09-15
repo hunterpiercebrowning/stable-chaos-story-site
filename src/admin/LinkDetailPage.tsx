@@ -134,7 +134,7 @@ export function LinkDetailPage() {
           tone="default"
           text={
             link.expiresAt && link.expiresAt <= now
-              ? 'Reactivate this link? It has also expired — extend the expiry afterwards or it stays closed.'
+              ? 'Reactivate this link? It has also expired, so extend the expiry afterwards or it stays closed.'
               : 'Reactivate this link? The same URL starts working again immediately.'
           }
           confirmLabel="Reactivate"

@@ -26,7 +26,7 @@ export function TopBar() {
   if (presentation) {
     return (
       <header className="topbar topbar--presentation">
-        <Link to="/" className="topbar-logo" aria-label="Stable Chaos — welcome" onClick={() => setNavIntent('nav', '/')}>
+        <Link to="/" className="topbar-logo" aria-label="Stable Chaos home" onClick={() => setNavIntent('nav', '/')}>
           <img
             className="topbar-logo-img topbar-logo-img--mini"
             src="/assets/logos/SC--Logo--White--Horizontal.svg"
@@ -49,7 +49,7 @@ export function TopBar() {
 
   return (
     <header className="topbar">
-      <Link to="/" className="topbar-logo" aria-label="Stable Chaos — welcome">
+      <Link to="/" className="topbar-logo" aria-label="Stable Chaos home">
         <img
           className="topbar-logo-img sc-logo-glow"
           src="/assets/logos/SC--Logo--White--Horizontal.svg"

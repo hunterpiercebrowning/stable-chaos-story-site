@@ -26,9 +26,25 @@
     "company": "Stable Chaos",
     "headshot_file": "/assets/headshots/Ben_4.jpg",
     "blurb": "Having founded and led organizations of all scales and in multiple industries, Ben is a proven entrepreneur and investor with an obsession for systematizing sustainable alignment, outcomes, and success.",
-    "bullet_points": [],
+    "bullet_points": [
+      "Co-Founder of Growth Curve Bio",
+      "Founding Partner of Fountain City Partners",
+      "Founded a company acquired by a publicly traded company in 2021",
+      "Founded and scaled multiple companies across industries",
+      "Strategy and execution"
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Company: Outcome Obsessed",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/company.html",
+        "thumbnail": "",
+        "blurb": "The founding team, the facility, and the three tenets that shape how Growth Curve takes on work.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "jared-schnefke",
@@ -37,8 +53,13 @@
     "title": "Systems",
     "company": "Fountain City Partners",
     "headshot_file": "/assets/headshots/jared_headshot.webp",
-    "blurb": "",
-    "bullet_points": [],
+    "blurb": "Having built the finance and operating infrastructure that scaled a fast-growing company through its acquisition by a publicly traded company, Jared is an operator who solves complex operational problems through stronger systems, structure, and execution.",
+    "bullet_points": [
+      "Founding Partner of Fountain City Partners",
+      "Built the finance and operating infrastructure behind a 2021 public-company acquisition",
+      "Top-tier consulting and real operating roles",
+      "Strategy, operations, and finance"
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -50,9 +71,43 @@
     "company": "Growth Curve",
     "headshot_file": "/assets/headshots/eric_headshot.png",
     "blurb": "With deep experience in the life sciences and precision fermentation, Eric saw the original need for Growth Curve. He leads the charge and ensures client programs succeed.",
-    "bullet_points": [],
+    "bullet_points": [
+      "Founder & CEO of Growth Curve Bio",
+      "Precision fermentation and the life sciences",
+      "Bench and pilot-scale fermentation process development",
+      "Full-stack programs from strain engineering to manufacturing hand-off",
+      "Author of Growth Curve field notes on feeding, OD normalization, and sensor redundancy"
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "article",
+        "title": "The Case for Gravimetric Feeding",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/gravimetric-feeding.html",
+        "thumbnail": "",
+        "blurb": "Why volumetric totalizers drift, and how weight-based feeding measures what actually reaches the vessel.",
+        "date": "Apr 7, 2026"
+      },
+      {
+        "type": "article",
+        "title": "OD ≠ OD",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/optical-density.html",
+        "thumbnail": "",
+        "blurb": "Optical density is consistent on one instrument and inconsistent across instruments. How to normalize it before a tech transfer.",
+        "date": "Mar 18, 2026"
+      },
+      {
+        "type": "article",
+        "title": "The Case for Redundant Sensors",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/redundant-sensors.html",
+        "thumbnail": "",
+        "blurb": "When time is of the essence, run duplicate online sensors for critical parameters. One sensor failure can cost you the whole batch.",
+        "date": "Mar 5, 2026"
+      }
+    ]
   },
   {
     "id": "daniel-held",
@@ -73,10 +128,35 @@
     "title": "Intelligence",
     "company": "Starling Intel",
     "headshot_file": "/assets/headshots/trace_headshot_vest.jpeg",
-    "blurb": "",
-    "bullet_points": [],
+    "blurb": "Having worked directly on presidential-level operations as an Army intelligence NCO, then carried that into criminal intelligence for the State of Utah and fraud investigations at Goldman Sachs, Trace is a cleared intelligence professional fluent in military and law enforcement work.",
+    "bullet_points": [
+      "U.S. Army veteran and cleared intelligence NCO",
+      "Strategic and tactical targeting",
+      "Helped build Utah's Lethality Assessment Program",
+      "Fraud investigations at Goldman Sachs",
+      "Counterintelligence and interrogation training"
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "The Firm: Three Lineages, One Firm",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/firm",
+        "thumbnail": "",
+        "blurb": "Former tier-one military personnel, intelligence operatives, and serial entrepreneurs, proven in war zones, intelligence operations, and the private sector.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Confidential Briefings",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/briefings",
+        "thumbnail": "",
+        "blurb": "Written assessments, video briefings, and a private weekly podcast on emerging threats, issued to registered recipients only.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "andrew-mount",
@@ -100,6 +180,25 @@
     "blurb": "",
     "bullet_points": [],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "The Firm: Three Lineages, One Firm",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/firm",
+        "thumbnail": "",
+        "blurb": "Former tier-one military personnel, intelligence operatives, and serial entrepreneurs, proven in war zones, intelligence operations, and the private sector.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Proprietary Products: Built From Necessity",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/products",
+        "thumbnail": "",
+        "blurb": "Proprietary products built when the commercial market couldn't meet the standard, plus purpose-built hardware under engagement.",
+        "date": ""
+      }
+    ]
   }
 ]

@@ -166,7 +166,7 @@ describe('content', () => {
     expect(getNodes('who')).toHaveLength(8);
     expect(getNodes('beliefs')).toHaveLength(9);
     expect(getNodes('sectors')).toHaveLength(21);
-    expect(getNodes('services')).toHaveLength(24);
+    expect(getNodes('services')).toHaveLength(31);
     expect(getNodes('products')).toHaveLength(26);
     expect(getNodes('background')).toHaveLength(0);
     expect(getNodes('operations')).toHaveLength(0);
@@ -195,13 +195,11 @@ describe('placeholders', () => {
     expect(loremBlurb('abc')).not.toBe(loremBlurb('abd'));
   });
 
-  it('produces blurbs of roughly the right length', () => {
-    const words = loremBlurb('growth-curve-bio').split(/\s+/).length;
-    expect(words).toBeGreaterThanOrEqual(45);
-    expect(words).toBeLessThanOrEqual(75);
-    const bullets = loremBullets('growth-curve-bio');
-    expect(bullets.length).toBeGreaterThanOrEqual(4);
-    expect(bullets.length).toBeLessThanOrEqual(6);
+  it('produces exactly the budgeted amount of lorem', () => {
+    expect(loremBlurb('growth-curve-bio', 25).split(/\s+/)).toHaveLength(25);
+    const bullets = loremBullets('growth-curve-bio', 2, 16);
+    expect(bullets).toHaveLength(2);
+    for (const b of bullets) expect(b.split(/\s+/)).toHaveLength(16);
   });
 
   it('generates an inline svg data uri with no network reference', () => {
@@ -213,7 +211,7 @@ describe('placeholders', () => {
   });
 
   it('fills empty copy and context items', () => {
-    const node = getNode('biosecurity')!;
+    const node = getNode('biophysics')!;
     const copy = getCopy(node);
     expect(copy.blurb.length).toBeGreaterThan(40);
     expect(copy.isPlaceholder).toBe(true);

@@ -312,6 +312,44 @@
   width: auto;
 }
 
+/* The product's scene photo, revealed on hover / focus. Kept in the DOM so the
+   image is fetched once and the reveal is a plain opacity fade. */
+.products-node-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(110deg, transparent 10%, rgba(0, 0, 0, 0.55) 50%, #000 100%),
+    linear-gradient(0deg, transparent 8%, #000 50%);
+  mask-image: linear-gradient(110deg, transparent 10%, rgba(0, 0, 0, 0.55) 50%, #000 100%),
+    linear-gradient(0deg, transparent 8%, #000 50%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+.products-node .node-card-media,
+.products-node .node-card-body,
+.products-node .node-card-tags {
+  position: relative;
+  z-index: 1;
+}
+
+.products-node:hover .products-node-backdrop,
+.products-node.is-active .products-node-backdrop {
+  opacity: 0.6;
+}
+
+.products-node--slated:hover .products-node-backdrop,
+.products-node--slated.is-active .products-node-backdrop {
+  opacity: 0.4;
+}
+
 /* Category icon top-left, in the sector colour. */
 .products-node-icon {
   display: inline-grid;
@@ -330,7 +368,7 @@
   font-size: var(--fs-base);
 }
 
-/* Slated: dashed, muted, ghosted icon. */
+/* Slated: dashed border and ghosted icon; the copy stays at full strength. */
 .products-node--slated {
   border-style: dashed;
   border-color: var(--glass-border-2);
@@ -348,24 +386,11 @@
   box-shadow: none;
 }
 
-.products-node--slated .node-card-title {
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.products-node--slated .node-card-sub {
-  color: var(--text-ghost);
-}
-
 .products-node--slated .products-node-icon {
   border-style: dashed;
   border-color: var(--glass-border-2);
   background: transparent;
   color: var(--stage-slated);
-}
-
-.products-node--slated .tag--sector {
-  opacity: 0.66;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -470,10 +495,6 @@
   color: var(--accent, var(--text-faint));
 }
 
-.products-focus--slated .focus-title {
-  color: var(--text-muted);
-}
-
 .products-focus-stats {
   font-size: var(--fs-xs);
   font-weight: 500;
@@ -490,7 +511,7 @@
   border: 1px dashed var(--glass-border-2);
   font-size: var(--fs-sm);
   line-height: 1.5;
-  color: var(--stage-slated);
+  color: var(--text);
 }
 
 /* ══════════════════════════════════════════════════════

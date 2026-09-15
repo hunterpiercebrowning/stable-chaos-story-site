@@ -48,8 +48,8 @@
   {
     "id": "trajectory",
     "order": 5,
-    "title": "What We've Already Built",
-    "shortTitle": "Already Built",
+    "title": "The Roadmap",
+    "shortTitle": "Roadmap",
     "path": "/trajectory",
     "nodesFile": null
   },
@@ -61,7 +61,8 @@
     "path": "/services",
     "nodesFile": "service-nodes.json",
     "hasDensity": true,
-    "subtitle": "Developing authentic trust with industry participants while developing insights that inform our product strategies."
+    "subtitle": "Developing authentic trust with industry participants while developing insights that inform our product strategies.",
+    "videoLink": "1231431"
   },
   {
     "id": "products",
@@ -71,7 +72,8 @@
     "path": "/products",
     "nodesFile": "product-nodes.json",
     "hasDensity": true,
-    "subtitle": "Unique offerings based on hard won, first hand experience and first principals thinking."
+    "subtitle": "Unique offerings based on hard won, first hand experience and first principals thinking.",
+    "videoLink": "1231431"
   },
   {
     "id": "background",

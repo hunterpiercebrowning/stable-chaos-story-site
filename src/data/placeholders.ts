@@ -70,18 +70,34 @@ function sentenceCase(words: string[]): string {
 
 /* ── text placeholders ──────────────────────────────── */
 
-/** 6–10 words. */
-export function loremTagline(seed: string): string {
-  const rng = makeRng(`${seed}:tagline`);
-  return sentenceCase(pickWords(rng, between(rng, 6, 10)));
+/**
+ * How much lorem stands in for a missing field. Counts are exact rather than
+ * ranges so the placeholder doubles as a copy-length target for the author.
+ */
+export interface LoremBudget {
+  taglineWords: number;
+  blurbWords: number;
+  bulletCount: number;
+  bulletWords: number;
 }
 
-/** 45–70 words, split into 2–3 sentences. */
-export function loremBlurb(seed: string): string {
+export const DEFAULT_LOREM_BUDGET: LoremBudget = {
+  taglineWords: 8,
+  blurbWords: 30,
+  bulletCount: 3,
+  bulletWords: 12,
+};
+
+export function loremTagline(seed: string, words = DEFAULT_LOREM_BUDGET.taglineWords): string {
+  const rng = makeRng(`${seed}:tagline`);
+  return sentenceCase(pickWords(rng, words));
+}
+
+/** `words` words, split into sentences of 14–24 words. */
+export function loremBlurb(seed: string, words = DEFAULT_LOREM_BUDGET.blurbWords): string {
   const rng = makeRng(`${seed}:blurb`);
-  const total = between(rng, 45, 70);
   const sentences: string[] = [];
-  let left = total;
+  let left = words;
   while (left > 0) {
     const take = Math.min(left, between(rng, 14, 24));
     sentences.push(`${sentenceCase(pickWords(rng, take))}.`);
@@ -90,15 +106,13 @@ export function loremBlurb(seed: string): string {
   return sentences.join(' ');
 }
 
-/** 4–6 bullets of 8–14 words. */
-export function loremBullets(seed: string): string[] {
+export function loremBullets(
+  seed: string,
+  count = DEFAULT_LOREM_BUDGET.bulletCount,
+  words = DEFAULT_LOREM_BUDGET.bulletWords,
+): string[] {
   const rng = makeRng(`${seed}:bullets`);
-  const count = between(rng, 4, 6);
-  const out: string[] = [];
-  for (let i = 0; i < count; i++) {
-    out.push(sentenceCase(pickWords(rng, between(rng, 8, 14))));
-  }
-  return out;
+  return Array.from({ length: count }, () => sentenceCase(pickWords(rng, words)));
 }
 
 const CONTEXT_TYPES: ContextItemType[] = ['article', 'video', 'link', 'pdf', 'image', 'quote'];

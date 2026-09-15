@@ -12,7 +12,7 @@ const HINT: Record<Layer['id'], string> = {
   operations: 'The operating team and the software layer they share. There is nothing to focus here.',
   beliefs: 'Select a belief to see the reporting and research behind it.',
   sectors: 'Select a sector or domain to see the sources behind it.',
-  trajectory: 'The ventures built so far, year by year. There is nothing to focus here.',
+  trajectory: 'The ventures built so far and what comes next, year by year. There is nothing to focus here.',
   services: 'Select a company or offering to see the coverage behind it.',
   products: 'Select a product to see the material behind it.',
   background:

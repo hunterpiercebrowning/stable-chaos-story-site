@@ -90,7 +90,7 @@ export function NewLinkModal({ onClose, onCreated }: NewLinkModalProps) {
                 className="admin-input"
                 autoFocus
                 required
-                placeholder="Sequoia — Partner meeting"
+                placeholder="Sequoia: Partner meeting"
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
               />
@@ -133,7 +133,7 @@ export function NewLinkModal({ onClose, onCreated }: NewLinkModalProps) {
             <label className="admin-check">
               <input type="checkbox" checked={internal} onChange={(e) => setInternal(e.target.checked)} />
               <span>
-                Internal link <span className="admin-field-help">— for rehearsals; excluded from investor stats later</span>
+                Internal link <span className="admin-field-help">(for rehearsals; excluded from investor stats later)</span>
               </span>
             </label>
             {error ? (

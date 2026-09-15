@@ -4,6 +4,7 @@ import { SectorTag } from '../../components/SectorTag';
 import { VideoPlayer } from '../../components/VideoPlayer';
 import { getCopy, getNode } from '../../data';
 import type { Node, ServiceNode } from '../../data/types';
+import { cn } from '../../lib/cn';
 import { track } from '../../lib/track';
 import { useUi } from '../../store/ui';
 import { GenericFocus } from '../GenericFocus';
@@ -18,7 +19,7 @@ const isService = (node: Node): node is ServiceNode => node.layerId === 'service
  * Company focus: large logo, website button, blurb, bullets and video; the
  * related strip (from `getRelated`) surfaces its offerings, president and
  * sector. Offering focus: company eyebrow that jumps to the parent, blurb,
- * bullets and video.
+ * bullets and video, over the offering's scene photo when it has one.
  */
 export function ServicesFocus({ node, onClose }: FocusViewProps) {
   const navigate = useNavigate();
@@ -57,12 +58,15 @@ export function ServicesFocus({ node, onClose }: FocusViewProps) {
   }
 
   const company = getNode(node.company);
+  const scene = node.backgroundImage ?? '';
 
-  return (
+  // With a scene the offering focus mirrors the products layer: the photo
+  // fills the focus area and the glass panel sits over it, left-aligned.
+  const frame = (
     <FocusFrame
       node={node}
       onClose={onClose}
-      className="services-focus services-focus--offering"
+      className={cn('services-focus services-focus--offering', scene && 'services-focus-frame')}
       eyebrow={
         <span className="services-focus-eyebrow">
           {company ? (
@@ -94,5 +98,16 @@ export function ServicesFocus({ node, onClose }: FocusViewProps) {
       bullets={copy.bullets}
       extras={<VideoPlayer node={node} />}
     />
+  );
+
+  if (!scene) return frame;
+  return (
+    <div className="services-focus-stage" data-sector={node.sector}>
+      <div className="services-focus-scene" aria-hidden="true">
+        <img className="services-focus-scene-img" src={scene} alt="" />
+        <span className="services-focus-scene-scrim" />
+      </div>
+      {frame}
+    </div>
   );
 }

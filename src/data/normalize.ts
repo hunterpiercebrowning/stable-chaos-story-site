@@ -201,6 +201,7 @@ export function normalizeServices(raw: unknown[]): ServiceNode[] {
       node.logoFile = str(o.logo_file);
     } else {
       node.company = kebab(str(o.company));
+      node.backgroundImage = str(o.background_image);
     }
     return node;
   });

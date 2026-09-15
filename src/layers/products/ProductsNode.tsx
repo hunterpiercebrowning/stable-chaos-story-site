@@ -33,7 +33,7 @@ const isProduct = (node: Node): node is ProductNode => node.layerId === 'product
  *
  * A product (secondary) card: category icon top-left, title, category label,
  * then the sector and stage tags the base card already renders. Active
- * products are solid; slated ones are dashed, muted and tagged "Slated".
+ * products are solid; slated ones are dashed and tagged "Slated".
  */
 export function ProductsNode({ node, collapsed, active, onSelect }: NodeViewProps) {
   if (!isProduct(node)) return null;
@@ -96,6 +96,15 @@ export function ProductsNode({ node, collapsed, active, onSelect }: NodeViewProp
       active={active}
       onSelect={onSelect}
       className={cn('products-node', slated && 'products-node--slated')}
+      backdrop={
+        node.backgroundImage ? (
+          <span
+            className="products-node-backdrop"
+            style={{ backgroundImage: `url("${node.backgroundImage}")` }}
+            aria-hidden="true"
+          />
+        ) : null
+      }
       media={
         node.category ? (
           <span className="products-node-icon" data-stage={node.stage}>

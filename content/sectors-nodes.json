@@ -8,15 +8,43 @@
     "tagline": "Going full-stack to harness 4.5 billion years of engineering infrastructure",
     "blurb": "Scaling the infrastructure we already operate to be full stack and yield novel products.",
     "bullet_points": [
-      "Genetic Engineering — DNA programming, host organism editing, and exotic organism harnessing",
-      "Applied AI — localized artificial intelligence within the moat of a physical lab to drive discovery, refinement, and novel outcomes",
-      "Cloud Lab — shifting the paradigm from clunky industrial engagements to digitized infrastructure with real-time control for end customers",
-      "Novel Hardware — next-generation hardware that breaks 50 years of stagnation, enabling new capabilities, efficiencies and outcomes",
-      "Molecular Engineering — tailoring the performance of target biomolecules in their deployed applications and use cases",
-      "Proprietary Strains & Molecules — in-house biological products for critical sectors and industries"
+      "Genetic Engineering: DNA programming, host organism editing, and exotic organism harnessing",
+      "Applied AI: localized artificial intelligence within the moat of a physical lab to drive discovery, refinement, and novel outcomes",
+      "Cloud Lab: shifting the paradigm from clunky industrial engagements to digitized infrastructure with real-time control for end customers",
+      "Novel Hardware: next-generation hardware that breaks 50 years of stagnation, enabling new capabilities, efficiencies and outcomes",
+      "Molecular Engineering: tailoring the performance of target biomolecules in their deployed applications and use cases",
+      "Proprietary Strains & Molecules: in-house biological products for critical sectors and industries"
     ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Full-Stack Synthetic Biology Partner",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/",
+        "thumbnail": "",
+        "blurb": "Growth Curve helps synthetic biology teams prototype, optimize, and produce biomolecules, turning ideas into commercially viable bioproducts.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Inside the Full-Stack Process",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/process.html",
+        "thumbnail": "",
+        "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
+        "date": ""
+      },
+      {
+        "type": "article",
+        "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
+        "thumbnail": "",
+        "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",
+        "date": "Sep 2026"
+      }
+    ]
   },
   {
     "id": "security",
@@ -24,18 +52,46 @@
     "title": "Security",
     "sector": "security",
     "background_image": "",
-    "tagline": "",
-    "blurb": "",
+    "tagline": "Capabilities for contested environments",
+    "blurb": "We live in a compromised world, where AI is accelerating every threat vector and the digital landscape leaves us more exploitable than ever before. Threats don't stay in a single lane, so our security capability pairs cutting-edge technology with tried and true techniques across every domain that matters, at a standard usually reserved for the highest levels of government.",
     "bullet_points": [
-      "Contested spectrum is the default — peer adversaries jam, intercept and geolocate. Legacy comms assume permissive environments that no longer exist.",
-      "Detection is lethal — emitting is exposure. Units need to move data without lighting up the spectrum.",
-      "Interoperability gaps — joint and partner operations stall when systems cannot talk securely across echelons and allies.",
-      "Sensors outpace sensemaking — collection has exploded; the bottleneck is turning raw feeds into decisions at speed.",
-      "Standoff is shrinking — operators need persistent awareness without putting people or exquisite assets at risk.",
-      "Legacy ISR is exquisite and scarce — high-end national systems are over-subscribed. Tactical units need organic, attritable coverage."
+      "Contested spectrum is the default: peer adversaries jam, intercept and geolocate. Legacy comms assume permissive environments that no longer exist.",
+      "Detection is lethal: emitting is exposure. Units need to move data without lighting up the spectrum.",
+      "Interoperability gaps: joint and partner operations stall when systems cannot talk securely across echelons and allies.",
+      "Sensors outpace sensemaking: collection has exploded; the bottleneck is turning raw feeds into decisions at speed.",
+      "Standoff is shrinking: operators need persistent awareness without putting people or exquisite assets at risk.",
+      "Legacy ISR is exquisite and scarce: high-end national systems are over-subscribed. Tactical units need organic, attritable coverage."
     ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Capabilities for Contested Environments",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/",
+        "thumbnail": "",
+        "blurb": "A discreet security & intelligence firm built by people who have worked both offense and defense at the highest levels.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Threats Don't Stay in a Single Lane",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains",
+        "thumbnail": "",
+        "blurb": "Fourteen domains and vectors, from physical facilities and AI to sovereignty and pattern of life, and the services engaged through each.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "The Firm: Three Lineages, One Firm",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/firm",
+        "thumbnail": "",
+        "blurb": "Former tier-one military personnel, intelligence operatives, and serial entrepreneurs, proven in war zones, intelligence operations, and the private sector.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "systems",
@@ -43,9 +99,15 @@
     "title": "Systems",
     "sector": "systems",
     "background_image": "",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "AI is only as good as the system it runs on",
+    "blurb": "Most organizations run on ad hoc processes, undocumented knowledge, and data scattered across tools that never talk to each other. Layer AI on top of that and complexity scales faster than capability. Our systems capability makes every role, decision, and workflow defined, visible, and connected, so organizations compound instead of plateau.",
+    "bullet_points": [
+      "People: every role defined, every seat accountable, and leadership aligned on what matters most",
+      "Processes: how work moves through the organization, documented, standardized, and run on a consistent cadence",
+      "Technology: software, integrations, and structured data that give AI a foundation worth running on",
+      "Finances: clean books, reliable controls, and forecasting that ground decisions in reality",
+      "Operations: the operating infrastructure that turns strategy into consistent, predictable execution"
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -57,15 +119,43 @@
       "synbio"
     ],
     "tagline": "Even manufacturing that leverages biology as its smallest machines requires innovation with its largest",
-    "blurb": "",
+    "blurb": "Programmable cells are quietly rebuilding the physical economy, replacing extraction and petrochemistry with molecules grown from sugar and air. But scale-up is unforgiving, and the margin between a process that transfers and one that stalls lives in the hardware and the data.",
     "bullet_points": [
-      "50 years of stagnation — bioreactors and process equipment are legacy industrial designs, barely changed in decades.",
-      "Equipment constrains biology — whole classes of organisms and process regimes are off-limits to today's hardware.",
-      "Raised ceiling — limitations in legacy bioreactor designs dramatically limit actualized yields compared to known theoretical limits, leaving headroom to improve output through redesigned hardware.",
-      "New hardware unlocks novel processes — altering and adding hardware makes it possible to add highly advantageous steps to the biomanufacturing process."
+      "50 years of stagnation: bioreactors and process equipment are legacy industrial designs, barely changed in decades.",
+      "Equipment constrains biology: whole classes of organisms and process regimes are off-limits to today's hardware.",
+      "Raised ceiling: limitations in legacy bioreactor designs dramatically limit actualized yields compared to known theoretical limits, leaving headroom to improve output through redesigned hardware.",
+      "New hardware unlocks novel processes: altering and adding hardware makes it possible to add highly advantageous steps to the biomanufacturing process."
     ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "article",
+        "title": "Equipment Spotlight: Eppendorf BioFlo 610",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/equipment-spotlight-eppendorf-bioflo-610.html",
+        "thumbnail": "",
+        "blurb": "The linchpin of fermentation scale-up: manufacturing-scale features with pilot-scale flexibility, from 31 to 100 L.",
+        "date": "Feb 26, 2026"
+      },
+      {
+        "type": "article",
+        "title": "The Case for Gravimetric Feeding",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/gravimetric-feeding.html",
+        "thumbnail": "",
+        "blurb": "Why volumetric totalizers drift, and how weight-based feeding measures what actually reaches the vessel.",
+        "date": "Apr 7, 2026"
+      },
+      {
+        "type": "article",
+        "title": "The Case for Redundant Sensors",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/redundant-sensors.html",
+        "thumbnail": "",
+        "blurb": "When time is of the essence, run duplicate online sensors for critical parameters. One sensor failure can cost you the whole batch.",
+        "date": "Mar 5, 2026"
+      }
+    ]
   },
   {
     "id": "strain-engineering",
@@ -77,13 +167,32 @@
     "tagline": "Where every biomanufacturing project must start",
     "blurb": "Also known as genetic engineering: DNA programming, host organism editing, and exotic organism harnessing. Most production limitations and failures trace back to the organism itself.",
     "bullet_points": [
-      "The organism is the biggest bottleneck — most production limitations and failures trace back to the organism itself. Deep expertise in the biomanufacturing process can better inform organism design to optimize for these factors.",
-      "Organism optimization should be recursive — doing strain engineering and biomanufacturing prototyping within the same company allows for recursive refinement of the host organism in ways few others can achieve.",
-      "Data collection starts at zero — an AI-enabled bio lab needs in-house data on the organisms it engineers and the edited DNA going into them as the first data point in its AI pipelines.",
-      "Most organisms are undiscovered or unutilized — the vast majority of microbial organisms in nature have not yet been harnessed for biomanufacturing. Expanding the list of usable organisms dramatically expands possibilities."
+      "The organism is the biggest bottleneck: most production limitations and failures trace back to the organism itself. Deep expertise in the biomanufacturing process can better inform organism design to optimize for these factors.",
+      "Organism optimization should be recursive: doing strain engineering and biomanufacturing prototyping within the same company allows for recursive refinement of the host organism in ways few others can achieve.",
+      "Data collection starts at zero: an AI-enabled bio lab needs in-house data on the organisms it engineers and the edited DNA going into them as the first data point in its AI pipelines.",
+      "Most organisms are undiscovered or unutilized: the vast majority of microbial organisms in nature have not yet been harnessed for biomanufacturing. Expanding the list of usable organisms dramatically expands possibilities."
     ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Inside the Full-Stack Process",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/process.html",
+        "thumbnail": "",
+        "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
+        "date": ""
+      },
+      {
+        "type": "article",
+        "title": "Was Walking Away From an In-House R&D Team the Right Call?",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/walking-away-from-in-house-rd.html",
+        "thumbnail": "",
+        "blurb": "Re-validating a proprietary non-GMO yeast process for a new site and feedstock supply chain, without building pilot infrastructure of its own.",
+        "date": "Aug 2026"
+      }
+    ]
   },
   {
     "id": "biomimicry",
@@ -119,14 +228,24 @@
       "synbio"
     ],
     "tagline": "The success of any biological product is ultimately determined by its usefulness in the real world",
-    "blurb": "",
+    "blurb": "Programmable cells can now grow therapeutic proteins and peptides, enzymes, crop and animal health actives, sustainable materials, flavors and fragrances, and next-generation food. Each application sets its own bar, and a molecule has to clear it before anything downstream is worth building.",
     "bullet_points": [
-      "Bench success ≠ field success — molecules optimized for lab benchmarks often underperform in real deployment conditions.",
-      "Applications demand tailoring — each use case has its own stability, potency, and formulation requirements.",
-      "Target molecule is the first gate — no other part of the biomanufacturing process matters or is worth investing in until customers have de-risked their target molecule and its mechanistic capabilities."
+      "Bench success ≠ field success: molecules optimized for lab benchmarks often underperform in real deployment conditions.",
+      "Applications demand tailoring: each use case has its own stability, potency, and formulation requirements.",
+      "Target molecule is the first gate: no other part of the biomanufacturing process matters or is worth investing in until customers have de-risked their target molecule and its mechanistic capabilities."
     ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "article",
+        "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
+        "thumbnail": "",
+        "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",
+        "date": "Sep 2026"
+      }
+    ]
   },
   {
     "id": "biosecurity",
@@ -136,11 +255,34 @@
       "synbio",
       "security"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Biosecurity readiness has moved from a government concern to a family-office line item",
+    "blurb": "The health data, genetic information, and biological privacy of prominent people are more exposed than they realize, and the last few years proved how quickly a biological event reorders everything else.",
+    "bullet_points": [
+      "Exposed biological privacy: the health data and genetic information of prominent people are more exposed than they realize.",
+      "Events reorder everything: the last few years proved how quickly a biological event reorders every other priority.",
+      "Readiness is now private: biosecurity preparedness has moved from a government concern to a family-office line item."
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Domain: Biological",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#biological",
+        "thumbnail": "",
+        "blurb": "Biosecurity readiness has moved from a government concern to a family-office line item.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Privacy & Sanitization",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#privacy",
+        "thumbnail": "",
+        "blurb": "OpSec-as-a-service, ghosting, noising, and cleaning. Invisibility is a discipline, practiced for you.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "cloud-lab",
@@ -153,13 +295,23 @@
     "tagline": "Bringing commercial biology offerings into the modern era",
     "blurb": "Shifting the paradigm from clunky industrial engagements to digitized infrastructure with real-time control for end customers.",
     "bullet_points": [
-      "Industrial engagements are clunky — customers hand off a project to a salesperson, often with low specificity around the engagement, and wait weeks for a report with no visibility in between.",
-      "Single master engagements kill iteration — biomanufacturing benefits from iterative collaboration between stakeholders and customers, which is almost impossible under fixed, one-time purchase orders.",
-      "Buyers are familiar with digital procurement — in most other areas of commerce, buyers can log into a portal, control what they are spending and understand what they are getting. Bio shouldn't be any different.",
-      "Increased alignment — with a direct portal to the lab, customers can fully understand the offerings and their real-time data, interact directly with the team on the project, and gain insights when they matter most."
+      "Industrial engagements are clunky: customers hand off a project to a salesperson, often with low specificity around the engagement, and wait weeks for a report with no visibility in between.",
+      "Single master engagements kill iteration: biomanufacturing benefits from iterative collaboration between stakeholders and customers, which is almost impossible under fixed, one-time purchase orders.",
+      "Buyers are familiar with digital procurement: in most other areas of commerce, buyers can log into a portal, control what they are spending and understand what they are getting. Bio shouldn't be any different.",
+      "Increased alignment: with a direct portal to the lab, customers can fully understand the offerings and their real-time data, interact directly with the team on the project, and gain insights when they matter most."
     ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Growth Curve Client Portal",
+        "source": "Growth Curve Bio",
+        "url": "https://growthcurvebio.com/portal.html",
+        "thumbnail": "",
+        "blurb": "Clients sign in to track every run, explore titer, yield, and analytical results, and chat directly with the scientists on their program.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "supply-chain-and-logistics",
@@ -169,11 +321,45 @@
       "security",
       "systems"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "The systems beneath your systems, mapped, understood, and hardened",
+    "blurb": "Every operation rests on critical infrastructure and supply chains it does not control, and on people and assets that must move through environments where \"usually fine\" isn't good enough. Movement is the moment of maximum exposure, yet most itineraries are planned as if it were the safest part of the week.",
+    "bullet_points": [
+      "Downstream fallout: when a supplier is hit, the damage reaches your operations in a specific order and with a specific amount of warning, whether or not you have mapped it.",
+      "Compromised inputs: a foreign-directed subcontractor or a substituted component can carry a collection capability into a facility for the life of the structure.",
+      "Built before adversaries: operational infrastructure designed in an era that never imagined an adversary now faces one that has several.",
+      "Movement is maximum exposure: wrongful detention is a documented state tactic, kidnapping remains an industry, and a region can destabilize between booking and boarding.",
+      "Borders read devices: borders now read devices as thoroughly as passports."
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Services: Infrastructure & Supply Chain",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#infrastructure",
+        "thumbnail": "",
+        "blurb": "Downstream analysis and hardening for the systems beneath your systems.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Travel & Logistics",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#travel",
+        "thumbnail": "",
+        "blurb": "Movement is the moment of maximum exposure, yet most itineraries are planned as if it were the safest part of the week.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Logistics & Recovery",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#logistics",
+        "thumbnail": "",
+        "blurb": "Transport and recovery of people and assets, without incident.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "artificial-intelligence",
@@ -182,11 +368,36 @@
     "related_sectors": [
       "security"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Your newest attack surface and your adversary's newest capability",
+    "blurb": "Organizations adopted AI faster than anyone could secure it. Sensitive data flows into models, agents act with real permissions, and the same tools power synthetic identities and automated social engineering at scale. AI must be defended, and defended against.",
+    "bullet_points": [
+      "Adoption outran security: organizations adopted AI faster than anyone could secure it.",
+      "Data flows into models: sensitive data and work product risk becoming someone else's training data.",
+      "Agents with real permissions: AI agents act inside systems with real authority, making them an attack surface of their own.",
+      "Weaponized at scale: the same tools power deepfakes, synthetic identities, and automated social engineering.",
+      "Shipping at AI speed: code written by models has to be reviewed, and what ships has to be hardened, without slowing the release."
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Domain: AI",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#ai",
+        "thumbnail": "",
+        "blurb": "AI is simultaneously your newest attack surface and your adversary's newest capability. It must be defended, and defended against.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Fractional Software Security",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#software",
+        "thumbnail": "",
+        "blurb": "Secure Vibe: security services that let teams ship at AI speed without leaving the door open.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "construction-and-infrastructure",
@@ -195,11 +406,45 @@
     "related_sectors": [
       "security"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "A facility is compromised long before it opens",
+    "blurb": "A foreign-directed subcontractor, a substituted component, or a fixture that arrives with more inside it than the drawing shows, and a sensitive building carries a collection capability for the life of the structure. Once standing, it is reconnoitered from permit databases and satellite view, and its defenses have quietly converged with cyber.",
+    "bullet_points": [
+      "Compromised in construction: subcontractors, substituted components, and fixtures with more inside than the drawing shows build collection capability into the structure.",
+      "Design through commissioning: projects, sites, and supply chains must be protected at every phase so that what gets built is what was drawn.",
+      "Already reconnoitered: floor plans sit in permit databases, badge photos on LinkedIn, rooftops on satellite view, and hobby-grade drones over the fence line.",
+      "Physical meets cyber: the door controller is a computer, and the computer opens doors.",
+      "The building must hold: every digital defense an organization owns assumes the building holds."
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Domain: Construction",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#construction",
+        "thumbnail": "",
+        "blurb": "A facility is compromised long before it opens. Protecting projects, sites, and supply chains from design through commissioning.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Physical Facilities, Infrastructure & Locations",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#physical",
+        "thumbnail": "",
+        "blurb": "Physical intrusion has quietly converged with cyber. The door controller is a computer, and the computer opens doors.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Infrastructure & Supply Chain",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#infrastructure",
+        "thumbnail": "",
+        "blurb": "Downstream analysis and hardening for the systems beneath your systems.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "cyber",
@@ -208,11 +453,44 @@
     "related_sectors": [
       "security"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "AI has collapsed the cost of a competent attack",
+    "blurb": "What once took a team now takes a prompt, and ransomware runs as an industry with customer service. Meanwhile, the defenses most companies bought were designed for the previous era, and the gap between attacker tempo and defender staffing is the widest it has ever been.",
+    "bullet_points": [
+      "Attacks by prompt: what once took a team now takes a prompt.",
+      "Ransomware as an industry: extortion crews operate like businesses, customer service included.",
+      "Last-era defenses: the defenses most companies bought were designed for the previous era.",
+      "The staffing gap: attacker tempo has outpaced defender staffing, and the defensive capability often cannot be hired in this market."
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Domain: Cyber",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#cyber",
+        "thumbnail": "",
+        "blurb": "AI has collapsed the cost of a competent attack, and the gap between attacker tempo and defender staffing is the widest it has ever been.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Defense & Response",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#defense",
+        "thumbnail": "",
+        "blurb": "Dedicated and fractional blue teams, and rapid incident response across digital and physical domains.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Offense",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#offense",
+        "thumbnail": "",
+        "blurb": "Red teaming across all domains, and authorized action and support for critical operations.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "signals-and-spectrum",
@@ -222,14 +500,42 @@
       "security"
     ],
     "tagline": "Novel offensive and defensive solutions across the spectrum",
-    "blurb": "",
+    "blurb": "Everything you carry emits, and listening has never been cheaper. A thirty-dollar radio intercepts what once required a government van, coin-sized trackers ride vehicles for weeks, and meeting rooms leak in spectra nobody checks. If you have never surveyed what you broadcast, someone else may already have.",
     "bullet_points": [
-      "The spectrum is a battlespace — every modern engagement opens in the electromagnetic domain, often decisively.",
-      "Attack surface everywhere — proliferated commercial RF, drones and IoT create openings on both sides of the fight.",
-      "Defensive posture lags — friendly emissions and infrastructure remain soft targets without purpose-built protection."
+      "The spectrum is a battlespace: every modern engagement opens in the electromagnetic domain, often decisively.",
+      "Attack surface everywhere: proliferated commercial RF, drones and IoT create openings on both sides of the fight.",
+      "Defensive posture lags: friendly emissions and infrastructure remain soft targets without purpose-built protection."
     ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Domain: Signals & Spectrum",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#signals",
+        "thumbnail": "",
+        "blurb": "Everything you carry emits, and listening has never been cheaper.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Training",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#training",
+        "thumbnail": "",
+        "blurb": "Tactical proficiency, full-spectrum signature mitigation, OpSec, and surveillance detection.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Domain: Anti-Surveillance",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#antisurveillance",
+        "thumbnail": "",
+        "blurb": "Being followed no longer requires followers. Detecting surveillance has become a discipline again.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "personnel-and-insider",
@@ -239,11 +545,44 @@
       "security",
       "systems"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "The person is the perimeter",
+    "blurb": "The workforce is distributed, badge-light, and reachable. Adversaries recruit insiders in the open now, and most organizations can describe their external attack surface in detail and their internal one not at all.",
+    "bullet_points": [
+      "Recruited in the open: a message on LinkedIn, payment in crypto, and a first task that seems harmless.",
+      "Distributed and reachable: a badge-light, distributed workforce is within reach of anyone who goes looking.",
+      "The unmapped surface: organizations can describe their external attack surface in detail and their internal one not at all.",
+      "Evidence that holds: when trade secrets keep reaching a competitor, the channel has to be traced and documented to an evidentiary standard."
+    ],
     "video_link": "",
-    "context_items": []
+    "context_items": [
+      {
+        "type": "link",
+        "title": "Domain: Personnel & Insider Threats",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/domains#insider",
+        "thumbnail": "",
+        "blurb": "Adversaries recruit insiders in the open now. The person is the perimeter.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Investigations & ISR",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#investigations",
+        "thumbnail": "",
+        "blurb": "Targeted investigations, confidential briefings, monitoring, intelligence, and surveillance and recon.",
+        "date": ""
+      },
+      {
+        "type": "link",
+        "title": "Services: Forensics & Collection",
+        "source": "Starling Intel",
+        "url": "https://starlingintel.com/services#forensics",
+        "thumbnail": "",
+        "blurb": "Device and system extraction and in-field collection, with an unbroken chain of custody.",
+        "date": ""
+      }
+    ]
   },
   {
     "id": "people",
@@ -252,9 +591,15 @@
     "related_sectors": [
       "systems"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Every seat defined, every person accountable",
+    "blurb": "Organizations grow faster than their structure. Roles blur, decisions pile up at the top, and critical knowledge lives in a few people's heads, so when a key employee leaves, the work leaves with them.",
+    "bullet_points": [
+      "Undefined roles: when no one can say exactly what a seat owns, the work falls into the gaps between seats.",
+      "Leadership bottlenecks: decisions that belong with the team route back to the founders, throttling the whole organization.",
+      "Knowledge walks out the door: undocumented expertise turns every departure into a restart instead of a transition.",
+      "Misaligned incentives: compensation that isn't tied to outcomes rewards activity instead of performance.",
+      "Hiring without specificity: a loosely scoped role attracts a loosely matched hire, and the cost shows up months later."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -265,9 +610,15 @@
     "related_sectors": [
       "systems"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Zero ad hoc, zero undocumented processes",
+    "blurb": "Most businesses already know what needs to improve. The hard part is the structure, accountability, and follow-through required to make it happen, and processes that live in habits instead of documentation can't be measured, handed off, or automated.",
+    "bullet_points": [
+      "Ad hoc by default: the same task done three ways by three people produces three different outcomes.",
+      "Invisible workflows: when work moves through inboxes and hallway conversations, no one can see where it stalls.",
+      "No operating cadence: without a consistent rhythm of meetings, metrics, and reviews, priorities drift week to week.",
+      "Vague until made precise: the gaps in a process rarely surface until someone tries to write it down.",
+      "Nothing to automate: a process that was never defined can't be automated, only accelerated into a bigger mess."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -278,9 +629,15 @@
     "related_sectors": [
       "systems"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "The foundation AI actually needs",
+    "blurb": "Technology works best on top of strong systems, clear processes, and structured data. Without that foundation, every new tool adds to the sprawl: another login, another spreadsheet, another source of truth that disagrees with the last one.",
+    "bullet_points": [
+      "Tool sprawl: software bought one problem at a time leaves data spread across systems that never talk to each other.",
+      "Unstructured data: AI can't reason about an organization whose information has no consistent definitions or schema.",
+      "Implementations that automate confusion: new software dropped onto undefined processes hard-codes the problem instead of fixing it.",
+      "No data governance: without clear ownership and access control, sensitive data ends up everywhere and trusted nowhere.",
+      "Complexity outpaces capability: without the foundation, each new tool scales complexity faster than results."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -291,9 +648,15 @@
     "related_sectors": [
       "systems"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Decisions grounded in reality",
+    "blurb": "Clean books and reliable reporting are the foundation of sound decision-making, yet many growing businesses run on late closes, loose controls, and forecasts no one trusts. Leadership ends up steering by instinct while the numbers lag behind.",
+    "bullet_points": [
+      "Late, unreliable close: when the books take weeks to close, every decision is made on last quarter's reality.",
+      "Weak controls: missing internal controls leave the business exposed to errors, leakage, and an audit it isn't ready for.",
+      "Disconnected from operations: financials that don't tie to operational activity can say what happened but never why.",
+      "Cash surprises: without forecasting and cash management, growth itself can run a healthy business out of money.",
+      "Investor-grade expectations: boards, lenders, and acquirers expect reporting most growing businesses were never built to produce."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -304,9 +667,15 @@
     "related_sectors": [
       "systems"
     ],
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "tagline": "Consistent, efficient, and predictable at every scale",
+    "blurb": "Many businesses operate with far more potential than their current systems and structure allow. As they scale, the informal ways of working that got them here start to break: teams fall out of sync, capacity runs out without warning, and execution depends on heroics.",
+    "bullet_points": [
+      "Throttled growth: things are going okay, but they could be going much better, and no one has the bandwidth to diagnose why.",
+      "Cross-functional friction: hand-offs between teams are where work slows down, gets duplicated, or disappears.",
+      "Execution by heroics: outcomes that depend on a few people working harder aren't repeatable, and they don't scale.",
+      "Capacity blind spots: without capacity planning, the first sign of a constraint is a missed commitment.",
+      "Transactions expose everything: diligence, acquisitions, and integrations surface every operational gap at once, usually at the worst possible time."
+    ],
     "video_link": "",
     "context_items": []
   }

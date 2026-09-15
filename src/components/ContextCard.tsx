@@ -95,12 +95,11 @@ export function ContextCard({ item, node, index, placeholder, ghost, className }
     </span>
   );
 
-  const meta = (withDash = false) =>
+  const meta = () =>
     item.source || item.date ? (
       <div className="ctx-meta">
         {item.source ? (
           <span className="ctx-source">
-            {withDash ? '— ' : null}
             {item.source}
           </span>
         ) : null}
@@ -201,7 +200,7 @@ export function ContextCard({ item, node, index, placeholder, ghost, className }
             &ldquo;
           </span>
           <blockquote className="ctx-quote-text">{item.title}</blockquote>
-          {meta(true)}
+          {meta()}
           {foot}
         </div>
       );

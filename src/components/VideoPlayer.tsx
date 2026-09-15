@@ -213,7 +213,7 @@ export function VideoPlayer({
         layoutId={layoutId}
         transition={LAYOUT_TRANSITION}
         onClick={openPlayer}
-        aria-label={`${label} — ${node.title}`}
+        aria-label={`${label}: ${node.title}`}
         aria-expanded={open}
         data-sector={sector}
         data-kind={source.kind}
@@ -288,7 +288,7 @@ function ExpandedPlayer({
 
   const title =
     source.kind === 'none'
-      ? 'Video placeholder — no source yet'
+      ? 'Video placeholder: no source yet'
       : source.kind === 'r2'
         ? 'Not yet available'
         : null;
@@ -433,8 +433,8 @@ function StreamPlayer({ uid, autoplay, events, controlsRef, onStatus, onPlaying 
         p.signed
           ? null
           : p.reason === 'unconfigured'
-            ? 'Signing unavailable — Stream is not configured; playing unsigned'
-            : 'Signing unavailable — playing unsigned',
+            ? 'Signing unavailable: Stream is not configured, playing unsigned'
+            : 'Signing unavailable: playing unsigned',
       );
     });
     return () => {
@@ -490,7 +490,7 @@ function StreamPlayer({ uid, autoplay, events, controlsRef, onStatus, onPlaying 
         if (autoplay) void player.play();
       })
       .catch(() => {
-        if (alive) onStatus('Stream SDK unavailable — playback is not tracked');
+        if (alive) onStatus('Stream SDK unavailable: playback is not tracked');
       });
 
     return () => {

@@ -254,7 +254,7 @@ function SearchIdle() {
   const layers = getLayers().filter((l) => l.nodesFile);
   return (
     <div className="search-idle">
-      <p className="search-hint">Type to search every layer — titles first, then content.</p>
+      <p className="search-hint">Type to search every layer. Titles first, then content.</p>
       <div className="search-idle-layers">
         {layers.map((l) => (
           <span key={l.id} className="search-idle-layer">

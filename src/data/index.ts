@@ -1,6 +1,8 @@
 import { allNodes, layers, nodeIndex, nodesOf } from './loader';
 import { nodeSectors, parentIds } from './normalize';
 import {
+  DEFAULT_LOREM_BUDGET,
+  type LoremBudget,
   loremBlurb,
   loremBullets,
   loremContextItems,
@@ -132,10 +134,40 @@ export interface ResolvedCopy {
   isPlaceholder: boolean;
 }
 
+/**
+ * Lorem sized so a node's focus card fits without scrolling at 1440×900 with
+ * both trays open. The fixed chrome differs per layer (headshot column, video
+ * row, gallery, slated note, related strip), so each layer gets its own budget;
+ * it is also the copy-length target for authoring that layer.
+ */
+function loremBudget(node: Node): LoremBudget {
+  switch (node.layerId) {
+    case 'who':
+      // Experts have no related strip under the bullets, so they get more room.
+      return node.group === 'expert'
+        ? { ...DEFAULT_LOREM_BUDGET, blurbWords: 35, bulletCount: 6, bulletWords: 6 }
+        : { ...DEFAULT_LOREM_BUDGET, blurbWords: 30, bulletCount: 5, bulletWords: 6 };
+    case 'beliefs':
+      return { ...DEFAULT_LOREM_BUDGET, blurbWords: 40, bulletCount: 3, bulletWords: 16 };
+    case 'sectors':
+      return { ...DEFAULT_LOREM_BUDGET, blurbWords: 25, bulletCount: 2, bulletWords: 16 };
+    case 'products':
+      // Slated products also carry the "not yet in market" note above the blurb.
+      return node.stage === 'slated'
+        ? { ...DEFAULT_LOREM_BUDGET, blurbWords: 25, bulletCount: 1, bulletWords: 10 }
+        : { ...DEFAULT_LOREM_BUDGET, blurbWords: 20, bulletCount: 2, bulletWords: 10 };
+    default:
+      return DEFAULT_LOREM_BUDGET;
+  }
+}
+
 export function getCopy(node: Node): ResolvedCopy {
-  const tagline = node.tagline || loremTagline(node.id);
-  const blurb = node.blurb || loremBlurb(node.id);
-  const bullets = node.bulletPoints.length ? node.bulletPoints : loremBullets(node.id);
+  const budget = loremBudget(node);
+  const tagline = node.tagline || loremTagline(node.id, budget.taglineWords);
+  const blurb = node.blurb || loremBlurb(node.id, budget.blurbWords);
+  const bullets = node.bulletPoints.length
+    ? node.bulletPoints
+    : loremBullets(node.id, budget.bulletCount, budget.bulletWords);
   return {
     tagline,
     blurb,

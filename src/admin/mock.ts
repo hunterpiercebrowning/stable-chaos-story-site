@@ -77,7 +77,7 @@ const links: Row[] = [
   {
     id: 'lnk_7f3a2c',
     token: 'q8Zr4wT2mNp9LxK1sVb6',
-    label: 'Sequoia — Partner meeting',
+    label: 'Sequoia: Partner meeting',
     notes: 'Sent to Alfred 9/3 after the intro call. Follow-up scheduled 9/16.',
     createdAt: NOW - 9 * D,
     expiresAt: NOW + 21 * D,
@@ -87,7 +87,7 @@ const links: Row[] = [
   {
     id: 'lnk_b19e04',
     token: 'H2kd8Fq3Wm7XcP5nRt0y',
-    label: 'Internal — Hunter',
+    label: 'Internal: Hunter',
     notes: 'For rehearsals and screenshots. Never share.',
     createdAt: NOW - 14 * D,
     expiresAt: null,
