@@ -25,7 +25,7 @@ export function BackgroundFocus({ node, onClose }: FocusViewProps) {
       className="background-focus"
       eyebrow={getLayer(node.layerId)?.title ?? ''}
       subtitle={copy.tagline}
-      body={<p>{copy.blurb}</p>}
+      body={copy.blurb ? <p>{copy.blurb}</p> : null}
       bullets={copy.bullets}
       extras={
         <>

@@ -45,10 +45,7 @@ export function SectorsNode({ node, collapsed, active, onSelect, ref }: SectorsN
         />
         <span className="sectors-sector-body">
           <span className="sectors-sector-title">{node.title}</span>
-          <span className="sectors-sector-tagline">
-            {tagline}
-            {node.tagline ? null : <span className="sc-placeholder-tag sectors-sector-ph">placeholder</span>}
-          </span>
+          {tagline ? <span className="sectors-sector-tagline">{tagline}</span> : null}
         </span>
         {domains > 0 ? (
           <span className="sectors-sector-meta">

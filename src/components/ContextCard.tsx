@@ -15,8 +15,6 @@ export interface ContextCardProps {
   node: Node;
   /** Position within the node's list; keeps generated thumbnails distinct. */
   index: number;
-  /** The item is generated lorem, not authored content: shows the dev "placeholder" label. */
-  placeholder?: boolean;
   /** Non-interactive, faded preview (the Foundational Background "coming soon" state). */
   ghost?: boolean;
   /** Makes the whole card one button that runs this instead of opening the url or playing. */
@@ -69,7 +67,6 @@ export function ContextCard({
   item,
   node,
   index,
-  placeholder,
   ghost,
   onActivate,
   label,
@@ -131,15 +128,12 @@ export function ContextCard({
     ) : null;
 
   const foot =
-    placeholder || (item.url && !isVideo && item.type !== 'link') ? (
+    item.url && !isVideo && item.type !== 'link' ? (
       <div className="ctx-foot">
-        {placeholder ? <span className="ctx-note">placeholder</span> : null}
-        {!placeholder && item.url ? (
-          <span className="ctx-open">
-            {domainOf(item.url, 'Open')}
-            <Icon name="external-link" size={12} />
-          </span>
-        ) : null}
+        <span className="ctx-open">
+          {domainOf(item.url, 'Open')}
+          <Icon name="external-link" size={12} />
+        </span>
       </div>
     ) : null;
 

@@ -1,9 +1,10 @@
-import type { ContextItem, ContextItemType, SectorId } from './types';
+import type { SectorId } from './types';
 
 /**
- * Deterministic placeholder content. Everything here is seeded by the node id,
- * so a given node always shows the same lorem and the same generated image —
- * no flicker between renders and stable screenshots.
+ * Deterministic placeholder art. Everything here is seeded by the node id, so
+ * a given node always shows the same generated image: no flicker between
+ * renders and stable screenshots. Missing copy is left blank rather than
+ * filled with stand-in text.
  *
  * These hex values mirror `src/styles/tokens.css`; SVG data URIs are generated
  * in TS and cannot read CSS custom properties. Keep the two in sync.
@@ -41,101 +42,6 @@ export function makeRng(seed: string): () => number {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
-}
-
-const WORDS = [
-  'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit', 'sed', 'do',
-  'eiusmod', 'tempor', 'incididunt', 'labore', 'dolore', 'magna', 'aliqua', 'enim', 'minim',
-  'veniam', 'quis', 'nostrud', 'exercitation', 'ullamco', 'laboris', 'nisi', 'aliquip', 'commodo',
-  'consequat', 'duis', 'aute', 'irure', 'reprehenderit', 'voluptate', 'velit', 'esse', 'cillum',
-  'fugiat', 'nulla', 'pariatur', 'excepteur', 'sint', 'occaecat', 'cupidatat', 'proident', 'sunt',
-  'culpa', 'officia', 'deserunt', 'mollit', 'animid', 'laborum', 'perspiciatis', 'unde', 'omnis',
-  'iste', 'natus', 'error', 'accusantium', 'doloremque', 'laudantium', 'totam', 'rem', 'aperiam',
-];
-
-function pickWords(rng: () => number, count: number): string[] {
-  const out: string[] = [];
-  for (let i = 0; i < count; i++) out.push(WORDS[Math.floor(rng() * WORDS.length)]);
-  return out;
-}
-
-function between(rng: () => number, min: number, max: number): number {
-  return min + Math.floor(rng() * (max - min + 1));
-}
-
-function sentenceCase(words: string[]): string {
-  const s = words.join(' ');
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-/* ── text placeholders ──────────────────────────────── */
-
-/**
- * How much lorem stands in for a missing field. Counts are exact rather than
- * ranges so the placeholder doubles as a copy-length target for the author.
- */
-export interface LoremBudget {
-  taglineWords: number;
-  blurbWords: number;
-  bulletCount: number;
-  bulletWords: number;
-}
-
-export const DEFAULT_LOREM_BUDGET: LoremBudget = {
-  taglineWords: 8,
-  blurbWords: 30,
-  bulletCount: 3,
-  bulletWords: 12,
-};
-
-export function loremTagline(seed: string, words = DEFAULT_LOREM_BUDGET.taglineWords): string {
-  const rng = makeRng(`${seed}:tagline`);
-  return sentenceCase(pickWords(rng, words));
-}
-
-/** `words` words, split into sentences of 14–24 words. */
-export function loremBlurb(seed: string, words = DEFAULT_LOREM_BUDGET.blurbWords): string {
-  const rng = makeRng(`${seed}:blurb`);
-  const sentences: string[] = [];
-  let left = words;
-  while (left > 0) {
-    const take = Math.min(left, between(rng, 14, 24));
-    sentences.push(`${sentenceCase(pickWords(rng, take))}.`);
-    left -= take;
-  }
-  return sentences.join(' ');
-}
-
-export function loremBullets(
-  seed: string,
-  count = DEFAULT_LOREM_BUDGET.bulletCount,
-  words = DEFAULT_LOREM_BUDGET.bulletWords,
-): string[] {
-  const rng = makeRng(`${seed}:bullets`);
-  return Array.from({ length: count }, () => sentenceCase(pickWords(rng, words)));
-}
-
-const CONTEXT_TYPES: ContextItemType[] = ['article', 'video', 'link', 'pdf', 'image', 'quote'];
-const SOURCES = ['Nature', 'DARPA', 'Lawfare', 'IEEE Spectrum', 'CSIS', 'The Economist', 'RAND'];
-
-/** Three deterministic lorem context items; used until real ones are authored. */
-export function loremContextItems(seed: string, count = 3): ContextItem[] {
-  const rng = makeRng(`${seed}:context`);
-  const items: ContextItem[] = [];
-  for (let i = 0; i < count; i++) {
-    const type = CONTEXT_TYPES[Math.floor(rng() * CONTEXT_TYPES.length)];
-    const year = 2021 + Math.floor(rng() * 5);
-    items.push({
-      type,
-      title: sentenceCase(pickWords(rng, between(rng, 5, 9))),
-      source: SOURCES[Math.floor(rng() * SOURCES.length)],
-      url: '',
-      thumbnail: '',
-      blurb: sentenceCase(pickWords(rng, between(rng, 12, 20))) + '.',
-      date: String(year),
-    });
-  }
-  return items;
 }
 
 /* ── image placeholders ─────────────────────────────── */

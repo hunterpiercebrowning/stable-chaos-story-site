@@ -39,7 +39,7 @@ export function BeliefsFocus({ node, onClose }: FocusViewProps) {
         </span>
       }
       subtitle={copy.tagline}
-      body={<p>{copy.blurb}</p>}
+      body={copy.blurb ? <p>{copy.blurb}</p> : null}
       bullets={copy.bullets}
       extras={<VideoPlayer node={node} />}
     />

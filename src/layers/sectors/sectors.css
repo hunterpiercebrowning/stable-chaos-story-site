@@ -100,12 +100,6 @@
     margin-top var(--dur-slow) var(--ease);
 }
 
-.sectors-sector-ph {
-  position: static;
-  margin-left: var(--s-2);
-  vertical-align: middle;
-}
-
 .sectors-sector-meta {
   position: absolute;
   top: var(--s-4);

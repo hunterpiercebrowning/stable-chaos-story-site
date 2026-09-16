@@ -39,7 +39,7 @@ export function GenericFocus({ node, onClose }: FocusViewProps) {
       media={media}
       eyebrow={eyebrow}
       subtitle={subtitle}
-      body={<p>{copy.blurb}</p>}
+      body={copy.blurb ? <p>{copy.blurb}</p> : null}
       bullets={copy.bullets}
       extras={<VideoPlayer node={node} />}
     />

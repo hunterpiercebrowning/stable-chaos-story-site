@@ -70,7 +70,7 @@ export function ProductsFocus({ node, onClose }: FocusViewProps) {
             </span>
           }
           subtitle={copy.tagline}
-          body={<p>{copy.blurb}</p>}
+          body={copy.blurb ? <p>{copy.blurb}</p> : null}
           bullets={copy.bullets}
           extras={
             <>
@@ -120,7 +120,7 @@ export function ProductsFocus({ node, onClose }: FocusViewProps) {
                 Slated: this product is not yet in market. Details are directional.
               </p>
             ) : null}
-            <p>{copy.blurb}</p>
+            {copy.blurb ? <p>{copy.blurb}</p> : null}
           </>
         }
         bullets={copy.bullets}

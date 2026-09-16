@@ -32,7 +32,7 @@ export function SectorsFocus({ node, onClose }: FocusViewProps) {
       className={cn('sectors-focus', second && `sectors-focus--${second}`)}
       eyebrow={eyebrow}
       subtitle={copy.tagline}
-      body={<p>{copy.blurb}</p>}
+      body={copy.blurb ? <p>{copy.blurb}</p> : null}
       bullets={copy.bullets}
       extras={<VideoPlayer node={node} />}
     />

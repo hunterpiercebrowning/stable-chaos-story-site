@@ -10,12 +10,13 @@ Rules that apply to **every** node file:
   the title/name. Do not change an `id` after a link has been shared; it is the stable handle.
 - Array order is the display order. `order` may be set explicitly on a node to override it; when
   absent the loader assigns the array index.
-- Any empty string / empty array is rendered with a deterministic lorem or generated-SVG
-  placeholder (seeded by `id`, so it is stable between reloads). Fill the field to replace it.
-  Placeholder tagline/blurb/bullets are sized per layer to fit the focus card at 1440×900 without
-  scrolling (`loremBudget` in `src/data/index.ts`), so they double as the copy-length target.
+- Text fields (`tagline`, `blurb`, `bullet_points`) are shown exactly as authored. An empty string
+  or empty array renders nothing at all: the slot is dropped from the card and the focus panel, so a
+  node may ship with only the fields it needs.
+- Image and video slots still fall back to a generated-SVG placeholder (seeded by `id`, so it is
+  stable between reloads). Fill the field to replace it.
 - `context_items` is an array of context items (shape at the bottom). Empty → the right tray shows
-  three lorem placeholders.
+  its empty state.
 - `video_link` accepts a Cloudflare Stream UID (32 hex), a `*.cloudflarestream.com` URL, an
   `r2:<key>` reference, a plain `.mp4`/`.webm` URL, or `""` (placeholder poster).
 - Image paths are absolute web paths into `public/`, e.g. `/assets/logos/gcb-logo.svg`.

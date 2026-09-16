@@ -76,10 +76,7 @@ export function ServicesNode({ node, collapsed, active, onSelect, ref }: Service
           </span>
           <span className="node-card-body">
             <span className="node-card-title">{node.title}</span>
-            <span className="services-company-tagline">
-              {tagline}
-              {node.tagline ? null : <span className="sc-placeholder-tag services-company-ph">placeholder</span>}
-            </span>
+            {tagline ? <span className="services-company-tagline">{tagline}</span> : null}
           </span>
           <span className="node-card-tags">
             <SectorTag sector={node.sector} />

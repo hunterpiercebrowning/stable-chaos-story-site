@@ -37,7 +37,7 @@ export function WhoFocus({ node, onClose }: FocusViewProps) {
       eyebrow={node.company}
       title={node.title}
       subtitle={node.role}
-      body={<p>{copy.blurb}</p>}
+      body={copy.blurb ? <p>{copy.blurb}</p> : null}
       bullets={copy.bullets}
       extras={<VideoPlayer node={node} label={`Meet ${node.title.split(' ')[0]}`} />}
     />

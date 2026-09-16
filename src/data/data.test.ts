@@ -15,7 +15,7 @@ import {
   search,
 } from './index';
 import { kebab, normalizeLayers, normalizeProducts, normalizeSectors, toSectorId, toStage } from './normalize';
-import { loremBlurb, loremBullets, placeholderImage, placeholderMotif } from './placeholders';
+import { placeholderImage, placeholderMotif } from './placeholders';
 import { buildRelated, groupByLayer } from './related';
 import { searchNodes } from './search';
 import type { Node } from './types';
@@ -190,18 +190,6 @@ describe('content', () => {
 });
 
 describe('placeholders', () => {
-  it('is deterministic per seed', () => {
-    expect(loremBlurb('abc')).toBe(loremBlurb('abc'));
-    expect(loremBlurb('abc')).not.toBe(loremBlurb('abd'));
-  });
-
-  it('produces exactly the budgeted amount of lorem', () => {
-    expect(loremBlurb('growth-curve-bio', 25).split(/\s+/)).toHaveLength(25);
-    const bullets = loremBullets('growth-curve-bio', 2, 16);
-    expect(bullets).toHaveLength(2);
-    for (const b of bullets) expect(b.split(/\s+/)).toHaveLength(16);
-  });
-
   it('generates an inline svg data uri with no network reference', () => {
     const uri = placeholderImage({ seed: 'x', sector: 'synbio', variant: 'logo', label: 'Growth Curve' });
     expect(uri.startsWith('data:image/svg+xml,')).toBe(true);
@@ -210,12 +198,11 @@ describe('placeholders', () => {
     expect(svg.match(/https?:\/\/[^"']+/g)).toEqual(['http://www.w3.org/2000/svg']);
   });
 
-  it('fills empty copy and context items', () => {
-    const node = getNode('biophysics')!;
+  it('leaves unauthored copy and context items empty', () => {
+    const node = { ...getNode('biophysics')!, tagline: '', blurb: '', bulletPoints: [], contextItems: [] } as Node;
     const copy = getCopy(node);
-    expect(copy.blurb.length).toBeGreaterThan(40);
-    expect(copy.isPlaceholder).toBe(true);
-    expect(getContextItems(node)).toHaveLength(3);
+    expect(copy).toEqual({ tagline: '', blurb: '', bullets: [], isEmpty: true });
+    expect(getContextItems(node)).toEqual([]);
   });
 
   it('keeps real copy when present', () => {

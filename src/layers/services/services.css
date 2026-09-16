@@ -164,12 +164,6 @@
     margin-top var(--dur-slow) var(--ease);
 }
 
-.services-company-ph {
-  position: static;
-  margin-left: var(--s-2);
-  vertical-align: middle;
-}
-
 .services-company-meta {
   display: inline-flex;
   align-items: center;

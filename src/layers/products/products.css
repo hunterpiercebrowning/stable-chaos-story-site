@@ -220,12 +220,6 @@
   text-wrap: pretty;
 }
 
-.products-sector-ph {
-  position: static;
-  margin-left: var(--s-2);
-  vertical-align: middle;
-}
-
 .products-sector-meta {
   display: inline-flex;
   align-items: center;

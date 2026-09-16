@@ -63,10 +63,7 @@ export function ProductsNode({ node, collapsed, active, onSelect }: NodeViewProp
         </span>
         <span className="node-card-body">
           <span className="node-card-title">{node.title}</span>
-          <span className="products-sector-tagline">
-            {tagline}
-            {node.tagline ? null : <span className="sc-placeholder-tag products-sector-ph">placeholder</span>}
-          </span>
+          {tagline ? <span className="products-sector-tagline">{tagline}</span> : null}
         </span>
         <span className="node-card-tags">
           <SectorTag sector={node.sector} />

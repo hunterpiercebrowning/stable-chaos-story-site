@@ -296,7 +296,7 @@ function snippet(nodeId: string, query: string): string {
   const node = getNode(nodeId);
   if (!node) return '';
   const copy = getCopy(node);
-  const fields = [copy.tagline, copy.blurb, ...copy.bullets];
+  const fields = [copy.tagline, copy.blurb, ...copy.bullets].filter(Boolean);
   if (node.layerId === 'who') fields.unshift(node.role, node.company);
   if (node.layerId === 'products' && node.category && node.stage) fields.unshift(node.category, node.stage);
   const needle = query.toLowerCase();

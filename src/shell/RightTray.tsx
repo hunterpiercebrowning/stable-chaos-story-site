@@ -25,7 +25,9 @@ const HINT: Record<Layer['id'], string> = {
 export function RightTray() {
   const { layer, node } = useRoute();
   const items = node ? getContextItems(node) : [];
-  const placeholder = Boolean(node && node.contextItems.length === 0);
+  // A background node's own source is embedded in its focus panel, so an empty
+  // tray there is expected rather than missing content.
+  const sourceInFocus = Boolean(node && node.layerId === 'background' && node.sourceUrl);
 
   return (
     <div className="tray">
@@ -48,8 +50,14 @@ export function RightTray() {
             <Icon name="video" size={18} />
             <Icon name="link" size={18} />
           </span>
-          <p className="tray-empty-title">Source shown in focus</p>
-          <p className="tray-empty-body">This topic's source is embedded in the focus panel. Add context items to list more here.</p>
+          <p className="tray-empty-title">
+            {sourceInFocus ? 'Source shown in focus' : 'No supporting context'}
+          </p>
+          <p className="tray-empty-body">
+            {sourceInFocus
+              ? "This topic's source is embedded in the focus panel. Add context items to list more here."
+              : 'Nothing has been linked to this node yet.'}
+          </p>
         </div>
       ) : node ? (
         <div className="tray-list sc-scroll" key={node.id}>
@@ -59,7 +67,6 @@ export function RightTray() {
               item={item}
               node={node}
               index={i}
-              placeholder={placeholder}
               className="tray-card sc-fade-in"
             />
           ))}

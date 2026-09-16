@@ -225,14 +225,6 @@
   margin-top: var(--s-1);
 }
 
-.ctx-note {
-  font-size: 0.58rem;
-  font-weight: 500;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  color: var(--text-ghost);
-}
-
 .ctx-open {
   display: inline-flex;
   align-items: center;
