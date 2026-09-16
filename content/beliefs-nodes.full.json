@@ -1,0 +1,203 @@
+[
+  {
+    "id": "china",
+    "type": "threat",
+    "title": "China",
+    "icon": "globe",
+    "tagline": "A strategic execution race we can't afford to lose.",
+    "blurb": "China’s systemic control over critical sectors poses a serious risk to American quality of life, the preservation of western ideals and the long term wellbeing of the human race.",
+    "bullet_points": [
+      "Communist application of AI amplifies totalitarian outcomes and destroys human free thinking.",
+      "Chinese monopoly over critical resources undermines any attempts at American sovereignty.",
+      "Control over the many by the few becomes sustainable with an AI backed surveillance state.",
+      "Government controlled economics allows Chinese manufacturing to undercut America's to produce critical technologies."
+    ],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "asymmetric-weapons",
+    "type": "threat",
+    "title": "Asymmetric Weapons",
+    "icon": "bomb",
+    "tagline": "Causing serious damage is easier and cheaper for bad actors than ever before.",
+    "blurb": "The convergence of artificial intelligence, ubiquitous digital connectivity, fragile supply chains, inexpensive electronics and accessible bio-as-a-service companies has created a dangerous new dynamics where attacks are easy and cheap for bad actors and traditional defenses are cumbersome, ineffective and expensive for defenders. Below are just a few of hundreds of examples of this new asymmetry.",
+    "bullet_points": [
+      "Low cost drones in singles or swarms are able to slip past expensive defenses and cause massive damage and loss of life.",
+      "AI driven cyber attacks give bad actors capabilities far beyond their own and allow them to amplify it across thousands of agents conducting an attack.",
+      "Bio Weapons designed by artificial intelligence and fabricated in labs-as-a-service can ravage entire populations.",
+      "Simple supply chain attacks can cripple critical industries and life supporting utilities, impacting millions and leading to disaster.",
+      "Billions of dollars in infrastructure can fail with simple AI orchestrated cyber attacks on legacy components.",
+      "The public opinion can be hijacked and manipulated more readily than ever before with extreme AI managed disinformation campaigns.",
+      "Bad actors can clone a voice from just seconds of audio and use it to authorize fraudulent transactions and actions."
+    ],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "ai-reliance",
+    "type": "threat",
+    "title": "Non-sovereign AI Reliance",
+    "icon": "cloud",
+    "tagline": "Control your intelligence or the intelligence will control you.",
+    "blurb": "Large AI providers are creating a monopoly on frontier intelligence and knowledge. Most companies using these services don't understand the economic, IP, and dependency constraints they are entering into with these companies. As this monopoly is solidified, these few AI providers will exert considerable overt & covert control over their dependent customers.",
+    "bullet_points": [
+      "Vendor subsidized AI plans create false economic conditions for businesses becoming dependent on them",
+      "Critical information is leaked by employs and automated systems leveraging these cloud AI vendors. Regardless of their terms, your data is processed, mined and exploited.",
+      "Shifting vendor opinions on what types of behavior is acceptable as their models become more powerful can hamstring an entire companies capabilities overnight.",
+      "Private institutional knowledge / wisdom becomes their new training data. Allowing them to commoditize companies advantage's for the rest of the world."
+    ],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "noise",
+    "type": "threat",
+    "title": "Overnight Obsolescence",
+    "icon": "bot",
+    "tagline": "When AI releases are exponential step functions in capabilities, specialized advantages and entire markets can vanish overnight.",
+    "blurb": "",
+    "bullet_points": [
+      "When models absorb decades of specialized expertise between releases, multi-decade experts become simple technicians overnight"
+
+    ],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "restricted-info",
+    "type": "threat",
+    "title": "Restricted Information Access",
+    "icon": "lock",
+    "tagline": "As execution becomes commoditized & automated, the only means of control is the restriction of knowledge.",
+    "blurb": "Most innovative frontier technologies that fuel well intending companies can also have a dangerous duel use. Nuclear can power cities or create bombs. Bio can cure cancer or create weaponized plague. Cyber can protect banks or cripple a hospital. As the cost of action drops for bad actors and the ability to automated the required labor, large AI companies and governments are identifying new categories of restricted knowledge that is only available to them and their staff, killing the competitive advantage of all other companies. ",
+    "bullet_points": [
+      "New glass ceilings on non-approved areas of innovation",
+      "Asymmetric knowledge dynamics that creates insurmountable competitive advantage for the few controlling the monopoly",
+      "Foundational threat to companies at the frontier that don't have the capacity to manage their own AI & information sources."
+    ],
+    "video_link": "",
+    "context_items": []
+  },
+  
+
+
+
+  {
+    "id": "compute",
+    "type": "disruption",
+    "title": "Can't Compete With Compute",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "execution-automation",
+    "type": "disruption",
+    "title": "Execution Collapsing To Automation",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "murky-markets",
+    "type": "disruption",
+    "title": "Murky Markets With Low Barriers To Entry",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "commodified-intelligence",
+    "type": "disruption",
+    "title": "Commodified Intelligence & Expertise",
+    "icon": "",
+    "tagline": "AI is rewriting value creation",
+    "blurb": "Classical competitive advantage for a company relied on effort, skill, and intelligence existing as bottlenecks. AI is removing those barriers and eroding where advantage used to exist.",
+    "bullet_points": [
+      "Labor automation: machines executing in highly enumerated or low-specificity spaces. The work itself becomes cheap and outputs lose intrinsic value.",
+      "Novel innovation: finding better paths through problems we used to dedicate lifetimes to. New solutions that overnight make pillars of prior human work obsolete.",
+      "Simulation-led discovery: iterative design in models and simulations, collapsing physical trial-and-error into evolutionary design at hyper speed, limited only by compute."
+    ],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "cloneable",
+    "type": "disruption",
+    "title": "Almost Everything Is Cloneable",
+    "icon": "",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+
+
+
+  {
+    "id": "trusted-access",
+    "type": "advantage",
+    "title": "Trusted Access",
+    "icon": "",
+    "tagline": "",
+    "blurb": "We build authentic community and trust in arenas where entrance is hard earned, gaining unique insights outsiders could never have.",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "compounding-integration",
+    "type": "advantage",
+    "title": "Compounding Integration",
+    "icon": "",
+    "tagline": "",
+    "blurb": "True invention comes from unique insights and cross-cutting patterns that span industries, perspectives and applications.",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "first-principles",
+    "type": "advantage",
+    "title": "First Principles & Nth° Specificity",
+    "icon": "",
+    "tagline": "",
+    "blurb": "Everything we do is rooted in a first-principles understanding, keeping our outcomes refined and deterministic in a world that is becoming more and more bloated and stochastic.",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "Frontier Insights",
+    "type": "advantage",
+    "title": "Frontier Insights",
+    "icon": "",
+    "tagline": "",
+    "blurb": "We target areas that require extreme specificity and nth order reasoning to uniquely leverage precision and causal reasoning in a way iterative AI workflows will continue to struggle with.",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "divergent-converging",
+    "type": "advantage",
+    "title": "Divergent Individuals In A Converging World",
+    "icon": "",
+    "tagline": "",
+    "blurb": "We target areas that require extreme specificity and nth order reasoning to uniquely leverage precision and causal reasoning in a way iterative AI workflows will continue to struggle with.",
+    "bullet_points": [],
+    "video_link": "",
+    "context_items": []
+  }
+]

@@ -1,111 +1,116 @@
-import { Fragment, type CSSProperties } from 'react';
+import { useState } from 'react';
 import { Icon } from '../../components/Icon';
-import type { BeliefNode, BeliefType } from '../../data/types';
-import { cn } from '../../lib/cn';
 import type { LayerViewProps } from '../types';
-import { BeliefsNode } from './BeliefsNode';
-import { isBelief } from './beliefs';
 import './beliefs.css';
 
-interface Slot {
-  align: 'flex-start' | 'center' | 'flex-end';
-  ox: number;
-  oy: number;
-}
-
 /**
- * Per-index nudges so each column reads as a loose stack rather than a rigid
- * list. Kept gentle: three columns leave less room than the old two.
+ * Unique Value in the Age of AI — hard-coded from the raise deck (slide 04,
+ * "Outcompeting compute"). The five advantages are a compact list on the left;
+ * their copy lands in one shared panel on the right, which reads the premise
+ * until something is hovered. There is nothing to drill into, so the layer
+ * carries no nodes and this copy lives here rather than in `content/`.
+ *
+ * Two readings of the page, one layout: a presenter walks the five titles and
+ * brings each up in the same spot, and someone sent the link explores it the
+ * same way. The panel reserves its height, so nothing reflows between items.
+ *
+ * The panel is `aria-hidden`: it mirrors copy that already sits in each list
+ * item (visually hidden there), so a screen reader gets all five in full,
+ * once, without hovering anything.
+ *
+ * The blurbs are lifted verbatim from the `advantage` beliefs that used to
+ * back this layer; they are still in `content/beliefs-nodes.json` (unloaded)
+ * and in the `full-v1` tag if the drill-in version ever comes back.
  */
-const SLOTS: Slot[] = [
-  { align: 'flex-start', ox: 0, oy: 0 },
-  { align: 'flex-end', ox: 0, oy: -4 },
-  { align: 'center', ox: 0, oy: -2 },
-  { align: 'flex-start', ox: 6, oy: -6 },
-  { align: 'flex-end', ox: -6, oy: 0 },
-];
 
-/** Left → right: what threatens businesses, what is changing, what we bring. */
-const COLUMNS: { type: BeliefType; title: string; hint: string }[] = [
-  { type: 'threat', title: 'Threats', hint: 'New risk factors facing companies & critical sectors' },
+const PREMISE = {
+  eyebrow: 'Our edge',
+  body: "When intelligence becomes commoditized, advantage moves to what can't be computed.",
+};
+
+const ADVANTAGES: { title: string; body: string }[] = [
   {
-    type: 'disruption',
-    title: 'Disruptions',
-    hint: 'The shifting landscape of building products and services',
+    title: 'Trusted Access',
+    body:
+      'We build authentic community and trust in arenas where entrance is hard earned, gaining ' +
+      'unique insights outsiders could never have.',
   },
   {
-    type: 'advantage',
-    title: 'Advantages',
-    hint: 'Our unique competitive advantages in the era of AI',
+    title: 'Compounding Integration',
+    body:
+      'True invention comes from unique insights and cross-cutting patterns that span industries, ' +
+      'perspectives and applications.',
+  },
+  {
+    title: 'First Principles & Nth° Specificity',
+    body:
+      'Everything we do is rooted in a first-principles understanding, keeping our outcomes ' +
+      'refined and deterministic in a world that is becoming more and more bloated and stochastic.',
+  },
+  {
+    title: 'Frontier Insights',
+    body:
+      'We target areas that require extreme specificity and nth order reasoning to uniquely ' +
+      'leverage precision and causal reasoning in a way iterative AI workflows will continue to ' +
+      'struggle with.',
+  },
+  {
+    // DRAFT copy, not from `content/`: this advantage's blurb in the JSON was a
+    // duplicate of Frontier Insights, so there was nothing authored to lift.
+    title: 'Divergent Individuals In A Converging World',
+    body:
+      'Everyone now holds the same tools and converges on the same answers. Our edge is people ' +
+      'whose instincts, range and lived experience refuse to average out.',
   },
 ];
 
-/**
- * What We Believe: three columns read left to right — threats in orange,
- * disruptions in yellow, advantages in green-2 — joined by flow connectors so
- * the page tells one story: this is what we are up against, this is how the
- * ground is shifting, and this is why we win on the new ground.
- */
-export function BeliefsLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
-  const beliefs = nodes.filter(isBelief);
+export function BeliefsLayer({ layer }: LayerViewProps) {
+  const [active, setActive] = useState<number | null>(null);
+  const shown = active === null ? null : ADVANTAGES[active];
 
   return (
-    <div className="beliefs-layer" role="group" aria-label={layer.title}>
-      <div className="beliefs-story">
-        {COLUMNS.map((column, ci) => {
-          const members: BeliefNode[] = beliefs.filter((n) => n.beliefType === column.type);
-          const prev = COLUMNS[ci - 1];
-          return (
-            <Fragment key={column.type}>
-              {prev ? (
-                <div
-                  className={cn('beliefs-flow', `beliefs-flow--${prev.type}-${column.type}`)}
-                  aria-hidden="true"
-                >
-                  <span className="beliefs-flow-arrow">
-                    <Icon name="chevron-right" size={14} />
-                  </span>
-                </div>
-              ) : null}
-              <section
-                className={cn('beliefs-column', `beliefs-column--${column.type}`)}
-                aria-label={column.title}
-              >
-                <header className="beliefs-column-head">
-                  <span className="beliefs-column-step" aria-hidden="true">
-                    {String(ci + 1).padStart(2, '0')}
-                  </span>
-                  <span className="beliefs-column-dot" aria-hidden="true" />
-                  <h3 className="beliefs-column-title sc-label">{column.title}</h3>
-                  <span className="beliefs-column-hint">{column.hint}</span>
-                </header>
+    <div className="beliefs" role="group" aria-label={layer.title}>
+      <div className="beliefs-grid">
+        <ol className="beliefs-list" onMouseLeave={() => setActive(null)}>
+          {ADVANTAGES.map((advantage, i) => (
+            <li
+              key={advantage.title}
+              className="beliefs-item"
+              data-active={active === i ? 'true' : undefined}
+              tabIndex={0}
+              onMouseEnter={() => setActive(i)}
+              onFocus={() => setActive(i)}
+              onBlur={() => setActive((current) => (current === i ? null : current))}
+            >
+              <span className="beliefs-item-bar" aria-hidden="true" />
+              <span className="beliefs-item-index" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="beliefs-item-title">{advantage.title}</span>
+              <span className="sc-visually-hidden">{advantage.body}</span>
+            </li>
+          ))}
+        </ol>
 
-                <div className="beliefs-column-nodes">
-                  {members.map((node, i) => {
-                    const slot = SLOTS[i % SLOTS.length];
-                    const style = {
-                      alignSelf: slot.align,
-                      '--ox': `${slot.ox}px`,
-                      '--oy': `${slot.oy}px`,
-                    } as CSSProperties;
-                    return (
-                      <div key={node.id} className="beliefs-slot" style={style}>
-                        <BeliefsNode
-                          node={node}
-                          active={node.id === focusedId}
-                          onSelect={onSelect}
-                        />
-                      </div>
-                    );
-                  })}
-                  {members.length === 0 ? (
-                    <p className="beliefs-column-empty">Nothing here yet.</p>
-                  ) : null}
-                </div>
-              </section>
-            </Fragment>
-          );
-        })}
+        <aside className="beliefs-detail" data-index={active ?? undefined} aria-hidden="true">
+          <div className="beliefs-detail-slot">
+            {shown ? (
+              <div className="beliefs-detail-card" key={active}>
+                <span className="beliefs-detail-index">{String((active ?? 0) + 1).padStart(2, '0')}</span>
+                <h2 className="beliefs-detail-title">{shown.title}</h2>
+                <p className="beliefs-detail-body">{shown.body}</p>
+              </div>
+            ) : (
+              <div className="beliefs-detail-premise" key="premise">
+                <span className="sc-label beliefs-detail-eyebrow">
+                  <Icon name="crosshair" size={13} />
+                  {PREMISE.eyebrow}
+                </span>
+                <p className="beliefs-detail-lede">{PREMISE.body}</p>
+              </div>
+            )}
+          </div>
+        </aside>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { toRef } from './normalize';
-import type { Node, SearchResult } from './types';
+import { isProduct, type Node, type SearchResult } from './types';
 
 const SCORE = {
   titleExact: 120,
@@ -12,7 +12,7 @@ const SCORE = {
 function bodyText(node: Node): string {
   const extra: string[] = [];
   if (node.layerId === 'who') extra.push(node.role, node.company);
-  if (node.layerId === 'products' && node.category && node.stage) extra.push(node.category, node.stage);
+  if (isProduct(node) && node.category && node.stage) extra.push(node.category, node.stage);
   return [node.tagline, node.blurb, ...node.bulletPoints, ...extra].join(' ').toLowerCase();
 }
 

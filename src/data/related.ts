@@ -1,5 +1,5 @@
 import { kebab, toRef } from './normalize';
-import type { LayerId, Node, NodeRef } from './types';
+import { isService, type LayerId, type Node, type NodeRef } from './types';
 
 const LAYER_RANK: Record<LayerId, number> = {
   welcome: 0,
@@ -8,20 +8,19 @@ const LAYER_RANK: Record<LayerId, number> = {
   beliefs: 3,
   sectors: 4,
   trajectory: 5,
-  services: 6,
-  products: 7,
-  background: 8,
+  holdings: 6,
+  background: 7,
 };
 
 /**
  * Cross-layer relationships, derived from the content (never hand-maintained):
  *
- *   person  ↔ company          (who.company → services primary title)
- *   company ↔ sector           (services primary .sector → sectors primary)
- *   offering ↔ company         (services secondary .company → services primary id)
+ *   person  ↔ company          (who.company → holdings service primary title)
+ *   company ↔ sector           (holdings service primary .sector → sectors primary)
+ *   offering ↔ company         (holdings service secondary .company → service primary id)
  *   offering ↔ sector
  *   product ↔ sector
- *   product ↔ sector products node  (products secondary .parent → products primary id)
+ *   product ↔ sector products node  (holdings product secondary .parent → product primary id)
  *   domain  ↔ sector(s)        (sectors secondary .relatedSectors)
  *
  * Every edge is added in both directions. Beliefs have no edges by design.
@@ -38,7 +37,7 @@ export function buildRelated(nodes: Node[]): Map<string, NodeRef[]> {
     edges.get(b)!.add(a);
   };
 
-  const companies = nodes.filter((n) => n.layerId === 'services' && n.tier === 'primary');
+  const companies = nodes.filter((n) => isService(n) && n.tier === 'primary');
   const companyIdByTitle = new Map(companies.map((c) => [kebab(c.title), c.id]));
 
   for (const node of nodes) {
@@ -58,14 +57,11 @@ export function buildRelated(nodes: Node[]): Map<string, NodeRef[]> {
         }
         break;
       }
-      case 'services': {
+      case 'holdings': {
         link(node.id, node.sector);
-        if (node.tier === 'secondary' && node.company) link(node.id, node.company);
-        break;
-      }
-      case 'products': {
-        link(node.id, node.sector);
-        if (node.tier === 'secondary' && node.parent) link(node.id, node.parent);
+        if (node.tier !== 'secondary') break;
+        const parent = node.kind === 'service' ? node.company : node.parent;
+        if (parent) link(node.id, parent);
         break;
       }
       default:

@@ -28,11 +28,11 @@ There are exactly three sectors. Everywhere a sector is referenced, use the **id
 | id | label (tags) | display title | color token |
 |---|---|---|---|
 | `synbio` | SynBio | Synthetic Bio | `--sector-synbio` `#5A9E6F` |
-| `security` | Security | Security | `--sector-security` `#E0945A` |
+| `security` | NatSec | National Security | `--sector-security` `#E0945A` |
 | `systems` | Systems | Systems | `--sector-systems` `#9B8ABF` |
 
 The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio`, `synthetic bio`,
-`SynBio`, `Security`, `Systems` (any case).
+`SynBio`, `Security`, `NatSec`, `Nat Sec`, `National Security`, `Systems` (any case).
 
 ## `layers.json`
 
@@ -48,8 +48,8 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | `title` | shown in the stage header |
 | `shortTitle` | left nav / breadcrumb / related-strip grouping |
 | `path` | route |
-| `nodesFile` | file in this folder, or `null` (welcome) |
-| `hasDensity` | Compressed collapses this layer's `secondary` nodes |
+| `nodesFile` | file in this folder, or `null` (welcome). Informational: the loader imports the files itself. Our Holdings (`holdings`) lists both of its files |
+| `hasDensity` | The layer offers the Overview / Examples toggle (shown in the top bar only while it is active). Layers without it always render compressed: their `secondary` nodes stay folded on the stage and in the nav |
 | `subtitle` | optional; shown under the stage title. Absent/empty → no subtitle |
 | `videoLink` | optional; a layer-wide video (same forms as `video_link`). Absent/empty → no play button beside the title |
 
@@ -94,6 +94,10 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 
 ## `service-nodes.json`
 
+The service companies and their offerings. They render on the **Our Holdings** layer (`holdings`) together
+with `product-nodes.json`; every node from this file gets `kind: "service"` in the app, every node from the
+products file `kind: "product"`. Node ids must be unique across both files.
+
 | field | type | notes |
 |---|---|---|
 | `id` | string | |
@@ -109,6 +113,10 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 Two offering ids are suffixed with their company because the bare kebab is already taken by a
 Sectors domain node: `molecular-engineering-growth-curve-bio`, `operations-fountain-city-partners`.
 
+Overview shows one hero card per company; Examples lists the offerings at the front of their sector's band,
+ahead of the products, and puts a company chip in the band header. Starling Intel and its offerings were
+removed from this file on 2026-09-16 (recoverable from git history).
+
 ## `product-nodes.json`
 
 | field | type | notes |
@@ -123,8 +131,9 @@ Sectors domain node: `molecular-engineering-growth-curve-bio`, `operations-fount
 | `gallery` | string[] | **secondary only**; 3–5 image paths; empty → generated placeholders |
 | `tagline`, `blurb`, `bullet_points`, `video_link`, `context_items` | | primary `tagline` is the summary on the Compressed card |
 
-Under Compressed density the products fold away and the three primaries render as summary cards;
-Expanded shows the sector bands, whose titles open the primary.
+On Our Holdings, Overview (Compressed) shows the three primaries as summary cards under the company
+cards; Examples (Expanded) shows the sector bands, whose titles open the primary, with the sector's
+service offerings ahead of its products.
 
 ## `background-nodes.json`
 

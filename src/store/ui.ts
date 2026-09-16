@@ -6,7 +6,7 @@ import type { Density } from '../data/types';
  * Everything that is *not* in the URL. `layerId` and `focusedNodeId` come from
  * React Router params — never mirror them here.
  *
- * `density` and the two panel flags persist to localStorage so a presenter's
+ * The two panel flags persist to localStorage so a presenter's
  * setup survives a reload; transient flags (search, video, presentation) do not.
  */
 export interface UiState {
@@ -131,8 +131,14 @@ export const useUi = create<UiState>()(
     }),
     {
       name: 'sc-ui',
-      version: 1,
-      partialize: (s) => ({ density: s.density, leftOpen: s.leftOpen, rightOpen: s.rightOpen }),
+      // v2: density is no longer persisted. Every visit starts on Overview; the
+      // toggle only exists on Our Holdings and its choice lasts the session.
+      version: 2,
+      migrate: (persisted) => {
+        const stored = (persisted ?? {}) as Partial<Pick<UiState, 'leftOpen' | 'rightOpen'>>;
+        return { leftOpen: stored.leftOpen ?? INITIAL.leftOpen, rightOpen: stored.rightOpen ?? INITIAL.rightOpen };
+      },
+      partialize: (s) => ({ leftOpen: s.leftOpen, rightOpen: s.rightOpen }),
     },
   ),
 );

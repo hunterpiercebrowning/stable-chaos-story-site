@@ -45,11 +45,13 @@ const NODES: Record<string, string[]> = {
   who: ['hunter-browning', 'ben-schultz', 'jared-schnefke', 'trace-williams'],
   beliefs: ['trusted-access', 'consilience', 'nth-specificity', 'compute', 'china'],
   sectors: ['synbio', 'security', 'biosecurity', 'cloud-lab', 'cyber', 'signals-and-spectrum'],
-  services: ['starling-intel', 'red-teaming', 'growth-curve-bio', 'biomolecule-rapid-prototyping'],
-  products: ['conus-coat', 'conformal-tactical-antennas', 'starling-os', 'private-pear', 'operatoriq'],
+  holdings: [
+    'growth-curve-bio', 'biomolecule-rapid-prototyping', 'fountain-city-partners', 'custom-software',
+    'conus-coat', 'conformal-tactical-antennas', 'starling-os', 'private-pear', 'operatoriq',
+  ],
 };
 const LAYERS = Object.keys(NODES);
-const VIDEO_NODES = ['red-teaming', 'starling-intel', 'conus-coat', 'conformal-tactical-antennas'];
+const VIDEO_NODES = ['biomolecule-rapid-prototyping', 'growth-curve-bio', 'conus-coat', 'conformal-tactical-antennas'];
 const QUERIES = ['antenna', 'bio', 'red team', 'china', 'starling', 'plasma'];
 const CONTEXT_ITEMS = [
   { title: 'CSIS article', itemType: 'article', url: 'https://www.csis.org/analysis/biosecurity' },

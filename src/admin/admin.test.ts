@@ -29,14 +29,14 @@ describe('describeEvent', () => {
   it('resolves node ids to titles', () => {
     expect(describeEvent(ev('node_blur', { nodeId: 'biosecurity', dwellMs: 42_000 })).text).toBe('Left Biosecurity');
     expect(describeEvent(ev('node_blur', { nodeId: 'biosecurity', dwellMs: 42_000 })).detail).toBe('after 42s');
-    expect(describeEvent(ev('node_focus', { nodeId: 'red-teaming', via: 'nav' })).text).toBe('Focused Red Teaming');
+    expect(describeEvent(ev('node_focus', { nodeId: 'conus-coat', via: 'nav' })).text).toBe('Focused Conus Coat');
   });
   it('renders video, search, emphasis and context events', () => {
-    const play = describeEvent(ev('video_play', { nodeId: 'red-teaming', pct: 80 }));
-    expect(`${play.text} · ${play.detail}`).toBe('Played Red Teaming video · 80%');
+    const play = describeEvent(ev('video_play', { nodeId: 'conus-coat', pct: 80 }));
+    expect(`${play.text} · ${play.detail}`).toBe('Played Conus Coat video · 80%');
     const s = describeEvent(ev('search', { q: 'antenna', resultCount: 3 }));
     expect(`${s.text} · ${s.detail}`).toBe("Searched 'antenna' · 3 results");
-    expect(describeEvent(ev('emphasis_change', { value: 'security' })).text).toBe('Emphasis → Security');
+    expect(describeEvent(ev('emphasis_change', { value: 'security' })).text).toBe('Emphasis → NatSec');
     expect(describeEvent(ev('context_item_open', { nodeId: 'synbio', title: 'CSIS article', itemType: 'article' })).text).toBe(
       'Opened context item: CSIS article',
     );

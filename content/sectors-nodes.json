@@ -49,11 +49,11 @@
   {
     "id": "security",
     "type": "primary",
-    "title": "Security",
+    "title": "National Security",
     "sector": "security",
     "background_image": "",
     "tagline": "Capabilities for contested environments",
-    "blurb": "We live in a compromised world, where AI is accelerating every threat vector and the digital landscape leaves us more exploitable than ever before. Threats don't stay in a single lane, so our security capability pairs cutting-edge technology with tried and true techniques across every domain that matters, at a standard usually reserved for the highest levels of government.",
+    "blurb": "We live in a compromised world, where AI is accelerating every threat vector and the digital landscape leaves us more exploitable than ever before. Threats don't stay in a single lane, so our national security capability pairs cutting-edge technology with tried and true techniques across every domain that matters, at a standard usually reserved for the highest levels of government.",
     "bullet_points": [
       "Contested spectrum is the default: peer adversaries jam, intercept and geolocate. Legacy comms assume permissive environments that no longer exist.",
       "Detection is lethal: emitting is exposure. Units need to move data without lighting up the spectrum.",

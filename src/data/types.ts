@@ -9,7 +9,7 @@ export type SectorId = (typeof SECTOR_IDS)[number];
 
 export const SECTOR_LABEL: Record<SectorId, string> = {
   synbio: 'SynBio',
-  security: 'Security',
+  security: 'NatSec',
   systems: 'Systems',
 };
 
@@ -20,8 +20,7 @@ export type LayerId =
   | 'beliefs'
   | 'sectors'
   | 'trajectory'
-  | 'services'
-  | 'products'
+  | 'holdings'
   | 'background';
 
 export interface Layer {
@@ -105,8 +104,16 @@ export interface SectorNode extends NodeBase {
   relatedSectors: SectorId[];
 }
 
+/**
+ * Our Holdings is one layer over two content files: the service companies
+ * (`service-nodes.json`) and the products (`product-nodes.json`). `kind` tells
+ * them apart; each keeps its own two tiers.
+ */
+export type HoldingKind = 'service' | 'product';
+
 export interface ServiceNode extends NodeBase {
-  layerId: 'services';
+  layerId: 'holdings';
+  kind: 'service';
   sector: SectorId;
   /** Primary (company) nodes only. */
   website?: string;
@@ -121,7 +128,8 @@ export type ProductStage = 'active' | 'slated';
 export type ProductCategory = 'Bioproduct' | 'Hardware' | 'Software';
 
 export interface ProductNode extends NodeBase {
-  layerId: 'products';
+  layerId: 'holdings';
+  kind: 'product';
   /** On both tiers: a primary is the sector's summary node, a secondary a product. */
   sector: SectorId;
   /** Secondary (product) nodes only. */
@@ -153,6 +161,12 @@ export type Node =
   | ServiceNode
   | ProductNode
   | BackgroundNode;
+
+export type HoldingNode = ServiceNode | ProductNode;
+
+export const isHolding = (node: Node): node is HoldingNode => node.layerId === 'holdings';
+export const isService = (node: Node): node is ServiceNode => isHolding(node) && node.kind === 'service';
+export const isProduct = (node: Node): node is ProductNode => isHolding(node) && node.kind === 'product';
 
 /** Lightweight pointer used by the related strip and search results. */
 export interface NodeRef {

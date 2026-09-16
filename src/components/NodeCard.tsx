@@ -1,8 +1,9 @@
 import { motion, useReducedMotion } from 'motion/react';
 import type { ReactNode, Ref } from 'react';
 import { nodeSectors } from '../data/normalize';
-import { BELIEF_TYPE_LABEL, type Node } from '../data/types';
+import { BELIEF_TYPE_LABEL, isHolding, isProduct, type Node } from '../data/types';
 import { cn } from '../lib/cn';
+import { KindTag } from './KindTag';
 import { SectorTag } from './SectorTag';
 import { StageTag } from './StageTag';
 import './node-card.css';
@@ -34,9 +35,8 @@ function defaultSubtitle(node: Node): string | null {
   switch (node.layerId) {
     case 'who':
       return `${node.role} · ${node.company}`;
-    case 'products':
-      return node.category ?? 'Sector';
-    case 'services':
+    case 'holdings':
+      if (node.kind === 'product') return node.category ?? 'Sector';
       return node.tier === 'primary' ? 'Company' : 'Offering';
     case 'sectors':
       return node.tier === 'primary' ? 'Sector' : 'Domain';
@@ -108,8 +108,9 @@ export function NodeCard({
           </span>
           {showTags && size !== 'xs' ? (
             <span className="node-card-tags">
+              {isHolding(node) ? <KindTag kind={node.kind} /> : null}
               {sectors[0] ? <SectorTag sector={sectors[0]} second={sectors[1] ?? null} /> : null}
-              {node.layerId === 'products' && node.stage ? <StageTag stage={node.stage} /> : null}
+              {isProduct(node) && node.stage === 'slated' ? <StageTag stage="slated" /> : null}
             </span>
           ) : null}
         </>

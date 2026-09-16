@@ -11,7 +11,7 @@ describe('navigation intent → via', () => {
     const intent = { via: 'nav' as const, path: '/sectors/biosecurity', at };
     expect(viaFor(intent, '/sectors/biosecurity', at + 10)).toBe('nav');
     expect(viaFor(intent, '/sectors', at + 10)).toBe('nav');
-    expect(viaFor(intent, '/services', at + 10)).toBe('url');
+    expect(viaFor(intent, '/holdings', at + 10)).toBe('url');
     expect(viaFor(intent, '/sectors/cyber', at + 10)).toBe('url');
   });
   it('treats the welcome path as its own target only', () => {
@@ -19,9 +19,9 @@ describe('navigation intent → via', () => {
     expect(viaFor({ via: 'arrow', path: '/who', at }, '/', at)).toBe('url');
   });
   it('is written by the store action and read back live', () => {
-    useUi.getState().setNavIntent('keyboard', '/products/private-pear');
-    expect(navVia('/products/private-pear')).toBe('keyboard');
-    expect(navVia('/products')).toBe('keyboard');
+    useUi.getState().setNavIntent('keyboard', '/holdings/private-pear');
+    expect(navVia('/holdings/private-pear')).toBe('keyboard');
+    expect(navVia('/holdings')).toBe('keyboard');
     expect(navVia('/who')).toBe('url');
   });
 });

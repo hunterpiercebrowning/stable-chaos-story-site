@@ -3,7 +3,7 @@ import { FocusFrame } from '../../components/FocusFrame';
 import { SectorTag } from '../../components/SectorTag';
 import { VideoPlayer } from '../../components/VideoPlayer';
 import { getCopy, getNode } from '../../data';
-import type { Node, ServiceNode } from '../../data/types';
+import { isService } from '../../data/types';
 import { cn } from '../../lib/cn';
 import { track } from '../../lib/track';
 import { useUi } from '../../store/ui';
@@ -12,8 +12,6 @@ import type { FocusViewProps } from '../types';
 import { CompanyLogo } from './ServicesNode';
 import { WebsiteLink } from './WebsiteLink';
 import './services.css';
-
-const isService = (node: Node): node is ServiceNode => node.layerId === 'services';
 
 /**
  * Company focus: large logo, website button, blurb, bullets and video.

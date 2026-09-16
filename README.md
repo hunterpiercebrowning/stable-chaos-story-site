@@ -2,7 +2,7 @@
 
 A private, link-gated pitch experience for **context.stablechaos.com**. Nine layers of story
 (Welcome → Who We Are → Our Operational Advantage → What We Believe → Critical Sectors →
-The Roadmap → Services → Products → Foundational Background), navigated like a layered node
+The Roadmap → Our Holdings → Foundational Background), navigated like a layered node
 graph: a left index, a centre stage with focusable nodes, and a right "Supporting Context" tray. Every visit is tracked per invitation link and
 reviewed in a built-in admin.
 
@@ -348,7 +348,7 @@ wrangler.toml    Pages project config: output dir, D1 binding, secret names
 - The URL owns `layerId` and the focused node; Zustand owns everything else.
 - Components import data only from `src/data` and fire events only through `track()`.
 - Colors, spacing, radii and motion come from `src/styles/tokens.css`; no hardcoded hex elsewhere.
-- Compressed density collapses secondary nodes on Sectors and Services.
+- The Overview / Examples toggle appears only on Our Holdings; Critical Sectors always renders compressed.
 - Desktop only: below 1024px the site shows the full-screen "please view on a laptop or desktop".
 - `vite.config.ts` decides which chunks are private (content, `src/data`, `src/layers`,
   `src/shell`, `src/admin` pages, three.js). Keep new content-bearing modules under those paths.

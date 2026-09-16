@@ -119,10 +119,10 @@ export function nodeLayerTitle(id: string | null | undefined): string {
 const VALUE_LABEL: Record<string, string> = {
   all: 'All',
   synbio: 'SynBio',
-  security: 'Security',
+  security: 'NatSec',
   systems: 'Systems',
   compressed: 'Overview',
-  expanded: 'Examples',
+  expanded: 'Details',
 };
 
 function labelFor(v: unknown): string {

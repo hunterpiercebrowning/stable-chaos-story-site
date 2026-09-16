@@ -6,7 +6,7 @@ import './controls.css';
 
 const OPTIONS: { value: Density; label: string; icon: 'compress' | 'expand' }[] = [
   { value: 'compressed', label: 'Overview', icon: 'compress' },
-  { value: 'expanded', label: 'Examples', icon: 'expand' },
+  { value: 'expanded', label: 'Details', icon: 'expand' },
 ];
 
 /**

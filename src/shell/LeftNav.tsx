@@ -6,6 +6,7 @@ import { getLayers, getNavTree, getNodes } from '../data';
 import type { Layer, LayerId, Node } from '../data/types';
 import { Icon, type IconName } from '../components/Icon';
 import { track } from '../lib/track';
+import { layerDensity } from '../layers/helpers';
 import { useUi } from '../store/ui';
 import { useRoute } from './useRoute';
 import './leftnav.css';
@@ -18,15 +19,14 @@ const LAYER_ICON: Record<LayerId, IconName> = {
   beliefs: 'lightbulb',
   sectors: 'grid',
   trajectory: 'clock',
-  services: 'briefcase',
-  products: 'box',
+  holdings: 'briefcase',
   background: 'book',
 };
 
 /**
  * Site index. Open: a search entry plus a collapsible group per layer with the
  * primary tier bold and each primary's secondaries nested under it (hidden under
- * Compressed density with a "+N more" affordance). Only the current layer's group
+ * Compressed density; layers with the toggle get a "+N more" affordance). Only the current layer's group
  * is open; the rest collapse when the layer changes. Closed: an icon rail, one
  * icon per layer, with tooltips.
  */
@@ -95,7 +95,7 @@ function NavFull() {
             active={layer.id === layerId}
             open={navGroups[layer.id] ?? layer.id === layerId}
             nodeId={nodeId}
-            compressed={layer.hasDensity && density === 'compressed'}
+            compressed={layerDensity(layer, density) === 'compressed'}
           />
         ))}
       </nav>
@@ -206,7 +206,7 @@ function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
 
             {renderChildren(orphans)}
 
-            {secondaryCount > 0 && compressed ? (
+            {layer.hasDensity && secondaryCount > 0 && compressed ? (
               <button
                 type="button"
                 className="leftnav-more"

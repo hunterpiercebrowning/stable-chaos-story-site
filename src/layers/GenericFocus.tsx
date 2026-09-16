@@ -17,8 +17,10 @@ export function GenericFocus({ node, onClose }: FocusViewProps) {
   const eyebrow =
     node.layerId === 'who'
       ? node.company
-      : node.layerId === 'services' && node.tier === 'secondary'
-        ? (getLayer('services')?.shortTitle ?? 'Services')
+      : node.layerId === 'holdings' && node.tier === 'secondary'
+        ? node.kind === 'service'
+          ? 'Service'
+          : 'Product'
         : (layer?.title ?? '');
 
   const subtitle = node.layerId === 'who' ? node.role : copy.tagline;

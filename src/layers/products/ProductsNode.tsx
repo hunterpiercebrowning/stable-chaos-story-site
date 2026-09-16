@@ -2,7 +2,7 @@ import { Icon } from '../../components/Icon';
 import { NodeCard } from '../../components/NodeCard';
 import { SectorTag } from '../../components/SectorTag';
 import { getBackdrop, getCopy } from '../../data';
-import type { Node, ProductNode } from '../../data/types';
+import { isProduct } from '../../data/types';
 import { cn } from '../../lib/cn';
 import type { NodeViewProps } from '../types';
 import { CATEGORY_ICON } from './categoryIcon';
@@ -24,15 +24,15 @@ export function CategoryMix({ stats, className }: { stats: SectorProductStats; c
   );
 }
 
-const isProduct = (node: Node): node is ProductNode => node.layerId === 'products';
-
 /**
- * Products nodes. A sector primary is the Compressed hero card: sector motif
- * backdrop, the category mix, title, the summary tagline and the product
- * counts; `collapsed` hides it under Expanded, where the bands take over.
+ * Product nodes on the Our Holdings layer. A sector primary is the Overview
+ * hero card: sector motif backdrop, the category mix, title, the summary
+ * tagline and the product counts; `collapsed` hides it under Examples, where
+ * the bands take over. The Overview's "Products" divider names the kind, so
+ * the card carries no kind tag of its own.
  *
  * A product (secondary) card: category icon top-left, title, category label,
- * then the sector and stage tags the base card already renders. Active
+ * then the kind, sector and stage tags the base card already renders. Active
  * products are solid; slated ones are dashed and tagged "Slated".
  */
 export function ProductsNode({ node, collapsed, active, onSelect }: NodeViewProps) {

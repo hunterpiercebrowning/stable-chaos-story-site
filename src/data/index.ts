@@ -4,7 +4,7 @@ import { nodeSectors, parentIds } from './normalize';
 import { placeholderMotif, placeholderPoster } from './placeholders';
 import { buildRelated, groupByLayer } from './related';
 import { searchNodes } from './search';
-import type { ContextItem, Layer, LayerId, Node, NodeRef, SearchResult } from './types';
+import { isProduct, type ContextItem, type Layer, type LayerId, type Node, type NodeRef, type SearchResult } from './types';
 
 /* ── public API ─────────────────────────────────────── */
 
@@ -87,7 +87,7 @@ export interface Backdrop {
  */
 export function getBackdrop(node: Node): Backdrop {
   const authored =
-    node.layerId === 'sectors' || (node.layerId === 'products' && node.tier === 'primary')
+    node.layerId === 'sectors' || (isProduct(node) && node.tier === 'primary')
       ? (node.backgroundImage ?? '')
       : '';
   if (authored) return { src: authored, isPlaceholder: false };
@@ -159,5 +159,5 @@ export function getPoster(node: Node, link: string = node.videoLink): string {
 export { nodeSectors, parentIds, toSectorId, kebab, toRef, byOrder } from './normalize';
 export { groupByLayer };
 export { placeholderImage, placeholderGallery, placeholderMotif, placeholderPoster, sectorHex } from './placeholders';
-export { SECTOR_IDS, SECTOR_LABEL } from './types';
+export { SECTOR_IDS, SECTOR_LABEL, isHolding, isProduct, isService } from './types';
 export type * from './types';

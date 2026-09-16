@@ -1,22 +1,9 @@
-/* WS5 — Products — layer styles.
-   Class prefix: .products-  (layer bands, product node, focus, gallery, lightbox) */
+/* Products on the Our Holdings layer.
+   Class prefix: .products-  (sector bands, sector summary card, product node, focus, gallery, lightbox) */
 
 /* ══════════════════════════════════════════════════════
-   Layer: three sector bands
+   Examples: three sector bands (rendered by HoldingsLayer)
    ══════════════════════════════════════════════════════ */
-
-.products-layer {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex: 1 0 auto;
-  padding: var(--s-2) var(--s-2) var(--s-6);
-}
-
-/* Compressed: only the sector summary cards remain — centre them in the stage. */
-.products-layer[data-collapsed='true'] {
-  justify-content: center;
-}
 
 .products-bands {
   display: flex;
@@ -28,8 +15,7 @@
   transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease);
 }
 
-.products-bands[data-hidden='true'],
-.products-sectors[data-hidden='true'] {
+.products-bands[data-hidden='true'] {
   max-height: 0;
   opacity: 0;
   pointer-events: none;
@@ -51,15 +37,20 @@
   --band: var(--sector-systems);
 }
 
-/* Header: label · coloured rule · counts. */
+/* Header: label · company chips · coloured rule · counts. A long title keeps
+   to one line; when the row runs out of room the counts drop to a second
+   line, still flush right. */
 .products-band-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--s-4);
+  gap: var(--s-3) var(--s-4);
   padding: 0 var(--s-1);
 }
 
 .products-band-title {
+  white-space: nowrap;
+  text-align: left;
   font-size: var(--fs-sm);
   font-weight: 600;
   letter-spacing: var(--ls-label);
@@ -83,7 +74,8 @@
 }
 
 .products-band-rule {
-  flex: 1 1 auto;
+  flex: 1 1 32px;
+  min-width: 32px;
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -97,6 +89,7 @@
 .products-band-count {
   display: inline-flex;
   align-items: center;
+  margin-left: auto;
   gap: var(--s-2);
   font-size: var(--fs-xs);
   font-weight: 500;
@@ -118,29 +111,8 @@
 }
 
 /* ══════════════════════════════════════════════════════
-   Sector summary cards (Compressed)
+   Sector summary cards (Overview)
    ══════════════════════════════════════════════════════ */
-
-.products-sectors {
-  display: grid;
-  grid-template-columns: repeat(var(--products-cols, 3), minmax(0, 1fr));
-  gap: var(--s-4);
-  align-items: stretch;
-  width: 100%;
-  max-width: 1080px;
-  max-height: 1200px;
-  margin: 0 auto;
-  /* Room for the hover lift and glow inside the clipped box. */
-  padding: var(--s-3) 0;
-  overflow: hidden;
-  opacity: 1;
-  transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease),
-    padding var(--dur-slow) var(--ease);
-}
-
-.products-sectors[data-hidden='true'] {
-  padding: 0;
-}
 
 .products-sector-card {
   width: 100%;
@@ -287,12 +259,6 @@
   display: inline;
 }
 
-@media (max-width: 760px) {
-  .products-sectors {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
 /* ══════════════════════════════════════════════════════
    Product node
    ══════════════════════════════════════════════════════ */
@@ -300,6 +266,33 @@
 .products-node {
   min-height: 132px;
   gap: var(--s-3);
+}
+
+/* An active product carries the sector accent along its top edge, the
+   counterpart of the service card's left-edge rule; slated ones stay bare. */
+.products-node:not(.products-node--slated) {
+  background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent, var(--green-2)) 9%, transparent) 0%,
+      transparent 45%
+    ),
+    var(--glass);
+}
+
+.products-node:not(.products-node--slated)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--s-4);
+  right: var(--s-4);
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent, var(--green-2)) 90%, transparent),
+    color-mix(in srgb, var(--accent, var(--green-2)) 25%, transparent)
+  );
+  opacity: 0.9;
 }
 
 .products-node .node-card-media {

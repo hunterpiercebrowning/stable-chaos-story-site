@@ -1,0 +1,174 @@
+/* Our Holdings — layer styles.
+   Class prefix: .holdings-  (the layer shell, the Overview groups, the band company chip).
+   The sector bands, the product cards and the service cards keep their own
+   prefixes in products.css and services.css. */
+
+.holdings-layer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 0 auto;
+  padding: var(--s-2) var(--s-2) var(--s-6);
+}
+
+/* Overview: only the hero cards remain — centre them in the stage. */
+.holdings-layer[data-collapsed='true'] {
+  justify-content: center;
+}
+
+/* ══════════════════════════════════════════════════════
+   Overview: two labelled rows of hero cards
+   ══════════════════════════════════════════════════════ */
+
+.holdings-overview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  width: 100%;
+  max-width: 1080px;
+  max-height: 1400px;
+  margin: 0 auto;
+  /* Room for the hover lift and glow inside the clipped box. */
+  padding: var(--s-3) 0;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease),
+    padding var(--dur-slow) var(--ease);
+}
+
+.holdings-overview[data-hidden='true'] {
+  max-height: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.holdings-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+/* Header: kind label · rule · counts. Neutral, so the sector colours stay with the cards. */
+.holdings-group-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: 0 var(--s-1);
+}
+
+.holdings-group-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.holdings-group-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--light) 40%, transparent) 0%,
+    color-mix(in srgb, var(--light) 12%, transparent) 60%,
+    transparent 100%
+  );
+}
+
+.holdings-group[data-kind='product'] .holdings-group-rule {
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--light) 32%, transparent) 0 6px,
+    transparent 6px 12px
+  );
+}
+
+.holdings-group-summary {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.holdings-group-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--holdings-cols, 3), minmax(0, 1fr));
+  gap: var(--s-4);
+  align-items: stretch;
+}
+
+/* The company cards take the same column width as the three product cards
+   below them: N columns plus the N-1 gaps between, out of a 3-column row. */
+.holdings-group[data-kind='service'] .holdings-group-grid {
+  width: calc((100% * var(--holdings-cols) - var(--s-4) * (3 - var(--holdings-cols))) / 3);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* The two rows share one hero height so the layer fits the stage. */
+.holdings-overview .services-company-card,
+.holdings-overview .products-sector-card {
+  min-height: 208px;
+}
+
+@media (max-width: 760px) {
+  .holdings-group-grid,
+  .holdings-group[data-kind='service'] .holdings-group-grid {
+    width: 100%;
+    max-width: none;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   Examples: company chip in the band head
+   ══════════════════════════════════════════════════════ */
+
+.holdings-band-company {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 2px 10px 2px 3px;
+  border-radius: var(--r-pill);
+  border: 1px solid color-mix(in srgb, var(--band) 40%, var(--glass-border));
+  background: color-mix(in srgb, var(--band) 8%, transparent);
+  font-family: inherit;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+
+.holdings-band-company:hover,
+.holdings-band-company[aria-pressed='true'] {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--band) 70%, transparent);
+  background: color-mix(in srgb, var(--band) 16%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--band) 20%, transparent);
+}
+
+.holdings-band-company-logo {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--band) 14%, var(--glass));
+  border: 1px solid color-mix(in srgb, var(--band) 35%, var(--glass-border));
+  overflow: hidden;
+}
+
+.holdings-band-company-logo .services-logo--card {
+  width: 13px;
+  height: 13px;
+}

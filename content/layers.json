@@ -28,12 +28,12 @@
   {
     "id": "beliefs",
     "order": 3,
-    "title": "What We Believe",
-    "shortTitle": "Beliefs",
+    "title": "Unique Value in the Age of AI",
+    "shortTitle": "Unique Value",
     "path": "/beliefs",
-    "nodesFile": "beliefs-nodes.json",
+    "nodesFile": null,
     "subtitle": "Artificial Intelligence & next-gen technologies are rewriting value creation.",
-   "videoLink": "1231431"
+    "videoLink": "1231431"
   },
   {
     "id": "sectors",
@@ -42,7 +42,6 @@
     "shortTitle": "Sectors",
     "path": "/sectors",
     "nodesFile": "sectors-nodes.json",
-    "hasDensity": true,
     "subtitle": "Our maximum value lies with the most important problems we are disproportionally advantaged to solve."
   },
   {
@@ -55,30 +54,19 @@
     "subtitle": "We've built a foundation for frontier advantage and are now scaling our offerings across critical sectors and problems."
   },
   {
-    "id": "services",
+    "id": "holdings",
     "order": 6,
-    "title": "Services",
-    "shortTitle": "Services",
-    "path": "/services",
-    "nodesFile": "service-nodes.json",
+    "title": "Our Holdings",
+    "shortTitle": "Holdings",
+    "path": "/holdings",
+    "nodesFile": "service-nodes.json + product-nodes.json",
     "hasDensity": true,
-    "subtitle": "Developing authentic trust with industry participants while developing insights that inform our product strategies.",
-    "videoLink": "1231431"
-  },
-  {
-    "id": "products",
-    "order": 7,
-    "title": "Products",
-    "shortTitle": "Products",
-    "path": "/products",
-    "nodesFile": "product-nodes.json",
-    "hasDensity": true,
-    "subtitle": "Unique offerings based on hard won, first hand experience and first principals thinking.",
-    "videoLink": "1231431"
+    "subtitle": "Service companies that build trust and insight across our sectors, and the products that grow out of them.",
+    "videoLink": ""
   },
   {
     "id": "background",
-    "order": 8,
+    "order": 7,
     "title": "Foundational Background",
     "shortTitle": "Background",
     "path": "/background",

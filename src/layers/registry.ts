@@ -25,13 +25,9 @@ import { TrajectoryLayer } from './trajectory/TrajectoryLayer';
 import { TrajectoryNode } from './trajectory/TrajectoryNode';
 import { TrajectoryFocus } from './trajectory/TrajectoryFocus';
 
-import { ServicesLayer } from './services/ServicesLayer';
-import { ServicesNode } from './services/ServicesNode';
-import { ServicesFocus } from './services/ServicesFocus';
-
-import { ProductsLayer } from './products/ProductsLayer';
-import { ProductsNode } from './products/ProductsNode';
-import { ProductsFocus } from './products/ProductsFocus';
+import { HoldingsLayer } from './holdings/HoldingsLayer';
+import { HoldingsNode } from './holdings/HoldingsNode';
+import { HoldingsFocus } from './holdings/HoldingsFocus';
 
 import { BackgroundLayer } from './background/BackgroundLayer';
 import { BackgroundNode } from './background/BackgroundNode';
@@ -48,8 +44,7 @@ export const registry: Record<LayerId, LayerComponents> = {
   beliefs: { Layer: BeliefsLayer, Node: BeliefsNode, Focus: BeliefsFocus },
   sectors: { Layer: SectorsLayer, Node: SectorsNode, Focus: SectorsFocus },
   trajectory: { Layer: TrajectoryLayer, Node: TrajectoryNode, Focus: TrajectoryFocus },
-  services: { Layer: ServicesLayer, Node: ServicesNode, Focus: ServicesFocus },
-  products: { Layer: ProductsLayer, Node: ProductsNode, Focus: ProductsFocus },
+  holdings: { Layer: HoldingsLayer, Node: HoldingsNode, Focus: HoldingsFocus },
   background: { Layer: BackgroundLayer, Node: BackgroundNode, Focus: BackgroundFocus },
 };
 

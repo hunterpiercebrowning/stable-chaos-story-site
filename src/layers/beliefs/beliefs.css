@@ -1,344 +1,357 @@
-/* WS2 — What We Believe — layer styles.
-   Class prefix: .beliefs-  (e.g. .beliefs-node, .beliefs-column)
+/* Unique Value in the Age of AI — hard-coded layer (deck slide 04).
+   Class prefix: .beliefs-
 
-   Three columns read left to right, joined by flow connectors:
-     Threats (--threat, orange) → Disruptions (--disruption, yellow) → Advantages (--advantage, green-2)
-   Every tinted surface reads its color from --cluster / --accent so the card,
-   pill and focus frame stay in step with tokens.css. */
+   A list of the five advantages on the left, one shared detail panel on the
+   right. Hovering or focusing an item brings its copy up in the panel; with
+   nothing active the panel reads the premise. The panel's slot has a floor
+   height, so switching between items never moves the list or the page.
+   Each item owns an --accent, and the panel borrows the active one.
+   The two columns hold down to ~700px of stage width, because stacking pushes
+   the revealed copy below the fold at 1440 with both trays open; under that
+   the panel moves beneath the list. Below ~560px the rows tighten further. */
 
 /* ── layer ── */
-.beliefs-layer {
-  /* Shared top offset so all three column headers sit on the same line; the
-     flow arrows anchor to it too. */
-  --col-top: clamp(var(--s-5), 9vh, 88px);
-  --flow-w: 32px;
-  position: relative;
+.beliefs {
+  container-type: inline-size;
+  container-name: beliefs;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex: 1 0 auto;
   width: 100%;
-  padding: var(--s-2) var(--s-3) var(--s-5);
-  /* The stage can get narrow with both trays open: stack by container width. */
-  container-type: inline-size;
+  padding: var(--s-2) var(--s-2) var(--s-6);
 }
 
-.beliefs-story {
+.beliefs-grid {
   display: grid;
-  grid-template-columns:
-    minmax(0, 1fr) var(--flow-w) minmax(0, 1fr) var(--flow-w)
-    minmax(0, 1fr);
-  align-items: start;
-  column-gap: var(--s-2);
-  min-height: 100%;
-}
-
-/* ── flow connectors ── */
-.beliefs-flow {
-  --from: var(--threat);
-  --to: var(--disruption);
-  position: relative;
-  align-self: stretch;
-  z-index: 1;
-}
-.beliefs-flow--disruption-advantage {
-  --from: var(--disruption);
-  --to: var(--advantage);
-}
-
-/* A hairline dropping from the header line, blending the two colours it sits
-   between and fading out before the bottom of the page. */
-.beliefs-flow::before {
-  content: '';
-  position: absolute;
-  top: var(--col-top);
-  bottom: var(--s-6);
-  left: 50%;
-  width: 1px;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, color-mix(in srgb, var(--from), var(--to)) 40%, transparent) 0%,
-    transparent 100%
-  );
-}
-
-/* The arrow sits on the header line, so the three titles read as one sentence:
-   01 Threats → 02 Disruptions → 03 Advantages. */
-.beliefs-flow-arrow {
-  position: absolute;
-  top: var(--col-top);
-  left: 50%;
-  transform: translate(-50%, -4px);
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  color: var(--light);
-  background: var(--dark-2);
-  border: 1px solid color-mix(in srgb, var(--light) 18%, transparent);
-  box-shadow:
-    0 0 0 4px var(--dark),
-    0 0 18px color-mix(in srgb, var(--to) 30%, transparent);
-}
-
-/* ── columns ── */
-.beliefs-column {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-4);
-  min-width: 0;
-  min-height: 0;
-  padding-top: var(--col-top);
-  z-index: 1;
-}
-
-.beliefs-column--threat {
-  --cluster: var(--threat);
-}
-.beliefs-column--disruption {
-  --cluster: var(--disruption);
-}
-.beliefs-column--advantage {
-  --cluster: var(--advantage);
-}
-
-/* Soft field behind each column so the three colors visibly hand off. */
-.beliefs-column::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  /* Stretch, so the panel's rule runs the full height of the list beside it. */
+  align-items: stretch;
+  gap: var(--s-7);
   width: 100%;
-  height: 80%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--cluster) 9%, transparent) 0%,
-    transparent 100%
-  );
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: -1;
+  max-width: 1220px;
+  margin: 0 auto;
 }
 
-.beliefs-column-head {
-  display: grid;
-  grid-template-columns: auto auto 1fr;
-  align-items: center;
-  column-gap: var(--s-2);
-  row-gap: 2px;
-  padding: 0 var(--s-2);
-}
-
-.beliefs-column-step {
-  font-size: var(--fs-xs);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.08em;
-  color: color-mix(in srgb, var(--cluster) 60%, var(--text-ghost));
-}
-
-.beliefs-column-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--cluster);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--cluster) 55%, transparent);
-}
-
-.beliefs-column-title {
-  font-size: var(--fs-sm);
-  color: color-mix(in srgb, var(--cluster) 72%, var(--text-faint));
-}
-
-.beliefs-column-hint {
-  grid-column: 1 / -1;
-  min-width: 0;
-  font-size: var(--fs-xs);
-  color: var(--text-ghost);
-  letter-spacing: 0.02em;
-  /* One line always, so the three card stacks start level. */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.beliefs-column-nodes {
+/* ── the five ── */
+.beliefs-list {
   display: flex;
   flex-direction: column;
-  gap: var(--s-3);
-  min-height: 0;
-  padding: 0 var(--s-2);
-}
-
-.beliefs-column-empty {
   margin: 0;
-  padding: var(--s-3) var(--s-2);
-  font-size: var(--fs-xs);
-  color: var(--text-ghost);
-  border: 1px dashed color-mix(in srgb, var(--cluster) 30%, transparent);
-  border-radius: var(--r-md, 12px);
+  padding: 0;
+  list-style: none;
 }
 
-/* The organic offset lives on a wrapper: motion writes inline transforms on
-   the card itself for the grow-into-focus transition. */
-.beliefs-slot {
-  width: min(100%, 320px);
-  transform: translate(var(--ox, 0), var(--oy, 0));
-}
-
-.beliefs-slot .node-card {
-  width: 100%;
-}
-
-/* ── node card ── */
-.node-card.beliefs-node {
-  flex-direction: row;
-  align-items: center;
-  gap: var(--s-3);
-  min-height: 0;
-  padding: var(--s-3) var(--s-4) var(--s-3) var(--s-3);
-}
-
-/* Higher specificity than node-card.css's `[data-layer='beliefs']`, which
-   assumes every belief is an advantage. */
-.node-card.beliefs-node.beliefs-node--threat {
-  --accent: var(--threat);
-}
-.node-card.beliefs-node.beliefs-node--disruption {
-  --accent: var(--disruption);
-}
-.node-card.beliefs-node.beliefs-node--advantage {
-  --accent: var(--advantage);
-}
-
-.node-card.beliefs-node.is-active {
-  box-shadow:
-    var(--shadow-2),
-    0 0 28px color-mix(in srgb, var(--accent) 22%, transparent);
-}
-
-.beliefs-node-icon {
-  flex: none;
+.beliefs-item {
+  --accent: var(--text);
+  position: relative;
   display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--s-5);
+  padding: var(--s-5) var(--s-4) var(--s-5) var(--s-6);
+  border-top: 1px solid var(--glass-border);
+  outline: none;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: beliefs-rise 0.6s var(--ease) forwards;
+  animation-delay: calc(0.1s + var(--i, 0) * 0.06s);
+  transition: background var(--dur) var(--ease);
+}
+
+.beliefs-item:last-child {
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.beliefs-item:nth-child(1) {
+  --accent: var(--yellow);
+  --i: 0;
+}
+.beliefs-item:nth-child(2) {
+  --accent: var(--green-2);
+  --i: 1;
+}
+.beliefs-item:nth-child(3) {
+  --accent: var(--peach);
+  --i: 2;
+}
+.beliefs-item:nth-child(4) {
+  --accent: var(--lavender);
+  --i: 3;
+}
+.beliefs-item:nth-child(5) {
+  --accent: var(--green);
+  --i: 4;
+}
+
+.beliefs-item[data-active='true'] {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent) 9%, transparent) 0%,
+    transparent 78%
+  );
+}
+
+/* The accent tick: always present so the five read as five colour-coded
+   values at rest, then runs the full height of the row as it becomes active. */
+.beliefs-item-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: var(--accent);
+  transform: scaleY(0.42);
+  transform-origin: 50% 50%;
+  opacity: 0.5;
   transition:
-    background var(--dur) var(--ease),
-    box-shadow var(--dur) var(--ease);
+    transform var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
 }
 
-.beliefs-node:hover .beliefs-node-icon,
-.beliefs-node.is-active .beliefs-node-icon {
-  background: color-mix(in srgb, var(--accent) 20%, transparent);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 28%, transparent);
+.beliefs-item[data-active='true'] .beliefs-item-bar {
+  transform: scaleY(1);
+  opacity: 1;
 }
 
-.beliefs-node-body {
+.beliefs-item-index {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  color: color-mix(in srgb, var(--accent) 55%, transparent);
+  transition: color var(--dur) var(--ease);
+}
+
+.beliefs-item[data-active='true'] .beliefs-item-index {
+  color: var(--accent);
+}
+
+.beliefs-item-title {
+  font-size: clamp(1.15rem, 0.8cqi + 0.95rem, 1.55rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  text-wrap: balance;
+  transition: color var(--dur) var(--ease);
+}
+
+.beliefs-item[data-active='true'] .beliefs-item-title {
+  color: var(--accent);
+}
+
+.beliefs-item:focus-visible {
+  border-radius: var(--r-sm);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* ── shared detail panel ── */
+.beliefs-detail {
+  --accent: var(--green-2);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--s-2);
+  justify-content: center;
   min-width: 0;
+  padding-left: var(--s-6);
+  border-left: 1px solid var(--glass-border);
+  opacity: 0;
+  animation: beliefs-fade 0.6s var(--ease) 0.24s forwards;
 }
 
-.beliefs-node-title {
-  font-size: var(--fs-md);
+.beliefs-detail[data-index='0'] {
+  --accent: var(--yellow);
+}
+.beliefs-detail[data-index='1'] {
+  --accent: var(--green-2);
+}
+.beliefs-detail[data-index='2'] {
+  --accent: var(--peach);
+}
+.beliefs-detail[data-index='3'] {
+  --accent: var(--lavender);
+}
+.beliefs-detail[data-index='4'] {
+  --accent: var(--green);
+}
+
+/* A floor above the tallest blurb (03, the longest), so the slot is the same
+   height in every state: the list never moves and the panel's own copy does
+   not re-centre as you move between items. Raise this if the copy grows. */
+.beliefs-detail-slot {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 20.5em;
+}
+
+.beliefs-detail-card,
+.beliefs-detail-premise {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  animation: beliefs-detail-in 0.34s var(--ease) both;
+}
+
+/* Oversized ghost numeral: the only thing marking which of the five is up. */
+.beliefs-detail-index {
+  font-size: 3.6rem;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: color-mix(in srgb, var(--accent) 26%, transparent);
 }
 
-/* Type pill: same shape as the sector tag, tinted by the belief type. */
-.tag.beliefs-pill {
+.beliefs-detail-title {
+  margin: 0;
+  font-size: clamp(1.35rem, 1.1cqi + 1rem, 1.9rem);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
   color: var(--accent);
-  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  text-wrap: balance;
 }
 
-/* ── focus ── */
-.focus-frame.beliefs-focus--threat {
-  --accent: var(--threat);
-}
-.focus-frame.beliefs-focus--disruption {
-  --accent: var(--disruption);
-}
-.focus-frame.beliefs-focus--advantage {
-  --accent: var(--advantage);
+.beliefs-detail-body {
+  margin: 0;
+  max-width: 44ch;
+  font-size: 1.08rem;
+  line-height: 1.62;
+  color: var(--text-muted);
+  text-wrap: pretty;
 }
 
-.beliefs-focus-eyebrow {
+.beliefs-detail-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
+  color: var(--green-2);
 }
 
-.beliefs-focus-eyebrow-icon {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
+.beliefs-detail-lede {
+  margin: 0;
+  max-width: 34ch;
+  font-size: clamp(1.2rem, 1.1cqi + 0.95rem, 1.65rem);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--text);
+  text-wrap: pretty;
 }
 
-.beliefs-focus-eyebrow-type {
-  color: var(--accent);
+/* ── narrow stage ── */
+/* Tighter gutters before the columns give up entirely. */
+@container beliefs (max-width: 900px) {
+  .beliefs-grid {
+    gap: var(--s-6);
+  }
+
+  .beliefs-item {
+    padding-left: var(--s-5);
+  }
+
+  .beliefs-detail {
+    padding-left: var(--s-5);
+  }
 }
 
-.beliefs-focus-eyebrow-sep {
-  color: var(--text-ghost);
-}
-
-/* ── narrow: stack the story top to bottom, arrows turn downward ── */
-@container (max-width: 680px) {
-  .beliefs-story {
+@container beliefs (max-width: 700px) {
+  .beliefs-grid {
     grid-template-columns: minmax(0, 1fr);
-    row-gap: var(--s-2);
+    gap: var(--s-5);
   }
 
-  .beliefs-column {
-    padding-top: var(--s-3);
+  .beliefs-detail {
+    padding: var(--s-5) 0 0;
+    border-left: none;
+    border-top: 1px solid var(--glass-border);
   }
 
-  .beliefs-flow {
-    height: var(--flow-w);
-    margin: 0 var(--s-4);
+  .beliefs-detail-slot {
+    min-height: 13em;
   }
-  .beliefs-flow::before {
-    top: 50%;
-    bottom: auto;
-    left: 0;
-    right: 0;
+}
+
+@container beliefs (max-width: 560px) {
+  .beliefs-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-1);
+    padding-left: var(--s-4);
+  }
+}
+
+/* No pointer to hover with: the panel can never fill, so each item carries its
+   own copy inline and the panel steps aside. */
+@media (hover: none) {
+  .beliefs-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Restate the two columns: this block outranks the narrow-container rule
+     above, and a lone 1fr column would collapse to 0 next to the blurb's
+     explicit column 2, pushing the index on top of the title. */
+  .beliefs-item {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--s-1) var(--s-4);
+  }
+
+  /* Undo every property of .sc-visually-hidden (base.css) so the copy shows. */
+  .beliefs-item .sc-visually-hidden {
+    position: static;
     width: auto;
-    height: 1px;
-    transform: translateY(-50%);
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      color-mix(in srgb, var(--from) 45%, transparent) 30%,
-      color-mix(in srgb, var(--to) 45%, transparent) 70%,
-      transparent 100%
-    );
-  }
-  .beliefs-flow-arrow {
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(90deg);
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+    grid-column: 2;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--text-muted);
   }
 
-  .beliefs-slot {
-    width: min(100%, 360px);
+  .beliefs-detail {
+    display: none;
+  }
+}
+
+@keyframes beliefs-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes beliefs-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes beliefs-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .beliefs-node-icon {
+  .beliefs-item,
+  .beliefs-detail {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .beliefs-detail-card,
+  .beliefs-detail-premise {
+    animation: none;
+  }
+
+  .beliefs-item-bar {
+    transform: scaleY(1);
     transition: none;
   }
 }

@@ -6,7 +6,7 @@ import { DensityToggle } from './DensityToggle';
 import { useRoute } from './useRoute';
 import './topbar.css';
 
-/** Persistent chrome: wordmark → welcome, breadcrumb, density, panels, presentation. */
+/** Persistent chrome: wordmark → welcome, breadcrumb, density (Our Holdings only), panels, presentation. */
 export function TopBar() {
   const { layer, node } = useRoute();
   const leftOpen = useUi((s) => s.leftOpen);
@@ -76,7 +76,7 @@ export function TopBar() {
       </nav>
 
       <div className="topbar-actions">
-        <DensityToggle />
+        {layer?.hasDensity ? <DensityToggle /> : null}
         <button
           type="button"
           className="icon-button"

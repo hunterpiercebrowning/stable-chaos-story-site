@@ -1,22 +1,12 @@
-import type { Ref } from 'react';
 import { NodeCard } from '../../components/NodeCard';
 import { Placeholder } from '../../components/Placeholder';
 import { SectorTag } from '../../components/SectorTag';
-import { getBackdrop, getChildCount, getCopy } from '../../data';
-import type { Node, ServiceNode } from '../../data/types';
+import { getBackdrop, getChildCount, getCopy, getNode } from '../../data';
+import { isService, type ServiceNode } from '../../data/types';
 import { cn } from '../../lib/cn';
 import type { NodeViewProps } from '../types';
 import { WebsiteLink } from './WebsiteLink';
 import './services.css';
-
-export interface ServicesNodeProps extends NodeViewProps {
-  /** Measured by the layer for the company → offering connectors. */
-  ref?: Ref<HTMLDivElement>;
-}
-
-function isService(node: Node): node is ServiceNode {
-  return node.layerId === 'services';
-}
 
 /** Company logo from the normalized `logoFile`; a company without one gets a placeholder. */
 export function CompanyLogo({ node, size }: { node: ServiceNode; size: 'card' | 'focus' }) {
@@ -37,14 +27,17 @@ export function CompanyLogo({ node, size }: { node: ServiceNode; size: 'card' | 
 }
 
 /**
- * Services nodes. A company (primary) is the card plus a sibling external link
- * — anchors may not nest inside the card's `<button>` — and an offering
- * (secondary) is a compact card carrying its own sector tag and, when it has a
- * scene photo, a backdrop revealed on hover / focus. Under Compressed
- * the company cards stand alone, so they carry the tagline, the offering
- * count and a sector motif backdrop (revealed by services.css).
+ * Service nodes on the Our Holdings layer. A company (primary) is the Overview
+ * hero card: sector motif backdrop, logo tile, tagline, offering count and a
+ * sibling external link (anchors may not nest inside the card's `<button>`).
+ * The Overview's "Services" divider names the kind, so the card carries no
+ * kind tag of its own.
+ * An offering (secondary) is a grid card that sits ahead of the products in
+ * its sector band: the parent company's logo where a product shows its
+ * category icon, the company name as the subtitle, a "Service" tag, and the
+ * offering's scene photo revealed on hover / focus.
  */
-export function ServicesNode({ node, collapsed, active, onSelect, ref }: ServicesNodeProps) {
+export function ServicesNode({ node, collapsed, active, onSelect }: NodeViewProps) {
   if (!isService(node)) return null;
 
   if (node.tier === 'primary') {
@@ -52,16 +45,15 @@ export function ServicesNode({ node, collapsed, active, onSelect, ref }: Service
     const backdrop = getBackdrop(node);
     const offerings = getChildCount(node);
     return (
-      <div
-        ref={ref}
-        className={cn('services-company', active && 'is-active')}
-        data-sector={node.sector}
-      >
+      <div className={cn('services-company', active && 'is-active')} data-sector={node.sector}>
         <NodeCard
           node={node}
           size="md"
           className="services-company-card"
+          collapsed={collapsed}
           active={active}
+          // A hidden card should not be the origin of the grow-into-focus transition.
+          layoutId={collapsed ? null : undefined}
           onSelect={onSelect}
         >
           <span
@@ -92,30 +84,32 @@ export function ServicesNode({ node, collapsed, active, onSelect, ref }: Service
     );
   }
 
+  const company = getNode(node.company);
   return (
-    <div
-      ref={ref}
-      className={cn('services-offering', collapsed && 'is-collapsed')}
-      data-sector={node.sector}
-    >
-      <NodeCard
-        node={node}
-        size="sm"
-        className="services-offering-card"
-        collapsed={collapsed}
-        active={active}
-        onSelect={onSelect}
-        subtitle=""
-        backdrop={
-          node.backgroundImage ? (
-            <span
-              className="services-offering-backdrop"
-              style={{ backgroundImage: `url("${node.backgroundImage}")` }}
-              aria-hidden="true"
-            />
-          ) : null
-        }
-      />
-    </div>
+    <NodeCard
+      node={node}
+      size="md"
+      className="services-offering-card"
+      collapsed={collapsed}
+      active={active}
+      onSelect={onSelect}
+      backdrop={
+        node.backgroundImage ? (
+          <span
+            className="services-offering-backdrop"
+            style={{ backgroundImage: `url("${node.backgroundImage}")` }}
+            aria-hidden="true"
+          />
+        ) : null
+      }
+      media={
+        company && isService(company) ? (
+          <span className="services-offering-logo" title={company.title}>
+            <CompanyLogo node={company} size="card" />
+          </span>
+        ) : null
+      }
+      subtitle={company?.title ?? 'Offering'}
+    />
   );
 }

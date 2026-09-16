@@ -145,7 +145,7 @@
 }
 
 /* Compressed leaves only the three bands: stack them as a pyramid — Synthetic
-   Bio alone on top, Security and Systems beneath — and grow them into heroes.
+   Bio alone on top, NatSec and Systems beneath — and grow them into heroes.
    NodeCard's layoutId animates the moves, so no CSS transitions on layout here. */
 .sectors-layer[data-density='compressed'] .sectors-row {
   grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -268,7 +268,7 @@ function blockArt(w: number, h: number, c: string): string {
 
 /**
  * Transparent line art for the sector bands and company cards under Compressed
- * density: a double helix for SynBio, radar arcs and a shield for Security, a
+ * density: a double helix for SynBio, radar arcs and a shield for NatSec, a
  * block-diagram workflow for Systems (and for anything without a sector). Drawn
  * in the sector colour; the CSS sets the opacity and the fade.
  */

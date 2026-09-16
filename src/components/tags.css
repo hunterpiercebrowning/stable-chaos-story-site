@@ -53,6 +53,7 @@
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--sector-systems) 60%, transparent);
 }
 
+/* Active is unlabelled in the UI; kept for the admin views and any future use. */
 .tag--stage[data-stage='active'] {
   color: var(--stage-active);
   border-color: color-mix(in srgb, var(--stage-active) 50%, transparent);
@@ -64,4 +65,14 @@
   border-style: dashed;
   border-color: var(--glass-border-2);
   background: transparent;
+}
+
+/* Our Holdings: service vs product. Both pills carry the same weight; the icon
+   and the word tell them apart, the card's accent rule does the rest. */
+.tag--kind {
+  gap: 5px;
+  padding-left: 7px;
+  color: var(--text);
+  border-color: var(--glass-border-2);
+  background: var(--glass-2);
 }

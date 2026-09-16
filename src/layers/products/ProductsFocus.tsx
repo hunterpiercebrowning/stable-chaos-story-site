@@ -4,7 +4,7 @@ import { Icon } from '../../components/Icon';
 import { SectorTag } from '../../components/SectorTag';
 import { StageTag } from '../../components/StageTag';
 import { VideoPlayer } from '../../components/VideoPlayer';
-import { getCopy, placeholderGallery, placeholderImage } from '../../data';
+import { getCopy, isProduct, placeholderGallery, placeholderImage } from '../../data';
 import { cn } from '../../lib/cn';
 import type { FocusViewProps } from '../types';
 import { ProductsGallery } from './ProductsGallery';
@@ -31,7 +31,7 @@ export function ProductsFocus({ node, onClose }: FocusViewProps) {
   const setLightbox = (index: number | null) =>
     setLb(index === null ? null : { id: node.id, index });
 
-  if (node.layerId !== 'products') return null;
+  if (!isProduct(node)) return null;
 
   const copy = getCopy(node);
   const sector = node.sector;
@@ -95,7 +95,7 @@ export function ProductsFocus({ node, onClose }: FocusViewProps) {
         </span>
       ) : null}
       <SectorTag sector={sector} />
-      {node.stage ? <StageTag stage={node.stage} /> : null}
+      {node.stage === 'slated' ? <StageTag stage="slated" /> : null}
     </span>
   );
 

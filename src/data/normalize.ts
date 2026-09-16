@@ -41,6 +41,9 @@ const SECTOR_ALIASES: Record<string, SectorId> = {
   'synthetic biology': 'synbio',
   bio: 'synbio',
   security: 'security',
+  natsec: 'security',
+  'nat sec': 'security',
+  'national security': 'security',
   systems: 'systems',
   system: 'systems',
 };
@@ -194,7 +197,8 @@ export function normalizeServices(raw: unknown[]): ServiceNode[] {
     const base = baseFields(o, i, str(o.title));
     const node: ServiceNode = {
       ...base,
-      layerId: 'services',
+      layerId: 'holdings',
+      kind: 'service',
       sector: toSectorId(str(o.sector)),
     };
     if (base.tier === 'primary') {
@@ -221,7 +225,8 @@ export function normalizeProducts(raw: unknown[]): ProductNode[] {
     const base = baseFields(o, i, str(o.title));
     const node: ProductNode = {
       ...base,
-      layerId: 'products',
+      layerId: 'holdings',
+      kind: 'product',
       sector: toSectorId(str(o.sector)),
       backgroundImage: str(o.background_image),
       gallery: strArray(o.gallery),
@@ -267,8 +272,7 @@ export function nodeSectors(node: Node): SectorId[] {
   switch (node.layerId) {
     case 'sectors':
       return node.relatedSectors;
-    case 'services':
-    case 'products':
+    case 'holdings':
       return [node.sector];
     default:
       return [];
@@ -285,9 +289,8 @@ export function parentIds(node: Node): string[] {
   switch (node.layerId) {
     case 'sectors':
       return node.relatedSectors;
-    case 'services':
-      return node.company ? [node.company] : [];
-    case 'products':
+    case 'holdings':
+      if (node.kind === 'service') return node.company ? [node.company] : [];
       return node.parent ? [node.parent] : [];
     default:
       return [];

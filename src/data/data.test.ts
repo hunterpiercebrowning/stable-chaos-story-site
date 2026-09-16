@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import productsJson from '../../content/product-nodes.json';
+import servicesJson from '../../content/service-nodes.json';
 import { allNodes } from './loader';
 import {
   getBackdrop,
@@ -18,11 +20,11 @@ import { kebab, normalizeLayers, normalizeProducts, normalizeSectors, toSectorId
 import { placeholderImage, placeholderMotif } from './placeholders';
 import { buildRelated, groupByLayer } from './related';
 import { searchNodes } from './search';
-import type { Node } from './types';
+import { isProduct, isService, type Node } from './types';
 
 describe('getNavTree', () => {
   it('nests every secondary under its primary, with no orphans', () => {
-    for (const layerId of ['sectors', 'services', 'products'] as const) {
+    for (const layerId of ['sectors', 'holdings'] as const) {
       const { branches, orphans } = getNavTree(layerId);
       const nodes = getNodes(layerId);
       expect(orphans).toEqual([]);
@@ -48,13 +50,24 @@ describe('getNavTree', () => {
   });
 
   it('nests every product under the primary of its sector', () => {
-    const { branches } = getNavTree('products');
+    const branches = getNavTree('holdings').branches.filter((b) => isProduct(b.primary));
     expect(branches.map((b) => b.primary.id)).toEqual(['synbio-products', 'security-products', 'systems-products']);
     for (const b of branches) {
       expect(b.children.length).toBeGreaterThan(0);
       for (const c of b.children) {
-        expect(c.layerId === 'products' && b.primary.layerId === 'products' && c.sector === b.primary.sector).toBe(true);
+        expect(isProduct(c) && isProduct(b.primary) && c.sector === b.primary.sector).toBe(true);
       }
+    }
+  });
+
+  it('nests every offering under its company, companies first', () => {
+    const { branches } = getNavTree('holdings');
+    expect(branches.map((b) => b.primary.id)).toEqual([
+      'growth-curve-bio', 'fountain-city-partners', 'synbio-products', 'security-products', 'systems-products',
+    ]);
+    for (const b of branches.filter((x) => isService(x.primary))) {
+      expect(b.children.length).toBeGreaterThan(0);
+      for (const c of b.children) expect(isService(c) && c.company === b.primary.id).toBe(true);
     }
   });
 
@@ -115,6 +128,8 @@ describe('normalize', () => {
     expect(toSectorId('Synthetic Bio')).toBe('synbio');
     expect(toSectorId('SynBio')).toBe('synbio');
     expect(toSectorId('security')).toBe('security');
+    expect(toSectorId('NatSec')).toBe('security');
+    expect(toSectorId('National Security')).toBe('security');
     expect(toSectorId('Systems')).toBe('systems');
     expect(() => toSectorId('nope')).toThrow();
   });
@@ -150,9 +165,9 @@ describe('normalize', () => {
 });
 
 describe('content', () => {
-  it('has all nine layers in order', () => {
+  it('has all eight layers in order', () => {
     expect(getLayers().map((l) => l.id)).toEqual([
-      'welcome', 'who', 'operations', 'beliefs', 'sectors', 'trajectory', 'services', 'products', 'background',
+      'welcome', 'who', 'operations', 'beliefs', 'sectors', 'trajectory', 'holdings', 'background',
     ]);
   });
 
@@ -164,10 +179,14 @@ describe('content', () => {
 
   it('loads every node file', () => {
     expect(getNodes('who')).toHaveLength(8);
-    expect(getNodes('beliefs')).toHaveLength(9);
+    expect(getNodes('beliefs')).toHaveLength(0);
     expect(getNodes('sectors')).toHaveLength(21);
-    expect(getNodes('services')).toHaveLength(31);
-    expect(getNodes('products')).toHaveLength(26);
+    // Our Holdings is both files end to end, services first.
+    const holdings = getNodes('holdings');
+    expect(holdings.filter(isService)).toHaveLength(servicesJson.length);
+    expect(holdings.filter(isProduct)).toHaveLength(productsJson.length);
+    expect(holdings).toHaveLength(servicesJson.length + productsJson.length);
+    expect(holdings.findIndex(isProduct)).toBe(servicesJson.length);
     expect(getNodes('background')).toHaveLength(4);
     expect(getNodes('operations')).toHaveLength(0);
     expect(getNodes('trajectory')).toHaveLength(0);
@@ -178,9 +197,9 @@ describe('content', () => {
     expect(getNextLayer('welcome')?.id).toBe('who');
     expect(getNextLayer('who')?.id).toBe('operations');
     expect(getNextLayer('sectors')?.id).toBe('trajectory');
-    expect(getNextLayer('trajectory')?.id).toBe('services');
+    expect(getNextLayer('trajectory')?.id).toBe('holdings');
     expect(getNextLayer('background')).toBeUndefined();
-    expect(getPrevLayer('products')?.id).toBe('services');
+    expect(getPrevLayer('background')?.id).toBe('holdings');
   });
 
   it('resolves a node by id', () => {
@@ -232,15 +251,13 @@ describe('related', () => {
 
   it('links founders to every portfolio company', () => {
     const refs = getRelated('hunter-browning').map((r) => r.id);
-    expect(refs).toEqual(
-      expect.arrayContaining(['growth-curve-bio', 'starling-intel', 'fountain-city-partners']),
-    );
+    expect(refs).toEqual(expect.arrayContaining(['growth-curve-bio', 'fountain-city-partners']));
   });
 
   it('links offerings to their company and sector', () => {
-    const refs = getRelated('red-teaming').map((r) => r.id);
-    expect(refs).toContain('starling-intel');
-    expect(refs).toContain('security');
+    const refs = getRelated('biomolecule-rapid-prototyping').map((r) => r.id);
+    expect(refs).toContain('growth-curve-bio');
+    expect(refs).toContain('synbio');
   });
 
   it('links products to their sector and its products summary', () => {
@@ -282,7 +299,7 @@ describe('search', () => {
   });
 
   it('finds an exact title first', () => {
-    expect(search('Red Teaming')[0].id).toBe('red-teaming');
+    expect(search('Conus Coat')[0].id).toBe('conus-coat');
   });
 
   it('is case insensitive and trims', () => {

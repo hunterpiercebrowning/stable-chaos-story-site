@@ -59,10 +59,9 @@ function placeDomains(domains: Node[]): Placed[] {
 const REMEASURE_AT = [0, 200, 420, 720];
 
 export function SectorsLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
-  const { isCollapsed } = useLayerState(layer);
+  const { density, isCollapsed } = useLayerState(layer);
   const { containerRef, register, rects, measure } = useRects();
 
-  const density = useUi((s) => s.density);
   const leftOpen = useUi((s) => s.leftOpen);
   const rightOpen = useUi((s) => s.rightOpen);
 

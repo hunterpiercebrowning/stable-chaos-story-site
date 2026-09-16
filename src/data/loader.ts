@@ -1,5 +1,4 @@
 import backgroundJson from '../../content/background-nodes.json';
-import beliefsJson from '../../content/beliefs-nodes.json';
 import layersJson from '../../content/layers.json';
 import productsJson from '../../content/product-nodes.json';
 import sectorsJson from '../../content/sectors-nodes.json';
@@ -8,7 +7,6 @@ import whoJson from '../../content/who-nodes.json';
 import {
   byOrder,
   normalizeBackground,
-  normalizeBeliefs,
   normalizeLayers,
   normalizeProducts,
   normalizeSectors,
@@ -28,11 +26,18 @@ const nodesByLayer: Record<LayerId, Node[]> = {
   welcome: [],
   who: normalizeWho(whoJson as unknown[]).sort(byOrder),
   operations: [],
-  beliefs: normalizeBeliefs(beliefsJson as unknown[]).sort(byOrder),
+  // Hard-coded layer since the simplification: the five advantages are stated
+  // in `BeliefsLayer` and there is nothing to drill into. `beliefs-nodes.json`
+  // stays on disk for whenever the drill-in version comes back.
+  beliefs: [],
   sectors: normalizeSectors(sectorsJson as unknown[]).sort(byOrder),
   trajectory: [],
-  services: normalizeServices(servicesJson as unknown[]).sort(byOrder),
-  products: normalizeProducts(productsJson as unknown[]).sort(byOrder),
+  // One layer over two files: the service companies and their offerings first,
+  // then the sector product summaries and their products.
+  holdings: [
+    ...normalizeServices(servicesJson as unknown[]).sort(byOrder),
+    ...normalizeProducts(productsJson as unknown[]).sort(byOrder),
+  ],
   background: normalizeBackground(backgroundJson as unknown[]).sort(byOrder),
 };
 

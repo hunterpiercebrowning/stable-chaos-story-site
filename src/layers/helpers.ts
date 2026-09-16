@@ -1,8 +1,18 @@
-import type { Layer, Node } from '../data/types';
+import type { Density, Layer, Node } from '../data/types';
 import { useUi } from '../store/ui';
 
+/**
+ * The density a layer actually renders at. Only layers that opt in with
+ * `hasDensity` follow the Overview / Examples toggle; every other layer stays
+ * compressed, so its secondaries never unfold on the stage.
+ */
+export function layerDensity(layer: Layer, density: Density): Density {
+  return layer.hasDensity ? density : 'compressed';
+}
+
 export interface LayerState {
-  /** Compressed density: collapse secondary nodes on layers that opt in. */
+  density: Density;
+  /** Compressed density: collapse secondary nodes. */
   isCollapsed: (node: Node) => boolean;
 }
 
@@ -11,10 +21,9 @@ export interface LayerState {
  * the layout.
  */
 export function useLayerState(layer: Layer): LayerState {
-  const density = useUi((s) => s.density);
+  const density = layerDensity(layer, useUi((s) => s.density));
 
-  const isCollapsed = (node: Node) =>
-    layer.hasDensity && density === 'compressed' && node.tier === 'secondary';
+  const isCollapsed = (node: Node) => density === 'compressed' && node.tier === 'secondary';
 
-  return { isCollapsed };
+  return { density, isCollapsed };
 }

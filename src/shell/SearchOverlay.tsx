@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { useNavigate } from 'react-router';
-import { getCopy, getLayer, getLayers, getNode, search } from '../data';
+import { getCopy, getLayer, getLayers, getNode, isProduct, isService, search } from '../data';
 import type { SearchResult } from '../data/types';
 import { Icon } from '../components/Icon';
 import { track } from '../lib/track';
@@ -282,10 +282,10 @@ function tierLabel(r: SearchResult): string {
   switch (r.layerId) {
     case 'sectors':
       return 'Domain';
-    case 'services':
-      return 'Offering';
-    case 'products':
-      return 'Product';
+    case 'holdings': {
+      const node = getNode(r.id);
+      return node && isService(node) ? 'Offering' : 'Product';
+    }
     default:
       return 'Secondary';
   }
@@ -298,7 +298,7 @@ function snippet(nodeId: string, query: string): string {
   const copy = getCopy(node);
   const fields = [copy.tagline, copy.blurb, ...copy.bullets].filter(Boolean);
   if (node.layerId === 'who') fields.unshift(node.role, node.company);
-  if (node.layerId === 'products' && node.category && node.stage) fields.unshift(node.category, node.stage);
+  if (isProduct(node) && node.category && node.stage) fields.unshift(node.category, node.stage);
   const needle = query.toLowerCase();
   const hit = fields.find((f) => f.toLowerCase().includes(needle)) ?? fields[0] ?? '';
   const at = hit.toLowerCase().indexOf(needle);
