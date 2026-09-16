@@ -457,6 +457,8 @@
 .products-focus-frame.focus-frame {
   position: relative;
   z-index: 1;
+  /* The panel is already narrow over the scene; the copy uses all of it. */
+  --focus-body-max: 100%;
   /* Wide enough for the copy at 1440 with both panels open; the scene shows to the right beyond that. */
   width: min(100%, max(720px, 70%));
   background: linear-gradient(

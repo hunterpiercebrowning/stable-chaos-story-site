@@ -127,9 +127,31 @@ Expanded shows the sector bands, whose titles open the primary.
 
 ## `background-nodes.json`
 
-Currently `[]`. The Foundational Background layer renders a designed "coming soon" state until
-nodes land here. Expected shape when it is filled: `id`, `type: "primary"`, `title`, `tagline`,
-`blurb`, `bullet_points`, `video_link`, `context_items`.
+| field | type | notes |
+|---|---|---|
+| `id` | string | |
+| `type` | `"primary"` | the only tier |
+| `title` | string | card headline and focus title |
+| `tagline`, `blurb`, `bullet_points` | | as elsewhere |
+| `source_url` | string | **the node's source.** The kind is detected from the URL: YouTube (`watch?v=`, `youtu.be/`, `/shorts/`, `/embed/`, `/live/`) → video; `x.com` / `twitter.com` `/status/<id>` → X post; any other http(s) URL → article (a `.pdf` path or PDF response → PDF). Empty → the card falls back to the lead context item |
+| `source_name` | string | optional; overrides the fetched publication / YouTube channel / X author name |
+| `source_date` | string | optional; overrides the fetched date. ISO dates are formatted (`Apr 2, 2025`), anything else is shown as written |
+| `thumbnail` | string | optional; overrides the fetched image (article OG image, YouTube thumbnail, first X photo) |
+| `video_link` | string | optional. A YouTube `video_link` doubles as the source when `source_url` is empty; any other video link adds the usual Watch button under the source |
+| `context_items` | ContextItem[] | optional. Not needed when `source_url` is set: the tray then says the source is in the focus panel |
+
+Previews are fetched by `GET /api/unfurl?url=` (`functions/api/unfurl.ts`): YouTube oEmbed, X's public
+syndication data, and Open Graph tags for articles. Results are cached at the edge for a day. Some
+publishers block preview fetches; the card then shows the hostname and the node title, so fill
+`source_name`, `source_date` and `thumbnail` for those.
+
+- **Grid card:** video → thumbnail with play ring, channel; article/PDF → OG image or PDF tile,
+  publication · date; X post → avatar, name, @handle, post text, first photo, date. The node `title`
+  and `tagline` are the headline and summary (an X card shows the post text instead).
+- **Focus:** the copy, then the source embedded: the YouTube player (poster swaps to the player in
+  place), the full X post with counts linking to x.com, or the article preview linking out.
+
+An empty array renders a designed "coming soon" state.
 
 ## Context item
 

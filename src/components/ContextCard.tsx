@@ -3,6 +3,7 @@ import { getPrimarySector } from '../data';
 import type { ContextItem, ContextItemType, Node } from '../data/types';
 import { cn } from '../lib/cn';
 import { track } from '../lib/track';
+import { videoThumbnail, youTubeThumbnailFallback } from '../lib/video';
 import { VideoHost } from './ContextCardVideoHost';
 import { Icon, type IconName } from './Icon';
 import { Placeholder } from './Placeholder';
@@ -18,6 +19,10 @@ export interface ContextCardProps {
   placeholder?: boolean;
   /** Non-interactive, faded preview (the Foundational Background "coming soon" state). */
   ghost?: boolean;
+  /** Makes the whole card one button that runs this instead of opening the url or playing. */
+  onActivate?: () => void;
+  /** Accessible name when `onActivate` is set; defaults to the item title. */
+  label?: string;
   className?: string;
 }
 
@@ -60,22 +65,40 @@ function domainOf(url: string, fallback = ''): string {
  * Clicking tracks `context_item_open` and opens the url in a new tab (video
  * plays in place instead). Items without a url are inert.
  */
-export function ContextCard({ item, node, index, placeholder, ghost, className }: ContextCardProps) {
+export function ContextCard({
+  item,
+  node,
+  index,
+  placeholder,
+  ghost,
+  onActivate,
+  label,
+  className,
+}: ContextCardProps) {
   const [playing, setPlaying] = useState(false);
   const stopPlaying = useCallback(() => setPlaying(false), []);
   const sector = getPrimarySector(node);
   const seed = `${node.id}-ctx-${index}`;
   const isVideo = item.type === 'video';
-  const interactive = !ghost && (isVideo || Boolean(item.url));
+  const interactive = !ghost && (Boolean(onActivate) || isVideo || Boolean(item.url));
 
   const onOpen = () => {
     track('context_item_open', { nodeId: node.id, itemType: item.type, url: item.url });
     if (isVideo) setPlaying(true);
   };
 
+  const thumbSrc = item.thumbnail || videoThumbnail(item.url);
   const thumb = (variant: 'thumb' | 'image') =>
-    item.thumbnail ? (
-      <img className="ctx-img" src={item.thumbnail} alt="" loading="lazy" />
+    thumbSrc ? (
+      <img
+        className="ctx-img"
+        src={thumbSrc}
+        alt=""
+        loading="lazy"
+        referrerPolicy="no-referrer"
+        onLoad={(e) => youTubeThumbnailFallback(e.currentTarget, false)}
+        onError={(e) => youTubeThumbnailFallback(e.currentTarget, true)}
+      />
     ) : (
       <Placeholder
         seed={seed}
@@ -155,7 +178,7 @@ export function ContextCard({ item, node, index, placeholder, ghost, className }
             {item.blurb ? <p className="ctx-blurb">{item.blurb}</p> : null}
             {foot}
           </div>
-          {interactive ? <Icon name="external-link" size={14} className="ctx-ext" /> : null}
+          {interactive && !onActivate ? <Icon name="external-link" size={14} className="ctx-ext" /> : null}
         </div>
       );
       break;
@@ -237,6 +260,14 @@ export function ContextCard({ item, node, index, placeholder, ghost, className }
       <div className={classes} {...data} aria-hidden="true">
         {body}
       </div>
+    );
+  }
+
+  if (onActivate) {
+    return (
+      <button type="button" className={classes} {...data} onClick={onActivate} aria-label={label ?? item.title}>
+        {body}
+      </button>
     );
   }
 

@@ -5,17 +5,20 @@ import { Icon } from '../components/Icon';
 import './controls.css';
 
 const OPTIONS: { value: Density; label: string; icon: 'compress' | 'expand' }[] = [
-  { value: 'compressed', label: 'Compressed', icon: 'compress' },
-  { value: 'expanded', label: 'Expanded', icon: 'expand' },
+  { value: 'compressed', label: 'Overview', icon: 'compress' },
+  { value: 'expanded', label: 'Examples', icon: 'expand' },
 ];
 
-/** Global Compressed/Expanded control. Affects layers with `hasDensity`. */
+/**
+ * Global density control. The values stay `compressed` / `expanded` (state,
+ * events and CSS hooks); only the labels read Overview / Examples.
+ */
 export function DensityToggle() {
   const density = useUi((s) => s.density);
   const setDensity = useUi((s) => s.setDensity);
 
   return (
-    <div className="segmented segmented--sm" role="group" aria-label="Node density">
+    <div className="segmented segmented--sm" role="group" aria-label="Level of detail">
       {OPTIONS.map((o) => (
         <button
           key={o.value}

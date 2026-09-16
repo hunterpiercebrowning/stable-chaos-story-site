@@ -1,3 +1,4 @@
+import { videoThumbnail } from '../lib/video';
 import { allNodes, layers, nodeIndex, nodesOf } from './loader';
 import { nodeSectors, parentIds } from './normalize';
 import {
@@ -176,18 +177,23 @@ export function getCopy(node: Node): ResolvedCopy {
   };
 }
 
-/** Context items for the right tray; three lorem placeholders until real ones land. */
+/**
+ * Context items for the right tray; three lorem placeholders until real ones
+ * land. A background node with a source needs none: the source is its focus.
+ */
 export function getContextItems(node: Node): ContextItem[] {
-  return node.contextItems.length ? node.contextItems : loremContextItems(node.id, 3);
+  if (node.contextItems.length) return node.contextItems;
+  if (node.layerId === 'background' && node.sourceUrl) return [];
+  return loremContextItems(node.id, 3);
 }
 
 export function getPrimarySector(node: Node) {
   return nodeSectors(node)[0] ?? null;
 }
 
-/** 16:9 poster for a node's video slot. */
-export function getPoster(node: Node): string {
-  return placeholderPoster(node.id, getPrimarySector(node));
+/** 16:9 poster for a node's video slot: the video's own thumbnail (YouTube), else a generated scene. */
+export function getPoster(node: Node, link: string = node.videoLink): string {
+  return videoThumbnail(link) || placeholderPoster(node.id, getPrimarySector(node));
 }
 
 export { nodeSectors, parentIds, toSectorId, kebab, toRef, byOrder } from './normalize';

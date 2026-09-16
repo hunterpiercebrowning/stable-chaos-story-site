@@ -6,7 +6,6 @@ import { cn } from '../lib/cn';
 import { track } from '../lib/track';
 import { navVia } from '../store/ui';
 import { Icon } from './Icon';
-import { RelatedStrip } from './RelatedStrip';
 import './focus-frame.css';
 
 export interface FocusFrameProps {
@@ -30,8 +29,8 @@ export interface FocusFrameProps {
 
 /**
  * The focus surface for every layer: a glass panel that grows out of the node
- * card. Layers fill the slots; the frame owns the chrome, the related strip and
- * the focus/blur tracking.
+ * card. Layers fill the slots; the frame owns the chrome and the focus/blur
+ * tracking.
  */
 export function FocusFrame({
   node,
@@ -83,7 +82,7 @@ export function FocusFrame({
 
       <div className={cn('focus-grid', media && 'focus-grid--media')}>
         {/* With a media column, the extras (video, buttons) sit under the media
-            so the text column keeps its height for the copy and related strip. */}
+            so the text column keeps its height for the copy. */}
         {media ? (
           <div className="focus-media">
             {media}
@@ -109,8 +108,6 @@ export function FocusFrame({
           ) : null}
 
           {extras && !media ? <div className="focus-extras">{extras}</div> : null}
-
-          <RelatedStrip node={node} />
         </div>
       </div>
     </motion.section>

@@ -60,6 +60,7 @@
 
 .focus-grid--media {
   grid-template-columns: minmax(200px, 28%) 1fr;
+  --focus-body-max: 100%;
 }
 
 .focus-media {
@@ -103,6 +104,10 @@
 /* Focus copy is slide-deck length (a short blurb, up to six bullets), so it is
    set large and near-white for reading at a glance rather than packed small. */
 .focus-body {
+  /* In a full-width frame the blurb would run the whole stage, so it is held to
+     80% for a readable measure. Frames that are already narrow (a media column
+     beside the copy, or the panels floating over a scene) set this to 100%. */
+  max-width: var(--focus-body-max, 80%);
   margin-top: var(--s-2);
   color: color-mix(in srgb, var(--text) 90%, transparent);
   font-size: clamp(1rem, 1.2vw, 1.2rem);

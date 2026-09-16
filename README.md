@@ -331,7 +331,7 @@ src/store/       Zustand UI state (density, panels, presentation, search, video,
                  + the global keyboard map
 src/lib/         track (event batching + heartbeats), video (source resolution, Stream token), session, measure
 src/shell/       AppShell, TopBar, LeftNav, RightTray, Stage, Attractor, SearchOverlay, MobileBlocker
-src/components/  NodeCard, FocusFrame, RelatedStrip, ContextCard, ConnectorLayer, VideoPlayer, Placeholder, Icon, tags
+src/components/  NodeCard, FocusFrame, ContextCard, ConnectorLayer, VideoPlayer, Placeholder, Icon, tags
 src/layers/      registry.ts (layerId → { Layer, Node, Focus }) + one folder per layer
 src/admin/       the /admin app (login form ships in the public entry; the pages are a private chunk)
 src/pages/       the /gate page

@@ -1,3 +1,4 @@
+import { youTubeId } from '../lib/video';
 import {
   SECTOR_IDS,
   type BeliefNode,
@@ -243,10 +244,19 @@ export function normalizeProducts(raw: unknown[]): ProductNode[] {
   return nodes;
 }
 
+/** A YouTube `video_link` doubles as the source when `source_url` is empty. */
 export function normalizeBackground(raw: unknown[]): BackgroundNode[] {
   return raw.map((r, i) => {
     const o = (r ?? {}) as Record<string, unknown>;
-    return { ...baseFields(o, i, str(o.title)), layerId: 'background' } satisfies BackgroundNode;
+    const videoLink = str(o.video_link);
+    return {
+      ...baseFields(o, i, str(o.title)),
+      layerId: 'background',
+      sourceUrl: str(o.source_url).trim() || (youTubeId(videoLink) ? videoLink.trim() : ''),
+      sourceName: str(o.source_name),
+      sourceDate: str(o.source_date),
+      thumbnail: str(o.thumbnail),
+    } satisfies BackgroundNode;
   });
 }
 

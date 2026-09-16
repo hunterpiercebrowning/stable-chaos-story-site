@@ -1,20 +1,20 @@
+import type { CSSProperties } from 'react';
 import { ContextCard } from '../../components/ContextCard';
 import { Icon } from '../../components/Icon';
-import type { BackgroundNode, ContextItem } from '../../data/types';
-import { GenericLayer } from '../GenericLayer';
+import type { BackgroundNode as BackgroundNodeData, ContextItem } from '../../data/types';
 import type { LayerViewProps } from '../types';
+import { BackgroundNode } from './BackgroundNode';
 import './background.css';
 
 /**
- * Layer 6 — Foundational Background. No nodes yet, so this is a designed
- * "coming soon" state: what the layer will hold, and six ghosted source cards
- * in the ContextCard style, one per item type. Once `background-nodes.json`
- * has entries the generic grid takes over. The up arrow to Products is the
- * stage header's.
+ * Layer 6 — Foundational Background: an intro and a grid of source cards in the
+ * ContextCard style, one per node. Until `background-nodes.json` has entries
+ * the grid is six ghosted cards, one per item type, under a "coming soon"
+ * eyebrow. The up arrow to Products is the stage header's.
  */
 
 /** Synthetic node: seeds the ghost cards' placeholder art and carries an id. */
-const PREVIEW_NODE: BackgroundNode = {
+const PREVIEW_NODE: BackgroundNodeData = {
   id: 'background-preview',
   layerId: 'background',
   tier: 'primary',
@@ -84,15 +84,15 @@ const PREVIEW_ITEMS: ContextItem[] = [
   },
 ];
 
-export function BackgroundLayer(props: LayerViewProps) {
-  if (props.nodes.length > 0) return <GenericLayer {...props} />;
+export function BackgroundLayer({ layer, nodes, focusedId, onSelect }: LayerViewProps) {
+  const ready = nodes.length > 0;
 
   return (
     <div className="background">
       <div className="background-intro">
-        <span className="background-eyebrow">
-          <Icon name="clock" size={13} />
-          Coming soon
+        <span className="background-eyebrow" data-ready={ready ? 'true' : undefined}>
+          <Icon name={ready ? 'book' : 'clock'} size={13} />
+          {ready ? 'Sources' : 'Coming soon'}
         </span>
         <h2 className="background-title">The sources behind every claim</h2>
         <p className="background-desc">
@@ -101,18 +101,33 @@ export function BackgroundLayer(props: LayerViewProps) {
         </p>
       </div>
 
-      <div className="background-grid" aria-hidden="true">
-        {PREVIEW_ITEMS.map((item, i) => (
-          <ContextCard
-            key={item.type}
-            item={item}
-            node={PREVIEW_NODE}
-            index={i}
-            ghost
-            className="background-card"
-          />
-        ))}
-      </div>
+      {ready ? (
+        <div className="background-grid" role="group" aria-label={layer.title}>
+          {nodes.map((node, i) => (
+            <BackgroundNode
+              key={node.id}
+              node={node}
+              index={i}
+              active={node.id === focusedId}
+              onSelect={onSelect}
+            />
+          ))}
+        </div>
+      ) : (
+        <PreviewGrid />
+      )}
+    </div>
+  );
+}
+
+function PreviewGrid() {
+  return (
+    <div className="background-grid" aria-hidden="true">
+      {PREVIEW_ITEMS.map((item, i) => (
+        <div key={item.type} className="background-card" style={{ '--i': i } as CSSProperties}>
+          <ContextCard item={item} node={PREVIEW_NODE} index={i} ghost />
+        </div>
+      ))}
     </div>
   );
 }

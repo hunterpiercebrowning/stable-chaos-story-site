@@ -183,6 +183,11 @@
   color: color-mix(in srgb, var(--accent) 65%, var(--text-muted));
 }
 
+.ctx-date {
+  flex: none;
+  white-space: nowrap;
+}
+
 .ctx-date::before {
   content: '·';
   margin-right: 6px;

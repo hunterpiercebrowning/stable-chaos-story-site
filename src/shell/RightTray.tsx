@@ -15,8 +15,7 @@ const HINT: Record<Layer['id'], string> = {
   trajectory: 'The ventures built so far and what comes next, year by year. There is nothing to focus here.',
   services: 'Select a company or offering to see the coverage behind it.',
   products: 'Select a product to see the material behind it.',
-  background:
-    'This layer will hold the third-party sources behind the whole site. There is nothing to focus yet.',
+  background: 'Select a background topic to see the sources behind it.',
 };
 
 /**
@@ -33,7 +32,7 @@ export function RightTray() {
       <header className="tray-header">
         <div className="tray-heading">
           <span className="sc-label">Supporting Context</span>
-          {node ? (
+          {node && items.length > 0 ? (
             <span className="tray-count" aria-label={`${items.length} items`}>
               {items.length}
             </span>
@@ -42,7 +41,17 @@ export function RightTray() {
         {node ? <div className="tray-subject">{node.title}</div> : null}
       </header>
 
-      {node ? (
+      {node && items.length === 0 ? (
+        <div className="tray-empty">
+          <span className="tray-empty-glyph" aria-hidden="true">
+            <Icon name="article" size={18} />
+            <Icon name="video" size={18} />
+            <Icon name="link" size={18} />
+          </span>
+          <p className="tray-empty-title">Source shown in focus</p>
+          <p className="tray-empty-body">This topic's source is embedded in the focus panel. Add context items to list more here.</p>
+        </div>
+      ) : node ? (
         <div className="tray-list sc-scroll" key={node.id}>
           {items.map((item, i) => (
             <ContextCard

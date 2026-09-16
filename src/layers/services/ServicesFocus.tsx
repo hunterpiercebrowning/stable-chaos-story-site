@@ -16,9 +16,8 @@ import './services.css';
 const isService = (node: Node): node is ServiceNode => node.layerId === 'services';
 
 /**
- * Company focus: large logo, website button, blurb, bullets and video; the
- * related strip (from `getRelated`) surfaces its offerings, president and
- * sector. Offering focus: company eyebrow that jumps to the parent, blurb,
+ * Company focus: large logo, website button, blurb, bullets and video.
+ * Offering focus: company eyebrow that jumps to the parent, blurb,
  * bullets and video, over the offering's scene photo when it has one.
  */
 export function ServicesFocus({ node, onClose }: FocusViewProps) {

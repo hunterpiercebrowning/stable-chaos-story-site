@@ -451,6 +451,8 @@
 .services-focus-frame.focus-frame {
   position: relative;
   z-index: 1;
+  /* The panel is already narrow over the scene; the copy uses all of it. */
+  --focus-body-max: 100%;
   width: min(100%, max(720px, 70%));
   background: linear-gradient(
       180deg,

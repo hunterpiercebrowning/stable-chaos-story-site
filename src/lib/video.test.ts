@@ -5,6 +5,9 @@ import {
   progressPct,
   resolveVideoSource,
   streamEmbedUrl,
+  videoThumbnail,
+  youTubeEmbedUrl,
+  youTubeId,
 } from './video';
 
 const UID = 'b236bde30eb07b9d01318940e5fc3eda';
@@ -146,5 +149,43 @@ describe('progress helpers', () => {
     expect(crossedMilestones(80, fired)).toEqual([50, 75]);
     expect(crossedMilestones(100, fired)).toEqual([]);
     expect([...fired].sort()).toEqual([25, 50, 75]);
+  });
+});
+
+describe('YouTube', () => {
+  const ID = 'BXLGV0Sj0n8';
+
+  it('extracts the id from every link shape', () => {
+    for (const link of [
+      `https://www.youtube.com/watch?v=${ID}`,
+      `https://youtube.com/watch?v=${ID}&t=42s`,
+      `https://m.youtube.com/watch?feature=share&v=${ID}`,
+      `https://youtu.be/${ID}?si=abc`,
+      `https://www.youtube.com/embed/${ID}`,
+      `https://www.youtube-nocookie.com/embed/${ID}`,
+      `https://www.youtube.com/shorts/${ID}`,
+      `https://www.youtube.com/live/${ID}`,
+    ]) {
+      expect(youTubeId(link)).toBe(ID);
+    }
+  });
+
+  it('rejects non-YouTube and malformed links', () => {
+    expect(youTubeId('')).toBeNull();
+    expect(youTubeId('https://example.com/watch?v=BXLGV0Sj0n8')).toBeNull();
+    expect(youTubeId('https://www.youtube.com/watch?v=short')).toBeNull();
+    expect(youTubeId('https://www.youtube.com/channel/UC123')).toBeNull();
+  });
+
+  it('resolves as a youtube source, not a native url', () => {
+    expect(resolveVideoSource(`https://youtu.be/${ID}`)).toEqual({ kind: 'youtube', id: ID });
+  });
+
+  it('builds the thumbnail and embed urls', () => {
+    expect(videoThumbnail(`https://youtu.be/${ID}`)).toBe(`https://i.ytimg.com/vi/${ID}/maxresdefault.jpg`);
+    expect(videoThumbnail('https://example.com/clip.mp4')).toBe('');
+    expect(youTubeEmbedUrl(ID, { autoplay: true })).toBe(
+      `https://www.youtube-nocookie.com/embed/${ID}?rel=0&playsinline=1&modestbranding=1&autoplay=1`,
+    );
   });
 });

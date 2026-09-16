@@ -246,6 +246,13 @@ const PATHS: Record<string, ReactElement> = {
   ),
   'sort-desc': <path d="M12 5v14M7 14l5 5 5-5" />,
   'sort-asc': <path d="M12 19V5M7 10l5-5 5 5" />,
+  /* ── sources ── */
+  'x-logo': (
+    <>
+      <path d="M4.5 4h4.2l10.8 16h-4.2z" />
+      <path d="M19 4l-6.1 7M11.1 13L5 20" />
+    </>
+  ),
 };
 
 export type IconName = keyof typeof PATHS;

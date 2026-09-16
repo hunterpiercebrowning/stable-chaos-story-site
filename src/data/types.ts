@@ -136,6 +136,14 @@ export interface ProductNode extends NodeBase {
 
 export interface BackgroundNode extends NodeBase {
   layerId: 'background';
+  /** The node's source: a YouTube video, an X post or an article. Empty → the lead context item drives the card. */
+  sourceUrl?: string;
+  /** Overrides the fetched publication / channel / author label. */
+  sourceName?: string;
+  /** Overrides the fetched publish date; free text or ISO. */
+  sourceDate?: string;
+  /** Overrides the fetched preview image. */
+  thumbnail?: string;
 }
 
 export type Node =

@@ -144,7 +144,8 @@
 
 /* Once a real player is mounted the poster is only a backdrop. */
 .video-expanded[data-ready='true'][data-kind='stream'] .video-expanded-poster,
-.video-expanded[data-ready='true'][data-kind='url'] .video-expanded-poster {
+.video-expanded[data-ready='true'][data-kind='url'] .video-expanded-poster,
+.video-expanded[data-ready='true'][data-kind='youtube'] .video-expanded-poster {
   opacity: 0.25;
 }
 

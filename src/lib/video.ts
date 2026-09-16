@@ -13,6 +13,7 @@ export type VideoSource =
   | { kind: 'none' }
   | { kind: 'stream'; uid: string }
   | { kind: 'r2'; key: string }
+  | { kind: 'youtube'; id: string }
   | { kind: 'url'; url: string; mime: string };
 
 export type VideoKind = VideoSource['kind'];
@@ -59,6 +60,8 @@ export function resolveVideoSource(link: string | undefined | null): VideoSource
     } catch {
       return { kind: 'none' };
     }
+    const youtube = youTubeId(raw);
+    if (youtube) return { kind: 'youtube', id: youtube };
     if (STREAM_HOST.test(url.hostname)) {
       const uid = url.pathname.match(STREAM_PATH_UID)?.[1];
       return uid ? { kind: 'stream', uid: uid.toLowerCase() } : { kind: 'none' };
@@ -70,6 +73,63 @@ export function resolveVideoSource(link: string | undefined | null): VideoSource
   }
 
   return { kind: 'none' };
+}
+
+/* ── YouTube ─────────────────────────────────────────── */
+
+const YOUTUBE_ID = /^[\w-]{11}$/;
+const YOUTUBE_HOST = /(?:^|\.)(?:youtube\.com|youtube-nocookie\.com)$/i;
+
+/**
+ * The 11-character video id from a YouTube link: `watch?v=`, `youtu.be/`,
+ * `/embed/`, `/shorts/`, `/live/` and `/v/`. `null` for anything else.
+ */
+export function youTubeId(link: string | undefined | null): string | null {
+  let url: URL;
+  try {
+    url = new URL((link ?? '').trim());
+  } catch {
+    return null;
+  }
+  const host = url.hostname.toLowerCase();
+  let id: string | null | undefined = null;
+  if (host === 'youtu.be' || host === 'www.youtu.be') {
+    id = url.pathname.split('/')[1];
+  } else if (YOUTUBE_HOST.test(host)) {
+    id =
+      url.pathname === '/watch'
+        ? url.searchParams.get('v')
+        : url.pathname.match(/^\/(?:embed|shorts|live|v)\/([^/]+)/)?.[1];
+  }
+  return id && YOUTUBE_ID.test(id) ? id : null;
+}
+
+/** Privacy-enhanced embed URL for the player iframe. */
+export function youTubeEmbedUrl(id: string, opts: { autoplay?: boolean } = {}): string {
+  const params = new URLSearchParams({ rel: '0', playsinline: '1', modestbranding: '1' });
+  if (opts.autoplay) params.set('autoplay', '1');
+  return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`;
+}
+
+/**
+ * Thumbnail for a video link, or `''` when the link has none we can derive
+ * (only YouTube today). Asks for the 1280px frame; pair the `<img>` with
+ * `youTubeThumbnailFallback` for the videos that do not have one.
+ */
+export function videoThumbnail(link: string | undefined | null): string {
+  const id = youTubeId(link);
+  return id ? `https://i.ytimg.com/vi/${id}/maxresdefault.jpg` : '';
+}
+
+/**
+ * `maxresdefault.jpg` is missing for some videos; YouTube then answers 404
+ * with a 120×90 grey frame, which may load rather than error. Either way, swap
+ * to `hqdefault.jpg`, which every video has. A no-op for any other image, so
+ * it is safe on every `<img>` that might show a video thumbnail.
+ */
+export function youTubeThumbnailFallback(img: HTMLImageElement, failed: boolean): void {
+  if (!img.src.includes('/maxresdefault.jpg')) return;
+  if (failed || img.naturalWidth <= 120) img.src = img.src.replace('/maxresdefault.jpg', '/hqdefault.jpg');
 }
 
 /* ── Cloudflare Stream ───────────────────────────────── */

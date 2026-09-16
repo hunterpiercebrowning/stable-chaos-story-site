@@ -3,10 +3,15 @@
     "id": "china",
     "type": "threat",
     "title": "China",
-    "icon": "",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "icon": "globe",
+    "tagline": "A strategic execution race we can't afford to lose.",
+    "blurb": "China’s systemic control over critical sectors poses a serious risk to American quality of life, the preservation of western ideals and the long term wellbeing of the human race.",
+    "bullet_points": [
+      "Communist application of AI amplifies totalitarian outcomes and destroys human free thinking.",
+      "Chinese monopoly over critical resources undermines any attempts at American sovereignty.",
+      "Control over the many by the few becomes sustainable with an AI backed surveillance state.",
+      "Government controlled economics allows Chinese manufacturing to undercut America's to produce critical technologies."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -14,10 +19,18 @@
     "id": "asymmetric-weapons",
     "type": "threat",
     "title": "Asymmetric Weapons",
-    "icon": "",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "icon": "bomb",
+    "tagline": "Causing serious damage is easier and cheaper for bad actors than ever before.",
+    "blurb": "The convergence of artificial intelligence, ubiquitous digital connectivity, fragile supply chains, inexpensive electronics and accessible bio-as-a-service companies has created a dangerous new dynamics where attacks are easy and cheap for bad actors and traditional defenses are cumbersome, ineffective and expensive for defenders. Below are just a few of hundreds of examples of this new asymmetry.",
+    "bullet_points": [
+      "Low cost drones in singles or swarms are able to slip past expensive defenses and cause massive damage and loss of life.",
+      "AI driven cyber attacks give bad actors capabilities far beyond their own and allow them to amplify it across thousands of agents conducting an attack.",
+      "Bio Weapons designed by artificial intelligence and fabricated in labs-as-a-service can ravage entire populations.",
+      "Simple supply chain attacks can cripple critical industries and life supporting utilities, impacting millions and leading to disaster.",
+      "Billions of dollars in infrastructure can fail with simple AI orchestrated cyber attacks on legacy components.",
+      "The public opinion can be hijacked and manipulated more readily than ever before with extreme AI managed disinformation campaigns.",
+      "Bad actors can clone a voice from just seconds of audio and use it to authorize fraudulent transactions and actions."
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -25,21 +38,31 @@
     "id": "ai-reliance",
     "type": "threat",
     "title": "Non-sovereign AI Reliance",
-    "icon": "",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "icon": "cloud",
+    "tagline": "Control your intelligence or the intelligence will control you.",
+    "blurb": "Large AI providers are creating a monopoly on frontier intelligence and knowledge. Most companies using these services don't understand the economic, IP, and dependency constraints they are entering into with these companies. As this monopoly is solidified, these few AI providers will exert considerable overt & covert control over their dependent customers.",
+    "bullet_points": [
+      "Vendor subsidized AI plans create false economic conditions for businesses becoming dependent on them",
+      "Critical information is leaked by employs and automated systems leveraging these cloud AI vendors. Regardless of their terms, your data is processed, mined and exploited.",
+      "Shifting vendor opinions on what types of behavior is acceptable as their models become more powerful can hamstring an entire companies capabilities overnight.",
+      "Private institutional knowledge / wisdom becomes their new training data. Allowing them to commoditize companies advantage's for the rest of the world."
+    ],
     "video_link": "",
     "context_items": []
   },
   {
     "id": "noise",
     "type": "threat",
-    "title": "Noise & Dead Internet",
-    "icon": "",
-    "tagline": "",
+    "title": "Overnight Obsolescence",
+    "icon": "bot",
+    "tagline": "Specialized skills & capabilities now become commoditized without warning and overnight as opposed to across decades",
     "blurb": "",
-    "bullet_points": [],
+    "bullet_points": [
+      "AI orchestrated Astroturfing campaigns by foreign governments, internal political parties, lobbying groups, corporations, and extremist have completely hijacked every relevant narrative on internet.",
+      "The volume of artificial chatter as well is drowning out meaningful signal from real companies to their intended markets.",
+      "The "
+
+    ],
     "video_link": "",
     "context_items": []
   },
@@ -47,10 +70,14 @@
     "id": "restricted-info",
     "type": "threat",
     "title": "Restricted Information Access",
-    "icon": "",
-    "tagline": "",
-    "blurb": "",
-    "bullet_points": [],
+    "icon": "lock",
+    "tagline": "As execution becomes commoditized & automated, the only means of control is the restriction of knowledge.",
+    "blurb": "Most innovative frontier technologies that fuel well intending companies can also have a dangerous duel use. Nuclear can power cities or create bombs. Bio can cure cancer or create weaponized plague. Cyber can protect banks or cripple a hospital. As the cost of action drops for bad actors and the ability to automated the required labor, large AI companies and governments are identifying new categories of restricted knowledge that is only available to them and their staff, killing the competitive advantage of all other companies. ",
+    "bullet_points": [
+      "New glass ceilings on non-approved areas of innovation",
+      "Asymmetric knowledge dynamics that creates insurmountable competitive advantage for the few controlling the monopoly",
+      "Foundational threat to companies at the frontier that don't have the capacity to manage their own AI & information sources."
+    ],
     "video_link": "",
     "context_items": []
   },

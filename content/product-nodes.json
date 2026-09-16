@@ -114,6 +114,21 @@
     "context_items": []
   },
   {
+    "id": "rare-earth-biomining",
+    "type": "secondary",
+    "title": "Rare Earth Biomining",
+    "sector": "synbio",
+    "stage": "slated",
+    "category": "Bioproduct",
+    "tagline": "",
+    "blurb": "",
+    "bullet_points": [],
+    "video_link": "",
+    "background_image": "/assets/backgrounds/products/rare-earth-biomining.jpg",
+    "gallery": [],
+    "context_items": []
+  },
+  {
     "id": "bioproducts",
     "type": "secondary",
     "title": "Bioproducts",

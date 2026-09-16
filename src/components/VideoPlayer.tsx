@@ -16,6 +16,8 @@ import {
   type StreamPlayerApi,
   type VideoKind,
   type VideoSource,
+  youTubeEmbedUrl,
+  youTubeThumbnailFallback,
 } from '../lib/video';
 import { isTypingTarget } from '../store/keyboard';
 import { useUi } from '../store/ui';
@@ -30,7 +32,7 @@ export interface VideoPlayerProps {
   label?: string;
   /** Id reported in `video_*` events. Defaults to `node.id`. */
   nodeId?: string;
-  /** Poster image; defaults to `getPoster(node)` (generated scene in sector color). */
+  /** Poster image; defaults to `getPoster` (the YouTube thumbnail, else a generated scene in sector color). */
   poster?: string;
   /** Start playback as soon as the expanded frame has settled. Default `true`. */
   autoplay?: boolean;
@@ -78,7 +80,7 @@ export function VideoPlayer({
   const setVideoExpanded = useUi((s) => s.setVideoExpanded);
 
   const source = useMemo(() => resolveVideoSource(link ?? node.videoLink), [link, node.videoLink]);
-  const poster = posterProp ?? getPoster(node);
+  const poster = posterProp ?? getPoster(node, link ?? node.videoLink);
   const sector = getPrimarySector(node) ?? undefined;
   const trackId = nodeId ?? node.id;
 
@@ -223,7 +225,13 @@ export function VideoPlayer({
           layoutId={layoutId ? `${layoutId}-media` : undefined}
           transition={LAYOUT_TRANSITION}
         >
-          <img className="video-poster" src={poster} alt="" />
+          <img
+            className="video-poster"
+            src={poster}
+            alt=""
+            onLoad={(e) => youTubeThumbnailFallback(e.currentTarget, false)}
+            onError={(e) => youTubeThumbnailFallback(e.currentTarget, true)}
+          />
         </motion.span>
         <span className="video-play">
           <Icon name="play" size={22} />
@@ -267,7 +275,7 @@ function ExpandedPlayer({
   onClose,
 }: ExpandedPlayerProps) {
   const frameRef = useRef<HTMLDivElement>(null);
-  const playable = source.kind === 'stream' || source.kind === 'url';
+  const playable = source.kind === 'stream' || source.kind === 'url' || source.kind === 'youtube';
   // The real player mounts only once the frame has grown into place: an
   // <iframe>/<video> being transform-scaled for 320ms looks worse than the poster.
   const [ready, setReady] = useState(reduced || !layoutId);
@@ -316,11 +324,27 @@ function ExpandedPlayer({
         layoutId={layoutId ? `${layoutId}-media` : undefined}
         transition={LAYOUT_TRANSITION}
       >
-        <img className="video-expanded-poster" src={poster} alt="" />
+        <img
+          className="video-expanded-poster"
+          src={poster}
+          alt=""
+          onLoad={(e) => youTubeThumbnailFallback(e.currentTarget, false)}
+          onError={(e) => youTubeThumbnailFallback(e.currentTarget, true)}
+        />
 
         {ready && source.kind === 'stream' ? (
           <StreamPlayer
             uid={source.uid}
+            autoplay={autoplay}
+            events={events}
+            controlsRef={controlsRef}
+            onStatus={setStatus}
+            onPlaying={setPlaying}
+          />
+        ) : null}
+        {ready && source.kind === 'youtube' ? (
+          <YouTubePlayer
+            id={source.id}
             autoplay={autoplay}
             events={events}
             controlsRef={controlsRef}
@@ -516,6 +540,37 @@ function StreamPlayer({ uid, autoplay, events, controlsRef, onStatus, onPlaying 
       src={src}
       title="Video"
       allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen"
+      allowFullScreen
+    />
+  );
+}
+
+/* ── YouTube ─────────────────────────────────────────── */
+
+interface YouTubePlayerProps extends PlayerCommonProps {
+  id: string;
+}
+
+/**
+ * A plain YouTube embed. Its controls live inside the iframe, so there is no
+ * Space toggle and no progress tracking; `video_play` records the open.
+ */
+function YouTubePlayer({ id, autoplay, events, controlsRef, onStatus, onPlaying }: YouTubePlayerProps) {
+  useEffect(() => {
+    onStatus(null);
+    onPlaying(true);
+    events.play(0);
+    controlsRef.current = null;
+    return () => onPlaying(false);
+  }, [id, events, controlsRef, onStatus, onPlaying]);
+
+  return (
+    <iframe
+      className="video-media video-media--youtube"
+      src={youTubeEmbedUrl(id, { autoplay })}
+      title="Video"
+      allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen"
+      referrerPolicy="strict-origin-when-cross-origin"
       allowFullScreen
     />
   );

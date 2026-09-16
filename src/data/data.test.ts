@@ -168,7 +168,7 @@ describe('content', () => {
     expect(getNodes('sectors')).toHaveLength(21);
     expect(getNodes('services')).toHaveLength(31);
     expect(getNodes('products')).toHaveLength(26);
-    expect(getNodes('background')).toHaveLength(0);
+    expect(getNodes('background')).toHaveLength(4);
     expect(getNodes('operations')).toHaveLength(0);
     expect(getNodes('trajectory')).toHaveLength(0);
   });

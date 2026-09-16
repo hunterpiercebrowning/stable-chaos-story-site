@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "id": "example-article-source",
+    "type": "primary",
+    "title": "Example Article Source",
+    "tagline": "One line framing the background topic",
+    "blurb": "Two or three sentences on what this background covers and which claims in the layers above it supports.",
+    "bullet_points": [
+      "Key supporting fact or figure",
+      "Second supporting point",
+      "Third supporting point"
+    ],
+    "source_url": "https://en.wikipedia.org/wiki/Rare-earth_element",
+    "source_name": "",
+    "source_date": "",
+    "thumbnail": "",
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "example-pdf-source",
+    "type": "primary",
+    "title": "Example PDF Source",
+    "tagline": "One line framing the background topic",
+    "blurb": "Two or three sentences on what this background covers and which claims in the layers above it supports.",
+    "bullet_points": [
+      "Key supporting fact or figure",
+      "Second supporting point",
+      "Third supporting point"
+    ],
+    "source_url": "https://pubs.usgs.gov/periodicals/mcs2025/mcs2025-rare-earths.pdf",
+    "source_name": "U.S. Geological Survey",
+    "source_date": "January 2025",
+    "thumbnail": "",
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "china-rare-earth",
+    "type": "primary",
+    "title": "China controlling critical rare earth elements",
+    "tagline": "One line framing the background topic",
+    "blurb": "Two or three sentences on what this background covers and which claims in the layers above it supports.",
+    "bullet_points": [
+      "Key supporting fact or figure",
+      "Second supporting point",
+      "Third supporting point"
+    ],
+    "source_url": "https://www.youtube.com/watch?v=BXLGV0Sj0n8",
+    "source_name": "",
+    "source_date": "",
+    "thumbnail": "",
+    "video_link": "",
+    "context_items": []
+  },
+  {
+    "id": "example-x-post-source",
+    "type": "primary",
+    "title": "Example X Post Source",
+    "tagline": "One line framing the background topic",
+    "blurb": "Two or three sentences on what this background covers and which claims in the layers above it supports.",
+    "bullet_points": [
+      "Key supporting fact or figure",
+      "Second supporting point",
+      "Third supporting point"
+    ],
+    "source_url": "https://x.com/Amanda_Goodall/status/2089466316671606852?s=20",
+    "source_name": "",
+    "source_date": "",
+    "thumbnail": "",
+    "video_link": "",
+    "context_items": []
+  }
+]

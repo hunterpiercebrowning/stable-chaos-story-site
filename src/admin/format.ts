@@ -121,8 +121,8 @@ const VALUE_LABEL: Record<string, string> = {
   synbio: 'SynBio',
   security: 'Security',
   systems: 'Systems',
-  compressed: 'Compressed',
-  expanded: 'Expanded',
+  compressed: 'Overview',
+  expanded: 'Examples',
 };
 
 function labelFor(v: unknown): string {
