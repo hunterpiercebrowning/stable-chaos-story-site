@@ -84,8 +84,8 @@
   min-width: 0;
 }
 
-/* Tagline and domain count are in the DOM in both densities and revealed by
-   Compressed, so the reveal can animate instead of popping in. */
+/* The tagline is in the DOM in both densities and revealed by Compressed, so
+   the reveal can animate instead of popping in. */
 .sectors-sector-tagline {
   display: block;
   max-height: 0;
@@ -98,25 +98,6 @@
   text-wrap: pretty;
   transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease),
     margin-top var(--dur-slow) var(--ease);
-}
-
-.sectors-sector-meta {
-  position: absolute;
-  top: var(--s-4);
-  right: var(--s-4);
-  z-index: 1;
-  padding: 3px 9px;
-  border-radius: var(--r-pill);
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--glass-border));
-  background: color-mix(in srgb, var(--accent) 10%, var(--scrim));
-  font-size: var(--fs-xs);
-  font-weight: 500;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  color: var(--text-muted);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--dur) var(--ease);
 }
 
 /* Backdrop: the authored photo or the generated motif, faded toward the text
@@ -175,10 +156,6 @@
 .sectors-layer[data-density='compressed'] .sectors-sector-tagline {
   max-height: 6em;
   margin-top: var(--s-2);
-  opacity: 1;
-}
-
-.sectors-layer[data-density='compressed'] .sectors-sector-meta {
   opacity: 1;
 }
 

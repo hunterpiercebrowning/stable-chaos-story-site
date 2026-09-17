@@ -6,6 +6,7 @@ import { Icon } from '../components/Icon';
 import { NodeCard } from '../components/NodeCard';
 import { getNextLayer, getNodes, getPrevLayer } from '../data';
 import type { BackgroundNode, Layer as LayerData, Node } from '../data/types';
+import { layerDensity } from '../layers/helpers';
 import { getLayerComponents } from '../layers/registry';
 import { track } from '../lib/track';
 import { navVia, useUi } from '../store/ui';
@@ -23,6 +24,7 @@ export function Stage() {
   const navigate = useNavigate();
   const setVideoExpanded = useUi((s) => s.setVideoExpanded);
   const setNavIntent = useUi((s) => s.setNavIntent);
+  const density = useUi((s) => s.density);
 
   // One `layer_view` per layer change; `via` comes from whichever control
   // navigated (nav, arrow, keyboard, search, related …) and is `url` otherwise.
@@ -48,6 +50,13 @@ export function Stage() {
 
   const { Layer, Focus } = getLayerComponents(layer.id);
   const nodes = getNodes(layer.id);
+  // The rail offers what the layer view shows: Compressed folds the secondaries
+  // away there, so they stay out of the rail too. A secondary reached by link or
+  // search keeps its own card so the rail still marks where you are.
+  const railNodes =
+    layerDensity(layer, density) === 'compressed'
+      ? nodes.filter((n) => n.tier !== 'secondary' || n.id === node?.id)
+      : nodes;
   const prev = getPrevLayer(layer.id);
   const next = getNextLayer(layer.id);
 
@@ -91,7 +100,7 @@ export function Stage() {
                 <div className="stage-focus">
                   <Focus node={node} onClose={close} />
                 </div>
-                <FocusRail nodes={nodes} focusedId={node.id} onSelect={select} />
+                <FocusRail nodes={railNodes} focusedId={node.id} onSelect={select} />
               </motion.div>
             ) : (
               <motion.div

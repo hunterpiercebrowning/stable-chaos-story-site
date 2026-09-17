@@ -5,46 +5,17 @@
     "title": "Synthetic Bio",
     "sector": "synbio",
     "background_image": "",
-    "tagline": "Going full-stack to harness 4.5 billion years of engineering infrastructure",
-    "blurb": "Scaling the infrastructure we already operate to be full stack and yield novel products.",
+    "tagline": "Full-stack to harness 4.5 billion years of engineering infrastructure",
+    "old_blurb": "Biology is the most advanced technology on Earth. Living cells build complex molecules, sense their surroundings, repair themselves, and multiply, all at room temperature and running on little more than sugar. Synthetic biology makes that power programmable: DNA becomes code, and organisms become platforms that can be designed to solve problems nothing else can, from how we make the materials and chemicals industry depends on to how we keep animals healthy.",
     "bullet_points": [
-      "Genetic Engineering: DNA programming, host organism editing, and exotic organism harnessing",
-      "Applied AI: localized artificial intelligence within the moat of a physical lab to drive discovery, refinement, and novel outcomes",
-      "Cloud Lab: shifting the paradigm from clunky industrial engagements to digitized infrastructure with real-time control for end customers",
-      "Novel Hardware: next-generation hardware that breaks 50 years of stagnation, enabling new capabilities, efficiencies and outcomes",
-      "Molecular Engineering: tailoring the performance of target biomolecules in their deployed applications and use cases",
-      "Proprietary Strains & Molecules: in-house biological products for critical sectors and industries"
+      "Programmable Cells: many of the molecules the world depends on are scarce, costly, or impossible to make synthetically. Writing DNA like code lets microbes produce them on demand, along with many that nature never made",
+      "Living Factories: most chemicals and materials still start as oil, mined ore, or wild harvest. Fermentation grows them from sugar instead, and because cells copy themselves, a strain proven in a flask can scale to industrial supply",
+      "Precision Beyond Chemistry: industrial chemistry runs on heat, pressure, and harsh solvents, and pays for it in energy and waste. Enzymes do the same work in one clean step at room temperature",
+      "Healthier Animals: livestock consume much of the world's antibiotics, driving resistance that threatens people too. Vaccines, probiotics, and feed ingredients made by biology protect animals and the food supply without that cost",
+      "Resilient Supply: critical ingredients often come from a handful of plants an ocean away, and one disruption empties shelves. Anything that can be brewed can be made close to where it is needed, from local feedstocks"
     ],
     "video_link": "",
-    "context_items": [
-      {
-        "type": "link",
-        "title": "Full-Stack Synthetic Biology Partner",
-        "source": "Growth Curve Bio",
-        "url": "https://growthcurvebio.com/",
-        "thumbnail": "",
-        "blurb": "Growth Curve helps synthetic biology teams prototype, optimize, and produce biomolecules, turning ideas into commercially viable bioproducts.",
-        "date": ""
-      },
-      {
-        "type": "link",
-        "title": "Inside the Full-Stack Process",
-        "source": "Growth Curve Bio",
-        "url": "https://growthcurvebio.com/process.html",
-        "thumbnail": "",
-        "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
-        "date": ""
-      },
-      {
-        "type": "article",
-        "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
-        "source": "Growth Curve Bio",
-        "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
-        "thumbnail": "",
-        "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",
-        "date": "Sep 2026"
-      }
-    ]
+    "context_items": []
   },
   {
     "id": "security",
@@ -53,45 +24,17 @@
     "sector": "security",
     "background_image": "",
     "tagline": "Capabilities for contested environments",
-    "blurb": "We live in a compromised world, where AI is accelerating every threat vector and the digital landscape leaves us more exploitable than ever before. Threats don't stay in a single lane, so our national security capability pairs cutting-edge technology with tried and true techniques across every domain that matters, at a standard usually reserved for the highest levels of government.",
+    "old_blurb": "We live in a compromised world, where AI is accelerating every threat vector and the digital landscape leaves us more exploitable than ever before. Threats don't stay in a single lane, so our national security capability pairs cutting-edge technology with tried and true techniques across every domain that matters, at a standard usually reserved for the highest levels of government.",
     "bullet_points": [
-      "Contested spectrum is the default: peer adversaries jam, intercept and geolocate. Legacy comms assume permissive environments that no longer exist.",
-      "Detection is lethal: emitting is exposure. Units need to move data without lighting up the spectrum.",
-      "Interoperability gaps: joint and partner operations stall when systems cannot talk securely across echelons and allies.",
-      "Sensors outpace sensemaking: collection has exploded; the bottleneck is turning raw feeds into decisions at speed.",
-      "Standoff is shrinking: operators need persistent awareness without putting people or exquisite assets at risk.",
-      "Legacy ISR is exquisite and scarce: high-end national systems are over-subscribed. Tactical units need organic, attritable coverage."
+      "Secure Communications & Infrastructure: power, water, ports, and networks are now front-line targets. They must stay private, trusted, and running while someone is actively trying to break them",
+      "Critical Minerals & Supply Chains: rare earths and strategic materials sit inside every chip, battery, and weapon system. Whoever controls their supply sets the pace for everyone else",
+      "Signals & Spectrum: every modern operation rides on the electromagnetic spectrum. Owning it means communicating, navigating, and sensing while denying an adversary the same",
+      "Next-Gen ISR: seeing first is still the decisive advantage. Low-cost, persistent sensing puts awareness in the hands of the people who need it, without risking lives or scarce assets",
+      "Cyber & AI Advantage: AI lets attackers move at machine speed and at scale. Defense has to be faster, and built into systems from the start rather than bolted on",
+      "Command & Control Systems: information only matters if it reaches a decision in time. Connecting every sensor, system, and team turns raw data into coordinated action"
     ],
     "video_link": "",
-    "context_items": [
-      {
-        "type": "link",
-        "title": "Capabilities for Contested Environments",
-        "source": "Starling Intel",
-        "url": "https://starlingintel.com/",
-        "thumbnail": "",
-        "blurb": "A discreet security & intelligence firm built by people who have worked both offense and defense at the highest levels.",
-        "date": ""
-      },
-      {
-        "type": "link",
-        "title": "Threats Don't Stay in a Single Lane",
-        "source": "Starling Intel",
-        "url": "https://starlingintel.com/domains",
-        "thumbnail": "",
-        "blurb": "Fourteen domains and vectors, from physical facilities and AI to sovereignty and pattern of life, and the services engaged through each.",
-        "date": ""
-      },
-      {
-        "type": "link",
-        "title": "The Firm: Three Lineages, One Firm",
-        "source": "Starling Intel",
-        "url": "https://starlingintel.com/firm",
-        "thumbnail": "",
-        "blurb": "Former tier-one military personnel, intelligence operatives, and serial entrepreneurs, proven in war zones, intelligence operations, and the private sector.",
-        "date": ""
-      }
-    ]
+    "context_items": []
   },
   {
     "id": "systems",
@@ -100,13 +43,13 @@
     "sector": "systems",
     "background_image": "",
     "tagline": "AI is only as good as the system it runs on",
-    "blurb": "Most organizations run on ad hoc processes, undocumented knowledge, and data scattered across tools that never talk to each other. Layer AI on top of that and complexity scales faster than capability. Our systems capability makes every role, decision, and workflow defined, visible, and connected, so organizations compound instead of plateau.",
+    "old_blurb": "Most organizations run on ad hoc processes, undocumented knowledge, and data scattered across tools that never talk to each other. Layer AI on top of that and complexity scales faster than capability. Our systems capability makes every role, decision, and workflow defined, visible, and connected, so organizations compound instead of plateau.",
     "bullet_points": [
-      "People: every role defined, every seat accountable, and leadership aligned on what matters most",
-      "Processes: how work moves through the organization, documented, standardized, and run on a consistent cadence",
-      "Technology: software, integrations, and structured data that give AI a foundation worth running on",
-      "Finances: clean books, reliable controls, and forecasting that ground decisions in reality",
-      "Operations: the operating infrastructure that turns strategy into consistent, predictable execution"
+      "People: AI multiplies whatever each person does, good or bad. Clear roles, real accountability, and aligned leadership decide whether that leverage compounds or collides",
+      "Processes: AI can only run a process that has been written down. Documented, standardized work is what turns it from a clever demo into a dependable teammate",
+      "Technology: AI is only as good as the data it can reach. Connected software and clean, structured data are the difference between real answers and confident guesses",
+      "Finances: when execution gets cheap, choosing where to spend becomes the hard part. Clean books and reliable forecasts show which bets are actually paying off",
+      "Operations: AI makes everything faster, including mistakes. A steady operating rhythm keeps that speed pointed at the strategy instead of away from it"
     ],
     "video_link": "",
     "context_items": []

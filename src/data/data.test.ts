@@ -7,6 +7,7 @@ import {
   getChildCount,
   getContextItems,
   getCopy,
+  getLayer,
   getLayers,
   getNavTree,
   getNextLayer,
@@ -165,10 +166,12 @@ describe('normalize', () => {
 });
 
 describe('content', () => {
-  it('has all eight layers in order', () => {
+  it('lists the visible layers in order, leaving hidden ones out', () => {
     expect(getLayers().map((l) => l.id)).toEqual([
-      'welcome', 'who', 'operations', 'beliefs', 'sectors', 'trajectory', 'holdings', 'background',
+      'welcome', 'who', 'operations', 'beliefs', 'sectors', 'trajectory', 'holdings',
     ]);
+    // Hidden, not gone: the layer and its nodes still resolve by id.
+    expect(getLayer('background')?.title).toBe('Foundational Background');
   });
 
   it('gives every node a unique id', () => {
@@ -198,6 +201,9 @@ describe('content', () => {
     expect(getNextLayer('who')?.id).toBe('operations');
     expect(getNextLayer('sectors')?.id).toBe('trajectory');
     expect(getNextLayer('trajectory')?.id).toBe('holdings');
+    // `background` is hidden: paging stops at Holdings, but a direct link into
+    // the hidden layer still pages back out of it.
+    expect(getNextLayer('holdings')).toBeUndefined();
     expect(getNextLayer('background')).toBeUndefined();
     expect(getPrevLayer('background')?.id).toBe('holdings');
   });

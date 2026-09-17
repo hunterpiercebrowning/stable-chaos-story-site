@@ -155,18 +155,21 @@
 /* ── offering node (Examples grid) ──────────────────── */
 
 /* Sits in the sector band ahead of the products and reads apart from them
-   without outweighing them: the same accent rule and tint an active product
-   carries along its top edge, turned to run down the left edge, and the
-   company logo where a product shows its category. */
+   without outweighing them: a solid tile where a product is a glass card, the
+   sector accent rule down the left edge where an active product carries it
+   along the top, and the company logo where a product shows its category. */
 .services-offering-card {
   min-height: 132px;
   gap: var(--s-3);
-  background: linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--accent, var(--green-2)) 9%, transparent) 0%,
-      transparent 45%
-    ),
-    var(--glass);
+  background: color-mix(in srgb, var(--accent, var(--green-2)) 9%, var(--dark-2));
+  border-color: color-mix(in srgb, var(--accent, var(--green-2)) 22%, var(--glass-border));
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.services-offering-card:hover,
+.services-offering-card.is-active {
+  background: color-mix(in srgb, var(--accent, var(--green-2)) 14%, var(--dark-2));
 }
 
 .services-offering-card::before {

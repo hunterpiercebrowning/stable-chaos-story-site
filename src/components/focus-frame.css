@@ -120,9 +120,9 @@
 
 .focus-bullets {
   display: grid;
-  gap: 6px;
+  gap: var(--s-3);
   font-size: clamp(0.98rem, 1.1vw, 1.12rem);
-  margin-top: var(--s-3);
+  margin-top: var(--s-4);
 }
 
 /* Each bullet is a row with an accent edge and a tint that fades out to the right. */
@@ -130,7 +130,7 @@
   display: flex;
   align-items: baseline;
   gap: var(--s-3);
-  padding: 6px var(--s-4);
+  padding: var(--s-2) var(--s-4);
   border-left: 2px solid var(--accent, var(--green-2));
   border-radius: 0 var(--r-sm) var(--r-sm) 0;
   background: linear-gradient(

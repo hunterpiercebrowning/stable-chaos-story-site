@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { getLayer, getNextLayer, getNode, getNodes, getPrevLayer } from '../data';
 import type { Layer, Node } from '../data/types';
+import { RIGHT_TRAY_ENABLED } from '../lib/flags';
 import { track } from '../lib/track';
 import { useUi } from './ui';
 
@@ -203,6 +204,8 @@ export function useKeyboard(): void {
           return;
         case 'panel':
           if (ui.presentation) return;
+          // The right tray is hidden behind its flag, so ] does nothing for now.
+          if (action.side === 'right' && !RIGHT_TRAY_ENABLED) return;
           e.preventDefault();
           if (action.side === 'left') ui.toggleLeft();
           else ui.toggleRight();

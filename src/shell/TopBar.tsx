@@ -1,12 +1,14 @@
 import { Link } from 'react-router';
 import { Icon } from '../components/Icon';
+import { RIGHT_TRAY_ENABLED } from '../lib/flags';
 import { useUi } from '../store/ui';
 import { track } from '../lib/track';
 import { DensityToggle } from './DensityToggle';
 import { useRoute } from './useRoute';
 import './topbar.css';
 
-/** Persistent chrome: wordmark → welcome, breadcrumb, density (Our Holdings only), panels, presentation. */
+/** Persistent chrome: wordmark → welcome, breadcrumb, density (Our Holdings only), panels, presentation.
+ *  The supporting-context toggle is behind `RIGHT_TRAY_ENABLED` and currently off. */
 export function TopBar() {
   const { layer, node } = useRoute();
   const leftOpen = useUi((s) => s.leftOpen);
@@ -87,16 +89,18 @@ export function TopBar() {
         >
           <Icon name="panel-left" size={17} />
         </button>
-        <button
-          type="button"
-          className="icon-button"
-          aria-pressed={rightOpen}
-          aria-label="Toggle supporting context panel"
-          title="Toggle supporting context ( ] )"
-          onClick={toggleRight}
-        >
-          <Icon name="panel-right" size={17} />
-        </button>
+        {RIGHT_TRAY_ENABLED ? (
+          <button
+            type="button"
+            className="icon-button"
+            aria-pressed={rightOpen}
+            aria-label="Toggle supporting context panel"
+            title="Toggle supporting context ( ] )"
+            onClick={toggleRight}
+          >
+            <Icon name="panel-right" size={17} />
+          </button>
+        ) : null}
         <button
           type="button"
           className="icon-button"

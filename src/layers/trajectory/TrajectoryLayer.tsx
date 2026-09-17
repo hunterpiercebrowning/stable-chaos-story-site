@@ -36,8 +36,8 @@ const BUILT: Stop[] = [
   {
     year: '2026',
     sectors: ['security'],
-    title: 'Defense / Intel Products',
-    body: "T&E with those serving our nation's most important missions.",
+    title: 'Defense Product T&E',
+    body: "Co-development with those executing our nation's critical missions.",
   },
 ];
 
@@ -49,16 +49,16 @@ const NEXT: Stop[] = [
     body: 'DNA programming, host organism editing, and exotic organism harnessing.',
   },
   {
-    year: '2026',
-    sectors: ['security'],
-    title: 'Starling Intel',
-    body: 'Full spectrum capabilities to defend critical sectors.',
-  },
-  {
     year: '2027',
     sectors: ['synbio'],
     title: 'Bioproduct Commercialization',
     body: 'Industrial applications of proteins and peptides.',
+  },
+  {
+    year: '2027',
+    sectors: ['security'],
+    title: 'Defense Product Commercialization',
+    body: 'Large scale order fulfillment & fielding',
   },
   {
     year: '2027',

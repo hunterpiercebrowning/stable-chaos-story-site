@@ -1,3 +1,4 @@
+import { HIDDEN_LAYER_IDS } from '../lib/flags';
 import { videoThumbnail } from '../lib/video';
 import { allNodes, layers, nodeIndex, nodesOf } from './loader';
 import { nodeSectors, parentIds } from './normalize';
@@ -8,8 +9,25 @@ import { isProduct, type ContextItem, type Layer, type LayerId, type Node, type 
 
 /* ── public API ─────────────────────────────────────── */
 
+const hiddenLayers = new Set<string>(HIDDEN_LAYER_IDS);
+
+/** Layers a reader can reach on their own; see `HIDDEN_LAYER_IDS`. */
+const visibleLayers: Layer[] = layers.filter((l) => !hiddenLayers.has(l.id));
+
+/** Nodes a hidden layer would otherwise leak into search. */
+const searchableNodes: Node[] = allNodes.filter((n) => !hiddenLayers.has(n.layerId));
+
+/**
+ * The nav, the rail, the layer paging and search all read this, so hiding a
+ * layer is one list. `getLayer` and `getNode` deliberately do not filter: a
+ * hidden layer's URL still resolves for anyone holding the link.
+ */
 export function getLayers(): Layer[] {
-  return layers;
+  return visibleLayers;
+}
+
+export function isHiddenLayer(layerId: string | undefined): boolean {
+  return Boolean(layerId && hiddenLayers.has(layerId));
 }
 
 export function getLayer(layerId: string | undefined): Layer | undefined {
@@ -101,19 +119,31 @@ export function getRelated(id: string | undefined): NodeRef[] {
 }
 
 export function search(q: string, limit?: number): SearchResult[] {
-  return searchNodes(allNodes, q, limit);
+  return searchNodes(searchableNodes, q, limit);
 }
 
 /* ── layer sequence (up/down arrows) ────────────────── */
 
+/**
+ * The paging run for a layer: the visible layers, plus the current one when it
+ * is hidden. Someone who opened a hidden layer by direct link still gets a Back
+ * pill out of it; nobody can page into it.
+ */
+function layerSequence(layerId: string | undefined): Layer[] {
+  if (!isHiddenLayer(layerId)) return visibleLayers;
+  return layers.filter((l) => !hiddenLayers.has(l.id) || l.id === layerId);
+}
+
 export function getPrevLayer(layerId: string | undefined): Layer | undefined {
-  const i = layers.findIndex((l) => l.id === layerId);
-  return i > 0 ? layers[i - 1] : undefined;
+  const seq = layerSequence(layerId);
+  const i = seq.findIndex((l) => l.id === layerId);
+  return i > 0 ? seq[i - 1] : undefined;
 }
 
 export function getNextLayer(layerId: string | undefined): Layer | undefined {
-  const i = layers.findIndex((l) => l.id === layerId);
-  return i >= 0 && i < layers.length - 1 ? layers[i + 1] : undefined;
+  const seq = layerSequence(layerId);
+  const i = seq.findIndex((l) => l.id === layerId);
+  return i >= 0 && i < seq.length - 1 ? seq[i + 1] : undefined;
 }
 
 /* ── resolved copy (authored content only) ── */

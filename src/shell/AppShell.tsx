@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'motion/react';
 import { lazy, Suspense, useEffect } from 'react';
+import { RIGHT_TRAY_ENABLED } from '../lib/flags';
 import { setContextGetter } from '../lib/track';
 import { useUi } from '../store/ui';
 import { useKeyboard } from '../store/keyboard';
@@ -15,7 +16,8 @@ import './shell.css';
 // three.js is the one heavy dependency; it arrives in its own chunk after the shell has painted.
 const Attractor = lazy(() => import('./Attractor').then((m) => ({ default: m.Attractor })));
 
-/** Three-column shell: nav | stage | supporting context, over the attractor. */
+/** Three-column shell: nav | stage | supporting context, over the attractor.
+ *  The right column is behind `RIGHT_TRAY_ENABLED` and currently off. */
 export function AppShell() {
   const { layerId, nodeId } = useRoute();
   const leftOpen = useUi((s) => s.leftOpen);
@@ -63,15 +65,17 @@ export function AppShell() {
             <Stage />
           </main>
 
-          <motion.aside
-            className="app-panel app-panel--right"
-            animate={{ width: rightWidth, opacity: rightWidth === 0 ? 0 : 1 }}
-            transition={transition}
-            aria-hidden={rightWidth === 0}
-            aria-expanded={rightOpen && !presentation}
-          >
-            <RightTray />
-          </motion.aside>
+          {RIGHT_TRAY_ENABLED ? (
+            <motion.aside
+              className="app-panel app-panel--right"
+              animate={{ width: rightWidth, opacity: rightWidth === 0 ? 0 : 1 }}
+              transition={transition}
+              aria-hidden={rightWidth === 0}
+              aria-expanded={rightOpen && !presentation}
+            >
+              <RightTray />
+            </motion.aside>
+          ) : null}
         </div>
       </div>
 

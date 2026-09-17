@@ -39,7 +39,8 @@ const ADVANTAGES: { title: string; body: string }[] = [
     title: 'Compounding Integration',
     body:
       'True invention comes from unique insights and cross-cutting patterns that span industries, ' +
-      'perspectives and applications.',
+      'perspectives and applications. In the age of AI, building a engine that compounds across ' +
+      'complementary sectors is also the strongest moat.'
   },
   {
     title: 'First Principles & Nth° Specificity',

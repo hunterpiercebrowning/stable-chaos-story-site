@@ -6,12 +6,12 @@
     "title": "Science & Technology",
     "company": "Stable Chaos",
     "headshot_file": "/assets/headshots/hunter-head_shot_cropped.jpg",
-    "blurb": "Having built ventures across the energy production, machine learning, SaaS, digital forensics, and hardware sectors, Hunter is a seasoned entrepreneur and inventor who lives at the intersection between high speed and high complexity.",
+    "blurb": "Having built across the energy production, machine learning, SaaS, digital forensics, and hardware sectors, Hunter is a seasoned entrepreneur and inventor who lives at the intersection between high speed and high complexity.",
     "bullet_points": [
-      "LLMs and ML applications from scratch",
       "Novel energy production technologies",
       "Robotics and embedded hardware systems",
       "Large-scale, high-usage software systems",
+      "LLMs and ML applications from scratch",
       "Technical leadership from startups through unicorns",
       "Offensive and defensive cyber operations"
     ],
@@ -25,7 +25,7 @@
     "title": "Strategy & Operations",
     "company": "Stable Chaos",
     "headshot_file": "/assets/headshots/Ben_4.jpg",
-    "blurb": "Having founded and led organizations of all scales and in multiple industries, Ben is a proven entrepreneur and investor with an obsession for systematizing sustainable alignment, outcomes, and success.",
+    "blurb": "Having founded and led organizations of all scales and in multiple industries, Ben is a proven entrepreneur and investor with an obsession for systematizing sustainable alignment, outcomes, and success",
     "bullet_points": [
       "Co-Founder of Growth Curve Bio",
       "Founding Partner of Fountain City Partners",
@@ -34,17 +34,7 @@
       "Strategy and execution"
     ],
     "video_link": "",
-    "context_items": [
-      {
-        "type": "link",
-        "title": "Company: Outcome Obsessed",
-        "source": "Growth Curve Bio",
-        "url": "https://growthcurvebio.com/company.html",
-        "thumbnail": "",
-        "blurb": "The founding team, the facility, and the three tenets that shape how Growth Curve takes on work.",
-        "date": ""
-      }
-    ]
+    "context_items": []
   },
   {
     "id": "jared-schnefke",
@@ -57,7 +47,7 @@
     "bullet_points": [
       "Founding Partner of Fountain City Partners",
       "Built the finance and operating infrastructure behind a 2021 public-company acquisition",
-      "Top-tier consulting and real operating roles",
+      "Operations and fundraising for a hyper innovate energy venture",
       "Strategy, operations, and finance"
     ],
     "video_link": "",
