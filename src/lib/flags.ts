@@ -23,3 +23,14 @@ export const RIGHT_TRAY_ENABLED = false;
  * put in front of readers. Empty this array to bring it back.
  */
 export const HIDDEN_LAYER_IDS: readonly string[] = ['background'];
+
+/**
+ * Click-through on the Our Holdings "Examples" cards: the service offerings
+ * and the products. Off for now: those cards ship ahead of their focus
+ * content, so they look exactly as they always did and simply do not open.
+ * The sector summaries and the companies are unaffected, on the Overview and
+ * in the band headers alike, and the focus views themselves still render for
+ * anyone holding the link. Flip this back to `true` once the offerings and the
+ * products have their copy.
+ */
+export const HOLDINGS_EXAMPLES_CLICKABLE = false;

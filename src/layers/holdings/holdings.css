@@ -172,3 +172,15 @@
   width: 13px;
   height: 13px;
 }
+
+/* ══════════════════════════════════════════════════════
+   Examples: click-through switched off
+   ══════════════════════════════════════════════════════ */
+
+/* While HOLDINGS_EXAMPLES_CLICKABLE is off (src/lib/flags.ts) the offering and
+   product cards open nothing, so they drop the pointer cursor. The hover lift
+   stays: the card still answers, it just is not a link yet. The band header's
+   sector title and company chips are outside the grid and keep their pointer. */
+.products-bands[data-locked] .products-grid .node-card {
+  cursor: default;
+}

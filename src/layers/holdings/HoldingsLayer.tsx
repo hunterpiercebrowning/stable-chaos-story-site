@@ -11,6 +11,7 @@ import {
   type SectorId,
   type ServiceNode,
 } from '../../data/types';
+import { HOLDINGS_EXAMPLES_CLICKABLE } from '../../lib/flags';
 import { useLayerState } from '../helpers';
 import type { LayerViewProps } from '../types';
 import { CompanyLogo, ServicesNode } from '../services/ServicesNode';
@@ -67,6 +68,9 @@ function buildBands(nodes: Node[]): Band[] {
 
 const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
+/** Stands in for `onSelect` on a card that must not open. */
+const noSelect = () => {};
+
 interface GroupProps {
   kind: HoldingKind;
   icon: IconName;
@@ -120,6 +124,10 @@ export function HoldingsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
 
   const examplesCollapsed = secondaries.length > 0 && secondaries.every(isCollapsed);
   const showOverview = examplesCollapsed && heroes > 0;
+
+  // The Examples cards open nothing while HOLDINGS_EXAMPLES_CLICKABLE is off;
+  // they keep their hover and focus styling, so the band reads unchanged.
+  const selectExample = HOLDINGS_EXAMPLES_CLICKABLE ? onSelect : noSelect;
 
   const offeringCount = bands.reduce((n, b) => n + b.offerings.length, 0);
   const productCount = bands.reduce((n, b) => n + b.products.length, 0);
@@ -177,6 +185,9 @@ export function HoldingsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
       <div
         className="products-bands"
         data-hidden={showOverview ? 'true' : undefined}
+        // Drops the pointer cursor on the Examples cards while they open
+        // nothing; holdings.css keeps the hover lift.
+        data-locked={HOLDINGS_EXAMPLES_CLICKABLE ? undefined : 'true'}
         inert={showOverview}
       >
         {bands.map((band) => (
@@ -238,7 +249,7 @@ export function HoldingsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
                   node={node}
                   collapsed={isCollapsed(node)}
                   active={node.id === focusedId}
-                  onSelect={onSelect}
+                  onSelect={selectExample}
                 />
               ))}
               {band.products.map((node) => (
@@ -247,7 +258,7 @@ export function HoldingsLayer({ layer, nodes, focusedId, onSelect }: LayerViewPr
                   node={node}
                   collapsed={isCollapsed(node)}
                   active={node.id === focusedId}
-                  onSelect={onSelect}
+                  onSelect={selectExample}
                 />
               ))}
             </div>
