@@ -7,14 +7,17 @@ name = "stable-chaos-story-site"
 compatibility_date = "2026-09-01"
 pages_build_output_dir = "dist"
 
-# D1 — create once with:
-#   npx wrangler d1 create stable-chaos-context
-# then paste the returned database_id below (and, optionally, a separate preview id).
+# D1 — created 2026-09-17 in region WNAM. Production and preview are separate databases so a
+# pull-request preview cannot create or revoke real investor links:
+#   stable-chaos-context           65078d3c-d9df-4abc-90a5-5011b4f72304   (database_id)
+#   stable-chaos-context-preview   b34e8ca3-ed71-4994-94f9-a65dacb1b0fb   (preview_database_id)
+# `wrangler d1 …` targets them by name; `migrations_dir` applies to whichever one the flag picks
+# (`--remote` = production, `--local` = the miniflare copy keyed by preview_database_id).
 [[d1_databases]]
 binding = "DB"
 database_name = "stable-chaos-context"
-database_id = "PLACEHOLDER_DATABASE_ID"
-preview_database_id = "PLACEHOLDER_PREVIEW_DATABASE_ID"
+database_id = "65078d3c-d9df-4abc-90a5-5011b4f72304"
+preview_database_id = "b34e8ca3-ed71-4994-94f9-a65dacb1b0fb"
 migrations_dir = "migrations"
 
 # Secrets (production: `npx wrangler pages secret put <NAME>` or the Pages dashboard; local: `.dev.vars`).
