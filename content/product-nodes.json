@@ -4,12 +4,14 @@
     "type": "primary",
     "title": "Peptides, Proteins & Bioreactors",
     "sector": "synbio",
-    "tagline": "Productizing being world class at solving real-world problems with biology",
-    "blurb": "Leveraging our facilities, expertise, and team to develop in-house biological products for critical sectors and industries.",
+    "old_tagline": "Productizing being world class at solving real-world problems with biology",
+    "tagline": "Leveraging our facilities, expertise, and team to develop in-house biological products for critical sectors and industries.",
+    "old_blurb": "Leveraging our facilities, expertise, and team to develop in-house biological products for critical sectors and industries.",
     "bullet_points": [
-      "Built on our own stack: facilities, expertise, and team already in place, so product development comes at marginal cost.",
-      "Protected as trade secrets: strains and processes held in-house, never published, never licensed away.",
-      "Owned upside: products we own outright, with recurring value beyond the services business."
+      "Peptides drawn from biomimicry: sequences nature already evolved, adapted and produced to solve problems conventional chemistry has not cracked.",
+      "Proteins engineered for production: designed for industrial applications where extreme precision and efficiency are the requirement.",
+      "Bioreactors past due for a rethink: core reactor design has been largely stagnant for over 50 years, and the hardware now limits the biology it holds.",
+      "Electromagnetic and optical control: manipulating biological processes with fields and light to push biomanufacturing efficiency beyond what chemistry alone allows."
     ],
     "video_link": "",
     "background_image": "/assets/backgrounds/products/synbio-products.jpg",
@@ -30,12 +32,14 @@
     "type": "primary",
     "title": "Next-Gen Technologies & Devices",
     "sector": "security",
-    "tagline": "Deploying solutions developed alongside tier-one special operations and intelligence personnel",
-    "blurb": "Solutions to the sensitive and complex problems facing our nation.",
+    "tagline": "Complex problems of national importance require full spectrum solutions.",
+    "old_blurb": "Solutions to the sensitive and complex problems facing our nation.",
     "bullet_points": [
       "Next-gen comms: communications for contested environments.",
-      "New-era ISR: intelligence, surveillance, and reconnaissance for the modern fight.",
-      "Signals warfare: novel offensive and defensive solutions across the spectrum.",
+      "Biosafety hardening: cyber and physical security for labs, biological data, and the systems that run them.",
+      "New-era ISR: intelligence, surveillance, and reconnaissance equipment for the modern fight.",
+      "Advanced signals and spectrum: sensing, communication, and protection across the electromagnetic spectrum.",
+      "AI-enhanced training aids: smart systems that sharpen operator skill and decision-making before it counts.",
       "Rapid prototyping: solutions built to request by government agencies or departments."
     ],
     "video_link": "",
@@ -57,12 +61,13 @@
     "type": "primary",
     "title": "Starling Technologies",
     "sector": "systems",
-    "tagline": "Productizing hard-won operating experience into deployable systems",
-    "blurb": "Turning the systems, frameworks, and methodologies proven inside real businesses into software any organization can deploy.",
+    "tagline": "Turning the processes, frameworks, and methodologies proven inside real businesses into systems any organization can deploy.",
+    "old_blurb": "Turning the systems, frameworks, and methodologies proven inside real businesses into software any organization can deploy.",
     "bullet_points": [
-      "Built from the field: every product starts as a problem solved again and again inside the businesses our services teams support.",
-      "Systems before software: each product encodes a defined system, so organizations adopt the discipline along with the tool.",
-      "Compounding value: the lessons of one engagement, scaled across every organization that deploys them."
+      "Systems that bend to the business: configurable to how a company actually works, instead of asking the company to reshape itself around the software.",
+      "AI the business controls: custom-tuned implementations that keep data, models, and sovereignty in the owner's hands.",
+      "Battle-tested frameworks: operations, hiring, finance, and more, encoded from systems proven again and again inside real businesses.",
+      "IP protection and security: products that keep what a company owns provable, private, and defensible."
     ],
     "video_link": "",
     "background_image": "/assets/backgrounds/products/systems-products.jpg",

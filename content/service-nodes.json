@@ -6,14 +6,13 @@
     "sector": "synbio",
     "website": "https://growthcurvebio.com/",
     "logo_file": "/assets/logos/gcb-logo.svg",
-    "tagline": "Synthetic biology rapid iteration and biomanufacturing lab",
-    "blurb": "A full-stack synthetic biology partner that helps teams turn ideas into commercially viable bioproducts, from a single engineered cell to commercial scale. Growth Curve is an independent development partner with no competing product interests, no academic mandates, and no publishing agenda.",
+    "tagline": "Synthetic biology rapid prototyping and biomanufacturing lab",
+    "blurb": "A full-stack synthetic biology partner that helps teams turn ideas into commercially viable bioproducts, from a single engineered cell to commercial scale. ",
     "bullet_points": [
-      "One accountable partner: strain engineering, rapid prototyping, process optimization, pilot production, and manufacturing hand-off carried by one team, with no hand-offs between vendors.",
-      "Enter at any stage: every stage ends with a deliverable the client owns, so programs start where they are and exit the moment they have what they came for.",
+      "One accountable partner: strain engineering, rapid prototyping, process optimization, pilot production, and manufacturing hand-off carried by one team.",
+      "Strain engineering in house: DNA design, host organism editing, and screening run in the same lab as fermentation, so organism design is tuned against real process data instead of assumptions.",
       "Precision fermentation facility: R&D-grade and specializing in BSL-1 microbial hosts, with benchtop and pilot bioreactors at 100 L and under, downstream processing, and analytics.",
-      "Data drives every decision: every run is instrumented end to end and delivered as a structured data packet, so the call to advance is made on numbers, not hunches.",
-      "So aligned it feels in-house: clients work directly with the scientists running their program and see the methods, the raw data, and an honest read on every run."
+      "Full stack data capture: DNA sequences, strain performance, and fermentation runs are captured as one connected dataset, a rare asset that feeds AI-empowered simulation and puts every call to advance on numbers, not hunches."
     ],
     "video_link": "",
     "context_items": [
@@ -56,12 +55,10 @@
     "tagline": "Airtight back-office, operations, and compliance",
     "blurb": "A firm of operating partners: professionals across every function, all trained on the same systems, philosophies, and methodologies. Not a consulting firm and not a staffing agency, Fountain City Partners covers the entire operating picture for businesses across SMB and the middle market, from leadership to systems, transactions, and everything in between.",
     "bullet_points": [
-      "Operators who do the work: founded by operators with decades of experience building structure and systems inside growing businesses, including one acquired by a publicly traded company in 2021.",
-      "One firm, every layer: leadership, accounting, finance, operations, systems, and transactions under one roof, applied with a single methodology.",
-      "Every situation is different: embedded, interim, project-based, or ongoing advisory engagements, scoped to what the business actually needs.",
-      "For operators and investors: support for leadership teams running the business, and for investors and boards from pre-transaction diligence through post-close performance.",
-      "Industry agnostic, execution obsessed: the structure, accountability, and follow-through that turn what needs to improve into what actually happens.",
-      "Insight that becomes product: work inside real businesses surfaces the recurring problems our Deployable Wisdom products are built to solve."
+      "Operators who do the work: founded by operators with decades of experience building structure and systems inside growing businesses.",
+      "Stability before scale: the structure, accountability, and follow-through that move a business off individual heroics and onto documented process that holds as it grows.",
+      "Built for human and AI workflows: processes and systems designed so the same documented work can be run by a team today and handed to automation and AI agents as they arrive.",
+      "Airtight back office: accounting, finance, systems, and compliance built to hold up under growth, diligence, and a transaction."
     ],
     "video_link": "",
     "context_items": []
