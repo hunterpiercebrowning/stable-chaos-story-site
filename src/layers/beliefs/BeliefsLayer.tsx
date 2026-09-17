@@ -39,7 +39,7 @@ const ADVANTAGES: { title: string; body: string }[] = [
     title: 'Compounding Integration',
     body:
       'True invention comes from unique insights and cross-cutting patterns that span industries, ' +
-      'perspectives and applications. In the age of AI, building a engine that compounds across ' +
+      'perspectives, and applications. In the age of AI, building an engine that compounds across ' +
       'complementary sectors is also the strongest moat.'
   },
   {
@@ -58,10 +58,10 @@ const ADVANTAGES: { title: string; body: string }[] = [
   {
     // DRAFT copy, not from `content/`: this advantage's blurb in the JSON was a
     // duplicate of Frontier Insights, so there was nothing authored to lift.
-    title: 'Divergent Individuals In A Converging World',
+    title: 'Divergent Individuals in a Converging World',
     body:
       'Everyone now holds the same tools and converges on the same answers. Our edge is people ' +
-      'whose instincts, range and lived experience refuse to average out.',
+      'whose instincts, range, and lived experience refuse to average out.',
   },
 ];
 

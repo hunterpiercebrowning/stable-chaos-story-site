@@ -54,7 +54,7 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | `shortTitle` | left nav / breadcrumb / related-strip grouping |
 | `path` | route |
 | `nodesFile` | file in this folder, or `null` (welcome). Informational: the loader imports the files itself. Our Holdings (`holdings`) lists both of its files |
-| `hasDensity` | The layer offers the Overview / Examples toggle (shown in the top bar only while it is active). Layers without it always render compressed: their `secondary` nodes stay folded on the stage and in the nav |
+| `hasDensity` | The layer offers the Overview / Details toggle (shown in the top bar only while it is active). Layers without it always render compressed: their `secondary` nodes stay folded on the stage and in the nav |
 | `subtitle` | optional; shown under the stage title. Absent/empty → no subtitle |
 | `videoLink` | optional; a layer-wide video (same forms as `video_link`). Absent/empty → no play button beside the title. On `welcome` this is the intro film: it drives the pulsing ring in the hero, which is absent until the field is filled |
 

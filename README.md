@@ -361,7 +361,7 @@ wrangler.toml    Pages project config: output dir, D1 binding, secret names
 - The URL owns `layerId` and the focused node; Zustand owns everything else.
 - Components import data only from `src/data` and fire events only through `track()`.
 - Colors, spacing, radii and motion come from `src/styles/tokens.css`; no hardcoded hex elsewhere.
-- The Overview / Examples toggle appears only on Our Holdings; Critical Sectors always renders compressed.
+- The Overview / Details toggle appears only on Our Holdings; Critical Sectors always renders compressed.
 - Desktop only: below 1024px the site shows the full-screen "please view on a laptop or desktop".
 - `vite.config.ts` decides which chunks are private (content, `src/data`, `src/layers`,
   `src/shell`, `src/admin` pages, three.js). Keep new content-bearing modules under those paths.

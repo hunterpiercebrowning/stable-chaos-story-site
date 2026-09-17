@@ -2,10 +2,10 @@
   {
     "id": "synbio-products",
     "type": "primary",
-    "title": "Peptides, Proteins, & Bioreactors",
+    "title": "Peptides, Proteins & Bioreactors",
     "sector": "synbio",
     "tagline": "Productizing being world class at solving real-world problems with biology",
-    "blurb": "Leveraging our facilities, expertise and team to develop in-house biological products for critical sectors and industries.",
+    "blurb": "Leveraging our facilities, expertise, and team to develop in-house biological products for critical sectors and industries.",
     "bullet_points": [
       "Built on our own stack: facilities, expertise, and team already in place, so product development comes at marginal cost.",
       "Protected as trade secrets: strains and processes held in-house, never published, never licensed away.",
@@ -17,7 +17,7 @@
       {
         "type": "link",
         "title": "Trade Secret Management",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/trade-secrets.html",
         "thumbnail": "",
         "blurb": "Sealing strains, sequences, recipes, and process data onto the Bitcoin blockchain for court-ready proof of ownership without disclosure.",
@@ -30,13 +30,13 @@
     "type": "primary",
     "title": "Next-Gen Technologies & Devices",
     "sector": "security",
-    "tagline": "Deploying solutions developed alongside tier 1 special operations and intelligence personnel",
+    "tagline": "Deploying solutions developed alongside tier-one special operations and intelligence personnel",
     "blurb": "Solutions to the sensitive and complex problems facing our nation.",
     "bullet_points": [
-      "Next-Gen Comms: communications for contested environments",
-      "New-Era ISR: intelligence, surveillance & reconnaissance for the modern fight",
-      "Signals Warfare: novel offensive and defensive solutions across the spectrum",
-      "Rapid Prototyping: solutions to request by government agencies or departments"
+      "Next-gen comms: communications for contested environments.",
+      "New-era ISR: intelligence, surveillance, and reconnaissance for the modern fight.",
+      "Signals warfare: novel offensive and defensive solutions across the spectrum.",
+      "Rapid prototyping: solutions built to request by government agencies or departments."
     ],
     "video_link": "",
     "background_image": "/assets/backgrounds/products/security-products.jpg",
@@ -55,7 +55,7 @@
   {
     "id": "systems-products",
     "type": "primary",
-    "title": "Starling Techbologies",
+    "title": "Starling Technologies",
     "sector": "systems",
     "tagline": "Productizing hard-won operating experience into deployable systems",
     "blurb": "Turning the systems, frameworks, and methodologies proven inside real businesses into software any organization can deploy.",
@@ -579,7 +579,7 @@
       {
         "type": "link",
         "title": "Trade Secret Management",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/trade-secrets.html",
         "thumbnail": "",
         "blurb": "Sealing strains, sequences, recipes, and process data onto the Bitcoin blockchain for court-ready proof of ownership without disclosure.",

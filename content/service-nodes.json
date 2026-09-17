@@ -6,7 +6,7 @@
     "sector": "synbio",
     "website": "https://growthcurvebio.com/",
     "logo_file": "/assets/logos/gcb-logo.svg",
-    "tagline": "Synthetic biology rapid iteration & biomanufacturing lab",
+    "tagline": "Synthetic biology rapid iteration and biomanufacturing lab",
     "blurb": "A full-stack synthetic biology partner that helps teams turn ideas into commercially viable bioproducts, from a single engineered cell to commercial scale. Growth Curve is an independent development partner with no competing product interests, no academic mandates, and no publishing agenda.",
     "bullet_points": [
       "One accountable partner: strain engineering, rapid prototyping, process optimization, pilot production, and manufacturing hand-off carried by one team, with no hand-offs between vendors.",
@@ -20,7 +20,7 @@
       {
         "type": "link",
         "title": "Inside the Full-Stack Process",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/process.html",
         "thumbnail": "",
         "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
@@ -29,7 +29,7 @@
       {
         "type": "article",
         "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
         "thumbnail": "",
         "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",
@@ -38,7 +38,7 @@
       {
         "type": "article",
         "title": "Was Walking Away From an In-House R&D Team the Right Call?",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/walking-away-from-in-house-rd.html",
         "thumbnail": "",
         "blurb": "Re-validating a proprietary non-GMO yeast process for a new site and feedstock supply chain, without building pilot infrastructure of its own.",
@@ -53,7 +53,7 @@
     "sector": "systems",
     "website": "https://fountaincitypartners.com/",
     "logo_file": "/assets/logos/fcp-icon.svg",
-    "tagline": "Airtight back-office, operations & compliance",
+    "tagline": "Airtight back-office, operations, and compliance",
     "blurb": "A firm of operating partners: professionals across every function, all trained on the same systems, philosophies, and methodologies. Not a consulting firm and not a staffing agency, Fountain City Partners covers the entire operating picture for businesses across SMB and the middle market, from leadership to systems, transactions, and everything in between.",
     "bullet_points": [
       "Operators who do the work: founded by operators with decades of experience building structure and systems inside growing businesses, including one acquired by a publicly traded company in 2021.",
@@ -85,7 +85,7 @@
       {
         "type": "link",
         "title": "Inside the Full-Stack Process",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/process.html",
         "thumbnail": "",
         "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
@@ -114,7 +114,7 @@
       {
         "type": "link",
         "title": "Inside the Full-Stack Process",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/process.html",
         "thumbnail": "",
         "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
@@ -123,7 +123,7 @@
       {
         "type": "article",
         "title": "Equipment Spotlight: Eppendorf BioFlo 120",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/equipment-spotlight-eppendorf-bioflo-120.html",
         "thumbnail": "",
         "blurb": "The bridge between iterative R&D and manufacturing readiness. The fastest, most cost-effective way to build a robust data package.",
@@ -152,7 +152,7 @@
       {
         "type": "article",
         "title": "The Case for Gravimetric Feeding",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/gravimetric-feeding.html",
         "thumbnail": "",
         "blurb": "Why volumetric totalizers drift, and how weight-based feeding measures what actually reaches the vessel.",
@@ -161,7 +161,7 @@
       {
         "type": "article",
         "title": "Equipment Spotlight: Eppendorf BioFlo 120",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/equipment-spotlight-eppendorf-bioflo-120.html",
         "thumbnail": "",
         "blurb": "The bridge between iterative R&D and manufacturing readiness. The fastest, most cost-effective way to build a robust data package.",
@@ -170,7 +170,7 @@
       {
         "type": "article",
         "title": "Was Walking Away From an In-House R&D Team the Right Call?",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/walking-away-from-in-house-rd.html",
         "thumbnail": "",
         "blurb": "Re-validating a proprietary non-GMO yeast process for a new site and feedstock supply chain, without building pilot infrastructure of its own.",
@@ -199,7 +199,7 @@
       {
         "type": "article",
         "title": "Equipment Spotlight: Eppendorf BioFlo 610",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/equipment-spotlight-eppendorf-bioflo-610.html",
         "thumbnail": "",
         "blurb": "The linchpin of fermentation scale-up: manufacturing-scale features with pilot-scale flexibility, from 31 to 100 L.",
@@ -208,7 +208,7 @@
       {
         "type": "article",
         "title": "The Case for Redundant Sensors",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/redundant-sensors.html",
         "thumbnail": "",
         "blurb": "When time is of the essence, run duplicate online sensors for critical parameters. One sensor failure can cost you the whole batch.",
@@ -217,7 +217,7 @@
       {
         "type": "article",
         "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
         "thumbnail": "",
         "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",

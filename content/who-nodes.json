@@ -25,13 +25,13 @@
     "title": "Strategy & Operations",
     "company": "Stable Chaos",
     "headshot_file": "/assets/headshots/Ben_4.jpg",
-    "blurb": "Having founded and led organizations of all scales and in multiple industries, Ben is a proven entrepreneur and investor with an obsession for systematizing sustainable alignment, outcomes, and success",
+    "blurb": "Having founded and led organizations of all scales and in multiple industries, Ben is a proven entrepreneur and investor with an obsession for systematizing sustainable alignment, outcomes, and success.",
     "bullet_points": [
       "Exited SaaS founder",
-      "Young Presidents Organization",
-      "Hardvard Executive Business School",
+      "Young Presidents' Organization",
+      "Harvard Executive Business School",
       "Executive leadership experience across multiple sectors and sizes",
-      "Software and Deep-Tech Investor"
+      "Software and deep-tech investor"
     ],
     "video_link": "",
     "context_items": []
@@ -45,9 +45,9 @@
     "headshot_file": "/assets/headshots/jared_headshot.webp",
     "blurb": "Having built the finance and operating infrastructure that scaled a fast-growing company through its acquisition by a publicly traded company, Jared is an operator who solves complex operational problems through stronger systems, structure, and execution.",
     "bullet_points": [
-      "Founding Partner of Fountain City Partners",
+      "Founding partner of Fountain City Partners",
       "Built the finance and operating infrastructure behind a 2021 public-company acquisition",
-      "Operations and fundraising for a hyper innovate energy venture",
+      "Operations and fundraising for a hyper-innovative energy venture",
       "Strategy, operations, and finance"
     ],
     "video_link": "",
@@ -62,8 +62,8 @@
     "headshot_file": "/assets/headshots/eric_headshot.png",
     "blurb": "With deep experience in the life sciences and precision fermentation, Eric saw the original need for Growth Curve. He leads the charge and ensures client programs succeed.",
     "bullet_points": [
-      "Founder & CEO of Growth Curve Bio",
-      "Precision fermentation and the life sciences expertise",
+      "Founder and CEO of Growth Curve",
+      "Precision fermentation and life sciences expertise",
       "Leadership experience in life sciences companies at the startup and enterprise scale"
     ],
     "video_link": "",
@@ -80,7 +80,7 @@
     "bullet_points": [
       "Founder of Triangulum Biosciences",
       "Molecular biology professor at Indiana University",
-      "Bioscience entrepreneurial & executive experience"
+      "Bioscience entrepreneurial and executive experience"
     ],
     "video_link": "",
     "context_items": []
@@ -89,40 +89,21 @@
     "id": "trace-williams",
     "type": "leader",
     "name": "Trace Williams",
-    "title": "Intelligence",
-    "company": "Starling Intel",
-    "headshot_file": "/assets/headshots/trace_headshot_vest.jpeg",
-    "blurb": "Having worked directly on presidential-level operations as an Army intelligence NCO, criminal intelligence for the State of Utah and fraud investigations at Goldman Sachs, Trace is a cleared national security ecosystem expert.",
+    "title": "National Security",
+    "company": "Stable Chaos",
+    "headshot_file": "/assets/headshots/trace_stoic.jpg",
+    "blurb": "Having worked directly on presidential-level operations as an Army intelligence NCO, criminal intelligence for the State of Utah, and fraud investigations at Goldman Sachs, Trace is a cleared national security ecosystem expert.",
     "bullet_points": [
-      "Special Operations Veteran",
-      "Best Warrior Award  - 2021",
-      "Preformed strategic and tactical targeting at the highest levels",
-      "Lead on critical bioscience security & intelligence initiatives",
+      "Special operations veteran",
+      "Best Warrior Award, 2021",
+      "Performed strategic and tactical targeting at the highest levels",
+      "Lead on critical bioscience security and intelligence initiatives",
       "Helped build Utah's Lethality Assessment Program",
-      "Honor Graduate - Noncommissioned Officer Education System",
+      "Honor graduate, Noncommissioned Officer Education System",
       "Counterintelligence and interrogation training"
     ],
     "video_link": "",
-    "context_items": [
-      {
-        "type": "link",
-        "title": "The Firm: Three Lineages, One Firm",
-        "source": "Starling Intel",
-        "url": "https://starlingintel.com/firm",
-        "thumbnail": "",
-        "blurb": "Former tier-one military personnel, intelligence operatives, and serial entrepreneurs, proven in war zones, intelligence operations, and the private sector.",
-        "date": ""
-      },
-      {
-        "type": "link",
-        "title": "Confidential Briefings",
-        "source": "Starling Intel",
-        "url": "https://starlingintel.com/briefings",
-        "thumbnail": "",
-        "blurb": "Written assessments, video briefings, and a private weekly podcast on emerging threats, issued to registered recipients only.",
-        "date": ""
-      }
-    ]
+    "context_items": []
   },
   {
     "id": "andrew-mount",
@@ -133,10 +114,10 @@
     "headshot_file": "/assets/headshots/andy_headshot.jpeg",
     "blurb": "Having founded and directed a research laboratory that sits between marine biology and materials science, Andrew studies how marine organisms build, bond, and defend themselves at the molecular and cellular level, and trains the doctoral scientists who carry that work forward.",
     "bullet_points": [
-      "Research Associate Professor at Clemson University, jointly appointed in Biological Sciences and Materials Science & Engineering",
+      "Research associate professor at Clemson University, jointly appointed in Biological Sciences and in Materials Science and Engineering",
       "Founder and director of the Okeanos Research Laboratory",
       "Founder of Conus Coat, an anti-biofouling peptide product",
-      "Multiple decades of military funded biological research.",
+      "Multiple decades of military-funded biological research",
       "Marine genomics, molluscan immunology, and cellular biomineralization"
     ],
     "video_link": "",
@@ -151,10 +132,10 @@
     "headshot_file": "/assets/headshots/greg-lilly-cropped.jpeg",
     "blurb": "Having spent decades inside the units and agencies that leverage products we make, Greg keeps our national security efforts tied to the people who actually field them. He stays hands on through the build, telling us what holds up downrange and helping us understand the ground truth for critical missions.",
     "bullet_points": [
-      "Combat deployments in warzones all over the world",
+      "Combat deployments in war zones all over the world",
       "Multiple decades of law enforcement special operations",
-      "Retired Tier-1 Operator from a US intelligence agency",
-      "Jiu Jitsu black belt and academy owner",
+      "Retired tier-one operator from a US intelligence agency",
+      "Jiu-jitsu black belt and academy owner",
       "Deep knowledge of the entire national security apparatus"
     ],
     "video_link": "",

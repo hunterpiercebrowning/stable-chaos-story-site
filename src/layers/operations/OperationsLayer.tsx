@@ -15,7 +15,7 @@ const OPERATORS = {
   heading: 'A team that has already grown and won together.',
   body:
     'Over a decade operating side by side from zero all the way through to an exit and starting ' +
-    'back again. The trust, speed and collaboration are already built.',
+    'back again. The trust, speed, and collaboration are already built.',
   stats: [
     { value: '11+', label: 'Years together' },
     { value: '12.14', label: 'MOIC' },
@@ -28,11 +28,11 @@ const SOFTWARE = {
   items: [
     {
       title: 'Operations Optimization',
-      body: 'Internal tooling that keeps every venture lean, fast and self-sufficient.',
+      body: 'Internal tooling that keeps every venture lean, fast, and self-sufficient.',
     },
     {
       title: 'Secure Comms & IP Protection',
-      body: 'Protecting communications, data and proprietary advantage across the portfolio.',
+      body: 'Protecting communications, data, and proprietary advantage across the portfolio.',
     },
     {
       title: 'AI Guardrails',

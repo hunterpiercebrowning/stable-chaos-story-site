@@ -11,7 +11,7 @@ const OPTIONS: { value: Density; label: string; icon: 'compress' | 'expand' }[] 
 
 /**
  * Global density control. The values stay `compressed` / `expanded` (state,
- * events and CSS hooks); only the labels read Overview / Examples.
+ * events and CSS hooks); only the labels read Overview / Details.
  */
 export function DensityToggle() {
   const density = useUi((s) => s.density);

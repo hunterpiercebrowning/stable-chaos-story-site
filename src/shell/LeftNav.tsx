@@ -210,7 +210,7 @@ function NavGroup({ layer, active, open, nodeId, compressed }: NavGroupProps) {
               <button
                 type="button"
                 className="leftnav-more"
-                title="Show examples"
+                title="Show details"
                 onClick={() => {
                   setDensity('expanded');
                   track('density_change', { value: 'expanded' });

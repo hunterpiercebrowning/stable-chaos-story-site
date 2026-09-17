@@ -39,7 +39,7 @@ const PREVIEW_ITEMS: ContextItem[] = [
   },
   {
     type: 'pdf',
-    title: 'Primary document, filing or technical report',
+    title: 'Primary document, filing, or technical report',
     source: 'Issuing body',
     date: 'Year',
     url: '',
@@ -48,7 +48,7 @@ const PREVIEW_ITEMS: ContextItem[] = [
   },
   {
     type: 'video',
-    title: 'Talk, briefing or interview',
+    title: 'Talk, briefing, or interview',
     source: 'Venue',
     date: 'Year',
     url: '',
@@ -66,7 +66,7 @@ const PREVIEW_ITEMS: ContextItem[] = [
   },
   {
     type: 'link',
-    title: 'Program page, dataset or standard',
+    title: 'Program page, dataset, or standard',
     source: 'example.org',
     date: '',
     url: '',
@@ -75,7 +75,7 @@ const PREVIEW_ITEMS: ContextItem[] = [
   },
   {
     type: 'image',
-    title: 'Chart, map or figure',
+    title: 'Chart, map, or figure',
     source: 'Source',
     date: 'Year',
     url: '',
@@ -96,7 +96,7 @@ export function BackgroundLayer({ layer, nodes, focusedId, onSelect }: LayerView
         </span>
         <h2 className="background-title">The sources behind every claim</h2>
         <p className="background-desc">
-          Third-party reporting, research and primary documents that support the claims made across
+          Third-party reporting, research, and primary documents that support the claims made across
           the layers above.
         </p>
       </div>

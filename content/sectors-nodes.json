@@ -8,11 +8,11 @@
     "tagline": "Full-stack to harness 4.5 billion years of engineering infrastructure",
     "old_blurb": "Biology is the most advanced technology on Earth. Living cells build complex molecules, sense their surroundings, repair themselves, and multiply, all at room temperature and running on little more than sugar. Synthetic biology makes that power programmable: DNA becomes code, and organisms become platforms that can be designed to solve problems nothing else can, from how we make the materials and chemicals industry depends on to how we keep animals healthy.",
     "bullet_points": [
-      "Programmable Cells: many of the molecules the world depends on are scarce, costly, or impossible to make synthetically. Writing DNA like code lets microbes produce them on demand, along with many that nature never made",
-      "Living Factories: most chemicals and materials still start as oil, mined ore, or wild harvest. Fermentation grows them from sugar instead, and because cells copy themselves, a strain proven in a flask can scale to industrial supply",
-      "Precision Beyond Chemistry: industrial chemistry runs on heat, pressure, and harsh solvents, and pays for it in energy and waste. Enzymes do the same work in one clean step at room temperature",
-      "Healthier Animals: livestock consume much of the world's antibiotics, driving resistance that threatens people too. Vaccines, probiotics, and feed ingredients made by biology protect animals and the food supply without that cost",
-      "Resilient Supply: critical ingredients often come from a handful of plants an ocean away, and one disruption empties shelves. Anything that can be brewed can be made close to where it is needed, from local feedstocks"
+      "Programmable cells: many of the molecules the world depends on are scarce, costly, or impossible to make synthetically. Writing DNA like code lets microbes produce them on demand, along with many that nature never made.",
+      "Living factories: most chemicals and materials still start as oil, mined ore, or wild harvest. Fermentation grows them from sugar instead, and because cells copy themselves, a strain proven in a flask can scale to industrial supply.",
+      "Precision beyond chemistry: industrial chemistry runs on heat, pressure, and harsh solvents, and pays for it in energy and waste. Enzymes do the same work in one clean step at room temperature.",
+      "Healthier animals: livestock consume much of the world's antibiotics, driving resistance that threatens people too. Vaccines, probiotics, and feed ingredients made by biology protect animals and the food supply without that cost.",
+      "Resilient supply: critical ingredients often come from a handful of plants an ocean away, and one disruption empties shelves. Anything that can be brewed can be made close to where it is needed, from local feedstocks."
     ],
     "video_link": "",
     "context_items": []
@@ -26,12 +26,12 @@
     "tagline": "Capabilities for contested environments",
     "old_blurb": "We live in a compromised world, where AI is accelerating every threat vector and the digital landscape leaves us more exploitable than ever before. Threats don't stay in a single lane, so our national security capability pairs cutting-edge technology with tried and true techniques across every domain that matters, at a standard usually reserved for the highest levels of government.",
     "bullet_points": [
-      "Secure Communications & Infrastructure: power, water, ports, and networks are now front-line targets. They must stay private, trusted, and running while someone is actively trying to break them",
-      "Critical Minerals & Supply Chains: rare earths and strategic materials sit inside every chip, battery, and weapon system. Whoever controls their supply sets the pace for everyone else",
-      "Signals & Spectrum: every modern operation rides on the electromagnetic spectrum. Owning it means communicating, navigating, and sensing while denying an adversary the same",
-      "Next-Gen ISR: seeing first is still the decisive advantage. Low-cost, persistent sensing puts awareness in the hands of the people who need it, without risking lives or scarce assets",
-      "Cyber & AI Advantage: AI lets attackers move at machine speed and at scale. Defense has to be faster, and built into systems from the start rather than bolted on",
-      "Command & Control Systems: information only matters if it reaches a decision in time. Connecting every sensor, system, and team turns raw data into coordinated action"
+      "Secure communications and infrastructure: power, water, ports, and networks are now front-line targets. They must stay private, trusted, and running while someone is actively trying to break them.",
+      "Critical minerals and supply chains: rare earths and strategic materials sit inside every chip, battery, and weapon system. Whoever controls their supply sets the pace for everyone else.",
+      "Signals and spectrum: every modern operation rides on the electromagnetic spectrum. Owning it means communicating, navigating, and sensing while denying an adversary the same.",
+      "Next-gen ISR: seeing first is still the decisive advantage. Low-cost, persistent sensing puts awareness in the hands of the people who need it, without risking lives or scarce assets.",
+      "Cyber and AI advantage: AI lets attackers move at machine speed and at scale. Defense has to be faster, and built into systems from the start rather than bolted on.",
+      "Command and control systems: information only matters if it reaches a decision in time. Connecting every sensor, system, and team turns raw data into coordinated action."
     ],
     "video_link": "",
     "context_items": []
@@ -45,11 +45,11 @@
     "tagline": "AI is only as good as the system it runs on",
     "old_blurb": "Most organizations run on ad hoc processes, undocumented knowledge, and data scattered across tools that never talk to each other. Layer AI on top of that and complexity scales faster than capability. Our systems capability makes every role, decision, and workflow defined, visible, and connected, so organizations compound instead of plateau.",
     "bullet_points": [
-      "People: AI multiplies whatever each person does, good or bad. Clear roles, real accountability, and aligned leadership decide whether that leverage compounds or collides",
-      "Processes: AI can only run a process that has been written down. Documented, standardized work is what turns it from a clever demo into a dependable teammate",
-      "Technology: AI is only as good as the data it can reach. Connected software and clean, structured data are the difference between real answers and confident guesses",
-      "Finances: when execution gets cheap, choosing where to spend becomes the hard part. Clean books and reliable forecasts show which bets are actually paying off",
-      "Operations: AI makes everything faster, including mistakes. A steady operating rhythm keeps that speed pointed at the strategy instead of away from it"
+      "People: AI multiplies whatever each person does, good or bad. Clear roles, real accountability, and aligned leadership decide whether that leverage compounds or collides.",
+      "Processes: AI can only run a process that has been written down. Documented, standardized work is what turns it from a clever demo into a dependable teammate.",
+      "Technology: AI is only as good as the data it can reach. Connected software and clean, structured data are the difference between real answers and confident guesses.",
+      "Finances: when execution gets cheap, choosing where to spend becomes the hard part. Clean books and reliable forecasts show which bets are actually paying off.",
+      "Operations: AI makes everything faster, including mistakes. A steady operating rhythm keeps that speed pointed at the strategy instead of away from it."
     ],
     "video_link": "",
     "context_items": []
@@ -74,7 +74,7 @@
       {
         "type": "article",
         "title": "Equipment Spotlight: Eppendorf BioFlo 610",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/equipment-spotlight-eppendorf-bioflo-610.html",
         "thumbnail": "",
         "blurb": "The linchpin of fermentation scale-up: manufacturing-scale features with pilot-scale flexibility, from 31 to 100 L.",
@@ -83,7 +83,7 @@
       {
         "type": "article",
         "title": "The Case for Gravimetric Feeding",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/gravimetric-feeding.html",
         "thumbnail": "",
         "blurb": "Why volumetric totalizers drift, and how weight-based feeding measures what actually reaches the vessel.",
@@ -92,7 +92,7 @@
       {
         "type": "article",
         "title": "The Case for Redundant Sensors",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/redundant-sensors.html",
         "thumbnail": "",
         "blurb": "When time is of the essence, run duplicate online sensors for critical parameters. One sensor failure can cost you the whole batch.",
@@ -120,7 +120,7 @@
       {
         "type": "link",
         "title": "Inside the Full-Stack Process",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/process.html",
         "thumbnail": "",
         "blurb": "The inputs, work, equipment, and data behind each of the five stages, from strain engineering to manufacturing hand-off.",
@@ -129,7 +129,7 @@
       {
         "type": "article",
         "title": "Was Walking Away From an In-House R&D Team the Right Call?",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/walking-away-from-in-house-rd.html",
         "thumbnail": "",
         "blurb": "Re-validating a proprietary non-GMO yeast process for a new site and feedstock supply chain, without building pilot infrastructure of its own.",
@@ -182,7 +182,7 @@
       {
         "type": "article",
         "title": "Modulant Biosciences: “I’ve got this thing. Now how do I figure out how to grow it?”",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/resources/modulant-biosciences.html",
         "thumbnail": "",
         "blurb": "Taking a licensed lactobacillus technology from shake flask to repeatable 100 L batches, a real potency assay, and material for live animal studies.",
@@ -240,7 +240,7 @@
     "bullet_points": [
       "Industrial engagements are clunky: customers hand off a project to a salesperson, often with low specificity around the engagement, and wait weeks for a report with no visibility in between.",
       "Single master engagements kill iteration: biomanufacturing benefits from iterative collaboration between stakeholders and customers, which is almost impossible under fixed, one-time purchase orders.",
-      "Buyers are familiar with digital procurement: in most other areas of commerce, buyers can log into a portal, control what they are spending and understand what they are getting. Bio shouldn't be any different.",
+      "Buyers are familiar with digital procurement: in most other areas of commerce, buyers can log into a portal, control what they are spending, and understand what they are getting. Bio shouldn't be any different.",
       "Increased alignment: with a direct portal to the lab, customers can fully understand the offerings and their real-time data, interact directly with the team on the project, and gain insights when they matter most."
     ],
     "video_link": "",
@@ -248,7 +248,7 @@
       {
         "type": "link",
         "title": "Growth Curve Client Portal",
-        "source": "Growth Curve Bio",
+        "source": "Growth Curve",
         "url": "https://growthcurvebio.com/portal.html",
         "thumbnail": "",
         "blurb": "Clients sign in to track every run, explore titer, yield, and analytical results, and chat directly with the scientists on their program.",
@@ -446,7 +446,7 @@
     "blurb": "Everything you carry emits, and listening has never been cheaper. A thirty-dollar radio intercepts what once required a government van, coin-sized trackers ride vehicles for weeks, and meeting rooms leak in spectra nobody checks. If you have never surveyed what you broadcast, someone else may already have.",
     "bullet_points": [
       "The spectrum is a battlespace: every modern engagement opens in the electromagnetic domain, often decisively.",
-      "Attack surface everywhere: proliferated commercial RF, drones and IoT create openings on both sides of the fight.",
+      "Attack surface everywhere: proliferated commercial RF, drones, and IoT create openings on both sides of the fight.",
       "Defensive posture lags: friendly emissions and infrastructure remain soft targets without purpose-built protection."
     ],
     "video_link": "",

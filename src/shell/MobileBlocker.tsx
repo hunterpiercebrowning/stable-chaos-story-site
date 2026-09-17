@@ -23,7 +23,7 @@ export function MobileBlocker() {
     <div className="mobile-blocker" role="alertdialog" aria-label="Desktop required">
       <img className="mobile-blocker-logo sc-logo-glow" src="/assets/logos/logo-white.svg" alt="" />
       <h1 className="mobile-blocker-title">Stable Chaos</h1>
-      <p className="mobile-blocker-body">Please view on a laptop or desktop</p>
+      <p className="mobile-blocker-body">Please view on a laptop or desktop.</p>
     </div>
   );
 }

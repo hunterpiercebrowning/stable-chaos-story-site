@@ -15,7 +15,7 @@
     "shortTitle": "Who",
     "path": "/who",
     "nodesFile": "who-nodes.json",
-    "subtitle": "Entrepreneurs, Technologist & n=1 Individuals tackling the nation's most critical problems."
+    "subtitle": "Entrepreneurs, technologists, and n=1 individuals tackling the nation's most critical problems."
   },
   {
     "id": "operations",
@@ -33,7 +33,7 @@
     "shortTitle": "Unique Value",
     "path": "/beliefs",
     "nodesFile": null,
-    "subtitle": "Artificial Intelligence & next-gen technologies are rewriting value creation.",
+    "subtitle": "Artificial intelligence and next-gen technologies are rewriting value creation.",
     "videoLink": ""
   },
   {

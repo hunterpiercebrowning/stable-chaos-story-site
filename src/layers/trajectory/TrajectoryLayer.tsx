@@ -19,19 +19,19 @@ const BUILT: Stop[] = [
     year: '2023',
     sectors: ['systems'],
     title: 'Starling Technologies',
-    body: 'C2C, embedded AI & proprietary software accelerant.',
+    body: 'C2C, embedded AI, and proprietary software accelerant.',
   },
   {
     year: '2024',
     sectors: ['systems'],
     title: 'Fountain City Partners',
-    body: 'Airtight back-office, operations & compliance.',
+    body: 'Airtight back-office, operations, and compliance.',
   },
   {
     year: '2025',
     sectors: ['synbio'],
-    title: 'Growth Curve Bio',
-    body: 'Synthetic biology rapid iteration & biomanufacturing lab.',
+    title: 'Growth Curve',
+    body: 'Synthetic biology rapid iteration and biomanufacturing lab.',
   },
   {
     year: '2026',
@@ -58,7 +58,7 @@ const NEXT: Stop[] = [
     year: '2027',
     sectors: ['security'],
     title: 'Defense Product Commercialization',
-    body: 'Large scale order fulfillment & fielding',
+    body: 'Large-scale order fulfillment and fielding.',
   },
   {
     year: '2027',

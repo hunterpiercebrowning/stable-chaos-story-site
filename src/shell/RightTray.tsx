@@ -7,13 +7,13 @@ import './right-tray.css';
 
 /** Layer-level hint shown while nothing is focused. */
 const HINT: Record<Layer['id'], string> = {
-  welcome: 'Focus a node anywhere in the story to see the articles, videos and links behind it.',
-  who: 'Select a person to see the press, talks and profiles behind them.',
+  welcome: 'Focus a node anywhere in the story to see the articles, videos, and links behind it.',
+  who: 'Select a person to see the press, talks, and profiles behind them.',
   operations: 'The operating team and the software layer they share. There is nothing to focus here.',
   beliefs: 'Our five advantages in the age of AI, stated in full. There is nothing to focus here.',
   sectors: 'Select a sector or domain to see the sources behind it.',
   trajectory: 'The ventures built so far and what comes next, year by year. There is nothing to focus here.',
-  holdings: 'Select a company, offering or product to see the material behind it.',
+  holdings: 'Select a company, offering, or product to see the material behind it.',
   background: 'Select a background topic to see the sources behind it.',
 };
 
