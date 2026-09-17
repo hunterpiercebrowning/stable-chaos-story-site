@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   crossedMilestones,
+  hasVideo,
   mimeForUrl,
   progressPct,
   resolveVideoSource,
@@ -91,6 +92,32 @@ describe('resolveVideoSource', () => {
     expect(resolveVideoSource('not a link')).toEqual({ kind: 'none' });
     expect(resolveVideoSource('ftp://example.com/a.mp4')).toEqual({ kind: 'none' });
     expect(resolveVideoSource('http://')).toEqual({ kind: 'none' });
+  });
+});
+
+describe('hasVideo', () => {
+  it('is false for an unfilled slot, so no video UI is rendered', () => {
+    expect(hasVideo('')).toBe(false);
+    expect(hasVideo('   ')).toBe(false);
+    expect(hasVideo(undefined)).toBe(false);
+    expect(hasVideo(null)).toBe(false);
+  });
+
+  it('is false for junk that resolves to no source', () => {
+    expect(hasVideo('1231431')).toBe(false);
+    expect(hasVideo('coming soon')).toBe(false);
+    expect(hasVideo(UID.slice(0, 31))).toBe(false);
+  });
+
+  it('is false for an r2 reference, which the player cannot play yet', () => {
+    expect(hasVideo('r2:intro/welcome.mp4')).toBe(false);
+  });
+
+  it('is true for the forms the player can play', () => {
+    expect(hasVideo(UID)).toBe(true);
+    expect(hasVideo(`https://customer-abc.cloudflarestream.com/${UID}/iframe`)).toBe(true);
+    expect(hasVideo('https://youtu.be/dQw4w9WgXcQ')).toBe(true);
+    expect(hasVideo('https://cdn.example.com/intro.mp4')).toBe(true);
   });
 });
 

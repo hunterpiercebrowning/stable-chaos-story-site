@@ -160,6 +160,12 @@
   margin: var(--s-2) 0 var(--s-1);
 }
 
+/* Every extra can withhold itself (a video row with no video_link, a website
+   button with no site). When they all do, the wrapper must not keep its margin. */
+.focus-extras:empty {
+  display: none;
+}
+
 /* The inline video affordance inside a focus view is a compact row — a
    16:9 thumb beside its label — instead of a full-width 16:9 poster, which
    alone took ~300px of the column. Expanding still grows from the thumb. */

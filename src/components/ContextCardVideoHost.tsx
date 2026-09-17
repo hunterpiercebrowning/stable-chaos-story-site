@@ -1,13 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import type { Node } from '../data/types';
+import { hasVideo } from '../lib/video';
 import { useUi } from '../store/ui';
 import { VideoPlayer } from './VideoPlayer';
 import './context-card.css';
 
 export interface VideoHostProps {
   node: Node;
-  /** Overrides `node.videoLink` — a context item's url, or empty for the placeholder. */
+  /** Overrides `node.videoLink` — a context item's url. */
   link?: string;
   label?: string;
   /** Called once the player has been closed (close button, Esc, node change). */
@@ -28,11 +29,20 @@ export function VideoHost({ node, link, label, onClose }: VideoHostProps) {
   const videoExpanded = useUi((s) => s.videoExpanded);
   const armed = useRef(false);
 
+  const playable = hasVideo(link ?? node.videoLink);
+
   useEffect(() => {
     if (videoExpanded) armed.current = true;
     else if (armed.current) onClose();
   }, [videoExpanded, onClose]);
 
+  // Callers gate on `hasVideo` too; this keeps a stray host from stranding the
+  // caller's `playing` state on a player that would never open.
+  useEffect(() => {
+    if (!playable) onClose();
+  }, [playable, onClose]);
+
+  if (!playable) return null;
   if (typeof document === 'undefined') return null;
   return createPortal(
     <div className="ctx-video-host">

@@ -269,11 +269,3 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
 }
-
-.welcome-intro-note {
-  margin-top: -6px;
-  font-size: 0.58rem;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  color: var(--text-ghost);
-}

@@ -180,11 +180,13 @@ The gate and D1 paths were verified locally on the real Workers runtime
    must load. (`curl -I https://context.stablechaos.com/assets/private/<name>.js` → 302.)
 7. A phone (or a window narrower than 1024px) shows "Please view on a laptop or desktop", and the
    open is still counted.
-8. Once a Stream video is wired (§7): play it inside a focus view — the player must **not** show
-   the "Signing unavailable — playing unsigned" pill; `GET /api/video/token?uid=<uid>` returns
-   `{"token":"…"}`.
-9. Preview deployments (pull requests) use the same D1 unless you gave them their own id; links
-   created there are real links.
+8. With every `video_link` still empty: no play button beside any stage title, no video row in any
+   focus view, no ring on the welcome hero, and nowhere the word "placeholder" beside a play glyph.
+9. Once a Stream video is wired (§7): the affordance appears for that node alone, and playing it
+   inside a focus view must **not** show the "Signing unavailable — playing unsigned" pill;
+   `GET /api/video/token?uid=<uid>` returns `{"token":"…"}`.
+10. Preview deployments (pull requests) use the same D1 unless you gave them their own id; links
+    created there are real links.
 
 ---
 
@@ -293,8 +295,19 @@ when empty); `quote` uses `title` for the quote and `source` for the attribution
 
 - a **Stream UID** (32 hex chars) — the intended path, signed playback;
 - a Stream URL (`https://customer-<code>.cloudflarestream.com/<uid>/…`);
+- a YouTube URL (`watch?v=`, `youtu.be/`, `/shorts/`, `/embed/`, `/live/`);
 - a plain `https://…/file.mp4` or `.webm` URL (native `<video>`, no signing);
-- `""` — the poster placeholder ("no source yet").
+- `""` — no video UI at all (see below).
+
+**Empty means invisible.** Nothing about video renders until the field holds something playable:
+no poster, no play button beside a stage title, no pulsing ring on the welcome hero, no play ring
+on a context card, and no "placeholder" note anywhere. Each affordance keeps its slot in the
+layout and reappears the moment a link lands in the JSON, so the site can ship with every
+`video_link` empty and videos can be added one at a time, content-only, with no code change. The
+single gate is `hasVideo()` in `src/lib/video.ts`; `r2:<key>` parses but has no player behind it
+yet, so it counts as empty.
+
+The welcome intro film is the `videoLink` on the `welcome` entry in `content/layers.json`.
 
 Set up Stream once:
 

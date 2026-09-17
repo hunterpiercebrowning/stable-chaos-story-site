@@ -75,6 +75,22 @@ export function resolveVideoSource(link: string | undefined | null): VideoSource
   return { kind: 'none' };
 }
 
+/** The kinds the expanded player can actually play. `r2:` is reserved but unimplemented. */
+export function isPlayable(source: VideoSource): boolean {
+  return source.kind === 'stream' || source.kind === 'url' || source.kind === 'youtube';
+}
+
+/**
+ * Is there a real, playable video behind this link? Every video affordance is
+ * gated on this — the inline poster in a focus view, the play button beside a
+ * stage title, the welcome ring, a `video` context card — so a slot with no
+ * `video_link` shows nothing at all rather than a placeholder poster. Fill the
+ * field and the affordance appears; no code change needed.
+ */
+export function hasVideo(link: string | undefined | null): boolean {
+  return isPlayable(resolveVideoSource(link));
+}
+
 /* ── YouTube ─────────────────────────────────────────── */
 
 const YOUTUBE_ID = /^[\w-]{11}$/;

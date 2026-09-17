@@ -9,6 +9,7 @@ import type { BackgroundNode, Layer as LayerData, Node } from '../data/types';
 import { layerDensity } from '../layers/helpers';
 import { getLayerComponents } from '../layers/registry';
 import { track } from '../lib/track';
+import { hasVideo } from '../lib/video';
 import { navVia, useUi } from '../store/ui';
 import { LayerArrow } from './LayerArrows';
 import { useRoute } from './useRoute';
@@ -80,7 +81,7 @@ export function Stage() {
           <div className="stage-head">
             <div className="stage-title-row">
               <h1 className="stage-title">{layer.title}</h1>
-              {layer.videoLink ? <LayerVideoButton key={layer.id} layer={layer} /> : null}
+              {hasVideo(layer.videoLink) ? <LayerVideoButton key={layer.id} layer={layer} /> : null}
             </div>
             {layer.subtitle ? <p className="stage-subtitle">{layer.subtitle}</p> : null}
           </div>
@@ -127,7 +128,8 @@ export function Stage() {
 /**
  * The layer-wide video: a play button beside the stage title that opens the
  * shared player expanded over the viewport. The synthetic node carries the
- * link and the tracking id (`layer-<id>`).
+ * link and the tracking id (`layer-<id>`). Only mounted once the layer has a
+ * playable `videoLink` in `content/layers.json`.
  */
 function LayerVideoButton({ layer }: { layer: LayerData }) {
   const [playing, setPlaying] = useState(false);

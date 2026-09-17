@@ -3,34 +3,41 @@ import { VideoHost } from '../../components/ContextCardVideoHost';
 import { Icon } from '../../components/Icon';
 import type { BackgroundNode } from '../../data/types';
 import { getSession } from '../../lib/session';
+import { hasVideo } from '../../lib/video';
 import type { LayerViewProps } from '../types';
 import './welcome.css';
 
 /**
  * Layer 0 — the marketing hero, carried over: glowing logo mark, gradient
  * wordmark, tagline, "Prepared for {label}" from the session, and a pulsing
- * ring that opens the shared VideoPlayer expanded with the intro placeholder.
+ * ring that opens the shared VideoPlayer expanded with the intro film.
  * The up/down layer arrows and the attractor intensity belong to the shell.
+ *
+ * The ring appears only once the welcome layer has a playable `videoLink` in
+ * `content/layers.json`; until then the hero is logo, wordmark and tagline.
  */
 
-/** Synthetic node so the shared VideoPlayer can carry the intro placeholder. */
-const INTRO_NODE: BackgroundNode = {
-  id: 'welcome-intro',
-  layerId: 'background',
-  tier: 'primary',
-  order: 0,
-  title: 'Introduction',
-  tagline: '',
-  blurb: '',
-  bulletPoints: [],
-  videoLink: '',
-  contextItems: [],
-};
+/** Synthetic node so the shared VideoPlayer can carry the intro film. */
+function introNode(videoLink: string): BackgroundNode {
+  return {
+    id: 'welcome-intro',
+    layerId: 'background',
+    tier: 'primary',
+    order: 0,
+    title: 'Introduction',
+    tagline: '',
+    blurb: '',
+    bulletPoints: [],
+    videoLink,
+    contextItems: [],
+  };
+}
 
-export function WelcomeLayer(_props: LayerViewProps) {
+export function WelcomeLayer({ layer }: LayerViewProps) {
   const [label, setLabel] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
   const stopPlaying = useCallback(() => setPlaying(false), []);
+  const introLink = layer.videoLink;
 
   useEffect(() => {
     let live = true;
@@ -59,26 +66,29 @@ export function WelcomeLayer(_props: LayerViewProps) {
           </p>
         ) : null}
 
-        <button
-          type="button"
-          className="welcome-intro"
-          onClick={() => setPlaying(true)}
-          aria-haspopup="dialog"
-          aria-label="Watch the introduction"
-        >
-          <span className="welcome-ring" aria-hidden="true">
-            <span className="welcome-ring-pulse" />
-            <span className="welcome-ring-pulse welcome-ring-pulse--late" />
-            <span className="welcome-ring-core">
-              <Icon name="play" size={22} />
+        {hasVideo(introLink) ? (
+          <button
+            type="button"
+            className="welcome-intro"
+            onClick={() => setPlaying(true)}
+            aria-haspopup="dialog"
+            aria-label="Watch the introduction"
+          >
+            <span className="welcome-ring" aria-hidden="true">
+              <span className="welcome-ring-pulse" />
+              <span className="welcome-ring-pulse welcome-ring-pulse--late" />
+              <span className="welcome-ring-core">
+                <Icon name="play" size={22} />
+              </span>
             </span>
-          </span>
-          <span className="welcome-intro-label">Watch the introduction</span>
-          <span className="welcome-intro-note">placeholder</span>
-        </button>
+            <span className="welcome-intro-label">Watch the introduction</span>
+          </button>
+        ) : null}
       </div>
 
-      {playing ? <VideoHost node={INTRO_NODE} label="Introduction" onClose={stopPlaying} /> : null}
+      {playing ? (
+        <VideoHost node={introNode(introLink)} label="Introduction" onClose={stopPlaying} />
+      ) : null}
     </div>
   );
 }

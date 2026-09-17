@@ -7,6 +7,7 @@ import { cn } from '../lib/cn';
 import { track } from '../lib/track';
 import {
   crossedMilestones,
+  isPlayable,
   loadStreamSdk,
   progressPct,
   resolveStreamPlayback,
@@ -60,6 +61,10 @@ interface PlayerControls {
  * unsigned UID fallback with a visible note) or a native `<video>`. Esc /
  * close animates it back. Emits `video_play` · `video_pause` ·
  * `video_progress` (25/50/75, once each) · `video_complete` via `track()`.
+ *
+ * Renders nothing at all when the link is empty or unplayable, so a focus view
+ * whose node has no `video_link` yet simply has no video row. Fill the field in
+ * `content/*.json` and the row appears.
  */
 export function VideoPlayer({
   node,
@@ -80,6 +85,9 @@ export function VideoPlayer({
   const setVideoExpanded = useUi((s) => s.setVideoExpanded);
 
   const source = useMemo(() => resolveVideoSource(link ?? node.videoLink), [link, node.videoLink]);
+  // No source yet (or one we cannot play) → the whole affordance is withheld,
+  // so an unfilled `video_link` leaves no trace on the page. See `hasVideo()`.
+  const playable = isPlayable(source);
   const poster = posterProp ?? getPoster(node, link ?? node.videoLink);
   const sector = getPrimarySector(node) ?? undefined;
   const trackId = nodeId ?? node.id;
@@ -95,10 +103,6 @@ export function VideoPlayer({
   const openPlayer = () => {
     const el = inlineRef.current;
     setHost(el?.closest<HTMLElement>('.stage-content') ?? el?.closest<HTMLElement>('.stage') ?? null);
-    if (source.kind === 'none' || source.kind === 'r2') {
-      // No playback possible; record the intent so the admin timeline shows it.
-      track('video_play', { nodeId: trackId, source: source.kind, pct: 0 });
-    }
     // Store first, then local state, so the render that opens the frame
     // already sees `videoExpanded === true` (see the external-close effect).
     setVideoExpanded(true);
@@ -113,7 +117,7 @@ export function VideoPlayer({
   // Hosts that skip the inline poster (tray video cards, the welcome ring)
   // open the frame on mount. Records the same play intent the click would.
   useEffect(() => {
-    if (initialExpanded) openPlayer();
+    if (initialExpanded && playable) openPlayer();
     // Mount-only by design.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -183,9 +187,6 @@ export function VideoPlayer({
     };
   }, [open, close]);
 
-  const note =
-    source.kind === 'none' ? 'placeholder' : source.kind === 'r2' ? 'not yet available' : null;
-
   const expanded = (
     <AnimatePresence initial={false}>
       {open ? (
@@ -205,6 +206,9 @@ export function VideoPlayer({
       ) : null}
     </AnimatePresence>
   );
+
+  // Hooks above run unconditionally; the bail-out is the last thing we do.
+  if (!playable) return null;
 
   return (
     <>
@@ -238,7 +242,6 @@ export function VideoPlayer({
         </span>
         <span className="video-meta">
           <span className="sc-label">{label}</span>
-          {note ? <span className="video-note">{note}</span> : null}
         </span>
       </motion.button>
 
@@ -275,11 +278,12 @@ function ExpandedPlayer({
   onClose,
 }: ExpandedPlayerProps) {
   const frameRef = useRef<HTMLDivElement>(null);
-  const playable = source.kind === 'stream' || source.kind === 'url' || source.kind === 'youtube';
+  // Only ever mounted for a playable source — `VideoPlayer` withholds itself
+  // entirely when there is no video, so there is no empty-frame state here.
   // The real player mounts only once the frame has grown into place: an
   // <iframe>/<video> being transform-scaled for 320ms looks worse than the poster.
   const [ready, setReady] = useState(reduced || !layoutId);
-  const [status, setStatus] = useState<string | null>(playable ? 'Preparing…' : null);
+  const [status, setStatus] = useState<string | null>('Preparing…');
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
@@ -293,13 +297,6 @@ function ExpandedPlayer({
   }, [ready]);
 
   const events = useVideoEvents(trackId, source.kind);
-
-  const title =
-    source.kind === 'none'
-      ? 'Video placeholder: no source yet'
-      : source.kind === 'r2'
-        ? 'Not yet available'
-        : null;
 
   return (
     <motion.div
@@ -365,12 +362,6 @@ function ExpandedPlayer({
           />
         ) : null}
 
-        {title ? (
-          <div className="video-expanded-body">
-            <div className="sc-label">{node.title}</div>
-            <p className="video-expanded-note">{title}</p>
-          </div>
-        ) : null}
       </motion.div>
 
       <div className="video-chrome">

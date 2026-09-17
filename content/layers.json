@@ -5,7 +5,8 @@
     "title": "Stable Chaos",
     "shortTitle": "Welcome",
     "path": "/",
-    "nodesFile": null
+    "nodesFile": null,
+    "videoLink": ""
   },
   {
     "id": "who",
@@ -33,7 +34,7 @@
     "path": "/beliefs",
     "nodesFile": null,
     "subtitle": "Artificial Intelligence & next-gen technologies are rewriting value creation.",
-    "videoLink": "1231431"
+    "videoLink": ""
   },
   {
     "id": "sectors",
@@ -42,7 +43,7 @@
     "shortTitle": "Sectors",
     "path": "/sectors",
     "nodesFile": "sectors-nodes.json",
-    "subtitle": "Our maximum value lies with the most important problems we are disproportionally advantaged to solve."
+    "subtitle": "We build where the stakes are highest and our advantage runs deepest."
   },
   {
     "id": "trajectory",

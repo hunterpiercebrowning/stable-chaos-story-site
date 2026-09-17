@@ -13,12 +13,17 @@ Rules that apply to **every** node file:
 - Text fields (`tagline`, `blurb`, `bullet_points`) are shown exactly as authored. An empty string
   or empty array renders nothing at all: the slot is dropped from the card and the focus panel, so a
   node may ship with only the fields it needs.
-- Image and video slots still fall back to a generated-SVG placeholder (seeded by `id`, so it is
-  stable between reloads). Fill the field to replace it.
+- Image slots still fall back to a generated-SVG placeholder (seeded by `id`, so it is stable
+  between reloads). Fill the field to replace it.
+- **Video slots do not.** An empty (or unplayable) `video_link` renders no video UI at all: no
+  poster, no play button, no ring, no "placeholder" note. Paste a link and the affordance appears
+  in the same place it always occupied. This is the whole launch story for video: ship with the
+  fields empty, fill them in one at a time.
 - `context_items` is an array of context items (shape at the bottom). Empty → the right tray shows
   its empty state.
-- `video_link` accepts a Cloudflare Stream UID (32 hex), a `*.cloudflarestream.com` URL, an
-  `r2:<key>` reference, a plain `.mp4`/`.webm` URL, or `""` (placeholder poster).
+- `video_link` accepts a Cloudflare Stream UID (32 hex), a `*.cloudflarestream.com` URL, a YouTube
+  URL, a plain `.mp4`/`.webm` URL, or `""` (no video UI). An `r2:<key>` reference parses but has no
+  player behind it yet, so it counts as empty and shows nothing.
 - Image paths are absolute web paths into `public/`, e.g. `/assets/logos/gcb-logo.svg`.
 
 ## Sectors: canonical ids
@@ -51,7 +56,7 @@ The loader also accepts these legacy aliases and normalizes them: `Synthetic Bio
 | `nodesFile` | file in this folder, or `null` (welcome). Informational: the loader imports the files itself. Our Holdings (`holdings`) lists both of its files |
 | `hasDensity` | The layer offers the Overview / Examples toggle (shown in the top bar only while it is active). Layers without it always render compressed: their `secondary` nodes stay folded on the stage and in the nav |
 | `subtitle` | optional; shown under the stage title. Absent/empty → no subtitle |
-| `videoLink` | optional; a layer-wide video (same forms as `video_link`). Absent/empty → no play button beside the title |
+| `videoLink` | optional; a layer-wide video (same forms as `video_link`). Absent/empty → no play button beside the title. On `welcome` this is the intro film: it drives the pulsing ring in the hero, which is absent until the field is filled |
 
 ## `who-nodes.json`
 
@@ -147,7 +152,7 @@ service offerings ahead of its products.
 | `source_name` | string | optional; overrides the fetched publication / YouTube channel / X author name |
 | `source_date` | string | optional; overrides the fetched date. ISO dates are formatted (`Apr 2, 2025`), anything else is shown as written |
 | `thumbnail` | string | optional; overrides the fetched image (article OG image, YouTube thumbnail, first X photo) |
-| `video_link` | string | optional. A YouTube `video_link` doubles as the source when `source_url` is empty; any other video link adds the usual Watch button under the source |
+| `video_link` | string | optional. A YouTube `video_link` doubles as the source when `source_url` is empty; any other video link adds the usual Watch button under the source. Empty → no Watch button |
 | `context_items` | ContextItem[] | optional. Not needed when `source_url` is set: the tray then says the source is in the focus panel |
 
 Previews are fetched by `GET /api/unfurl?url=` (`functions/api/unfurl.ts`): YouTube oEmbed, X's public

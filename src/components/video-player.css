@@ -80,13 +80,6 @@
   gap: var(--s-2);
 }
 
-.video-note {
-  font-size: 0.6rem;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  color: var(--text-ghost);
-}
-
 /* ── expanded state ───────────────────────────────────── */
 
 /* Portaled into `.stage-content` (falls back to `.stage`), so it covers the
@@ -160,22 +153,6 @@
 
 .video-media--native {
   object-fit: contain;
-}
-
-.video-expanded-body {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--s-2);
-  text-align: center;
-}
-
-.video-expanded-note {
-  color: var(--text-faint);
-  font-size: var(--fs-sm);
 }
 
 /* Chrome: title strip, close button, status pill. Only the button takes clicks. */

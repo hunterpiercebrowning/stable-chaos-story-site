@@ -3,7 +3,7 @@ import { getPrimarySector } from '../data';
 import type { ContextItem, ContextItemType, Node } from '../data/types';
 import { cn } from '../lib/cn';
 import { track } from '../lib/track';
-import { videoThumbnail, youTubeThumbnailFallback } from '../lib/video';
+import { hasVideo, videoThumbnail, youTubeThumbnailFallback } from '../lib/video';
 import { VideoHost } from './ContextCardVideoHost';
 import { Icon, type IconName } from './Icon';
 import { Placeholder } from './Placeholder';
@@ -55,6 +55,7 @@ function domainOf(url: string, fallback = ''): string {
  * One supporting-context item, laid out per type:
  *   article — wide thumb, source · date, title, blurb
  *   video   — 16:9 thumb with a play ring; opens the shared VideoPlayer expanded
+ *             (the ring and the player wait until the item has a playable url)
  *   link    — favicon-style tile, domain, title
  *   pdf     — document tile, source · date, title
  *   image   — thumb-led with a caption overlay
@@ -77,11 +78,18 @@ export function ContextCard({
   const sector = getPrimarySector(node);
   const seed = `${node.id}-ctx-${index}`;
   const isVideo = item.type === 'video';
-  const interactive = !ghost && (Boolean(onActivate) || isVideo || Boolean(item.url));
+  // A `video` item keeps its layout, but the card only plays in place when its
+  // url is something we can actually play.
+  const canPlay = isVideo && hasVideo(item.url);
+  // The ring promises a video at the other end of the click. `onActivate` cards
+  // (the background grid) keep it: the video is there, it plays in the focus
+  // view. An item with neither is a video slot nobody has filled — no ring.
+  const showPlay = isVideo && (canPlay || Boolean(onActivate));
+  const interactive = !ghost && (Boolean(onActivate) || canPlay || Boolean(item.url));
 
   const onOpen = () => {
     track('context_item_open', { nodeId: node.id, itemType: item.type, url: item.url });
-    if (isVideo) setPlaying(true);
+    if (canPlay) setPlaying(true);
   };
 
   const thumbSrc = item.thumbnail || videoThumbnail(item.url);
@@ -144,9 +152,11 @@ export function ContextCard({
         <>
           <div className="ctx-thumb ctx-thumb--video">
             {thumb('thumb')}
-            <span className="ctx-play">
-              <Icon name="play" size={18} />
-            </span>
+            {showPlay ? (
+              <span className="ctx-play">
+                <Icon name="play" size={18} />
+              </span>
+            ) : null}
             {typeBadge}
           </div>
           <div className="ctx-body">
@@ -265,7 +275,7 @@ export function ContextCard({
     );
   }
 
-  if (isVideo) {
+  if (canPlay) {
     return (
       <>
         <button
