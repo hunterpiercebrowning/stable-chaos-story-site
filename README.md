@@ -166,8 +166,9 @@ The gate and D1 paths were verified locally on the real Workers runtime
 2. `/admin` → sign in → **New link** → copy the URL. `GET /api/admin/login` should answer
    `{"ok":true}` while signed in.
 3. Open the URL in a private window → lands on the welcome state with "Prepared for <label>".
-   Walk the down arrows through all nine layers; focus a node in each; open the tray; press `/`
-   and search.
+   Walk the down arrows through every layer in the nav; focus a node in each; press `/` and search.
+   (The right-hand context tray and its `]` shortcut are behind `RIGHT_TRAY_ENABLED` in
+   `src/lib/flags.ts`, currently off, so there is no tray to open until that flag flips.)
 4. Back in `/admin/links/<id>`: the session row shows device, viewport and **a real city/country**
    (`request.cf` geo from a real edge location). The timeline
    shows `Session started`, `layer_view` / `node_focus` lines with `via`, and heartbeats every 30s.
