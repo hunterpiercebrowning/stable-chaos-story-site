@@ -15,7 +15,7 @@ type Reason = 'none' | 'invalid' | 'revoked' | 'expired';
  * Public paths: the HTML routes an unauthenticated visitor may land on
  * (`/gate`, `/admin`), the invitation endpoint, the admin API (it checks its
  * own cookie), fonts, logos, the favicon, and the **public** Vite chunks
- * (`/assets/<name>-<hash>.js|css|map`): the entry with the router, gate page
+ * (`/assets/<name>-<hash>.js|css`): the entry with the router, gate page
  * and admin login form only. Everything carrying content — the investor
  * shell, layers, content JSON, three.js and the admin pages — is emitted
  * under `/assets/private/` (see vite.config.ts) and goes through the gate,
@@ -27,7 +27,11 @@ function isPublic(pathname: string): boolean {
   if (pathname === '/admin' || pathname.startsWith('/admin/')) return true;
   if (pathname.startsWith('/api/admin/')) return true;
   if (pathname.startsWith('/assets/fonts/') || pathname.startsWith('/assets/logos/')) return true;
-  if (/^\/assets\/[^/]+\.(?:js|css|map|woff2?)$/.test(pathname)) return true;
+  // No `.map`: production builds emit none (vite.config.ts `sourcemap: false`), and Pages
+  // retains a deleted asset for about a week that no purge clears — so a map from an older
+  // deployment stays fetchable until the gate stops allowlisting it. Gating the extension also
+  // means re-enabling sourcemaps later cannot silently republish the entry's source.
+  if (/^\/assets\/[^/]+\.(?:js|css|woff2?)$/.test(pathname)) return true;
   return false;
 }
 
