@@ -26,7 +26,10 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    // No maps in production. The private chunks' maps are gated with them, but the public entry's
+    // map is not, so `assets/index-*.js.map` would hand anyone the gate and admin-login source.
+    // `vite build` is the only consumer of this flag; dev keeps its own esbuild maps either way.
+    sourcemap: false,
     // The only chunk above 500 kB is three.js on its own (~507 kB minified, ~128 kB gzip),
     // lazy-loaded behind the shell for the attractor. Nothing else comes close.
     chunkSizeWarningLimit: 600,
