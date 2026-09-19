@@ -973,3 +973,60 @@ rules updated. `build-plans/04-phase-3-handoff.md` written.
 **Still open** — Phase B (Cloudflare Pages project, D1 create, secrets, domain, README §4 on the
 live site), Phase C (Stream), Phase D (content). Known issues from WS11 unchanged.
 
+
+### 2026-09-17 — Phase B: live on Cloudflare (wrangler 4.134.0 global, 4.131.1 in-project)
+
+**`context.stablechaos.com` is serving the simplified site.** Production branch is `simple`; `main`,
+`full` and tag `full-v1` are all still at `88202c3` and were not touched.
+
+- **Pages project** `stable-chaos-story-site`, Git-connected to `hunterpiercebrowning/stable-chaos-story-site`,
+  production branch `simple`, build `npm run build`, output `dist`. Account
+  `10cf36af6dfbc2bb8d5417fb1415f538`.
+- **D1**, two databases in WNAM so a PR preview cannot create or revoke real investor links:
+  `stable-chaos-context` `65078d3c-d9df-4abc-90a5-5011b4f72304` (production) and
+  `stable-chaos-context-preview` `b34e8ca3-ed71-4994-94f9-a65dacb1b0fb` (preview). Both ids are in
+  `wrangler.toml`; `0001_init.sql` applied to production.
+- **Secrets** `SESSION_SECRET` and `ADMIN_PASSWORD` set via `wrangler pages secret put`.
+  `IP_HASH_SECRET` deliberately unset (falls back to `SESSION_SECRET`); `STREAM_*` unset, so
+  `/api/video/token` stays 501 and no `video_link` in `content/*.json` is non-empty.
+- **Custom domain** `context.stablechaos.com`. The `stablechaos.com` zone is in the same account
+  (it serves the `stable-chaos-marketing` project), so the CNAME was created automatically.
+- **Node pinned in-repo** with `.node-version` = `22`, rather than the dashboard's `NODE_VERSION`:
+  on a project where `wrangler.toml` is the source of truth, the dashboard's runtime variables are
+  read-only and it is not worth reasoning about which layer wins for a build-image variable.
+
+**README §4 verified on the live site** — `/` → `/gate?r=none`; `/admin` login; `layer_view` across
+7 distinct layers (`background` is hidden by `HIDDEN_LAYER_IDS`, so 7 of the 8 in `layers.json`);
+real geo `US / Utah / Lehi` with `device_class desktop` and viewport `1728x873` in the session rows;
+private chunks and headshots 302 unauthenticated; no video affordances. **Not walked:** §4.5
+revoke/reactivate/expire (both live links are real and in use, so it wants a throwaway link) and
+§4.7 the mobile blocker (needs a real narrow viewport).
+
+**Fixed**
+
+- **A public source map was being served to anyone.** `vite.config.ts` had `sourcemap: true`, and
+  while the private chunks' maps were gated with their chunks, `assets/index-<hash>.js.map` sits in
+  the public entry: 1,436,103 bytes of `application/json`, 18 sources, unauthenticated. It held the
+  router, gate page and admin login form only, no gated content and no secrets. `sourcemap: false`
+  for production.
+- **Deleting the map did not make it unreachable.** Cloudflare Pages retains a removed asset for
+  about a week and **Purge Everything does not clear that retention** — the zone purge ran and the
+  `age` header kept climbing (702 → 866 → 895) while `cf-cache-status` stayed `DYNAMIC`. Because
+  `DYNAMIC` means the request still reaches the Function, the gate was the lever that worked:
+  dropping `map` from the `isPublic` allowlist in `functions/_middleware.ts` made the URL 302 within
+  60s of the next deploy. Gating the extension also means re-enabling sourcemaps later cannot
+  silently republish the entry's source.
+- **`Ben_4.jpg` was the 11.6 MB camera original** (3648x5472) on Who We Are, a third of the whole
+  build, for a card that renders at 124px and a focus view that renders at 340px. Downscaled to
+  1200x1800 / 320 KB, same framing, no recrop. `dist` went 41 MB over 90 files → 24 MB over 85.
+- **README §4 step 3** said "all nine layers" and told the reader to open the context tray. Neither
+  matched the shipped site: the count now comes from `layers.json` (wording made count-agnostic) and
+  the tray is behind `RIGHT_TRAY_ENABLED`, currently off.
+
+**Deliberately left off** — `HOLDINGS_EXAMPLES_CLICKABLE` in `src/lib/flags.ts` is `false`, so the
+Our Holdings Examples cards (service offerings and products) look unchanged but open nothing, and
+holdings secondaries are folded out of the focus rail. It is a **build-time** flag: turning the
+cards back on is a redeploy, not a toggle. Flip it when Phase D lands their copy.
+
+**Still open** — Phase C (Stream), Phase D (content). `public/assets/backgrounds` is 19 MB of the
+remaining 24 MB build. Known issues from WS11 unchanged.
