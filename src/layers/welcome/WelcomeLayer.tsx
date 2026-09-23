@@ -57,7 +57,7 @@ export function WelcomeLayer({ layer }: LayerViewProps) {
         </div>
 
         <h1 className="welcome-title">Stable Chaos</h1>
-        <p className="welcome-tagline">Making Frontier Insights Deployable</p>
+        <p className="welcome-tagline">Engineering Solutions From Frontier Insights</p>
 
         {label ? (
           <p className="welcome-prepared">

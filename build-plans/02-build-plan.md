@@ -333,7 +333,7 @@ blurb; video: thumb + play (uses `VideoPlayer` expanded); link: favicon-style ic
 image; quote). Empty focus → shows layer-level hint text. `track('context_item_open')`.
 **Related strip:** chips grouped by layer with layer short titles; click navigates;
 `track('related_click')`.
-**Welcome:** logo mark (from marketing hero, with glow), "Stable Chaos", tagline "Making Frontier Insights Deployable", "Prepared for {label}" from `/api/session` (graceful when absent), subtle
+**Welcome:** logo mark (from marketing hero, with glow), "Stable Chaos", tagline "Engineering Solutions From Frontier Insights", "Prepared for {label}" from `/api/session` (graceful when absent), subtle
 pulsing ring "Watch the introduction" → `VideoPlayer` expanded placeholder. Down arrow "Explore Who
 We Are". Attractor at full intensity.
 **Background layer:** designed "coming soon" state: title, one-line description of what the layer
