@@ -22,7 +22,7 @@ For layers 3 (Critical Sectors), 4 (Services), & 5 (Products) I would also like 
 
 Our core content area needs to support a different "focus" style / layout per layer we are viewing. 
 
-We need a welcome state for the core content that is our logo with our tagline "Advancing Critical Sectors & Missions". There should be a subtle spot to trigger a video to appear in the core content area introducing the company. 
+We need a welcome state for the core content that is our logo with our tagline "Making Frontier Insights Deployable". There should be a subtle spot to trigger a video to appear in the core content area introducing the company. 
 
 We also want global control on the site that sits somewhere persistent that displays our node pages as "Compressed" or "Expanded". It will default into the "Compressed" view which will high the secondary nodes in each layer. If someone switches it to "Expanded" it will show all the secondary nodes. This lets a presenter choose how deep they want to go into the weeds if they are using this to present to someone. 
 
@@ -67,4 +67,4 @@ The Left menu nav needs to be a quick jump navigable list of all our layers brok
 
 
 ## Overall Site Messaging & Styles
-Stable Chaos is a holding company thats purpose is "Advancing Critical Missions & Sectors". You can find the code for our marketing site here (/Users/hunterbrowning/ws/stable-chaos-marketing). The copy is a little out of date in some areas but the styling and colors and design treatments should carry over to this pitch site. This whole site needs to feel really rich and smooth to navigate. 
+Stable Chaos is a holding company thats purpose is "Making Frontier Insights Deployable". You can find the code for our marketing site here (/Users/hunterbrowning/ws/stable-chaos-marketing). The copy is a little out of date in some areas but the styling and colors and design treatments should carry over to this pitch site. This whole site needs to feel really rich and smooth to navigate. 
